@@ -506,7 +506,7 @@ is.data.frame(airquality[, 1])
     b. Show last 2 rows
     c. list all the column names available
 
-<details><summary>Hint</summary>
+<details class="hint"><summary>Hint</summary>
 Used `help` on `head` and `tail` to find out about their arguments.
 </details>
 

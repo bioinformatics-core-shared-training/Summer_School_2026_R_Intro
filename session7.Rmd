@@ -892,6 +892,7 @@ library(tidyverse)
 
 ---
 
+:::exercise
 **1. Tidy the WHO tuberculosis data set**
 
 In this session's materials we demonstrated the restructuring of different
@@ -1041,9 +1042,9 @@ magic.*
 
 _Hint 2: separating two of the variables is a bit tricky because there is no
 separator character; you could modify the variable before separating._
+:::
 
----
-
+:::exercise
 **2. Recreate `table1` from your tidy version of the WHO tuberculosis data set**
 
 Recreate the first 3 columns of `table1`, containing a small subset of the WHO
@@ -1064,9 +1065,9 @@ who_tidy |>
 </details>
 
 _Hint: this will involve some filtering, grouping and summarization._
+:::
 
----
-
+:::exercise
 **3. Create time series plots for cases of tuberculosis**
 
 Create a time series plot showing the number of tuberculosis cases in the United
@@ -1105,5 +1106,4 @@ who_tidy |>
     facet_wrap(vars(country), scales = "free_y")
 ```
 </details>
-
----
+:::

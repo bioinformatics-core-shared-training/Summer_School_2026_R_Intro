@@ -751,6 +751,7 @@ metabric <- read_csv("data/metabric_clinical_and_expression_data.csv")
 
 ---
 
+:::exercise
 **1. Investigate the subset of long-surviving breast cancer patients that didn't receive chemo or radiotherapy**
 
 First obtain the subset of patients that received neither chemotherapy or
@@ -788,8 +789,9 @@ table(metabric$ER_status)
 mean(metabric$ER_status == "Positive")
 ```
 </details>
+:::
 
-
+:::exercise
 **2. Which patients have spent the largest proportion of their lives dealing
 with breast cancer? Note that the current Survival_time column is months.
 Present the final results as a table showing Patient_ID, Age, Age_at_diagnosis,
@@ -797,7 +799,7 @@ Survival_time_in_years and Proportion_of_life_since_diagnosis. Round all
 numbers in the final table to 2 decimal places and sort it so that the patient
 with the highest proportion is at the top.**
 
-<details><summary>Hint</summary>
+<details class="hint"><summary>Hint</summary>
 1. Create a column of Survival_time_years
 2. Add Survival_time_years it to Age_at_diagnosis to get final Age
 3. Calculate the proportion: Survival_time_years/Age
@@ -818,9 +820,9 @@ metabric |>
     mutate(across(where(is.numeric), ~round(.x, digits = 2)))
 ```
 </details>
+:::
 
----
-
+:::exercise
 **3. Convert the expression values for each of the genes into standardized
 z-scores**
 
@@ -897,9 +899,9 @@ metabric_z_scores |>
     summarise(across(ESR1:PGR, list(mean = mean, sd = sd)))
 ```
 </details>
+:::
 
----
-
+:::exercise
 **4. Which Star Wars characters need to go on a diet?**
 
 The `starwars` data set provided by dplyr contains height (in cm) and mass (in
@@ -921,4 +923,4 @@ starwars |>
 
 Jabba the Hutt is, unsurprisingly, something of an outlier.
 </details>
-
+:::

@@ -880,7 +880,6 @@ c(5, 2, 9, 1, 13) + c(1,2,3,4,5)
 Due to the fact that both vectors have the same length, values are sequentially
 added together
 
-```
 </details>
 :::  
 
