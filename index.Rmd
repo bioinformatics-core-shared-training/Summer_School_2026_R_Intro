@@ -5,7 +5,7 @@ title: "Introduction to R for Biologists"
 This site contains the materials for an introductory R course run at Cambridge
 Makerere Summer School 2026.
 
-Monday 14th September - Friday 18th October 2026
+Monday 14th September - Friday 18th September 2026
 
 # Description
 
