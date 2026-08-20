@@ -599,8 +599,9 @@ ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1)) +
 This produces two plots, side-by-side, one for each of the categories in the
 `PR_status` variable, with a banner across the top of each for the category.
 
-The variable(s) used for faceting are specified using `vars()` in a similar way
-to the selection of variables for `mutate_at()` and `summarise_at()`.
+The variable(s) used for faceting are specified using `vars()`, which lets us
+refer to columns by name without quotes, in the same way that we've been
+selecting columns with `select()` and inside `across()`.
 
 We can still use separate colours if we prefer things to be, well, colourful.
 
