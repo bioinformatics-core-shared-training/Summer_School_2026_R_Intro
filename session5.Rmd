@@ -1,5 +1,5 @@
 ---
-title: "Week 5 -- Data manipulation with dplyr"
+title: "Session 5 -- Data manipulation with dplyr"
 ---
 
 > #### Learning objectives
@@ -434,7 +434,7 @@ only briefly here. This function computes summary values for one or more
 variables (columns) in a table. Here we will summarise values for the entire
 table but this function is much more useful in combination with `group_by()`
 in working on groups of observations within the data set. We will look at
-summarizing groups of observations next week.
+summarizing groups of observations in the next session.
 
 Any function that calculates a single scalar value from a vector can be used
 with `summarise()`. For example, the `mean()` function calculates the arithmetic
@@ -586,7 +586,7 @@ There are two faceting functions, **`facet_wrap()`** and **`facet_grid()`**.
 
 Let's create a scatter plot of GATA3 and ESR1 expression values where we're
 displaying the PR positive and PR negative patients using different colours.
-This is a very similar to a plot we created last week.
+This is very similar to a plot we created in the last session.
 
 ```{r scatter_plot_2}
 ggplot(data = metabric,
@@ -621,7 +621,7 @@ ggplot(data = metabric,
 Faceting is usually better than displaying groups using different colours when
 there are more than two or three groups when it can be difficult to really tell
 which points belong to each group. A case in point is for the 3-gene
-classification in the GATA3 vs ESR1 scatter plot we created last week. Let's
+classification in the GATA3 vs ESR1 scatter plot we created in the last session. Let's
 create a faceted version of that plot.
 
 ```{r scatter_plot_5}

@@ -870,7 +870,7 @@ In this session we have covered the following:
 
 # Exercises
 
-This week's involves transforming two data sets in order to ask a specific
+This session's exercises involve transforming two data sets in order to ask a specific
 question of each. The first is a more complete set of data on the number of new
 tuberculosis cases each year from 1980 to 2013 in 219 countries, taken from the
 [World Health Organization Global Tuberculosis Report](https://www.who.int/health-topics/tuberculosis).
@@ -894,7 +894,7 @@ library(tidyverse)
 
 **1. Tidy the WHO tuberculosis data set**
 
-In this week's materials we demonstrated the restructuring of different
+In this session's materials we demonstrated the restructuring of different
 representations of a very small subset of the WHO tuberculosis data set (tables
 1 to 4a and b). The more complete data set is also available in its original
 format in another data frame available as part of the **tidyr** package, named

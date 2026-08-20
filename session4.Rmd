@@ -16,10 +16,10 @@ different kinds of plot.
 
 ## METABRIC data set
 
-We'll be using an extended version of the METABRIC data set (from last week) in
-which columns have been added for the mRNA expression values for selected genes,
-including estrogen receptor alpha (ESR1), progesterone receptor (PGR), GATA3 and
-FOXA1.
+We'll be using an extended version of the METABRIC data set (from the last
+session) in which columns have been added for the mRNA expression values for
+selected genes, including estrogen receptor alpha (ESR1), progesterone receptor
+(PGR), GATA3 and FOXA1.
 
 The METABRIC study characterized the genomic mutations and gene expression
 profiles for over 2000 primary breast tumours. In addition to the gene

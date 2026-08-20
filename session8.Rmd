@@ -425,10 +425,10 @@ itself (internal tag or external page) surrounded by round backets:
 External links can either be to another html document on the same file
 system or to a URL elsewhere on the internet.
 
-For example we can link to week 6 documentation, which is in the same
+For example we can link to the session 6 materials, which are in the same
 folder as this document:
 
-`[week 6 document](week6.html)` → [week 6 document](week6.html)
+`[session 6 document](session6.html)` → [session 6 document](session6.html)
 
 Alternatively, we can link to pages elsewhere on the internet, e.g:
 

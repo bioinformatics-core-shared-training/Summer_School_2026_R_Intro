@@ -68,7 +68,7 @@ library(tidyverse)
 The output from this command tells us which packages were loaded, one of which
 is the `tibble` package. Another of these is `ggplot2` that provides excellent
 plotting functions for visualizing our data and will be the main focus next
-week.
+session.
 
 We also got a warning about some conflicts. This tells us that there are
 functions loaded as part of the `dplyr` package that have the same name as
@@ -314,7 +314,7 @@ metabric
 # Data semantics
 
 We use the terms 'observation' and 'variable' a lot in this course. As a
-reminder from week 2, when we talk about an observation, we're talking about a
+reminder from session 2, when we talk about an observation, we're talking about a
 set of values measured for the same unit or thing, e.g. a person or a date, and
 when we talk about a variable we are really talking about the attribute that we
 are measuring or recording, e.g. height, temperature or expression value.
