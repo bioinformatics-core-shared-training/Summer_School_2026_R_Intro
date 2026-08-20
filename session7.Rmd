@@ -208,7 +208,7 @@ table4b_long <- pivot_longer(table4b,
                              values_to = "population")
 table4b_long
 # join the two pivoted tables to recreate table1
-left_join(table4a_long, table4b_long, by = c("country", "year"))
+left_join(table4a_long, table4b_long, by = join_by(country, year))
 ```
 
 ## `pivot_wider()`

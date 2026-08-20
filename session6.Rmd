@@ -452,12 +452,14 @@ Stones are contained in two tables, using data frames conveniently provided by
 dplyr (we'll look at a real example shortly).
 
 The name column identifies each of the band members and is used for matching
-rows from the two tables.
+rows from the two tables. We specify the column (or columns) to match on using
+the **`join_by()`** helper, writing the column names without quotes just as we
+do elsewhere in the tidyverse.
 
 ```{r}
 band_members
 band_instruments
-left_join(band_members, band_instruments, by = "name")
+left_join(band_members, band_instruments, by = join_by(name))
 ```
 
 We have joined the band members and instruments tables based on the common
@@ -473,7 +475,7 @@ this is based on those band members in the 'left' table.
 the 'right' data frame, that have a match with rows in the first data frame.
 
 ```{r}
-right_join(band_members, band_instruments, by = "name")
+right_join(band_members, band_instruments, by = join_by(name))
 ```
 
 `right_join()` is used very infrequently compared with `left_join()`.
@@ -486,7 +488,7 @@ are common to both data frames are included.
 ![dplyr inner join](images/dplyr_inner_join.png)
 
 ```{r}
-inner_join(band_members, band_instruments, by = "name")
+inner_join(band_members, band_instruments, by = join_by(name))
 ```
 
 In this case when considering observations identified by `name`, only John and
@@ -505,7 +507,7 @@ to fill in the missing values.
 ![dplyr full join](images/dplyr_full_join.png)
 
 ```{r}
-full_join(band_members, band_instruments, by = "name")
+full_join(band_members, band_instruments, by = join_by(name))
 ```
 
 Now, with `full_join()`, we have rows for both Mick and Keith even though they
@@ -521,11 +523,13 @@ the `band_instruments` data frame.
 
 ```{r}
 band_instruments2
-left_join(band_members, band_instruments2, by = c("name" = "artist"))
+left_join(band_members, band_instruments2, by = join_by(name == artist))
 ```
 
-The name for the column used for joining is the one given in the first table,
-i.e. the 'left' table, so `name` rather than `artist` in this case.
+Here `join_by(name == artist)` says "match the `name` column in the left table
+against the `artist` column in the right table". The name for the column used
+for joining in the combined table is the one given in the first table, i.e. the
+'left' table, so `name` rather than `artist` in this case.
 
 ## Multiple matches in join operations
 
@@ -541,7 +545,7 @@ tibble.
 extra_instrument <- tibble(name = "Paul", plays = "guitar")
 band_instruments3 <- bind_rows(band_instruments, extra_instrument)
 band_instruments3
-left_join(band_members, band_instruments3, by = "name")
+left_join(band_members, band_instruments3, by = join_by(name))
 ```
 
 We get both entries from the second table added to the first table.
@@ -553,16 +557,31 @@ when we combine the two tables, each with two entries for Paul.
 extra_band <- tibble(name = "Paul", band = "Wings")
 band_members3 <- bind_rows(band_members, extra_band)
 band_members3
-left_join(band_members3, band_instruments3, by = "name")
+left_join(band_members3, band_instruments3, by = join_by(name))
 ```
 
 The resulting table includes all combinations of band and instrument for Paul.
 
+Notice that dplyr gave us a warning about an "unexpected many-to-many
+relationship". Because Paul now appears twice in *both* tables, each of his two
+bands is paired with each of his two instruments, giving four rows from what
+were only two entries on each side. Most of the time this is a sign that
+something is wrong with your data, e.g. duplicated rows you weren't expecting,
+which is why dplyr draws your attention to it. If it really is what you intended,
+you can say so explicitly and the warning goes away.
+
+```{r}
+left_join(band_members3,
+          band_instruments3,
+          by = join_by(name),
+          relationship = "many-to-many")
+```
+
 ## Joining by matching on multiple columns
 
 Sometimes the observations being combined are identified by multiple columns,
-for example, a forename and a surname. We can specify a vector of column names
-to be used in the join operation.
+for example, a forename and a surname. We can list several columns inside
+`join_by()` to be used in the join operation.
 
 Let's add surnames and an additional band member to the `band_members` and
 `band_instruments` tables and then join the two tables based on both forename
@@ -591,7 +610,7 @@ band_instruments4 <- band_instruments |>
 band_members4
 band_instruments4
 
-full_join(band_members4, band_instruments4, by = c("forename", "surname"))
+full_join(band_members4, band_instruments4, by = join_by(forename, surname))
 ```
 
 ## Clashing column names
@@ -606,7 +625,7 @@ band_members5 <- band_members |>
     mutate(birth_year = c(1943, 1940, 1942))
 band_instruments5 <- band_instruments |>
     mutate(birth_year = c(1940, 1942, 1943))
-left_join(band_members5, band_instruments5, by = "name")
+left_join(band_members5, band_instruments5, by = join_by(name))
 ```
 
 It is advisable to rename or remove the duplicated columns that aren't used for
@@ -643,7 +662,7 @@ contain entries for the patients for which expression data are available.
 ```{r}
 combined_data <- inner_join(clinical_data,
                             mrna_expression_data,
-                            by = c("Patient_ID" = "SAMPLE_ID"))
+                            by = join_by(Patient_ID == SAMPLE_ID))
 combined_data
 ```
 
@@ -1033,7 +1052,7 @@ tp53_mutation_counts <- mutations |>
     filter(Gene == "TP53", Variant_Classification != "Silent") |>
     count(Patient_ID, name = "TP53_mutation_count")
 
-metabric <- left_join(metabric, tp53_mutation_counts, by = "Patient_ID")
+metabric <- left_join(metabric, tp53_mutation_counts, by = join_by(Patient_ID))
 ```
 
 Exercise 6b: patients with no entry in the count column have no non-silent TP53
