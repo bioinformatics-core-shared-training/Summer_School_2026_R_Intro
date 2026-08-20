@@ -117,17 +117,19 @@ metabric %>%
 You can see that the tibble is still grouped by "ER\_status", this means any
 subsequent operations will be carried out within the groupings based on
 "ER\_status". Perhaps, after summarising, we want to find which group has the
-maximum mean ERBB2 expression. We can use the dplyr function **top_n** to get
-the top result.
+maximum mean ERBB2 expression. We can use the dplyr function **slice_max()** to
+get the top result, telling it which column to rank the rows by.
 
 ```{r}
 metabric %>%
     group_by(ER_status, Cancer_type) %>%
     summarise(ERBB2_mean = mean(ERBB2)) %>%
-    top_n(n = 1)
+    slice_max(ERBB2_mean, n = 1)
 ```
 
 This gives us the top value for ER positive and ER negative groups respectively.
+Even though we asked for a single row, we got two, because `slice_max()` is
+operating within the retained "ER\_status" grouping.
 
 If we don't want the grouping to continue to be applied we need to use
 **ungroup()**.
@@ -137,8 +139,10 @@ metabric %>%
     group_by(ER_status, Cancer_type) %>%
     summarise(ERBB2_mean = mean(ERBB2)) %>%
     ungroup() %>%
-    top_n(n = 1)
+    slice_max(ERBB2_mean, n = 1)
 ```
+
+Now we get the single highest value across the whole table.
 
 If instead we use **.by** to do the grouping, you will see that the grouping is
 dropped after the summarise operation.
@@ -153,8 +157,17 @@ by our grouping columns, the tibble returned when using **.by** is not
 sorted. In general, using **.by** is simpler as you don't have to worry about
 doing the **ungroup()** afterwards.
 
-Note: The **.by** and an equivalent **by** (no dot) are available in other
-dplyr verbs, such as `mutate()` and `filter()`, but not all, such as `top_n()`.
+Per-operation grouping is available in other dplyr verbs too, including
+`slice_max()`, so we can do the whole thing without `group_by()` at all. Note
+that `mutate()`, `filter()` and `summarise()` spell it **.by** with a dot, while
+`slice_max()` and its relatives use plain **by** — the dot avoids any clash with
+the columns you are naming in those functions.
+
+```{r}
+metabric %>%
+    summarise(ERBB2_mean = mean(ERBB2), .by = c(ER_status, Cancer_type)) %>%
+    slice_max(ERBB2_mean, n = 1, by = ER_status)
+```
 
 As we saw in the previous session, we can summarize multiple observations, e.g.
 the mean expression for other genes of interest, with `summarise(across())`,

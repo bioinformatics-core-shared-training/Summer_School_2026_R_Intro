@@ -734,7 +734,7 @@ ggplot(data = metabric) +
     geom_bar(mapping = aes(x = `3-gene_classifier`, fill = ER_status)) +
     scale_y_continuous(limits = c(0, 700),
                        breaks = seq(0, 700, 100),
-                       expand = expand_scale(mult = 0)) +
+                       expand = expansion(mult = 0)) +
     scale_fill_manual(values = c("firebrick2", "dodgerblue2")) +
     labs(x = NULL, y = "samples", fill = "ER status") +
     theme_bw() +
@@ -785,7 +785,7 @@ ggplot(data = metabric) +
              position = "dodge") +
     scale_y_continuous(limits = c(0, 700),
                        breaks = seq(0, 700, 100),
-                       expand = expand_scale(mult = 0)) +
+                       expand = expansion(mult = 0)) +
     scale_fill_manual(values = c("firebrick2", "dodgerblue2")) +
     labs(x = NULL, y = "samples", fill = "ER status") +
     theme_bw() +
