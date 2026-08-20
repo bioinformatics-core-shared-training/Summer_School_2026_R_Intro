@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction to R for Biologists | Cambridge–Makerere Summer School 2026</title>
+<meta name="description" content="Introduction to R for Biologists — the R course taught at the Cambridge–Makerere Summer School 2026, Uganda Cancer Institute, Kampala, 14–18 September 2026.">
+
+<!-- Hand-written landing page: it carries no R, so it is plain HTML rather than
+     an .Rmd, and rmarkdown::render_site() copies it into docs/ untouched.
+
+     Consequence: the header and footer below are NOT generated from _site.yml
+     and _includes/footer.html the way the session pages' are. If you change the
+     navbar in _site.yml, or the footer partial, mirror the change here. -->
+
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Progress-SemiBold.woff2" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="visually-hidden" href="#main">Skip to content</a>
+  <div class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><img class="brand-logo" src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+        
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active">
+    <a href="index.html">
+      <span class="fa fa-home"></span>
+     
+      Home
+    </a>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Sessions
+     
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" role="menu">
+      <li>
+        <a href="session1.html">1 · Data types and structures</a>
+      </li>
+      <li>
+        <a href="session2.html">2 · Other data structures</a>
+      </li>
+      <li>
+        <a href="session3.html">3 · Working with data in R</a>
+      </li>
+      <li>
+        <a href="session4.html">4 · Visualizing data with ggplot2</a>
+      </li>
+      <li>
+        <a href="session5.html">5 · Data manipulation with dplyr</a>
+      </li>
+      <li>
+        <a href="session6.html">6 · Grouping and combining data</a>
+      </li>
+      <li>
+        <a href="session7.html">7 · Restructuring data for analysis</a>
+      </li>
+      <li>
+        <a href="session8.html">8 · R Markdown</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/">Summer School</a>
+  </li>
+  <li>
+    <a href="https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro">
+      <span class="fa fa-github fa-lg"></span>
+     
+    </a>
+  </li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div><!--/.container -->
+  </div><!--/.navbar -->
+<main id="main">
+<section class="hero">
+<div class="shell">
+<div class="hero-grid">
+<div>
+<span class="eyebrow">Cambridge&ndash;Makerere Summer School &middot; Kampala</span>
+<h1>Introduction to R for Biologists</h1>
+<p class="hero-dates">Monday 14 &ndash; Friday 18 September 2026</p>
+<p class="hero-venue">Uganda Cancer Institute &middot; Makerere University</p>
+<p class="hero-lede">A friendly introduction to R, pitched at beginners
+&mdash; nine and a half hours of teaching on manipulating and visualising
+tabular data with the tidyverse, run alongside the laboratory practicals at
+the Uganda Cancer Institute.</p>
+</div>
+<div class="hero-facts-wrap">
+<ul class="hero-facts">
+<li><span class="k">Teaching</span><span class="v">9&frac12; hours across five timetabled sessions</span></li>
+<li><span class="k">Materials</span><span class="v">Eight session pages, worked through in order</span></li>
+<li><span class="k">Level</span><span class="v">Beginners &mdash; no previous programming experience needed</span></li>
+<li><span class="k">You will need</span><span class="v">A laptop with R and the tidyverse installed before the first session</span></li>
+</ul>
+<div class="btn-row">
+<a class="btn-brand btn-primary-brand" href="session1.html">Start with session 1</a>
+<a class="btn-brand btn-ghost" href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/prepare.html">Set your laptop up first</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="band">
+<div class="shell">
+<span class="eyebrow">The course</span>
+<h2>Eight sessions</h2>
+<p class="lede">The materials are split into eight pages, which do <b>not</b>
+map one-to-one onto the five timetabled sessions. Normally we teach this course
+across 8 sessions. We will work through the materials in order and hopefully at
+least cover the first 7 sessions. Each session carries its own exercises with
+the answers folded away until you want them. You can work through these 
+exercises in your own time.</p>
+<ul class="sessions">
+<li><a class="session-card" href="session1.html"><span class="num">Session 1</span><b>Data types and structures</b><span class="what">An introduction to RStudio, R objects, data types, functions and vectors</span></a></li>
+<li><a class="session-card" href="session2.html"><span class="num">Session 2</span><b>Other data structures</b><span class="what">Matrices, lists and data frames, and how to get around them</span></a></li>
+<li><a class="session-card" href="session3.html"><span class="num">Session 3</span><b>Working with data in R</b><span class="what">Reading, inspecting and writing tabular data</span></a></li>
+<li><a class="session-card" href="session4.html"><span class="num">Session 4</span><b>Visualizing data with ggplot2</b><span class="what">A common grammar for scatter plots, bar charts, boxplots, histograms and time series</span></a></li>
+<li><a class="session-card" href="session5.html"><span class="num">Session 5</span><b>Data manipulation with dplyr</b><span class="what">Filtering and modifying tabular data, computing summary values, faceting with ggplot2</span></a></li>
+<li><a class="session-card" href="session6.html"><span class="num">Session 6</span><b>Grouping and combining data</b><span class="what">Advanced grouping and summarization, joining tables, customizing ggplot2 plots</span></a></li>
+<li><a class="session-card" href="session7.html"><span class="num">Session 7</span><b>Restructuring data for analysis</b><span class="what">The concept of &lsquo;tidy data&rsquo;, pivoting and separating operations, ggplot2 extras</span></a></li>
+<li><a class="session-card" href="session8.html"><span class="num">Session 8</span><b>R Markdown</b><span class="what">Creating reproducible reports that combine code, output and prose</span></a></li>
+</ul>
+</div>
+</section>
+
+<section class="band band-mist">
+<div class="shell">
+<div class="cols cols-2">
+<div>
+<span class="eyebrow">About this course</span>
+<h2>Why learn R?</h2>
+<p class="lede"><b>R</b> is one of the leading programming languages in data
+science, and the most widely used within the CRUK Cambridge Institute for
+interacting with, analyzing and visualizing cancer biology data sets.</p>
+<p>In this training course we aim to provide a friendly introduction to R,
+pitched at a beginners level. We focus on manipulating tabular data and
+visualising data, using a suite of packages known as the
+<a href="https://www.tidyverse.org/">tidyverse</a> &mdash; in particular the
+<em>dplyr</em> and <em>ggplot2</em> packages.</p>
+<p>Working in scripts makes the steps of an analysis explicit: they can be
+inspected by someone else, checked for errors, and re-run. An increasing
+number of journals and funding agencies expect analyses to be reproducible,
+so knowing R puts you ahead.</p>
+</div>
+<div>
+<h3 class="rule-top">What you will cover</h3>
+<ul class="topic-list">
+<li><b>R and RStudio</b><span>Sessions 1&ndash;2</span></li>
+<li><b>Data types and structures</b><span>Sessions 1&ndash;2</span></li>
+<li><b>Reading and writing data</b><span>Session 3</span></li>
+<li><b>Plotting with ggplot2</b><span>Sessions 4, 6&ndash;7</span></li>
+<li><b>Wrangling with dplyr</b><span>Sessions 5&ndash;6</span></li>
+<li><b>Tidy data and pivoting</b><span>Session 7</span></li>
+<li><b>Reproducible reports</b><span>Session 8</span></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<section class="band band-indigo">
+<div class="shell">
+<div class="cols cols-2">
+<div>
+<span class="eyebrow">Before the first session</span>
+<h2>Set your laptop up first</h2>
+<p class="lede">You will need R and the tidyverse installed, and the workshop
+data downloaded, before the first session. Installing R and its packages is
+usually straightforward, but it can go wrong in ways that take time to fix
+&mdash; so please work through the setup in advance and bring a laptop that
+already works.</p>
+<p class="lede">If you get stuck, bring the error message with you and we will
+sort it out before the practical starts.</p>
+<div class="btn-row">
+<a class="btn-brand btn-primary-brand" href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/prepare.html">Setup instructions</a>
+</div>
+</div>
+<div>
+<h3>Going further</h3>
+<ul class="linklist">
+<li><a href="https://r4ds.hadley.nz/">R for Data Science<span class="meta">Book</span></a></li>
+<li><a href="https://ggplot2-book.org/">ggplot2: Elegant Graphics for Data Analysis<span class="meta">Book</span></a></li>
+<li><a href="https://posit.co/resources/cheatsheets/">Posit cheatsheets<span class="meta">PDF</span></a></li>
+<li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/">The Summer School<span class="meta">Site</span></a></li>
+</ul>
+<p style="margin-top:1.5rem">The <em>R for Data Science</em> book covers the
+concepts introduced here in more depth, along with more advanced techniques
+such as writing your own functions and iterating over vectors and lists. The
+cheatsheets are well worth printing out and keeping to hand while you are
+learning.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<div class="footer-logos">
+  <div class="shell">
+    <p class="eyebrow" style="text-align:center">Organised by</p>
+    <div class="partners">
+      <a href="https://www.cruk.cam.ac.uk/"><img src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"></a>
+      <a href="https://www.uci.or.ug/"><img src="images/logos/uci.png" alt="Uganda Cancer Institute"></a>
+      <a href="https://www.mak.ac.ug/"><img class="p-tall" src="images/logos/makerere.png" alt="Makerere University"></a>
+    </div>
+    <p class="eyebrow partners-split">Funded by</p>
+    <div class="partners p-sm">
+      <a href="https://www.cambridge-africa.cam.ac.uk/"><img src="images/logos/cambridge-africa.svg" alt="Cambridge-Africa"></a>
+      <img src="images/logos/alborada.jpg" alt="The Alborada Trust">
+      <a href="https://www.cancerresearchuk.org/"><img src="images/logos/cruk.png" alt="Cancer Research UK"></a>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <h2>Introduction to R<br>for Biologists</h2>
+        <p>Cancer Biology Summer School 2026<br>Monday 14 &ndash; Friday 18 September 2026<br>Uganda Cancer Institute, Kampala</p>
+      </div>
+      <div>
+        <h3>Sessions</h3>
+        <ul>
+          <li><a href="session1.html">1 &middot; Data types and structures</a></li>
+          <li><a href="session2.html">2 &middot; Other data structures</a></li>
+          <li><a href="session3.html">3 &middot; Working with data</a></li>
+          <li><a href="session4.html">4 &middot; Visualizing data</a></li>
+          <li><a href="session5.html">5 &middot; Data manipulation</a></li>
+          <li><a href="session6.html">6 &middot; Grouping and combining</a></li>
+          <li><a href="session7.html">7 &middot; Restructuring data</a></li>
+          <li><a href="session8.html">8 &middot; R Markdown</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>The Summer School</h3>
+        <ul>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/">Summer School home</a></li>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/programme.html">Programme</a></li>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/prepare.html">Set up R and Positron</a></li>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/people.html">Instructors</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Going further</h3>
+        <ul>
+          <li><a href="https://r4ds.hadley.nz/">R for Data Science</a></li>
+          <li><a href="https://ggplot2-book.org/">ggplot2: Elegant Graphics</a></li>
+          <li><a href="https://posit.co/resources/cheatsheets/">Posit cheatsheets</a></li>
+          <li><a href="https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro">This course on GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>Taught by the Bioinformatics Core, Cancer Research UK Cambridge Institute. Materials released under the <a href="LICENSE">MIT licence</a>.</span>
+      <span>A collaboration between the CRUK Cambridge Institute, the Uganda Cancer Institute and Makerere University.</span>
+    </div>
+  </div>
+</footer>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+</body>
+</html>
