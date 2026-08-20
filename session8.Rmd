@@ -566,9 +566,9 @@ For example:
 
 ````         
 ```
-metabric %>%
-    group_by(ER_status, Cancer_type) %>%
-    summarise(ERBB2_mean = mean(ERBB2)) %>%
+metabric |>
+    group_by(ER_status, Cancer_type) |>
+    summarise(ERBB2_mean = mean(ERBB2)) |>
     slice_max(ERBB2_mean, n = 1)
 ```
 ````
@@ -576,9 +576,9 @@ metabric %>%
 This will be rendered as:
 
 ```{blocktype = "renderedblock"}         
-metabric %>%
-    group_by(ER_status, Cancer_type) %>%
-    summarise(ERBB2_mean = mean(ERBB2)) %>%
+metabric |>
+    group_by(ER_status, Cancer_type) |>
+    summarise(ERBB2_mean = mean(ERBB2)) |>
     slice_max(ERBB2_mean, n = 1)
 ```
 
@@ -744,9 +744,9 @@ they would be displayed in the console. For example, if we display the first few
 rows of the `mtcars` dataset we get the following:
 
 ```{r basicTable}
-smallTable <- mtcars %>%
-    rownames_to_column("car") %>%
-    select(car, mpg, cyl, wt) %>%
+smallTable <- mtcars |>
+    rownames_to_column("car") |>
+    select(car, mpg, cyl, wt) |>
     slice(1:5)
 smallTable
 ```
@@ -758,7 +758,7 @@ is to use the `kable()` function from the `knitr` package.
 ### The `kable()` function
 
 ```{r kable}
-smallTable %>%
+smallTable |>
     kable()
 ```
 
@@ -770,7 +770,7 @@ specify the number of digits to display for each column. We can also use the
 `align` argument to specify the alignment of the columns. 
 
 ```{r kableFormatting}
-smallTable %>%
+smallTable |>
     kable(digits = 2, align = "c")
 ```
 
@@ -794,9 +794,9 @@ that can be used to format tables, including `kable_styling()`, `column_spec()`,
 and `row_spec()`. 
 
 ```{r kableExtraA}
-smallTable %>%
-    kbl() %>%
-    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+smallTable |>
+    kbl() |>
+    kable_styling(bootstrap_options = c("striped", "hover")) |>
     column_spec(column = 1, bold = TRUE, border_right = TRUE)
 ```
 
@@ -806,8 +806,8 @@ As well as allowing us to control the formatting of the table ourselves,
 quickly format our tables.
 
 ```{r kableExtraB}
-smallTable %>%
-    kbl() %>%
+smallTable |>
+    kbl() |>
     kable_classic(full_width = F, html_font = "Cambria")
 ```
 
@@ -823,10 +823,10 @@ command is `datatable()`, which takes a data.frame as input and returns an
 interactive table. 
 
 ```{r DTa}
-longTable  <- mtcars %>%
-    rownames_to_column("car") %>%
+longTable  <- mtcars |>
+    rownames_to_column("car") |>
     select(car, mpg, cyl, wt)
-longTable %>%
+longTable |>
     datatable()
 ```
 
@@ -864,7 +864,7 @@ argument, but we also need to add the `B` character to the `dom` string and
 intruct the table to use the "Buttons" extension.
 
 ```{r DTb}
-longTable %>%
+longTable |>
     datatable(
         extensions = "Buttons",
         options = list(
@@ -893,7 +893,7 @@ document.
 
 ````markdown
 `r ''````{r plot}
-mtcars %>%
+mtcars |>
     ggplot(aes(x = mpg, y = wt)) +
     geom_point() +
     labs(title = "Scatter plot of weight vs miles per gallon",
@@ -906,7 +906,7 @@ mtcars %>%
 is rendered as:
 
 ```{r plot}
-mtcars %>%
+mtcars |>
     ggplot(aes(x = mpg, y = wt)) +
     geom_point() +
     labs(title = "Scatter plot of weight vs miles per gallon",
@@ -928,7 +928,7 @@ chunk).
 ````
 `r ''````{r plot2, fig.with=5, fig.height=3, fig.cap=figCap}
 figCap <- "Scatter plot of weight vs miles per gallon"
-mtcars %>%
+mtcars |>
     ggplot(aes(x = mpg, y = wt)) +
     geom_point() +
     labs(x = "Miles per gallon",
@@ -941,7 +941,7 @@ is rendered as:
 
 ```{r plot2, fig.with=5, fig.height=3, fig.cap=figCap}
 figCap <- "Scatter plot of weight vs miles per gallon"
-mtcars %>%
+mtcars |>
     ggplot(aes(x = mpg, y = wt)) +
     geom_point() +
     labs(x = "Miles per gallon",
@@ -960,13 +960,13 @@ First create each plot and rather than printing them, assign them to a variable.
 Then we can use the `patchwork` syntax to combine the plots.
 
 ```{r patchworkA, fig.height=5, fig.width=10}
-p1 <- mtcars %>%
-    mutate(across(cyl, factor)) %>%
+p1 <- mtcars |>
+    mutate(across(cyl, factor)) |>
     ggplot(aes(x = mpg, y = wt)) +
     geom_point(aes(colour = cyl)) +
     geom_text(label = "A", x = 22.5, y = 3.5, size = 50)
-p2 <- mtcars %>%
-    mutate(across(cyl, factor)) %>%
+p2 <- mtcars |>
+    mutate(across(cyl, factor)) |>
     ggplot(aes(x = gear, y = hp)) +
     geom_point(aes(colour = cyl)) +
     geom_text(label = "B", x = 4, y = 195, size = 50)
@@ -1012,9 +1012,9 @@ example:
 
 ````markdown
 `r ''````{r inline}
-six_cyl_mean_mpg <- mtcars %>%
-    filter(cyl == 6) %>%
-    summarise(mpg = mean(mpg)) %>%
+six_cyl_mean_mpg <- mtcars |>
+    filter(cyl == 6) |>
+    summarise(mpg = mean(mpg)) |>
     pull(mpg)
 ```
 The mean mpg of cars with 6 cylinders was **``r "r six_cyl_mean_mpg"``**.
@@ -1024,9 +1024,9 @@ Will be rendered as:
 
 <div class="renderedblock">
 ```{r inline}
-six_cyl_mean_mpg <- mtcars %>%
-    filter(cyl == 6) %>%
-    summarise(mpg = mean(mpg)) %>%
+six_cyl_mean_mpg <- mtcars |>
+    filter(cyl == 6) |>
+    summarise(mpg = mean(mpg)) |>
     pull(mpg)
 ```
 

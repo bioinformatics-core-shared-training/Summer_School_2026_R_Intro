@@ -68,15 +68,15 @@ Fortunately, the **`group_by()`** function and **.by** argument to summarise
 allow this to be done in one simple step.
 
 ```{r}
-metabric %>%
-    group_by(ER_status) %>%
+metabric |>
+    group_by(ER_status) |>
     summarise(mean(ESR1))
 ```
 
 or
 
 ```{r}
-metabric %>%
+metabric |>
     summarise(mean(ESR1), .by = ER_status)
 ```
 
@@ -109,8 +109,8 @@ Let's say we want to look at ERBB2 expression in ER positive and negative, but
 further divided by the cancer type.
 
 ```{r}
-metabric %>%
-    group_by(ER_status, Cancer_type) %>%
+metabric |>
+    group_by(ER_status, Cancer_type) |>
     summarise(mean(ERBB2))
 ```
 
@@ -121,9 +121,9 @@ maximum mean ERBB2 expression. We can use the dplyr function **slice_max()** to
 get the top result, telling it which column to rank the rows by.
 
 ```{r}
-metabric %>%
-    group_by(ER_status, Cancer_type) %>%
-    summarise(ERBB2_mean = mean(ERBB2)) %>%
+metabric |>
+    group_by(ER_status, Cancer_type) |>
+    summarise(ERBB2_mean = mean(ERBB2)) |>
     slice_max(ERBB2_mean, n = 1)
 ```
 
@@ -135,10 +135,10 @@ If we don't want the grouping to continue to be applied we need to use
 **ungroup()**.
 
 ```{r}
-metabric %>%
-    group_by(ER_status, Cancer_type) %>%
-    summarise(ERBB2_mean = mean(ERBB2)) %>%
-    ungroup() %>%
+metabric |>
+    group_by(ER_status, Cancer_type) |>
+    summarise(ERBB2_mean = mean(ERBB2)) |>
+    ungroup() |>
     slice_max(ERBB2_mean, n = 1)
 ```
 
@@ -148,7 +148,7 @@ If instead we use **.by** to do the grouping, you will see that the grouping is
 dropped after the summarise operation.
 
 ```{r}
-metabric %>%
+metabric |>
     summarise(ERBB2_mean = mean(ERBB2), .by = c(ER_status, Cancer_type))
 ```
 
@@ -164,8 +164,8 @@ that `mutate()`, `filter()` and `summarise()` spell it **.by** with a dot, while
 the columns you are naming in those functions.
 
 ```{r}
-metabric %>%
-    summarise(ERBB2_mean = mean(ERBB2), .by = c(ER_status, Cancer_type)) %>%
+metabric |>
+    summarise(ERBB2_mean = mean(ERBB2), .by = c(ER_status, Cancer_type)) |>
     slice_max(ERBB2_mean, n = 1, by = ER_status)
 ```
 
@@ -174,7 +174,7 @@ the mean expression for other genes of interest, with `summarise(across())`,
 this time using the PAM50 classification to define the groups.
 
 ```{r}
-metabric %>%
+metabric |>
     summarise(across(c(ESR1, PGR, ERBB2), mean), .by = PAM50)
 ```
 
@@ -182,7 +182,7 @@ We can also refine our groups by using more than one categorical variable. Let's
 subdivide the PAM50 groups by HER2 status to illustrate this.
 
 ```{r}
-metabric %>%
+metabric |>
     summarise(across(c(ESR1, PGR, ERBB2), mean), .by = c(PAM50, HER2_status))
 ```
 
@@ -191,7 +191,7 @@ can use a special function, **`n()`**, that counts the number of rows rather
 than computing a summary value from one of the columns.
 
 ```{r}
-metabric %>%
+metabric |>
     summarise(N = n(), ESR1_mean = mean(ESR1), .by = c(PAM50, HER2_status))
 ```
 
@@ -230,7 +230,7 @@ the special `n()` function to count the number of rows. So the above statement
 could have been written in a more long-winded way as follows.
 
 ```{r eval = FALSE}
-metabric %>%
+metabric |>
     summarize(Samples = n(), .by = c(PAM50, HER2_status))
 ```
 
@@ -246,7 +246,7 @@ the column contains `NA` values. As an example, we'll compute the average size
 of ER-negative and ER-positive tumours.
 
 ```{r}
-metabric %>%
+metabric |>
     summarize(N = n(),
               `Average tumour size` = mean(Tumour_size),
               .by = ER_status)
@@ -257,7 +257,7 @@ The `mean()` function, along with many similar summarization functions, has an
 the calculation.
 
 ```{r}
-metabric %>%
+metabric |>
     summarize(N = n(),
               `Average tumour size` = mean(Tumour_size, na.rm = TRUE),
               .by = ER_status)
@@ -268,8 +268,8 @@ then the number of samples in each ER status group would take on a different
 meaning, which may or may not be what we actually want.
 
 ```{r}
-metabric %>%
-    filter(!is.na(Tumour_size)) %>%
+metabric |>
+    filter(!is.na(Tumour_size)) |>
     summarize(N = n(),
               `Average tumour size` = mean(Tumour_size),
               .by = ER_status)
@@ -287,7 +287,7 @@ average tumour size for ER-positive and ER-negative patients that contains the
 number of missing values.
 
 ```{r}
-metabric %>%
+metabric |>
     summarize(N = n(),
               Missing = sum(is.na(Tumour_size)),
               `Average tumour size` = mean(Tumour_size, na.rm = TRUE),
@@ -321,7 +321,7 @@ So let's calculate the number and proportion of samples that do not have a
 recorded tumour size in each of the ER-negative and ER-positive groups.
 
 ```{r}
-metabric %>%
+metabric |>
     summarize(N = n(),
               `Missing tumour size` = sum(is.na(Tumour_size)),
               `Proportion missing` = mean(is.na(Tumour_size)),
@@ -334,8 +334,8 @@ longer than 10 years (120 months) in each of the ER-negative and ER-positive
 groups.
 
 ```{r}
-metabric %>%
-    filter(Survival_status == "DECEASED") %>%
+metabric |>
+    filter(Survival_status == "DECEASED") |>
     summarise(N = n(),
               N_long_survival = sum(Survival_time > 120),
               Proportion_long_survival = mean(Survival_time > 120),
@@ -377,8 +377,8 @@ ony contain one row for each value of the column (or combination of columns)
 provided:
 
 ```{r}
-mutations %>%
-    distinct(Patient_ID) %>%
+mutations |>
+    distinct(Patient_ID) |>
     nrow()
 ```
 
@@ -402,8 +402,8 @@ a single gene) and the use **`count()`** to count the number of times we see
 each each.
 
 ```{r}
-mutations %>%
-    distinct(Patient_ID, Gene) %>%
+mutations |>
+    distinct(Patient_ID, Gene) |>
     count(Gene)
 ```
 
@@ -415,7 +415,7 @@ know how many mutations each patient has on each chromosome. To this we simply
 provide **`count()`** with both columns:
 
 ```{r}
-mutations %>%
+mutations |>
     count(Patient_ID, Chromosome)
 ```
 
@@ -573,19 +573,19 @@ and surname. We'll also use `rename` to change the column name `name` to
 extra_musician <- tibble(forename = "Paul",
                          surname = "Weller",
                          band = "The Jam")
-band_members4 <- band_members %>%
-    rename(forename = name) %>%
-    mutate(surname = c("Jagger", "Lennon", "McCartney")) %>%
-    bind_rows(extra_musician) %>%
+band_members4 <- band_members |>
+    rename(forename = name) |>
+    mutate(surname = c("Jagger", "Lennon", "McCartney")) |>
+    bind_rows(extra_musician) |>
     select(forename, surname, band)
 
 extra_instrument <- tibble(forename = "Paul",
                            surname = "Weller",
                            plays = "guitar")
-band_instruments4 <- band_instruments %>%
-    rename(forename = name) %>%
-    mutate(surname = c("Lennon", "McCartney", "Richards")) %>%
-    bind_rows(extra_instrument) %>%
+band_instruments4 <- band_instruments |>
+    rename(forename = name) |>
+    mutate(surname = c("Lennon", "McCartney", "Richards")) |>
+    bind_rows(extra_instrument) |>
     select(forename, surname, plays)
 
 band_members4
@@ -602,9 +602,9 @@ even contain different data but happen to have the same name. In such cases
 dplyr joins add a suffix to each column in the combined table.
 
 ```{r}
-band_members5 <- band_members %>%
+band_members5 <- band_members |>
     mutate(birth_year = c(1943, 1940, 1942))
-band_instruments5 <- band_instruments %>%
+band_instruments5 <- band_instruments |>
     mutate(birth_year = c(1940, 1942, 1943))
 left_join(band_members5, band_instruments5, by = "name")
 ```
@@ -651,8 +651,8 @@ Having combined the data, we can carry out exploratory data analysis using
 elements from both data sets.
 
 ```{r box_plot_1}
-combined_data %>%
-    filter(!is.na(PAM50), !is.na(ESR1)) %>%
+combined_data |>
+    filter(!is.na(PAM50), !is.na(ESR1)) |>
     ggplot(mapping = aes(x = PAM50, y = ESR1, colour = PAM50)) +
     geom_boxplot(show.legend = FALSE)
 ```
@@ -847,7 +847,7 @@ emphasize those points on the scatter plot by adjusting our colour scale to run
 from white to red.
 
 ```{r scatter_plot_14}
-metabric %>%
+metabric |>
     ggplot(mapping = aes(x = GATA3,
                          y = ESR1,
                          colour = Nottingham_prognostic_index)) +
@@ -859,7 +859,7 @@ In some cases it might make sense to specify two colour gradients either side
 of a mid-point.
 
 ```{r scatter_plot_15}
-metabric %>%
+metabric |>
     ggplot(mapping = aes(x = GATA3,
                          y = ESR1,
                          colour = Nottingham_prognostic_index)) +
@@ -893,9 +893,9 @@ patients in each group. You can use "metabric_clinical_data.csv" file.
 ```{r ex_1, purl=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 metabric <- read_csv("data/metabric_clinical_data.csv")
-metabric %>%
-    filter(Survival_status == "DECEASED") %>%
-    group_by(ER_status) %>%
+metabric |>
+    filter(Survival_status == "DECEASED") |>
+    group_by(ER_status) |>
     summarize(`Average survival time` = mean(Survival_time), N = n())
 ```
 </details>
@@ -911,8 +911,8 @@ Nottingham prognostic index within ER-negative and ER-positive patients.
 ```{r ex_2, purl=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 metabric <- read_csv("data/metabric_clinical_data.csv")
-metabric %>%
-    group_by(ER_status) %>%
+metabric |>
+    group_by(ER_status) |>
     summarize(across(c(Tumour_size,
                        Lymph_nodes_examined_positive,
                        Nottingham_prognostic_index),
@@ -931,9 +931,9 @@ frequently mutated genes using metabric_mutations.csv data.
 <details><summary>Answer</summary>
 ```{r ex_3, purl=FALSE, message=FALSE, warning=FALSE}
 mutations <- read_csv("data/metabric_mutations.csv")
-mutations %>%
-    count(Gene) %>%
-    arrange(desc(n)) %>%
+mutations |>
+    count(Gene) |>
+    arrange(desc(n)) |>
     head(10)
 ```
 </details>
@@ -949,9 +949,9 @@ PIK3CA are most commonly mutated.
 
 <details><summary>Answer</summary>
 ```{r ex_4, purl=FALSE, message=FALSE, warning=FALSE}
-mutations %>%
-    filter(Gene == "PIK3CA") %>%
-    count(Codon) %>%
+mutations |>
+    filter(Gene == "PIK3CA") |>
+    count(Codon) |>
     arrange(desc(n))
 ```
 </details>
@@ -965,8 +965,8 @@ boxplots should be colored according to the group.
 
 <details><summary>Answer</summary>
 ```{r}
-metabric %>%
-    filter(!is.na(`3-gene_classifier`)) %>%
+metabric |>
+    filter(!is.na(`3-gene_classifier`)) |>
     ggplot(mapping = aes(x = `3-gene_classifier`,
                          y = Age_at_diagnosis,
                          colour = `3-gene_classifier`)) +
@@ -996,7 +996,7 @@ alphabetically.
 metabric <- read_csv("data/metabric_clinical_data.csv")
 mutations <- read_csv("data/metabric_mutations.csv")
 
-metabric <- metabric %>%
+metabric <- metabric |>
     mutate(Integrative_cluster = factor(Integrative_cluster,
                                         levels = c("1", "2", "3", "4ER-",
                                                    "4ER+", "5", "6", "7",
@@ -1004,7 +1004,7 @@ metabric <- metabric %>%
 
 cases_sequenced <- read_tsv("data/cases_nat_comm_2016.txt",
                             col_names = "Patient_ID")
-metabric <- metabric %>%
+metabric <- metabric |>
     mutate(Sequenced = Patient_ID %in% cases_sequenced$Patient_ID)
 count(metabric, Sequenced)
 ```
@@ -1029,8 +1029,8 @@ count(metabric, Sequenced)
 Exercise 6a: count the non-silent TP53 mutations per patient and join them on.
 
 ```{r}
-tp53_mutation_counts <- mutations %>%
-    filter(Gene == "TP53", Variant_Classification != "Silent") %>%
+tp53_mutation_counts <- mutations |>
+    filter(Gene == "TP53", Variant_Classification != "Silent") |>
     count(Patient_ID, name = "TP53_mutation_count")
 
 metabric <- left_join(metabric, tp53_mutation_counts, by = "Patient_ID")
@@ -1040,7 +1040,7 @@ Exercise 6b: patients with no entry in the count column have no non-silent TP53
 mutation.
 
 ```{r}
-metabric <- metabric %>%
+metabric <- metabric |>
     mutate(Has_TP53_mutation = !is.na(TP53_mutation_count))
 ```
 
@@ -1048,9 +1048,9 @@ Exercise 6c: taking the mean of a logical variable gives the proportion that are
 `TRUE`.
 
 ```{r}
-tp53_percentages <- metabric %>%
-    filter(Sequenced) %>%
-    filter(!is.na(Integrative_cluster)) %>%
+tp53_percentages <- metabric |>
+    filter(Sequenced) |>
+    filter(!is.na(Integrative_cluster)) |>
     summarise(Percentage_TP53_mutation = 100 * mean(Has_TP53_mutation),
               .by = Integrative_cluster)
 tp53_percentages
@@ -1111,13 +1111,13 @@ inactivating_mutation_types <- c("Nonsense_Mutation",
                                  "Splice_Region",
                                  "Splice_Site")
 
-tsg_scores <- mutations %>%
+tsg_scores <- mutations |>
     mutate(Inactivating =
-               Variant_Classification %in% inactivating_mutation_types) %>%
+               Variant_Classification %in% inactivating_mutation_types) |>
     summarise(TSG_score = mean(Inactivating), .by = Gene)
 
-tsg_scores %>%
-    arrange(desc(TSG_score)) %>%
+tsg_scores |>
+    arrange(desc(TSG_score)) |>
     head(10)
 ```
 </details>

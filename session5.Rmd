@@ -24,7 +24,7 @@ for manipulating tabular data in data frames or tibbles. We're going to look at
 the key functions for filtering our data, modifying the contents and computing
 summary statistics.
 
-We'll also introduce the pipe operator, **`%>%`**, for chaining operations
+We'll also introduce the pipe operator, **`|>`**, for chaining operations
 together into mini workflows in a way that makes for more readable and
 maintainable code.
 
@@ -58,7 +58,7 @@ uniform manner. They all have the following shared behaviours:
 
 ---
 
-# Chaining operations using `%>%`
+# Chaining operations using `|>`
 
 Let's consider again an earlier example in which we filtered the METABRIC data
 set to retain just the patients who were still alive at the time of the study
@@ -119,16 +119,16 @@ nrow(patients)
 
 However, there is another way chaining together a series of operations into a
 mini workflow that is elegant, intuitive and makes for very readable R code.
-For that we need to introduce a new operator, the **pipe** operator, **`%>%`**.
+For that we need to introduce a new operator, the **pipe** operator, **`|>`**.
 
 ```{block type = "rmdblock"}
-**The pipe operator `%>%`**
+**The pipe operator `|>`**
 
 The pipe operator takes the output from one operation, i.e. whatever is on the
-left-hand side of `%>%` and passes it in as the first argument to the second
+left-hand side of `|>` and passes it in as the first argument to the second
 operation, or function, on the right-hand side.
 
-**`x %>% f(y)`** is equivalent to **`f(x, y)`**
+**`x |> f(y)`** is equivalent to **`f(x, y)`**
 
 For example:
 
@@ -136,32 +136,38 @@ For example:
 
 can be rewritten as
 
-`starwars %>% select(name, height, mass)`
+`starwars |> select(name, height, mass)`
 
 This allows for chaining of operations into workflows, e.g.
 
-`starwars %>%`<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;`filter(species == "Droid") %>%`<br/>
+`starwars |>`<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;`filter(species == "Droid") |>`<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;`select(name, height, mass)`
 
-The `%>%` operator comes from the `magrittr` package and is available when we
-load the tidyverse using `library(tidyverse)`.
+The `|>` operator is built into R itself, so it is available as soon as you
+start R without having to load any packages.
 
 Piping in R was motivated by the Unix pipe, `|`, in which the output from one
 process is redirected to be the input for the next. This is so named because the
 flow from one process or operation to the next resembles a pipeline.
 
-NOTE: The `%>%` operator is from the packages **magrittr**. R now has a native
-pipe operator, `|>`, but we'll stick with the **`%>%`** operator as it is
-more widely used and has a few advantages over the native pipe.
+NOTE: `|>` is often called the "native pipe" because it is part of the R
+language. It requires R version 4.1 or later.
+
+You will also come across a second pipe operator, **`%>%`**, in a great deal of
+existing R code, in older books and tutorials, and in answers you find online.
+That one comes from the **magrittr** package and becomes available when you load
+the tidyverse. For everyday use of the sort we're doing on this course the two
+behave the same way, so when you meet `%>%` you can read it as `|>`. We'll use
+the native `|>` throughout.
 ```
 
 We can rewrite the code for our filtering and column selection operations as
 follows.
 
 ```{r}
-patients <- metabric %>%
-    filter(Survival_status == "LIVING" & Survival_time > 120) %>%
+patients <- metabric |>
+    filter(Survival_status == "LIVING" & Survival_time > 120) |>
     select(Patient_ID, Survival_time, Tumour_stage, Nottingham_prognostic_index)
 ```
 
@@ -181,15 +187,15 @@ testing the output produced at each stage. Let's do that for this case.
 We start by considering just the patients who are living.
 
 ```{r}
-patients <- metabric %>%
+patients <- metabric |>
     filter(Survival_status == "LIVING")
 ```
 
 We then add another filter for the survival time.
 
 ```{r}
-patients <- metabric %>%
-    filter(Survival_status == "LIVING") %>%
+patients <- metabric |>
+    filter(Survival_status == "LIVING") |>
     filter(Survival_time > 120)
 ```
 
@@ -199,35 +205,35 @@ we're happy with the result.
 Finally we only want certain columns, so we add a `select()` operation.
 
 ```{r}
-patients <- metabric %>%
-    filter(Survival_status == "LIVING") %>%
-    filter(Survival_time > 120) %>%
+patients <- metabric |>
+    filter(Survival_status == "LIVING") |>
+    filter(Survival_time > 120) |>
     select(Patient_ID, Survival_time, Tumour_stage, Nottingham_prognostic_index)
 # print out the result
 patients
 ```
 
 When continuing our workflow across multiple lines, we need to be careful to
-ensure the `%>%` is at the end of the line. If we try to place this at the start
+ensure the `|>` is at the end of the line. If we try to place this at the start
 of the next line, R will think we've finished the workflow prematurely and will
 report an error at what it considers the next statement, i.e. the line that
-begins with `%>%`.
+begins with `|>`.
 
 ```
 # R considers the following to be 2 separate commands, the first of which ends
 # with the first filter operation and runs successfully.
 # The second statement is the third and last line, is not a valid commmand and
 # so you'll get an error message
-patients <- metabric %>%
+patients <- metabric |>
     filter(Survival_status == "LIVING")
-    %>% filter(Survival_time > 120)
+    |> filter(Survival_time > 120)
 ```
 
 This is very similar to what we saw with adding layers and other components to
 a ggplot using the `+` operator, where we needed the `+` to be at the end of a
 line.
 
-We'll be using the pipe `%>%` operator throughout the rest of the course so
+We'll be using the pipe `|>` operator throughout the rest of the course so
 you'd better get used to it. But actually we think you'll come to love it as
 much as we do.
 
@@ -288,7 +294,7 @@ We'll recalculate the Nottingham prognostic index using the values
 our METABRIC data frame.
 
 ```{r}
-metabric <- metabric %>%
+metabric <- metabric |>
     mutate(NPI = (0.2 * Tumour_size) +
                Lymph_node_status +
                Neoplasm_histologic_grade)
@@ -319,14 +325,14 @@ the NPI, rounds the tumour size and the resulting NPI value to 1 decimal place
 and displays the results in decreasing order of NPI.
 
 ```{r message = FALSE}
-read_csv("data/metabric_clinical_and_expression_data.csv") %>%
-    mutate(Tumour_size = Tumour_size / 10) %>%
+read_csv("data/metabric_clinical_and_expression_data.csv") |>
+    mutate(Tumour_size = Tumour_size / 10) |>
     mutate(NPI = (0.2 * Tumour_size) +
                Lymph_node_status +
-               Neoplasm_histologic_grade) %>%
-    mutate(Tumour_size = round(Tumour_size, digits = 1)) %>%
-    mutate(NPI = round(NPI, digits = 1)) %>%
-    arrange(desc(NPI)) %>%
+               Neoplasm_histologic_grade) |>
+    mutate(Tumour_size = round(Tumour_size, digits = 1)) |>
+    mutate(NPI = round(NPI, digits = 1)) |>
+    arrange(desc(NPI)) |>
     select(Tumour_size, Lymph_node_status, Neoplasm_histologic_grade, NPI)
 ```
 
@@ -343,8 +349,8 @@ columns to operate across and second a function to apply to those columns.
 So if we just wanted to round to the the nearest integer:
 
 ```{r}
-metabric %>%
-    mutate(across(c(Tumour_size, NPI), round)) %>%
+metabric |>
+    mutate(across(c(Tumour_size, NPI), round)) |>
     select(Patient_ID, Tumour_size, NPI)
 ```
 
@@ -372,8 +378,8 @@ anonymous because it has no name, it's an _in situ_ function only used in our
 `mutate()` function call.
 
 ```{r}
-iris %>%
-    as_tibble() %>%
+iris |>
+    as_tibble() |>
     mutate(across(Sepal.Length:Petal.Width, ~ .x * 10))
 ```
 
@@ -393,8 +399,8 @@ arguments we need to add.
 So if we want to round to 1 decimal place:
 
 ```{r}
-metabric %>%
-    mutate(across(c(Tumour_size, NPI), ~round(.x, digits = 1))) %>%
+metabric |>
+    mutate(across(c(Tumour_size, NPI), ~round(.x, digits = 1))) |>
     select(Patient_ID, Tumour_size, NPI)
 ```
 
@@ -405,8 +411,8 @@ For example, we might decide that our expression values are given to a much
 higher degree of precision than is strictly necessary.
 
 ```{r}
-metabric %>%
-    mutate(across(ESR1:MLPH, ~round(.x, digits = 2))) %>%
+metabric |>
+    mutate(across(ESR1:MLPH, ~round(.x, digits = 2))) |>
     select(Patient_ID, ESR1:MLPH)
 ```
 
@@ -414,8 +420,8 @@ Or we could decide that all the columns whose names end with "\_status" are in
 fact categorical variables and should be converted to factors.
 
 ```{r}
-metabric %>%
-    mutate(across(ends_with("_status"), as.factor)) %>%
+metabric |>
+    mutate(across(ends_with("_status"), as.factor)) |>
     select(Patient_ID, ends_with("_status"))
 ```
 
@@ -507,8 +513,8 @@ We can use the `everything()` selector to summarise across all the columns in
 the table.
 
 ```{r}
-metabric %>%
-    select(ESR1:MLPH) %>%
+metabric |>
+    select(ESR1:MLPH) |>
     summarise(across(everything(), mean))
 ```
 
@@ -517,7 +523,7 @@ summary function. For example, what happens if we try to compute an average of
 a set of character values?
 
 ```{r}
-metabric %>%
+metabric |>
     summarise(across(everything(), ~mean(.x, na.rm = TRUE)))
 ```
 
@@ -528,7 +534,7 @@ We can combine `across()` with `where()` and a logical test (e.g. `is.numeric`)
 to select those columns for which a summarization function is appropriate.
 
 ```{r}
-metabric %>%
+metabric |>
     summarise(across(where(is.numeric), ~mean(.x, na.rm = TRUE)))
 ```
 
@@ -536,7 +542,7 @@ It is possible to summarise using more than one function in which case a list of
 functions needs to be provided.
 
 ```{r}
-metabric %>%
+metabric |>
     summarise(across(c(ESR1, ERBB2, PGR), list(mean, sd)))
 ```
 
@@ -544,7 +550,7 @@ Pretty neat but I'm not sure about those column headings in the output --
 fortunately we have some control over these.
 
 ```{r}
-metabric %>%
+metabric |>
     summarise(across(c(ESR1, ERBB2, PGR), list(Average = mean, stdev = sd)))
 ```
 
@@ -556,7 +562,7 @@ correlated. Here is how we could do this in a single `summarise()` statement
 using an anonymous function.
 
 ```{r}
-metabric %>%
+metabric |>
     summarise(across(c(ESR1:MLPH, -FOXA1), ~cor(.x, FOXA1)))
 ```
 
@@ -735,7 +741,7 @@ new variables from existing ones.
 
 We are expecting you to use the 5 main dplyr 'verb' functions: `select()`,
 `filter()`, `arrange()`, `mutate()` and `summarize()`. Please use the pipe
-operator, `%>%`, in cases where more than one operation is required to achieve
+operator, `|>`, in cases where more than one operation is required to achieve
 the outcome requested.
 
 ```{r message = FALSE, warning = FALSE}
@@ -752,8 +758,8 @@ radiotherapy and survived for more than 20 years.
 
 <details><summary>Answer</summary>
 ```{r}
-patients <- metabric %>%
-    mutate(Survival_time_years = Survival_time / 12) %>%
+patients <- metabric |>
+    mutate(Survival_time_years = Survival_time / 12) |>
     filter(Chemotherapy == "NO" &
                Radiotherapy == "NO" &
                Survival_time_years > 20)
@@ -799,16 +805,16 @@ with the highest proportion is at the top.**
 
 <details><summary>Answer</summary>
 ```{r}
-metabric %>%
-    mutate(Survival_time_years = Survival_time / 12) %>%
-    mutate(Age = Age_at_diagnosis + Survival_time_years) %>%
-    mutate(Proportion_of_life_since_diagnosis = Survival_time_years / Age) %>%
+metabric |>
+    mutate(Survival_time_years = Survival_time / 12) |>
+    mutate(Age = Age_at_diagnosis + Survival_time_years) |>
+    mutate(Proportion_of_life_since_diagnosis = Survival_time_years / Age) |>
     select(Patient_ID,
            Age,
            Age_at_diagnosis,
            Survival_time_years,
-           Proportion_of_life_since_diagnosis) %>%
-    arrange(desc(Proportion_of_life_since_diagnosis)) %>%
+           Proportion_of_life_since_diagnosis) |>
+    arrange(desc(Proportion_of_life_since_diagnosis)) |>
     mutate(across(where(is.numeric), ~round(.x, digits = 2)))
 ```
 </details>
@@ -873,11 +879,11 @@ resulting values to 3 significant figures.
 
 <details><summary>Answer</summary>
 ```{r}
-metabric_z_scores <- metabric %>%
-    mutate(across(ESR1:MLPH, ~ (.x - mean(.x)) / sd(.x))) %>%
+metabric_z_scores <- metabric |>
+    mutate(across(ESR1:MLPH, ~ (.x - mean(.x)) / sd(.x))) |>
     mutate(across(ESR1:MLPH, ~ signif(.x, digits = 3)))
 
-metabric_z_scores %>%
+metabric_z_scores |>
     select(Patient_ID, ESR1:MLPH)
 ```
 </details>
@@ -887,7 +893,7 @@ for each column, again using a single operation.
 
 <details><summary>Answer</summary>
 ```{r}
-metabric_z_scores %>%
+metabric_z_scores |>
     summarise(across(ESR1:PGR, list(mean = mean, sd = sd)))
 ```
 </details>
@@ -906,10 +912,10 @@ metres.
 
 <details><summary>Answer</summary>
 ```{r}
-starwars %>%
-    mutate(BMI = mass / (height / 100) ^ 2) %>%
-    select(name, height, mass, BMI) %>%
-    arrange(desc(BMI)) %>%
+starwars |>
+    mutate(BMI = mass / (height / 100) ^ 2) |>
+    select(name, height, mass, BMI) |>
+    arrange(desc(BMI)) |>
     head(10)
 ```
 
