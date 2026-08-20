@@ -303,10 +303,6 @@ Missing values in R are represented as **`NA`**, which stands for 'not available
 frames or tibbles. We're going to look at the key functions for filtering our
 data, modifying the contents and computing summary statistics.
 
-We'll also introduce the pipe operator, **`|>`**, for chaining operations
-together into mini workflows in a way that makes for more readable and
-maintainable code.
-
 This time we'll use a METABRIC data set containing clinical data and gene
 expression data to illustrate how these operations work.
 
@@ -713,11 +709,11 @@ The the main functions are `read_excel`, `read_xls` and `read_xslx`. Use
 <details><summary>Answer</summary>
 
 ```{r}
-selectedPatients <- metabric |>
-    select(Cellularity, ER_status, HER2_status) |>
-    filter(Cellularity == "High" &
-               ER_status == "Positive" &
-               HER2_status == "Positive")
+selectedPatients <- select(metabric, Cellularity, ER_status, HER2_status)
+selectedPatients <- filter(selectedPatients,
+                           Cellularity == "High" &
+                               ER_status == "Positive" &
+                               HER2_status == "Positive")
 nrow(selectedPatients)
 ```
 
@@ -740,8 +736,10 @@ nrow(selectedPatients)
 <details><summary>Answer</summary>
 
 ```{r}
-selectedPatients <- metabric |>
-    filter(Chemotherapy == "NO" & Radiotherapy == "NO" & Survival_time > 240)
+selectedPatients <- filter(metabric,
+                           Chemotherapy == "NO" &
+                               Radiotherapy == "NO" &
+                               Survival_time > 240)
 
 mean(selectedPatients$ER_status == "Negative")
 mean(metabric$ER_status == "Negative")
@@ -773,16 +771,15 @@ Note that both "blond" and "blonde" have been used, so we need to allow for
 either.
 
 ```{r}
-starwars |>
-    filter((hair_color == "blond" | hair_color == "blonde") &
-               eye_color == "blue")
+filter(starwars,
+       (hair_color == "blond" | hair_color == "blonde") &
+           eye_color == "blue")
 ```
 
 The `%in%` operator is a tidier way of writing the first condition.
 
 ```{r}
-starwars |>
-    filter(hair_color %in% c("blond", "blonde") & eye_color == "blue")
+filter(starwars, hair_color %in% c("blond", "blonde") & eye_color == "blue")
 ```
 
 </details>
