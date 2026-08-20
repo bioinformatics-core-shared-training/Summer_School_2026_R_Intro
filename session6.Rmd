@@ -803,7 +803,8 @@ ggplot(data = metabric,
     scale_colour_manual(values = c("dodgerblue2", "firebrick2"))
 ```
 
-If we wanted to specifiy that "dodgerblue2" should be the colour for "Positive" and "firebrick2" for negative, we need to add names to the values vector:
+If we wanted to specify that "dodgerblue2" should be the colour for "Positive"
+and "firebrick2" for "Negative", we need to add names to the values vector:
 
 ```{r scatter_plot_10a}
 ggplot(data = metabric,
@@ -832,7 +833,11 @@ palettes are available and visit the [ColorBrewer](https://colorbrewer2.org)
 website to see what these look like.
 
 We can also set other attributes of the scale at the same time. For example,
-we could change the names (labels) of the categories.
+we could change the names (labels) of the categories. Just as with `values`, it
+is much safer to name the `labels` as well. If you supply them as a plain
+unnamed vector they are matched up in the order the categories appear in the
+data, which is not necessarily the order you wrote them in, and you can end up
+with a legend that is mislabelled.
 
 ```{r scatter_plot_12}
 ggplot(data = metabric,
@@ -841,7 +846,8 @@ ggplot(data = metabric,
     geom_smooth(method = "lm") +
     scale_colour_manual(values = c(Positive = "dodgerblue2",
                                    Negative = "firebrick2"),
-                        labels = c("ER-negative", "ER-positive"))
+                        labels = c(Positive = "ER-positive",
+                                   Negative = "ER-negative"))
 ```
 
 We have applied our own set of mappings from levels in the data to aesthetic
