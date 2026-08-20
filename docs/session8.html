@@ -54,6 +54,11 @@
 <script src="site_libs/dt-ext-buttons-1.13.6/js/buttons.print.min.js"></script>
 <link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+<meta name="description" content="Introduction to R for Biologists — the R course taught at the Cambridge–Makerere Summer School 2026, Uganda Cancer Institute, Kampala, 14–18 September 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Progress-SemiBold.woff2" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -80,6 +85,7 @@ if (window.hljs) {
 
 
 
+<link rel="stylesheet" href="assets/css/site.css" type="text/css" />
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
 
@@ -334,10 +340,13 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html"><img style="width: 120px; float: left; margin-top: 0px; margin-right: 20px;" src="images/Cambridge_Institute-light-background-digital_only.png" />R for Biologists</a>
+      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="index.html">
     <span class="fa fa-home"></span>
@@ -345,10 +354,48 @@ div.tocify {
     Home
   </a>
 </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/bioinformatics-core-shared-training/Bitesize-R">
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sessions
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="session1.html">1 &amp;middot; Data types and structures</a>
+    </li>
+    <li>
+      <a href="session2.html">2 &amp;middot; Other data structures</a>
+    </li>
+    <li>
+      <a href="session3.html">3 &amp;middot; Working with data in R</a>
+    </li>
+    <li>
+      <a href="session4.html">4 &amp;middot; Visualizing data with ggplot2</a>
+    </li>
+    <li>
+      <a href="session5.html">5 &amp;middot; Data manipulation with dplyr</a>
+    </li>
+    <li>
+      <a href="session6.html">6 &amp;middot; Grouping and combining data</a>
+    </li>
+    <li>
+      <a href="session7.html">7 &amp;middot; Restructuring data for analysis</a>
+    </li>
+    <li>
+      <a href="session8.html">8 &amp;middot; R Markdown</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="Brief_Recap.html">Brief recap of sessions 1 &amp;amp; 2</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/">Summer School</a>
+</li>
+<li>
+  <a href="https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -1383,8 +1430,8 @@ data.frame as input and returns an interactive table.</p>
     select(car, mpg, cyl, wt)
 longTable |&gt;
     datatable()</code></pre>
-<div class="datatables html-widget html-fill-item" id="htmlwidget-b829c5d39cb1db9501ac" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-b829c5d39cb1db9501ac">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32"],["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>car<\/th>\n      <th>mpg<\/th>\n      <th>cyl<\/th>\n      <th>wt<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"car","targets":1},{"name":"mpg","targets":2},{"name":"cyl","targets":3},{"name":"wt","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-3f94cf7e425d978fa482" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-3f94cf7e425d978fa482">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32"],["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>car<\/th>\n      <th>mpg<\/th>\n      <th>cyl<\/th>\n      <th>wt<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"car","targets":1},{"name":"mpg","targets":2},{"name":"cyl","targets":3},{"name":"wt","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p>There are a lot of options available to control the appearance and
 functionality of the table. Extensive documentation is available <a
 href="https://rstudio.github.io/DT/">here</a>.</p>
@@ -1427,8 +1474,8 @@ table to use the “Buttons” extension.</p>
             pageLength = 5),
         colnames = c(&quot;Car&quot;, &quot;Miles per gallon&quot;, &quot;Cylinders&quot;, &quot;Weight&quot;)
     )</code></pre>
-<div class="datatables html-widget html-fill-item" id="htmlwidget-72eb8702919a0e6584a9" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-72eb8702919a0e6584a9">{"x":{"filter":"none","vertical":false,"extensions":["Buttons"],"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32"],["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Car<\/th>\n      <th>Miles per gallon<\/th>\n      <th>Cylinders<\/th>\n      <th>Weight<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Btip","buttons":["csv","excel"],"pageLength":5,"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"car","targets":1},{"name":"mpg","targets":2},{"name":"cyl","targets":3},{"name":"wt","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-555b4297ad40ec206478" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-555b4297ad40ec206478">{"x":{"filter":"none","vertical":false,"extensions":["Buttons"],"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32"],["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Car<\/th>\n      <th>Miles per gallon<\/th>\n      <th>Cylinders<\/th>\n      <th>Weight<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Btip","buttons":["csv","excel"],"pageLength":5,"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"car","targets":1},{"name":"mpg","targets":2},{"name":"cyl","targets":3},{"name":"wt","targets":4}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 <p>The <code>DT</code> R packages is a wrapper for the JavaScript
 library <a href="https://datatables.net/">DataTables</a>. Be careful
 when searching the web for information about <code>DT</code> that you
@@ -1605,7 +1652,7 @@ the analysis, including the R version, packages used and their version
 numbers. This can be done at the end of the report. The neatest way to
 do this is to use the <code>devtools</code> package.</p>
 <pre class="r"><code>devtools::session_info()</code></pre>
-<pre><code>## ─ Session info ─────────────────────────────────────────────────────────────────────────────────────────────
+<pre><code>## ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ##  setting  value
 ##  version  R version 4.6.1 (2026-06-24)
 ##  os       Ubuntu 24.04.4 LTS
@@ -1617,9 +1664,9 @@ do this is to use the <code>devtools</code> package.</p>
 ##  tz       Europe/London
 ##  date     2026-08-20
 ##  pandoc   3.1.3 @ /usr/bin/ (via rmarkdown)
-##  quarto   1.10.18 @ /usr/local/bin/quarto
+##  quarto   1.10.18 @ /opt/quarto/bin/quarto
 ## 
-## ─ Packages ─────────────────────────────────────────────────────────────────────────────────────────────────
+## ─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ##  package      * version date (UTC) lib source
 ##  bit            4.6.0   2025-03-06 [1] CRAN (R 4.6.0)
 ##  bit64          4.8.0   2026-04-21 [1] CRAN (R 4.6.0)
@@ -1708,9 +1755,90 @@ do this is to use the <code>devtools</code> package.</p>
 ##  [4] /usr/lib/R/library
 ##  * ── Packages attached to the search path.
 ## 
-## ────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
+## ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
 </div>
 
+<div class="footer-logos">
+  <div class="shell">
+    <p class="eyebrow" style="text-align:center">Organised by</p>
+    <div class="partners">
+      <a href="https://www.cruk.cam.ac.uk/"><img src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"></a>
+      <a href="https://www.uci.or.ug/"><img src="images/logos/uci.png" alt="Uganda Cancer Institute"></a>
+      <a href="https://www.mak.ac.ug/"><img class="p-tall" src="images/logos/makerere.png" alt="Makerere University"></a>
+    </div>
+    <p class="eyebrow partners-split">Funded by</p>
+    <div class="partners p-sm">
+      <a href="https://www.cambridge-africa.cam.ac.uk/"><img src="images/logos/cambridge-africa.svg" alt="Cambridge-Africa"></a>
+      <img src="images/logos/alborada.jpg" alt="The Alborada Trust">
+      <a href="https://www.cancerresearchuk.org/"><img src="images/logos/cruk.png" alt="Cancer Research UK"></a>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <h2>Introduction to R<br>for Biologists</h2>
+        <p>Cancer Biology Summer School 2026<br>Monday 14 &ndash; Friday 18 September 2026<br>Uganda Cancer Institute, Kampala</p>
+      </div>
+      <div>
+        <h3>Sessions</h3>
+        <ul>
+          <li><a href="session1.html">1 &middot; Data types and structures</a></li>
+          <li><a href="session2.html">2 &middot; Other data structures</a></li>
+          <li><a href="session3.html">3 &middot; Working with data</a></li>
+          <li><a href="session4.html">4 &middot; Visualizing data</a></li>
+          <li><a href="session5.html">5 &middot; Data manipulation</a></li>
+          <li><a href="session6.html">6 &middot; Grouping and combining</a></li>
+          <li><a href="session7.html">7 &middot; Restructuring data</a></li>
+          <li><a href="session8.html">8 &middot; R Markdown</a></li>
+          <li><a href="Brief_Recap.html">Brief recap of sessions 1 &amp; 2</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>The Summer School</h3>
+        <ul>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/">Summer School home</a></li>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/programme.html">Programme</a></li>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/prepare.html">Set up R and Positron</a></li>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/people.html">Instructors</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Going further</h3>
+        <ul>
+          <li><a href="https://r4ds.hadley.nz/">R for Data Science</a></li>
+          <li><a href="https://ggplot2-book.org/">ggplot2: Elegant Graphics</a></li>
+          <li><a href="https://posit.co/resources/cheatsheets/">Posit cheatsheets</a></li>
+          <li><a href="https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro">This course on GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>Taught by the Bioinformatics Core, Cancer Research UK Cambridge Institute. Materials released under the <a href="LICENSE">MIT licence</a>.</span>
+      <span>A collaboration between the CRUK Cambridge Institute, the Uganda Cancer Institute and Makerere University.</span>
+    </div>
+  </div>
+</footer>
+<script>
+/* rmarkdown places after_body content INSIDE .main-container / .toc-content,
+   which would trap the footer in the nine-column content well beside the TOC.
+   Lift both blocks to <body> so they span the page. Without JS the footer
+   still renders, just narrower. */
+(function () {
+  function lift() {
+    ['.footer-logos', '.site-footer'].forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (el && el.parentNode !== document.body) document.body.appendChild(el);
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', lift);
+  } else {
+    lift();
+  }
+})();
+</script>
 
 
 </div>

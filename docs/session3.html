@@ -37,6 +37,11 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+<meta name="description" content="Introduction to R for Biologists — the R course taught at the Cambridge–Makerere Summer School 2026, Uganda Cancer Institute, Kampala, 14–18 September 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Progress-SemiBold.woff2" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -63,6 +68,7 @@ if (window.hljs) {
 
 
 
+<link rel="stylesheet" href="assets/css/site.css" type="text/css" />
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
 
@@ -317,10 +323,13 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html"><img style="width: 120px; float: left; margin-top: 0px; margin-right: 20px;" src="images/Cambridge_Institute-light-background-digital_only.png" />R for Biologists</a>
+      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="index.html">
     <span class="fa fa-home"></span>
@@ -328,10 +337,48 @@ div.tocify {
     Home
   </a>
 </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/bioinformatics-core-shared-training/Bitesize-R">
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sessions
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="session1.html">1 &amp;middot; Data types and structures</a>
+    </li>
+    <li>
+      <a href="session2.html">2 &amp;middot; Other data structures</a>
+    </li>
+    <li>
+      <a href="session3.html">3 &amp;middot; Working with data in R</a>
+    </li>
+    <li>
+      <a href="session4.html">4 &amp;middot; Visualizing data with ggplot2</a>
+    </li>
+    <li>
+      <a href="session5.html">5 &amp;middot; Data manipulation with dplyr</a>
+    </li>
+    <li>
+      <a href="session6.html">6 &amp;middot; Grouping and combining data</a>
+    </li>
+    <li>
+      <a href="session7.html">7 &amp;middot; Restructuring data for analysis</a>
+    </li>
+    <li>
+      <a href="session8.html">8 &amp;middot; R Markdown</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="Brief_Recap.html">Brief recap of sessions 1 &amp;amp; 2</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/">Summer School</a>
+</li>
+<li>
+  <a href="https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -417,13 +464,13 @@ tibbles and for working with tibble objects.</p>
 that make up the tidyverse. It is usually more convenient to load the
 core tidyverse packages in one go as follows.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ────────────────────────────────────────────────────── tidyverse 2.0.0 ──
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.2.1     ✔ readr     2.2.0
 ## ✔ forcats   1.0.1     ✔ stringr   1.6.0
 ## ✔ ggplot2   4.0.3     ✔ tibble    3.3.1
 ## ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
 ## ✔ purrr     1.2.2     
-## ── Conflicts ──────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
@@ -552,7 +599,7 @@ values are separated by tab characters so we’ll use the
 <strong><code>read_tsv()</code></strong> to read these data.</p>
 <pre class="r"><code>metabric &lt;- read_tsv(&quot;data/brca_metabric_clinical_data.tsv&quot;)</code></pre>
 <pre><code>## Rows: 2509 Columns: 20
-## ── Column specification ──────────────────────────────────────────────────────────────────────────────────────
+## ── Column specification ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;\t&quot;
 ## chr (14): Patient ID, Sample ID, Cancer Type, Cancer Type Detailed, 3-Gene c...
 ## dbl  (6): Mutation Count, Age at Diagnosis, Cohort, Lymph nodes examined pos...
@@ -1504,6 +1551,87 @@ typeof(starwars$height)</code></pre>
 </div>
 </div>
 
+<div class="footer-logos">
+  <div class="shell">
+    <p class="eyebrow" style="text-align:center">Organised by</p>
+    <div class="partners">
+      <a href="https://www.cruk.cam.ac.uk/"><img src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"></a>
+      <a href="https://www.uci.or.ug/"><img src="images/logos/uci.png" alt="Uganda Cancer Institute"></a>
+      <a href="https://www.mak.ac.ug/"><img class="p-tall" src="images/logos/makerere.png" alt="Makerere University"></a>
+    </div>
+    <p class="eyebrow partners-split">Funded by</p>
+    <div class="partners p-sm">
+      <a href="https://www.cambridge-africa.cam.ac.uk/"><img src="images/logos/cambridge-africa.svg" alt="Cambridge-Africa"></a>
+      <img src="images/logos/alborada.jpg" alt="The Alborada Trust">
+      <a href="https://www.cancerresearchuk.org/"><img src="images/logos/cruk.png" alt="Cancer Research UK"></a>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <h2>Introduction to R<br>for Biologists</h2>
+        <p>Cancer Biology Summer School 2026<br>Monday 14 &ndash; Friday 18 September 2026<br>Uganda Cancer Institute, Kampala</p>
+      </div>
+      <div>
+        <h3>Sessions</h3>
+        <ul>
+          <li><a href="session1.html">1 &middot; Data types and structures</a></li>
+          <li><a href="session2.html">2 &middot; Other data structures</a></li>
+          <li><a href="session3.html">3 &middot; Working with data</a></li>
+          <li><a href="session4.html">4 &middot; Visualizing data</a></li>
+          <li><a href="session5.html">5 &middot; Data manipulation</a></li>
+          <li><a href="session6.html">6 &middot; Grouping and combining</a></li>
+          <li><a href="session7.html">7 &middot; Restructuring data</a></li>
+          <li><a href="session8.html">8 &middot; R Markdown</a></li>
+          <li><a href="Brief_Recap.html">Brief recap of sessions 1 &amp; 2</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>The Summer School</h3>
+        <ul>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/">Summer School home</a></li>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/programme.html">Programme</a></li>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/prepare.html">Set up R and Positron</a></li>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/people.html">Instructors</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Going further</h3>
+        <ul>
+          <li><a href="https://r4ds.hadley.nz/">R for Data Science</a></li>
+          <li><a href="https://ggplot2-book.org/">ggplot2: Elegant Graphics</a></li>
+          <li><a href="https://posit.co/resources/cheatsheets/">Posit cheatsheets</a></li>
+          <li><a href="https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro">This course on GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>Taught by the Bioinformatics Core, Cancer Research UK Cambridge Institute. Materials released under the <a href="LICENSE">MIT licence</a>.</span>
+      <span>A collaboration between the CRUK Cambridge Institute, the Uganda Cancer Institute and Makerere University.</span>
+    </div>
+  </div>
+</footer>
+<script>
+/* rmarkdown places after_body content INSIDE .main-container / .toc-content,
+   which would trap the footer in the nine-column content well beside the TOC.
+   Lift both blocks to <body> so they span the page. Without JS the footer
+   still renders, just narrower. */
+(function () {
+  function lift() {
+    ['.footer-logos', '.site-footer'].forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (el && el.parentNode !== document.body) document.body.appendChild(el);
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', lift);
+  } else {
+    lift();
+  }
+})();
+</script>
 
 
 </div>

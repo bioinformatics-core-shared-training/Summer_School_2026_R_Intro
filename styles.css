@@ -1,62 +1,239 @@
-h1 {
-  font-size: 24px;
+/* ==========================================================================
+   Introduction to R for Biologists — content styles
+
+   The design tokens, header, footer and landing-page components live in
+   assets/css/site.css, which loads first. This file styles the things that
+   are specific to THIS course's teaching content: code, the learning
+   objectives panel, exercise blocks, R Markdown demo blocks, tables and
+   tabsets.
+
+   Reminder from site.css: never put a border-top, padding-top or background
+   on an in-page heading — rmarkdown injects a runtime anchor-scroll offset
+   that makes the heading's top edge sit ~75px above the text.
+   ========================================================================== */
+
+/* ==========================================================================
+   CODE
+   Input chunks render as <pre class="r">, knitted output as a bare <pre>.
+   highlight.js adds the hljs-* classes at runtime.
+
+   Deliberately light rather than the Summer School's white-on-indigo pre:
+   eight sessions of dense R is a lot of reading, and the syntax colours
+   need a pale ground to stay legible. The brand comes through in the indigo
+   left rule, the retuned token palette, and inline code.
+   ========================================================================== */
+pre{
+  background:#fbfbfe;
+  border:1px solid var(--rule);
+  border-left:3px solid var(--indigo);
+  border-radius:0 4px 4px 0;
+  padding:.9rem 1.1rem;
+  font-family:var(--mono);
+  font-size:.86rem;
+  line-height:1.55;
+  color:var(--ink);
+  overflow-x:auto;
+  margin:0 0 1.2em;
 }
-h1.title {
-  font-size: 28px;
-}
-h2 {
-  font-size: 20px;
-}
-h3 {
-  font-size: 18px;
-}
-h4 {
-  font-size: 16px;
-}
-h5 {
-  font-size: 14px;
-}
-h6 {
-  font-size: 12px;
-}
-img {
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-blockquote  {
-    background: #efefef;
-    border-left: 5px solid #ddd;
-}
-blockquote p,ul,ol {
-    font-size: .9em;
-}
-.rmdblock {
-  padding: 0.5em 0.25em 0.25em 0.5em;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  background: #cce6ff;
-}
-.renderedblock {
-  padding: 0.5em 0.25em 0.25em 0.5em;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border-style: solid;
-  border-color: #BBBBBB;
-  border-width: 1px;
-  background: #fafbfb;
-}
-.exercise {
-  padding: 0.5em 0.5em 0.5em 0.75em;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border-left: 5px solid #5cb85c;
-  background: #eef8ee;
-}
-.exercise summary {
-  cursor: pointer;
-  font-weight: 600;
+pre code{padding:0;background:transparent;color:inherit;font-size:inherit}
+
+/* Knitted output reads as a result, not as something to type. */
+pre:not([class]){
+  background:var(--paper);
+  border-left-color:var(--slate);
+  color:var(--muted);
 }
 
+:not(pre) > code{
+  font-family:var(--mono);
+  font-size:.88em;
+  background:var(--mist);
+  padding:.13em .38em;
+  border-radius:3px;
+  color:var(--indigo);
+}
 
+/* Syntax palette, retuned off the brand. Overrides
+   site_libs/highlightjs-9.12.0/default.css (#900, #d14, #099, #998, #990073),
+   which loads before this file. */
+.hljs-keyword{color:var(--indigo);font-weight:600}
+.hljs-string{color:#a1005c}
+.hljs-number,.hljs-literal{color:#00648f}
+.hljs-comment{color:#5d6480;font-style:italic}
+.hljs-title,.hljs-function .hljs-title{color:var(--indigo-deep)}
+.hljs-attr,.hljs-attribute{color:var(--magenta-safe)}
 
+/* ==========================================================================
+   LEARNING OBJECTIVES
+   Every session opens with a blockquote holding an h4. Becomes the Summer
+   School's .note callout.
+   ========================================================================== */
+blockquote{
+  background:var(--mist);
+  border:0;
+  border-left:5px solid var(--cyan);
+  border-radius:0 4px 4px 0;
+  padding:1.15rem 1.4rem;
+  margin:0 0 1.75em;
+  font-size:1rem;
+}
+blockquote h1,blockquote h2,blockquote h3,blockquote h4,blockquote h5{
+  font-family:var(--mono);
+  font-size:.72rem;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  color:var(--indigo);
+  margin:0 0 .8rem;
+  border:0;
+  padding:0;
+}
+/* Scoped, unlike the old `blockquote p,ul,ol` which shrank every list on
+   the site. */
+blockquote p,blockquote ul,blockquote ol{font-size:.95rem;color:var(--muted)}
+blockquote li{margin-bottom:.3rem}
+blockquote > :last-child{margin-bottom:0}
+
+/* ==========================================================================
+   EXERCISES
+   :::exercise fenced divs, ~40 of them across sessions 1–7, each wrapping a
+   <details><summary>Answer</summary>. Magenta is the brand's action colour,
+   replacing the Bootstrap-green this used to carry.
+   ========================================================================== */
+.exercise{
+  background:var(--paper);
+  border:1px solid var(--rule);
+  border-left:5px solid var(--magenta);
+  border-radius:0 4px 4px 0;
+  padding:1.15rem 1.4rem;
+  margin:1.75em 0;
+}
+.exercise > :last-child{margin-bottom:0}
+
+/* The exercise's own heading, where one is written, as an eyebrow. */
+.exercise > h1,.exercise > h2,.exercise > h3,.exercise > h4,.exercise > h5{
+  font-family:var(--mono);
+  font-size:.72rem;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  color:var(--magenta-safe);
+  margin:0 0 .8rem;
+  border:0;
+  padding:0;
+}
+
+.exercise details{
+  border-top:1px solid var(--rule);
+  margin-top:1rem;
+  padding-top:.9rem;
+}
+.exercise summary{
+  cursor:pointer;
+  font-family:var(--body);
+  font-weight:600;
+  font-size:.92rem;
+  color:var(--magenta-safe);
+  list-style-position:outside;
+}
+.exercise summary:hover{color:var(--indigo)}
+.exercise details[open] summary{margin-bottom:.9rem}
+.exercise details > :last-child{margin-bottom:0}
+
+/* ==========================================================================
+   R MARKDOWN DEMONSTRATION BLOCKS (session 8)
+   .renderedblock shows knitted output, so it stays quiet. .rmdblock is the
+   source counterpart — currently unused in the content, kept available.
+   ========================================================================== */
+.renderedblock{
+  background:var(--paper);
+  border:1px solid var(--rule);
+  border-radius:4px;
+  padding:1rem 1.2rem;
+  margin:1.5em 0;
+}
+.renderedblock > :last-child{margin-bottom:0}
+
+.rmdblock{
+  background:var(--mist);
+  border:1px solid var(--slate);
+  border-radius:4px;
+  padding:1rem 1.2rem;
+  margin:1.5em 0;
+}
+.rmdblock > :last-child{margin-bottom:0}
+
+/* ==========================================================================
+   TABLES
+   Scoped to the content column, and excluding DataTables output so
+   interactive tables keep their own styling.
+   ========================================================================== */
+.section table:not(.dataTable){
+  border-collapse:collapse;
+  width:auto;
+  max-width:100%;
+  margin:0 0 1.5em;
+  font-size:.92rem;
+}
+.section table:not(.dataTable) th{
+  font-family:var(--mono);
+  font-size:.7rem;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--muted);
+  text-align:left;
+  border:0;
+  border-bottom:2px solid var(--ink);
+  padding:.5rem .8rem;
+  vertical-align:bottom;
+}
+.section table:not(.dataTable) td{
+  border:0;
+  border-top:1px solid var(--rule);
+  padding:.5rem .8rem;
+  vertical-align:top;
+}
+.section table:not(.dataTable) tr:last-child td{border-bottom:1px solid var(--rule)}
+
+/* ==========================================================================
+   TABSETS
+   The three {.tabset} blocks, retinted to the Summer School's tab treatment.
+   ========================================================================== */
+.nav-tabs{border-bottom:2px solid var(--ink)}
+.nav-tabs > li{margin-bottom:-2px}
+.nav-tabs > li > a{
+  font-family:var(--body);font-size:.9rem;font-weight:600;
+  color:var(--muted);
+  background:transparent;
+  border:2px solid transparent;
+  border-bottom:0;
+  border-radius:4px 4px 0 0;
+  padding:.7rem 1.15rem;
+  margin-right:.4rem;
+}
+.nav-tabs > li > a:hover{background:var(--mist);border-color:transparent;color:var(--ink)}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus{
+  background:var(--indigo);
+  color:#fff;
+  border-color:var(--indigo);
+  border-bottom:0;
+}
+.tab-content{padding-top:1.5rem}
+
+/* ==========================================================================
+   CONTENT IMAGES
+   Diagrams and screenshots. Kept as blocks with breathing room, as before.
+   ========================================================================== */
+.section img,
+#content img{
+  display:block;
+  margin-top:1rem;
+  margin-bottom:1.25rem;
+  max-width:100%;
+  height:auto;
+}
+/* Logos and brand marks lay themselves out; exempt them. */
+.navbar-brand img,.partners img{margin:0}

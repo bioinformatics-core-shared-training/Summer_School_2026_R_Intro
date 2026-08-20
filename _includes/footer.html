@@ -1,0 +1,81 @@
+<div class="footer-logos">
+  <div class="shell">
+    <p class="eyebrow" style="text-align:center">Organised by</p>
+    <div class="partners">
+      <a href="https://www.cruk.cam.ac.uk/"><img src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"></a>
+      <a href="https://www.uci.or.ug/"><img src="images/logos/uci.png" alt="Uganda Cancer Institute"></a>
+      <a href="https://www.mak.ac.ug/"><img class="p-tall" src="images/logos/makerere.png" alt="Makerere University"></a>
+    </div>
+    <p class="eyebrow partners-split">Funded by</p>
+    <div class="partners p-sm">
+      <a href="https://www.cambridge-africa.cam.ac.uk/"><img src="images/logos/cambridge-africa.svg" alt="Cambridge-Africa"></a>
+      <img src="images/logos/alborada.jpg" alt="The Alborada Trust">
+      <a href="https://www.cancerresearchuk.org/"><img src="images/logos/cruk.png" alt="Cancer Research UK"></a>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <h2>Introduction to R<br>for Biologists</h2>
+        <p>Cancer Biology Summer School 2026<br>Monday 14 &ndash; Friday 18 September 2026<br>Uganda Cancer Institute, Kampala</p>
+      </div>
+      <div>
+        <h3>Sessions</h3>
+        <ul>
+          <li><a href="session1.html">1 &middot; Data types and structures</a></li>
+          <li><a href="session2.html">2 &middot; Other data structures</a></li>
+          <li><a href="session3.html">3 &middot; Working with data</a></li>
+          <li><a href="session4.html">4 &middot; Visualizing data</a></li>
+          <li><a href="session5.html">5 &middot; Data manipulation</a></li>
+          <li><a href="session6.html">6 &middot; Grouping and combining</a></li>
+          <li><a href="session7.html">7 &middot; Restructuring data</a></li>
+          <li><a href="session8.html">8 &middot; R Markdown</a></li>
+          <li><a href="Brief_Recap.html">Brief recap of sessions 1 &amp; 2</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>The Summer School</h3>
+        <ul>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/">Summer School home</a></li>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/programme.html">Programme</a></li>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/prepare.html">Set up R and Positron</a></li>
+          <li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/people.html">Instructors</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Going further</h3>
+        <ul>
+          <li><a href="https://r4ds.hadley.nz/">R for Data Science</a></li>
+          <li><a href="https://ggplot2-book.org/">ggplot2: Elegant Graphics</a></li>
+          <li><a href="https://posit.co/resources/cheatsheets/">Posit cheatsheets</a></li>
+          <li><a href="https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro">This course on GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>Taught by the Bioinformatics Core, Cancer Research UK Cambridge Institute. Materials released under the <a href="LICENSE">MIT licence</a>.</span>
+      <span>A collaboration between the CRUK Cambridge Institute, the Uganda Cancer Institute and Makerere University.</span>
+    </div>
+  </div>
+</footer>
+<script>
+/* rmarkdown places after_body content INSIDE .main-container / .toc-content,
+   which would trap the footer in the nine-column content well beside the TOC.
+   Lift both blocks to <body> so they span the page. Without JS the footer
+   still renders, just narrower. */
+(function () {
+  function lift() {
+    ['.footer-logos', '.site-footer'].forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (el && el.parentNode !== document.body) document.body.appendChild(el);
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', lift);
+  } else {
+    lift();
+  }
+})();
+</script>

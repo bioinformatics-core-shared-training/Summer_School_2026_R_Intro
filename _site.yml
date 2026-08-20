@@ -1,18 +1,43 @@
-name: "Bitesize-R"
+name: "Summer_School_2026_R_Intro"
 navbar:
-  title: "<img style=\"width: 120px; float: left; margin-top: 0px; margin-right: 20px;\" src=\"images/Cambridge_Institute-light-background-digital_only.png\" />R for Biologists"
-  left:
+  title: '<img class="brand-logo" src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span>'
+  right:
     - text: "Home"
       icon: fa-home
       href: index.html
-  right:
+    - text: "Sessions"
+      menu:
+        - text: "1 &middot; Data types and structures"
+          href: session1.html
+        - text: "2 &middot; Other data structures"
+          href: session2.html
+        - text: "3 &middot; Working with data in R"
+          href: session3.html
+        - text: "4 &middot; Visualizing data with ggplot2"
+          href: session4.html
+        - text: "5 &middot; Data manipulation with dplyr"
+          href: session5.html
+        - text: "6 &middot; Grouping and combining data"
+          href: session6.html
+        - text: "7 &middot; Restructuring data for analysis"
+          href: session7.html
+        - text: "8 &middot; R Markdown"
+          href: session8.html
+        - text: "---------"
+        - text: "Brief recap of sessions 1 &amp; 2"
+          href: Brief_Recap.html
+    - text: "Summer School"
+      href: https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/
     - icon: fa-github fa-lg
-      href: https://github.com/bioinformatics-core-shared-training/Bitesize-R
+      href: https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro
 output_dir: "docs"
+include: [".nojekyll"]
 output:
   html_document:
     theme: default
-    css: 'styles.css'
+    css: ['assets/css/site.css', 'styles.css']
     toc: TRUE
     toc_float: TRUE
-
+    includes:
+      in_header: _includes/head.html
+      after_body: _includes/footer.html

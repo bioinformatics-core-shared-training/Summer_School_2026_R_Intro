@@ -9,8 +9,7 @@ title: "Session 2 -- Introduction to other data structures"
 > * To demonstrate the R markdown
 
 
-## Factors
-
+# Factors
 R has a special vector class for dealing with categorical data - the *factor*.
 Categorical data might be something such as sex - "Male", "Female" - or tumour
 stage - "Stage1", "Stage2", "Stage3", etc. Critically, the possible entries, or
@@ -23,8 +22,7 @@ While factors look and behave like character vectors, they are actually stored
 by R as an integer vector, so it is important to be careful with them when
 treating them as strings or transforming them to other data types.
 
-### Creating a factor
-
+## Creating a factor
 To create a factor we simply use the function `factor` to turn a standard
 character vector into a factor.
 
@@ -37,8 +35,7 @@ class(x)
 class(fruit)
 ```
 
-### Factors store the categories as "levels" 
-
+## Factors store the categories as "levels" 
 Once created, factors can only contain a pre-defined set values, known as
 levels. To examine what levels a particular factor has we can use the 
 command `levels`:
@@ -57,8 +54,7 @@ fruit[2] <- "banana"
 fruit
 ```
 
-### The values of the factors are actually stored as integers
-
+## The values of the factors are actually stored as integers
 R is actually storing these factors as integers (1, 2, 3, 4 ...). When the factor
 is printed to the console for our benefit, the integers are replaced with the
 corresponding level label. In this way factors also represent a data storage
@@ -74,8 +70,7 @@ response
 as.numeric(response)
 ```
 
-### We can change the order of the levels
-
+## We can change the order of the levels
 For plotting or statistical analysis the order of the levels matters. In 
 plotting the data pertaining to the different levels will be plotted in
 the order of the levels. In statistical analyses, such as linear modelling, 
@@ -91,8 +86,7 @@ response <- factor(x, levels = c("low", "medium", "high"))
 response
 ```
 
-### Converting factors to plain vector types
-
+## Converting factors to plain vector types
 We can convert factors back to plain vector types - character, integer etc - 
 using the "as" family of functions. `as.character` will return the original
 category values. `as.numeric` will return a vector of the level index for each
@@ -126,8 +120,7 @@ age <- 2023 - dob
 age
 ```
 
-## Beyond the atomic vector - matrices, data.frames and lists
-
+# Beyond the atomic vector - matrices, data.frames and lists
 ![Image source:http://venus.ifca.unican.es/Rintro/dataStruct.html](./images/dataStructures.png)
 
 
@@ -138,8 +131,7 @@ R has many data structures. These include:
 - [ ] data frame
 - [ ] list
 
-### Matrices 
-
+## Matrices 
 In R matrices are tables of values with the same data type. They are an
 extension of the atomic vector.
 
@@ -215,8 +207,7 @@ y
 typeof(y)
 ```
 
-### Lists
-
+## Lists
 R’s simplest structure that combines data of different types is a list. Lists
 are very flexible data structures that can hold anything.  A list is simply a
 collection of multiple objects. The objects in the list can be of different
@@ -310,8 +301,7 @@ result$statistic
 result$p.value
 ```
 
-### Data frames
-
+## Data frames
 The most commonly used data structure is the `data.frame`. This can be thought
 of as a table of values. Unlike a matrix each column can have a different data
 class, but each value in that column must be of the same data class.  Although
@@ -438,8 +428,7 @@ We will start working with tidyverse in the next session.
 summary(iris)
 ```
 
-## Exercises
-
+# Exercises
 :::exercise
 
 1. Using `mtcars` dataset answer the following.
