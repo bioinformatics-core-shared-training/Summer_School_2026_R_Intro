@@ -6,7 +6,7 @@ title: "Session 7 -- Restructuring data for analysis"
 >
 > * Understand what makes a data set 'tidy' and why you'd want your data to be structured this way
 > * Use `pivot_longer()` and `pivot_wider()` operations to restructure data frames
-> * Tease apart columns containing multiple variables using `separate()`
+> * Tease apart columns containing multiple variables using `separate_wider_delim()`
 > * Modify character variables using string manipulation functions from the stringr package
 > * Customize non-data components of plots created using ggplot2 by changing the theme
 
@@ -337,12 +337,12 @@ table3_separated <- separate_wider_delim(table3,
 table3_separated
 ```
 
-In addition to `separate_wider_delim()`, the tidyr package provides a two 
+In addition to `separate_wider_delim()`, the tidyr package provides two
 other functions for splitting columns:
 
 * `separate_wider_regex()` - for splitting columns based on a regular expression
-* `separate_wider_fixed()` - for splitting columns based on a fixed number of
-                             characters
+* `separate_wider_position()` - for splitting columns based on a fixed number of
+                               characters
 
 ---
 
@@ -510,12 +510,10 @@ protein_levels <- pivot_longer(protein_levels,
 protein_levels
 ```
 
-Now we can use `separate()` to disentangle the components of the sample name.
+Now we can use `separate_wider_delim()` to disentangle the components of the
+sample name.
 
-It looks like we need to split on the '.' character but that has a special
-meaning in a regular expression, i.e. match _any_ character. Fortunately,
-the default regular expression used by `separate()` splits on any character
-that isn't a letter or a number, so will do just fine.
+We need to split on the '.' character. 
 
 But there is another problem. The vehicle sample names don't follow the
 pattern of "treatment.time.replicate". In actual fact the vehicle measurements
