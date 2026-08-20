@@ -1,0 +1,965 @@
+---
+title: "Session 6 -- Grouping and combining data"
+---
+
+> #### Learning objectives
+>
+> * Use `group_by()` with `summarise()` to compute summary values for groups of
+>   observations
+> * Use `count()` to count the numbers of observations within categories
+> * Combine data from two tables based on a common identifier (`join`
+>   operations)
+> * Customize plots created using ggplot2 by changing labels, scales and
+>   colours
+
+
+
+# Grouping and combining data
+
+In this session, we'll look at some more useful functions provided by the
+**dplyr** package, the 'workhorse' in the tidyverse family for manipulating
+tabular data. Continuing from the last session, we'll see how we can summarise
+data for groups of observations within different categories. We'll also show
+how dplyr allows us to combine data for the same observational unit, e.g.
+person or date, that comes from different sources and is read into R in
+different tables.
+
+We'll also look at how to customize the plots we create using **ggplot2**, in
+particular how we can add or change titles and labels, how we can adjust the
+way the axes are displayed and how we can use a colour scheme of our choosing.
+
+**dplyr** and **ggplot2** are core component packages within the tidyverse and
+both get loaded as part of the tidyverse.
+
+```{r}
+library(tidyverse)
+```
+
+To demonstrate how these grouping and combining functions work and to illustrate
+customization of plots, we'll again use the METABRIC data set.
+
+```{r message = FALSE}
+metabric <- read_csv("data/metabric_clinical_and_expression_data.csv")
+metabric
+```
+
+# Grouping observations
+
+## Summaries for groups
+
+In the previous session we introduced the `summarise()` function for computing
+a summary value for one or more variables from all rows in a table (data frame
+or tibble). For example, we computed the mean expression of ESR1, the estrogen
+receptor alpha gene, as follows.
+
+```{r}
+summarise(metabric, mean(ESR1))
+```
+
+While the `summarise()` function is useful on its own, it becomes really
+powerful when applied to groups of observations within a dataset. For example,
+we might be more interested in the mean ESR1 expression calculated separately
+for ER positive and ER negative tumours. We could take each group in turn,
+filter the data frame to contain only the rows for a given ER status, then apply
+the `summarise()` function to compute the mean expression, but that would be
+somewhat cumbersome. Even more so if we chose to do this for a categorical
+variable with more than two states, e.g. for each of the integrative clusters.
+Fortunately, the **`group_by()`** function and **.by** argument to summarise
+allow this to be done in one simple step.
+
+```{r}
+metabric %>%
+    group_by(ER_status) %>%
+    summarise(mean(ESR1))
+```
+
+or
+
+```{r}
+metabric %>%
+    summarise(mean(ESR1), .by = ER_status)
+```
+
+The following schematic contains another example using a simplified subset of
+the METABRIC tumour samples to show what's going on.
+
+![](images/group_and_summarise.png)
+
+
+We get an additional column in our output for the categorical variable,
+`ER_status`, and a row for each category.
+
+When we group by only one column there is no difference between the two methods.
+
+Incidentally, we should expect this result of ER-positive tumours having a
+higher expression of ESR1 on average than ER-negative tumours. Simple summaries
+like this are a good way of checking that what we think we know actually holds
+true in the data we're looking at. Note that the expression values are on a
+log~2~scale so ER-positive breast cancers express ESR1 at a level that is
+approximately 20 times greater, on average, than that of ER-negative tumours.
+
+```{r}
+2 ^ (10.6 - 6.21)  # equivalent to (2 ^ 10.6) / (2 ^ 6.21)
+```
+
+We can group by more than one column. When we do this there are some
+differences by between using **group_by** or **.by**.
+
+Let's say we want to look at ERBB2 expression in ER positive and negative, but
+further divided by the cancer type.
+
+```{r}
+metabric %>%
+    group_by(ER_status, Cancer_type) %>%
+    summarise(mean(ERBB2))
+```
+
+You can see that the tibble is still grouped by "ER\_status", this means any
+subsequent operations will be carried out within the groupings based on
+"ER\_status". Perhaps, after summarising, we want to find which group has the
+maximum mean ERBB2 expression. We can use the dplyr function **top_n** to get
+the top result.
+
+```{r}
+metabric %>%
+    group_by(ER_status, Cancer_type) %>%
+    summarise(ERBB2_mean = mean(ERBB2)) %>%
+    top_n(n = 1)
+```
+
+This gives us the top value for ER positive and ER negative groups respectively.
+
+If we don't want the grouping to continue to be applied we need to use
+**ungroup()**.
+
+```{r}
+metabric %>%
+    group_by(ER_status, Cancer_type) %>%
+    summarise(ERBB2_mean = mean(ERBB2)) %>%
+    ungroup() %>%
+    top_n(n = 1)
+```
+
+If instead we use **.by** to do the grouping, you will see that the grouping is
+dropped after the summarise operation.
+
+```{r}
+metabric %>%
+    summarise(ERBB2_mean = mean(ERBB2), .by = c(ER_status, Cancer_type))
+```
+
+You should also notice, that the tibble returned by **group_by** was sorted
+by our grouping columns, the tibble returned when using **.by** is not
+sorted. In general, using **.by** is simpler as you don't have to worry about
+doing the **ungroup()** afterwards.
+
+Note: The **.by** and an equivalent **by** (no dot) are available in other
+dplyr verbs, such as `mutate()` and `filter()`, but not all, such as `top_n()`.
+
+As we saw in the previous session, we can summarize multiple observations, e.g.
+the mean expression for other genes of interest, with `summarise(across())`,
+this time using the PAM50 classification to define the groups.
+
+```{r}
+metabric %>%
+    summarise(across(c(ESR1, PGR, ERBB2), mean), .by = PAM50)
+```
+
+We can also refine our groups by using more than one categorical variable. Let's
+subdivide the PAM50 groups by HER2 status to illustrate this.
+
+```{r}
+metabric %>%
+    summarise(across(c(ESR1, PGR, ERBB2), mean), .by = c(PAM50, HER2_status))
+```
+
+It can be quite useful to know how many observations are within each group. We
+can use a special function, **`n()`**, that counts the number of rows rather
+than computing a summary value from one of the columns.
+
+```{r}
+metabric %>%
+    summarise(N = n(), ESR1_mean = mean(ESR1), .by = c(PAM50, HER2_status))
+```
+
+## Counts
+
+Counting observations within groups is such a common operation that dplyr
+provides a **`count()`** function to do just that. So we could count the number
+of patient samples in each of the PAM50 classes as follows.
+
+```{r}
+count(metabric, PAM50)
+```
+
+This is much like the `table()` function we've used several times already to
+take a quick look at what values are contained in one of the columns in a data
+frame. They return different data structures however, with `count()` always
+returning a data frame (or tibble) that can then be passed to subsequent steps
+in a 'piped' workflow.
+
+If we wanted to subdivide our categories by HER2 status, we can add this as an
+additional categorical variable just as we did with the previous `group_by()`
+examples.
+
+```{r}
+count(metabric, PAM50, HER2_status)
+```
+
+The count column is named 'n' by default but you can change this.
+
+```{r}
+count(metabric, PAM50, HER2_status, name = "Samples")
+```
+
+`count()` is equivalent to grouping observations calling `summarize()` using
+the special `n()` function to count the number of rows. So the above statement
+could have been written in a more long-winded way as follows.
+
+```{r eval = FALSE}
+metabric %>%
+    summarize(Samples = n(), .by = c(PAM50, HER2_status))
+```
+
+Summarizing with `n()` is useful when showing the number of observations in a
+group alongside a summary value, as we did earlier looking at the mean ESR1
+expression within specified groups; it allows you to see if you're drawing
+conclusions from only a few data points.
+
+## Missing values
+
+Many summarization functions return `NA` if any of the values are missing, i.e.
+the column contains `NA` values. As an example, we'll compute the average size
+of ER-negative and ER-positive tumours.
+
+```{r}
+metabric %>%
+    summarize(N = n(),
+              `Average tumour size` = mean(Tumour_size),
+              .by = ER_status)
+```
+
+The `mean()` function, along with many similar summarization functions, has an
+`na.rm` argument that can be set to `TRUE` to exclude those missing values from
+the calculation.
+
+```{r}
+metabric %>%
+    summarize(N = n(),
+              `Average tumour size` = mean(Tumour_size, na.rm = TRUE),
+              .by = ER_status)
+```
+
+An alternative would be to filter out the observations with missing values but
+then the number of samples in each ER status group would take on a different
+meaning, which may or may not be what we actually want.
+
+```{r}
+metabric %>%
+    filter(!is.na(Tumour_size)) %>%
+    summarize(N = n(),
+              `Average tumour size` = mean(Tumour_size),
+              .by = ER_status)
+```
+
+## Counts and proportions
+
+The `sum()` and `mean()` summarization functions are often used with logical
+values. It might seem surprising to compute a summary for a logical variable but
+but this turns out to be quite a useful thing to do, for counting the number of
+`TRUE` values or obtaining the proportion of values that are `TRUE`.
+
+Following on from the previous example we could add a column to our summary of
+average tumour size for ER-positive and ER-negative patients that contains the
+number of missing values.
+
+```{r}
+metabric %>%
+    summarize(N = n(),
+              Missing = sum(is.na(Tumour_size)),
+              `Average tumour size` = mean(Tumour_size, na.rm = TRUE),
+              .by = ER_status)
+```
+
+Why does this work? Well, the `is.na()` function takes a vector and sees which
+values are `NA`, returning a logical vector of `TRUE` where the value was `NA`
+and `FALSE` if not.
+
+```{r}
+test_vector <- c(1, 3, 2, NA, 6, 5, NA, 10)
+is.na(test_vector)
+```
+
+The `sum()` function treats the logical vector as a set of `0`s and `1`s where
+`FALSE` is `0` and `TRUE` is `1`. In effect `sum()` counts the number of `TRUE`
+values.
+
+```{r}
+sum(is.na(test_vector))
+```
+
+Similarly, `mean()` will compute the proportion of the values that are `TRUE`.
+
+```{r}
+mean(is.na(test_vector))
+```
+
+So let's calculate the number and proportion of samples that do not have a
+recorded tumour size in each of the ER-negative and ER-positive groups.
+
+```{r}
+metabric %>%
+    summarize(N = n(),
+              `Missing tumour size` = sum(is.na(Tumour_size)),
+              `Proportion missing` = mean(is.na(Tumour_size)),
+              .by = ER_status)
+```
+
+We can use `sum()` and `mean()` for any condition that returns a logical vector.
+We could, for example, find the number and proportion of patients that survived
+longer than 10 years (120 months) in each of the ER-negative and ER-positive
+groups.
+
+```{r}
+metabric %>%
+    filter(Survival_status == "DECEASED") %>%
+    summarise(N = n(),
+              N_long_survival = sum(Survival_time > 120),
+              Proportion_long_survival = mean(Survival_time > 120),
+              .by = ER_status)
+```
+
+## Selecting or counting distinct things
+
+There are occassions when we want to count the number of distinct values in a
+variable or a combination of variables. Here we introduce another set of data
+from the METABRIC study which contains details of the mutations detected by
+targeted sequencing of a panel of 173 genes. We'll read this data into R now as
+this provides a good example of having multiple observations in different rows
+for a single observational unit, in this case several mutations detected in
+each tumour sample.
+
+
+```{r message = FALSE}
+mutations <- read_csv("data/metabric_mutations.csv")
+
+select(mutations,
+       Patient_ID,
+       Chromosome,
+       Position = Start_Position,
+       Ref = Reference_Allele,
+       Alt = Tumor_Seq_Allele1,
+       Type = Variant_Type,
+       Gene)
+```
+
+We can see from just these few rows that each patient sample has multiple
+mutations and sometimes there are more than one mutation in the same gene within
+a sample, as can be seen in the first two rows at the top of the table above.
+
+If we want to count the number of patients in which mutations were detected we
+could select the distinct set of patient identifiers using the **`distinct()`**
+function and then count the number of rows left. Distinct reduces the table to
+ony contain one row for each value of the column (or combination of columns)
+provided:
+
+```{r}
+mutations %>%
+    distinct(Patient_ID) %>%
+    nrow()
+```
+
+However, if we want to count the number of mutations per a patient we can
+use the dplyr function **`count()`**:
+
+```{r}
+count(mutations, Patient_ID)
+```
+
+Similarly if wanted to count the number of mutations detected in each gene:
+
+```{r}
+count(mutations, Gene)
+```
+
+What if we want to count the number of patients in which a mutation is seen for
+each gene. First, we need to use **`distinct()`** to reduce the table to just
+one entry per gene for each patient (one patient may have multiple mutations in
+a single gene) and the use **`count()`** to count the number of times we see
+each each.
+
+```{r}
+mutations %>%
+    distinct(Patient_ID, Gene) %>%
+    count(Gene)
+```
+
+The genes that differ in these two tables are those that have more than one
+mutation within a patient tumour sample.
+
+We can also use count on combinations of columns, for example we may want to
+know how many mutations each patient has on each chromosome. To this we simply
+provide **`count()`** with both columns:
+
+```{r}
+mutations %>%
+    count(Patient_ID, Chromosome)
+```
+
+# Joining data
+
+In many real life situations, data are spread across multiple tables or
+spreadsheets. Usually this occurs because different types of information about a
+subject, e.g. a patient, are collected from different sources. It may be
+desirable for some analyses to combine data from two or more tables into a
+single data frame based on a common column, for example, an attribute that
+uniquely identifies the subject such as a patient identifier.
+
+dplyr provides a set of join functions for combining two data frames based on
+matches within specified columns. These operations are very similar to carrying
+out join operations between tables in a relational database using SQL.
+
+## `left_join`
+
+To illustrate join operations we’ll first consider the most common type, a “left
+join”. In the schematic below the two data frames share a common column, V1. We
+can combine the two data frames into a single data frame by matching rows in the
+first data frame with those in the second data frame that share the same value
+of variable V1.
+
+![dplyr left join](images/dplyr_left_join.png)
+
+`left_join()` returns all rows from the first data frame regardless of whether
+there is a match in the second data frame. Rows with no match are included in
+the resulting data frame but have `NA` values in the additional columns coming
+from the second data frame.
+
+Here’s an example in which details about members of the Beatles and Rolling
+Stones are contained in two tables, using data frames conveniently provided by
+dplyr (we'll look at a real example shortly).
+
+The name column identifies each of the band members and is used for matching
+rows from the two tables.
+
+```{r}
+band_members
+band_instruments
+left_join(band_members, band_instruments, by = "name")
+```
+
+We have joined the band members and instruments tables based on the common
+`name` column. Because this is a left join, only observations for band members
+in the 'left' table (`band_members`) are included with information brought in
+from the 'right' table (`band_instruments`) where such exists. There is no entry
+in `band_instruments` for Mick so an `NA` value is inserted into the `plays`
+column that gets added in the combined data frame. Keith is only included in
+the `band_instruments` data frame so doesn't make it into the final output as
+this is based on those band members in the 'left' table.
+
+`right_join()` is similar but returns all rows from the second data frame, i.e.
+the 'right' data frame, that have a match with rows in the first data frame.
+
+```{r}
+right_join(band_members, band_instruments, by = "name")
+```
+
+`right_join()` is used very infrequently compared with `left_join()`.
+
+## `inner_join`
+
+Another joining operation is the "inner join" in which only observations that
+are common to both data frames are included.
+
+![dplyr inner join](images/dplyr_inner_join.png)
+
+```{r}
+inner_join(band_members, band_instruments, by = "name")
+```
+
+In this case when considering observations identified by `name`, only John and
+Paul are contained in both the `band_members` and `band_instruments` tables, so
+only these make it into the combined table.
+
+## `full_join`
+
+We've seen how missing rows from one table can be retained in the joined data
+frame using `left_join` or `right_join` but sometimes data for a given subject
+may be missing from either of the tables and we still want that subject to
+appear in the combined table. A `full_join` will return all rows and all columns
+from the two tables and where there are no matching values, `NA` values are used
+to fill in the missing values.
+
+![dplyr full join](images/dplyr_full_join.png)
+
+```{r}
+full_join(band_members, band_instruments, by = "name")
+```
+
+Now, with `full_join()`, we have rows for both Mick and Keith even though they
+are only in one or other of the tables being joined.
+
+## Joining on columns with different headers
+
+It isn't uncommon for the columns used for joining two tables to have different
+names in each table. Of course we could rename one of the two columns, e.g.
+using the dplyr `rename()` function, but the dplyr join functions allow you to
+match using differently-named columns as illustrated using another version of
+the `band_instruments` data frame.
+
+```{r}
+band_instruments2
+left_join(band_members, band_instruments2, by = c("name" = "artist"))
+```
+
+The name for the column used for joining is the one given in the first table,
+i.e. the 'left' table, so `name` rather than `artist` in this case.
+
+## Multiple matches in join operations
+
+You may be wondering what happens if there are multiple rows in one of both of
+the two tables for the thing that is being joined, for example what would happen
+if our second table had two entries for instruments that Paul plays.
+
+Let's add an extra intrument for Paul and see what happens when we join the two
+tables. We'll use the `bind_rows()` function to add a row to the `band_instruments`
+tibble.
+
+```{r}
+extra_instrument <- tibble(name = "Paul", plays = "guitar")
+band_instruments3 <- bind_rows(band_instruments, extra_instrument)
+band_instruments3
+left_join(band_members, band_instruments3, by = "name")
+```
+
+We get both entries from the second table added to the first table.
+
+Let's add an entry for Paul being in a second band and see what happens then
+when we combine the two tables, each with two entries for Paul.
+
+```{r}
+extra_band <- tibble(name = "Paul", band = "Wings")
+band_members3 <- bind_rows(band_members, extra_band)
+band_members3
+left_join(band_members3, band_instruments3, by = "name")
+```
+
+The resulting table includes all combinations of band and instrument for Paul.
+
+## Joining by matching on multiple columns
+
+Sometimes the observations being combined are identified by multiple columns,
+for example, a forename and a surname. We can specify a vector of column names
+to be used in the join operation.
+
+Let's add surnames and an additional band member to the `band_members` and
+`band_instruments` tables and then join the two tables based on both forename
+and surname. We'll also use `rename` to change the column name `name` to
+`forename`.
+
+```{r}
+extra_musician <- tibble(forename = "Paul",
+                         surname = "Weller",
+                         band = "The Jam")
+band_members4 <- band_members %>%
+    rename(forename = name) %>%
+    mutate(surname = c("Jagger", "Lennon", "McCartney")) %>%
+    bind_rows(extra_musician) %>%
+    select(forename, surname, band)
+
+extra_instrument <- tibble(forename = "Paul",
+                           surname = "Weller",
+                           plays = "guitar")
+band_instruments4 <- band_instruments %>%
+    rename(forename = name) %>%
+    mutate(surname = c("Lennon", "McCartney", "Richards")) %>%
+    bind_rows(extra_instrument) %>%
+    select(forename, surname, plays)
+
+band_members4
+band_instruments4
+
+full_join(band_members4, band_instruments4, by = c("forename", "surname"))
+```
+
+## Clashing column names
+
+Occasionally we may find that there are duplicated columns in the two tables we
+want to join, columns that aren't those used for joining. These variables may
+even contain different data but happen to have the same name. In such cases
+dplyr joins add a suffix to each column in the combined table.
+
+```{r}
+band_members5 <- band_members %>%
+    mutate(birth_year = c(1943, 1940, 1942))
+band_instruments5 <- band_instruments %>%
+    mutate(birth_year = c(1940, 1942, 1943))
+left_join(band_members5, band_instruments5, by = "name")
+```
+
+It is advisable to rename or remove the duplicated columns that aren't used for
+joining.
+
+## A real example: joining the METABRIC clinical and mRNA expression data
+
+Let's move on to a real example of joining data from two different tables that
+we used in putting together the combined METABRIC clinical and expression data
+set.
+
+We first read the clinical data into R and then just select a small number of
+columns to make it easier to see what is going on when combining the data.
+
+```{r message = FALSE}
+clinical_data <- read_csv("data/metabric_clinical_data.csv")
+clinical_data <- select(clinical_data, Patient_ID, ER_status, PAM50)
+clinical_data
+```
+
+We then read in the mRNA expression data that was downloaded separately from
+[cBioPortal](https://www.cbioportal.org/study/summary?id=brca_metabric).
+
+
+```{r loadmRNA, message = FALSE}
+mrna_expression_data <- read_tsv("data/metabric_mrna_expression.txt")
+mrna_expression_data
+```
+
+Now we have both sets of data loaded into R as data frames, we can combine them
+into a single data frame using an `inner_join()`. Our resulting table will only
+contain entries for the patients for which expression data are available.
+
+```{r}
+combined_data <- inner_join(clinical_data,
+                            mrna_expression_data,
+                            by = c("Patient_ID" = "SAMPLE_ID"))
+combined_data
+```
+
+Having combined the data, we can carry out exploratory data analysis using
+elements from both data sets.
+
+```{r box_plot_1}
+combined_data %>%
+    filter(!is.na(PAM50), !is.na(ESR1)) %>%
+    ggplot(mapping = aes(x = PAM50, y = ESR1, colour = PAM50)) +
+    geom_boxplot(show.legend = FALSE)
+```
+
+
+
+# Customizing plots with ggplot2
+
+Finally, we'll turn our attention back to visualization using ggplot2 and how
+we can customize our plots by adding or changing titles and labels, changing the
+scales used on the x and y axes, and choosing colours.
+
+## Titles and labels
+
+Adding titles and subtitles to a plot and changing the x- and y-axis labels is
+very straightforward using the `labs()` function.
+
+```{r scatter_plot_1}
+ggplot(metabric, mapping = aes(x = GATA3, y = ESR1, colour = ER_status)) +
+    geom_point(size = 0.6, alpha = 0.5) +
+    geom_smooth(method = "lm") +
+    labs(title = "mRNA expression in the METABRIC breast cancer data set",
+         subtitle = "Expression measured with Illumina bead arrays",
+         x = "log2 GATA3 expression",
+         y = "log2 ESR1 expression",
+         colour = "ER status")
+```
+
+The labels are another component of the plot object that we've constructed,
+along with aesthetic mappings and layers (geoms). The plot object is a list and
+contains various elements including those mappings and layers and one element
+named `labels`.
+
+`labs()` is a simple function for creating a list of labels you want to specify
+as name-value pairs as in the above example. You can name any aesthetic (in this
+case x and y) to override the default values (the column names) and you can add a
+title, subtitle and caption if you wish. In addition to changing the x- and
+y-axis labels, we also removed the underscore from the legend title by setting
+the label for the colour aesthetic.
+
+## Scales
+
+Take a look at the x and y scales in the above plot. ggplot2 has chosen the x
+and y scales and where to put breaks and ticks.
+
+The x and y variables (`GATA3` and `ESR1`) are continuous so ggplot2 adds a
+continuous scale for each. `ER_status` is a discrete variable in this case so
+ggplot2 adds a discrete scale for colour.
+
+In addition to *geom_XXXX* layers for different geometries, we can also add use
+scale layers to modify the scales to our liking. The general format for the
+scale names is:
+
+```
+scale_<NAME_OF_AESTHETIC>_<NAME_OF_SCALE>
+```
+
+Look at the help page for `scale_y_continuous` to see what we can change about
+the y-axis scale.
+
+First we'll change the breaks, i.e. where ggplot2 puts ticks and numeric
+labels, on the y axis.
+
+```{r scatter_plot_2}
+ggplot(data = metabric,
+       mapping = aes(x = GATA3, y = ESR1, colour = ER_status)) +
+    geom_point(size = 0.6, alpha = 0.5) +
+    geom_smooth(method = "lm") +
+    scale_y_continuous(breaks = seq(5, 15, by = 2.5))
+```
+
+`seq()` is a useful function for generating regular sequences of numbers. In
+this case we wanted numbers from 5 to 15 going up in steps of 2.5.
+
+```{r}
+seq(5, 15, by = 2.5)
+```
+
+We could do the same thing for the x axis using `scale_x_continuous()`.
+
+We can also adjust the extents of the x or y axis.
+
+```{r scatter_plot_3}
+ggplot(data = metabric,
+       mapping = aes(x = GATA3, y = ESR1, colour = ER_status)) +
+    geom_point(size = 0.6, alpha = 0.5) +
+    geom_smooth(method = "lm") +
+    scale_y_continuous(breaks = seq(5, 15, by = 2.5), limits = c(4, 12))
+```
+
+Here, just for demonstration purposes, we set the upper limit to be less than
+the largest values of ESR1 expression and ggplot2 warned us that some rows have
+been removed from the plot.
+
+Another way to alter the way the plot looks is to define a **`theme()`**. The
+theme controls the way in which non-data components are displayed. You can
+specifiy your own themes, e.g. to remove the grid lines you would do:
+
+```{r scatter_plot_7a}
+ggplot(data = metabric,
+       mapping = aes(x = GATA3, y = ESR1, colour = ER_status)) +
+    geom_point(size = 0.6, alpha = 0.5) +
+    theme(panel.grid = element_blank())
+```
+
+We wont cover themes in any more detail in this course, but you can use them to control pretty much any aspect of the plot. On the other hand, there are also
+a number of predefined themes (and more available in packages such as
+*ggtheme*). For example the "minimal" theme:
+
+```{r scatter_plot_7}
+ggplot(data = metabric,
+       mapping = aes(x = GATA3, y = ESR1, colour = ER_status)) +
+    geom_point(size = 0.6, alpha = 0.5) +
+    theme_minimal()
+```
+
+## Colours
+
+The colour asthetic is used with a categorical variable, `ER_status`, in the
+scatter plots we've been customizing. The default colour scale used by ggplot2
+for categorical variables is `scale_colour_discrete`. We can manually set the
+colours we wish to use using `scale_colour_manual` instead.
+
+```{r scatter_plot_10}
+ggplot(data = metabric,
+       mapping = aes(x = GATA3, y = ESR1, colour = ER_status)) +
+    geom_point(size = 0.6, alpha = 0.5) +
+    geom_smooth(method = "lm") +
+    scale_colour_manual(values = c("dodgerblue2", "firebrick2"))
+```
+
+If we wanted to specifiy that "dodgerblue2" should be the colour for "Positive" and "firebrick2" for negative, we need to add names to the values vector:
+
+```{r scatter_plot_10a}
+ggplot(data = metabric,
+       mapping = aes(x = GATA3, y = ESR1, colour = ER_status)) +
+    geom_point(size = 0.6, alpha = 0.5) +
+    geom_smooth(method = "lm") +
+    scale_colour_manual(values = c(Positive = "dodgerblue2",
+                                   Negative = "firebrick2"))
+```
+
+Setting colours manually is ok when we only have two or three categories but
+when we have a larger number it would be handy to be able to choose from a
+selection of carefully-constructed colour palettes. Helpfully, ggplot2 provides
+access to the [ColorBrewer](http://colorbrewer2.org) palettes through the
+functions `scale_colour_brewer()` and `scale_fill_brewer()`.
+
+```{r scatter_plot_11}
+ggplot(data = metabric,
+       mapping = aes(x = GATA3, y = ESR1, colour = `3-gene_classifier`)) +
+    geom_point(size = 0.6, alpha = 0.5, na.rm = TRUE) +
+    scale_colour_brewer(palette = "Set1")
+```
+
+Look at the help page for `scale_colour_brewer` to see what other colour
+palettes are available and visit the [ColorBrewer](http://colorbrewer2.org)
+website to see what these look like.
+
+We can also set other attributes of the scale at the same time. For example,
+we could change the names (labels) of the categories.
+
+```{r scatter_plot_12}
+ggplot(data = metabric,
+       mapping = aes(x = GATA3, y = ESR1, colour = ER_status)) +
+    geom_point(size = 0.6, alpha = 0.5) +
+    geom_smooth(method = "lm") +
+    scale_colour_manual(values = c(Positive = "dodgerblue2",
+                                   Negative = "firebrick2"),
+                        labels = c("ER-negative", "ER-positive"))
+```
+
+We have applied our own set of mappings from levels in the data to aesthetic
+values.
+
+For continuous variables we may wish to be able to change the colours used in the
+colour gradient. To demonstrate we'll use the Nottingham prognostic index
+(NPI) values to colour points in the scatter plot of ESR1 vs GATA3
+expression on a continuous scale.
+
+```{r scatter_plot_123}
+ggplot(data = metabric,
+       mapping = aes(x = GATA3,
+                     y = ESR1,
+                     colour = Nottingham_prognostic_index)) +
+    geom_point(size = 0.6, alpha = 0.5)
+```
+
+ggplot2 by default uses this black to blue continuours scale.  Higher NPI
+scores correspond to worse prognosis and lower chance of 5 year survival. We'll
+emphasize those points on the scatter plot by adjusting our colour scale to run
+from white to red.
+
+```{r scatter_plot_14}
+metabric %>%
+    ggplot(mapping = aes(x = GATA3,
+                         y = ESR1,
+                         colour = Nottingham_prognostic_index)) +
+    geom_point(size = 0.75) +
+    scale_colour_gradient(low = "white", high = "red")
+```
+
+In some cases it might make sense to specify two colour gradients either side
+of a mid-point.
+
+```{r scatter_plot_15}
+metabric %>%
+    ggplot(mapping = aes(x = GATA3,
+                         y = ESR1,
+                         colour = Nottingham_prognostic_index)) +
+    geom_point(size = 0.75) +
+    scale_colour_gradient2(low = "dodgerblue1",
+                           mid = "grey90",
+                           high = "firebrick1",
+                           midpoint = 4.5)
+```
+
+# Summary
+
+In this session we have covered the following:
+
+* Computing summary values for groups of observations
+* Counting the numbers of observations within categories
+* Combining data from two tables through join operations
+* Customizing plots created with ggplot2 by changing labels, scales and colours
+
+
+
+# Exercises
+
+:::exercise
+1. Compute the average survival time for the ER-negative and ER-positive groups.
+Note that such a comparison only makes sense for those patients that are
+deceased so apply the appropriate filter first. Add a column for the number of
+patients in each group. You can use "metabric_clinical_data.csv" file.
+
+<details><summary>Answer</summary>
+```{r ex_1, purl=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+metabric <- read_csv("data/metabric_clinical_data.csv")
+metabric %>%
+    filter(Survival_status == "DECEASED") %>%
+    group_by(ER_status) %>%
+    summarize(`Average survival time` = mean(Survival_time), N = n())
+```
+</details>
+
+:::
+
+
+:::exercise
+2. Compute the average tumour size, number of positive lymph nodes and
+Nottingham prognostic index within ER-negative and ER-positive patients.
+
+<details><summary>Answer</summary>
+```{r ex_2, purl=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+metabric <- read_csv("data/metabric_clinical_data.csv")
+metabric %>%
+    group_by(ER_status) %>%
+    summarize(across(c(Tumour_size,
+                       Lymph_nodes_examined_positive,
+                       Nottingham_prognostic_index),
+                     mean, na.rm = TRUE))
+```
+</details>
+
+:::
+
+
+
+:::exercise
+3. Count the numbers of mutations for each gene and display the top 10 most
+frequently mutated genes using metabric_mutations.csv data.
+
+<details><summary>Answer</summary>
+```{r ex_3, purl=FALSE, message=FALSE, warning=FALSE}
+mutations <- read_csv("data/metabric_mutations.csv")
+mutations %>%
+    count(Gene) %>%
+    arrange(desc(n)) %>%
+    head(10)
+```
+</details>
+
+:::
+
+
+
+:::exercise
+4. In breast cancers, PIK3CA and TP53 are the most commonly mutated genes with
+mutations occurring in specific regions of the gene. Find out which codons of
+PIK3CA are most commonly mutated.
+
+<details><summary>Answer</summary>
+```{r ex_4, purl=FALSE, message=FALSE, warning=FALSE}
+mutations %>%
+    filter(Gene == "PIK3CA") %>%
+    count(Codon) %>%
+    arrange(desc(n))
+```
+</details>
+:::
+
+
+:::exercise
+5. Use boxplots to illustrate the distribution of diagnosis age for 3-gene
+classification groups of patients. Remove any patients who are unclassified. The
+boxplots should be colored according to the group.
+
+<details><summary>Answer</summary>
+```{r}
+metabric %>%
+    filter(!is.na(`3-gene_classifier`)) %>%
+    ggplot(mapping = aes(x = `3-gene_classifier`,
+                         y = Age_at_diagnosis,
+                         colour = `3-gene_classifier`)) +
+    geom_boxplot() +
+    scale_colour_discrete(name = "3 gene classifier")
+```
+</details>
+:::
+

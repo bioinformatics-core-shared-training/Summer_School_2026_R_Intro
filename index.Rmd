@@ -1,0 +1,61 @@
+---
+title: "Introduction to R for Biologists"
+---
+
+This site contains the materials for an introductory R course run at Cambridge
+Makerere Summer School 2025.
+
+29th September - 3rd October 2025
+
+# Description
+
+**R** is one of the leading programming languages in **Data Science** and the
+most widely used within CRUK CI for interacting with, analyzing and visualizing
+cancer biology data sets.
+
+In this training course, we aim to provide a friendly introduction to R pitched
+at a beginners level.
+
+We will focus on manipulating tabular data and visualising data.
+We will be using a suite of packages known as the "tidyverse" to do this, in
+particular the *dplyr* and *ggplot2* packages.
+
+We will be using the [RStudio](https://posit.co/download/rstudio-desktop/)
+graphical user interface to make working with R more user friendly.
+
+# Sessions
+
+1. [Introduction to R](session1.html) - An introduction to RStudio, R objects,
+   data types, functions and vectors
+2. [Introduction to R](session2.html) - An introduction to other data structures
+3. [Working with data](session3.html) -  Working with tabular data in R 
+4. [Data visualization with ggplot2](session4.html) - A common grammar to
+   create scatter plots, bar charts, boxplots, histograms and line graphs for
+   time series data
+5. [Data manipulation using dplyr](session5.html) - Filtering and modifying
+   tabular data, computing summary values, faceting with ggplot2
+6. [Grouping and combining data](session6.html) - Advanced grouping and
+   summarization operations, joining data from different tables, customizing
+   ggplot2 plots
+7. [Restructuring data for analysis](session7.html) - The concept of 'tidy
+   data', pivoting and separating operations, ggplot2 extras
+8. [R Markdown](session8.html) - Creating reproducible reports with R
+   Markdown
+
+# Additional resources
+
+* The ["R for Data Science"](https://r4ds.hadley.nz/) online book provides a
+  more in-depth look at the tidyverse, covering the concepts introduced and
+  more advanced techniques such as programming with function and iteration
+  across vectors or lists
+* The ["ggplot2: Elegant Graphics for Data
+  Analysis"](https://ggplot2-book.org/) book provides a more in-depth look at
+  ggplot book, covering the concepts introduced in this course and more advanced
+  plotting and customistation
+* A number of very handy cheatsheets for a variety for R packages, including the
+  tidyverse packages, can be found on the [RStudio
+  website](https://posit.co/resources/cheatsheets/). As you are beginning to
+  learn how to use these pacakges it is well worth printing these out and
+  having to hand.
+ 
+

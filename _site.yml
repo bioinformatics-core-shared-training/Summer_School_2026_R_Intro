@@ -1,0 +1,18 @@
+name: "Bitesize-R"
+navbar:
+  title: "<img style=\"width: 120px; float: left; margin-top: 0px; margin-right: 20px;\" src=\"images/Cambridge_Institute-light-background-digital_only.png\" />R for Biologists"
+  left:
+    - text: "Home"
+      icon: fa-home
+      href: index.html
+  right:
+    - icon: fa-github fa-lg
+      href: https://github.com/bioinformatics-core-shared-training/Bitesize-R
+output_dir: "docs"
+output:
+  html_document:
+    theme: default
+    css: 'styles.css'
+    toc: TRUE
+    toc_float: TRUE
+
