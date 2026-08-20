@@ -382,8 +382,14 @@ body div.tocify{
   line-height:1.08;
   margin:0 0 .35em;
   border:0;padding:0;
-  text-wrap:balance;
 }
+/* The title is grouped into two phrases in the markup, each an inline-block, so
+   the line breaks after "R" rather than wherever the measure happens to run out
+   — "Introduction to R" is the subject and should not be split. They still sit
+   on one line if there is room, and each can wrap internally on a narrow
+   screen, so this is not a hard <br>. text-wrap:balance is deliberately absent:
+   it would re-even the lines and undo the grouping. */
+.hero h1 span{display:inline-block}
 .hero .eyebrow{color:var(--cyan)}
 .hero-dates{
   font-family:var(--display);font-weight:500;
