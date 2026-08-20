@@ -817,7 +817,7 @@ ggplot(data = metabric,
 Setting colours manually is ok when we only have two or three categories but
 when we have a larger number it would be handy to be able to choose from a
 selection of carefully-constructed colour palettes. Helpfully, ggplot2 provides
-access to the [ColorBrewer](http://colorbrewer2.org) palettes through the
+access to the [ColorBrewer](https://colorbrewer2.org) palettes through the
 functions `scale_colour_brewer()` and `scale_fill_brewer()`.
 
 ```{r scatter_plot_11}
@@ -828,7 +828,7 @@ ggplot(data = metabric,
 ```
 
 Look at the help page for `scale_colour_brewer` to see what other colour
-palettes are available and visit the [ColorBrewer](http://colorbrewer2.org)
+palettes are available and visit the [ColorBrewer](https://colorbrewer2.org)
 website to see what these look like.
 
 We can also set other attributes of the scale at the same time. For example,

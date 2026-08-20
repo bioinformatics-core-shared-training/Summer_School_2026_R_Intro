@@ -330,7 +330,7 @@ integers, characters, logic, complexes, or raw data.
 
 When we attempt to mix different data types in a single vector, R automatically
 converts the data types, this phenomenon is called
-[Coercion](https://www.zigya.com/blog/what-is-coercion-in-r/)
+[Coercion](https://adv-r.hadley.nz/vectors-chap.html#testing-and-coercion)
 
 ```{r}
 x <- c(1, 2, 3, 4)
