@@ -1,8 +1,5 @@
 ---
-title: "Session 8 - R Markdown" 
-output:
-  html_document:
-    css: "style.css"
+title: "Session 8 - R Markdown"
 ---
 
 > #### Learning objectives
@@ -575,7 +572,7 @@ metabric |>
 
 This will be rendered as:
 
-```{blocktype = "renderedblock"}         
+```{block type = "renderedblock"}
 metabric |>
     group_by(ER_status, Cancer_type) |>
     summarise(ERBB2_mean = mean(ERBB2)) |>
