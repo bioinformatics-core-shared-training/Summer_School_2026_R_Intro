@@ -290,6 +290,29 @@ body div.toc-content{padding-left:clamp(1.5rem,3vw,2.75rem);padding-right:0}
   body div.toc-content{padding-left:0}
 }
 
+/* --- three fixes for the floating TOC's behaviour at the foot of the page ---
+
+   1. tocify ships `extendPage: true` and rmarkdown never overrides it. Once you
+      scroll within 100px of the bottom it appends a div.tocify-extend-page whose
+      height is |lastHeadingOffset - scrollTop| — several thousand pixels on
+      pages this long — so the footer is shoved far down and a huge blank gap
+      opens above it. The spacer exists only so a click on the last TOC entry can
+      bring that heading to the top of the viewport; that is not worth the gap.
+      Hiding it costs nothing and removes the height it contributed.
+
+   2. tocify makes the rail position:fixed with z-index:auto, so it paints in the
+      positioned layer *above* the in-flow footer and appears to sit on top of it
+      as the footer scrolls up. Lifting the footer to z-index 1 puts it over the
+      rail — still well below the navbar's 1030, so the navbar keeps covering
+      both.
+
+   3. rmarkdown's runtime script sets body{padding-bottom:40px}, which was
+      reasonable when the document just ended, but now paints a 40px white strip
+      under the indigo footer. It is injected last, hence !important. */
+.tocify-extend-page{display:none !important}
+.footer-logos,.site-footer{position:relative;z-index:1}
+body{padding-bottom:0 !important}
+
 /* ==========================================================================
    PAGE BANNER
    #header sits inside .toc-content, so this is column-width rather than

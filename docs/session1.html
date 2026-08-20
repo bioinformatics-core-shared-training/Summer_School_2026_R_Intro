@@ -1369,7 +1369,7 @@ Answer
 <pre class="r"><code>six_sided_die &lt;- 1:6
 rolls &lt;- sample(six_sided_die, size = 1000, replace = TRUE)
 sum(rolls == 6)</code></pre>
-<pre><code>## [1] 164</code></pre>
+<pre><code>## [1] 162</code></pre>
 <p>Challenge 7b: What number would you expect?</p>
 <pre class="r"><code>1000 / 6</code></pre>
 <pre><code>## [1] 166.6667</code></pre>
@@ -1381,7 +1381,7 @@ number_of_rolls / 6</code></pre>
 <pre><code>## [1] 16666.67</code></pre>
 <pre class="r"><code>rolls &lt;- sample(six_sided_die, size = number_of_rolls, replace = TRUE)
 sum(rolls == 6)</code></pre>
-<pre><code>## [1] 16761</code></pre>
+<pre><code>## [1] 16624</code></pre>
 <p>The proportion of sixes gets closer to the expected value as the
 number of rolls increases.</p>
 </details>
@@ -1419,7 +1419,7 @@ rolls &lt;- sample(1:6,
                 replace = TRUE,
                 prob = c(rep(prob_other, 5), prob_six))
 sum(rolls == 6)</code></pre>
-<pre><code>## [1] 9845</code></pre>
+<pre><code>## [1] 10011</code></pre>
 </details>
 </div>
 <div id="credit" class="section level4">
