@@ -812,3 +812,106 @@ metabric %>%
 ```
 </details>
 
+---
+
+**3. Convert the expression values for each of the genes into standardized
+z-scores**
+
+Some genes are generally expressed at higher levels than others. This can make
+comparisons of changes between groups for a set of genes somewhat difficult,
+particularly if the expression values for those genes are on very different
+scales. The expression values in our METABRIC data set are on a log~2~ scale
+which helps to reduce the range of values, but another way of representing
+expression measurements is to standardize them to produce z-scores.
+
+Standardization of a set of measurements involves subtracting the mean from
+each and dividing by the standard deviation. This produces values with a mean
+of 0 and a standard deviation of 1.
+
+Create a modified version of the `metabric` data frame containing a new column
+with the standardized expression values (z-scores) for the ESR1 gene.
+
+<details><summary>Answer</summary>
+```{r}
+metabric_z_scores <- mutate(metabric,
+                            ESR1_z_score = (ESR1 - mean(ESR1)) / sd(ESR1))
+```
+</details>
+
+Check that you've done this correctly by calculating the mean and standard
+deviation of your new z-score variable.
+
+<details><summary>Answer</summary>
+```{r}
+summarise(metabric_z_scores,
+          mean = mean(ESR1_z_score),
+          sd = sd(ESR1_z_score))
+```
+</details>
+
+Add another column containing a z-score for GATA3 and then create a scatter
+plot of the z-scores of GATA3 against ESR1. Modify your plot to facet by the
+PAM50 classification.
+
+<details><summary>Answer</summary>
+```{r}
+metabric_z_scores <- mutate(metabric_z_scores,
+                            GATA3_z_score = (GATA3 - mean(GATA3)) / sd(GATA3))
+
+ggplot(data = metabric_z_scores) +
+    geom_point(mapping = aes(x = GATA3_z_score, y = ESR1_z_score)) +
+    facet_wrap(vars(PAM50))
+```
+</details>
+
+**Extension**
+
+Standardize the expression values for all 8 genes in a single operation using
+an anonymous function, overwriting their original values, and round the
+resulting values to 3 significant figures.
+
+<details><summary>Answer</summary>
+```{r}
+metabric_z_scores <- metabric %>%
+    mutate(across(ESR1:MLPH, ~ (.x - mean(.x)) / sd(.x))) %>%
+    mutate(across(ESR1:MLPH, ~ signif(.x, digits = 3)))
+
+metabric_z_scores %>%
+    select(Patient_ID, ESR1:MLPH)
+```
+</details>
+
+Check you have done this correctly by computing the mean and standard deviation
+for each column, again using a single operation.
+
+<details><summary>Answer</summary>
+```{r}
+metabric_z_scores %>%
+    summarise(across(ESR1:PGR, list(mean = mean, sd = sd)))
+```
+</details>
+
+---
+
+**4. Which Star Wars characters need to go on a diet?**
+
+The `starwars` data set provided by dplyr contains height (in cm) and mass (in
+kg) for each character. Compute the body mass index (BMI) for each character
+and display the 10 characters with the highest BMI, showing their name, height,
+mass and BMI.
+
+BMI is calculated as mass in kilograms divided by the square of the height in
+metres.
+
+<details><summary>Answer</summary>
+```{r}
+starwars %>%
+    mutate(BMI = mass / (height / 100) ^ 2) %>%
+    select(name, height, mass, BMI) %>%
+    arrange(desc(BMI)) %>%
+    head(10)
+```
+
+Jabba the Hutt is, unsurprisingly, something of an outlier.
+</details>
+

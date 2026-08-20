@@ -766,7 +766,7 @@ cleanedHeights <- heights[!missingValues]
 cleanedHeights
 ```
 
-# Challenges
+# Exercises
 
 :::exercise
 1. You have been given a list of tumour volumes from 5 patients, 2.1, 1.9, 2.6,
@@ -916,8 +916,92 @@ Challenge 6b:Extract all the months from April to December
 month.name[april:length(month.name)]
 ```
 
+</details>
+:::
 
+:::exercise
+7. Use the `sample()` function to simulate the rolling of a 6-sided die.
+
+   If you look at the help page for `sample` you'll find there are two functions
+   with the same name, one in the `base` package and the other in the `dplyr`
+   package. The `sample` function in the `base` package is the one you need for
+   this exercise.
+
+    a. Count the number of sixes you get for 1000 rolls.
+    b. What number would you expect to get? Calculate this in R.
+    c. Re-run the simulation a few times by clicking on the green 'Run current
+    chunk' button. What do you notice?
+    d. Re-run the simulation with a much larger sample size. Check that the
+    number of sixes you obtain is much closer to the expected value.
+
+<details><summary>Answer</summary>
+
+Challenge 7a: Count the number of sixes in 1000 rolls.
+
+```{r}
+six_sided_die <- 1:6
+rolls <- sample(six_sided_die, size = 1000, replace = TRUE)
+sum(rolls == 6)
 ```
+
+Challenge 7b: What number would you expect?
+
+```{r}
+1000 / 6
+```
+
+Challenge 7c: Re-running the simulation gives a different number of sixes each
+time, because each run draws a new random sample.
+
+Challenge 7d: Re-running with a larger sample size.
+
+```{r}
+number_of_rolls <- 100000
+number_of_rolls / 6
+rolls <- sample(six_sided_die, size = number_of_rolls, replace = TRUE)
+sum(rolls == 6)
+```
+
+The proportion of sixes gets closer to the expected value as the number of
+rolls increases.
+
+</details>
+:::
+
+:::exercise
+8. Simulate the rolling of a weighted six-sided die.
+
+   Imagine we're running a casino and we have some weighted dice in which the
+   probability of throwing a six is a bit lower than it should be if all is fair
+   and square. Let's say the probability of throwing a six is 0.1 while the
+   other 5 numbers all have equal probability.
+
+   Calculate the probability of throwing each of the other numbers and then,
+   referring again to the help page for `sample()`, re-run the simulation using
+   these probabilities. See how many sixes you get.
+
+   *Hint:* use the `rep()` function to save some typing.
+
+<details><summary>Answer</summary>
+
+```{r}
+prob_six <- 0.1
+prob_not_six <- 1.0 - prob_six
+prob_other <- prob_not_six / 5
+
+number_of_rolls <- 100000
+
+# the number of sixes we would expect with the weighted die
+number_of_rolls * prob_six
+
+# rep() saves us writing out prob_other five times
+rolls <- sample(1:6,
+                size = number_of_rolls,
+                replace = TRUE,
+                prob = c(rep(prob_other, 5), prob_six))
+sum(rolls == 6)
+```
+
 </details>
 :::
 

@@ -963,3 +963,150 @@ metabric %>%
 </details>
 :::
 
+
+:::exercise
+6. Compare the prevalence of TP53 mutations across the Integrative Cluster
+breast cancer subtypes.
+
+Figure 5a from the METABRIC 2016 paper compares the percentage of samples that
+have non-silent mutations for various genes within each of the Integrative
+Clusters. In this exercise we'll reproduce a version of one of those bar charts
+for the TP53 gene.
+
+We need a bit of setup first. The METABRIC cohort contains 2509 patients but not
+all tumour samples were sequenced, so we read the case list of sequenced samples
+and add a column indicating this. We also convert `Integrative_cluster` into a
+factor so that the clusters appear in the correct order rather than
+alphabetically.
+
+```{r message=FALSE, warning=FALSE}
+metabric <- read_csv("data/metabric_clinical_data.csv")
+mutations <- read_csv("data/metabric_mutations.csv")
+
+metabric <- metabric %>%
+    mutate(Integrative_cluster = factor(Integrative_cluster,
+                                        levels = c("1", "2", "3", "4ER-",
+                                                   "4ER+", "5", "6", "7",
+                                                   "8", "9", "10")))
+
+cases_sequenced <- read_tsv("data/cases_nat_comm_2016.txt",
+                            col_names = "Patient_ID")
+metabric <- metabric %>%
+    mutate(Sequenced = Patient_ID %in% cases_sequenced$Patient_ID)
+count(metabric, Sequenced)
+```
+
+    a. Create a data frame containing the number of non-silent TP53 mutations in
+    each patient sample, with two columns, `Patient_ID` and
+    `TP53_mutation_count`. Join this to the `metabric` data frame.
+    b. Create a new column `Has_TP53_mutation` containing `TRUE` or `FALSE`.
+    *Hint: use the `is.na()` function.*
+    c. Compute the percentage of patient samples within each Integrative Cluster
+    that have a TP53 mutation, excluding samples that were not sequenced and
+    those not classified into one of the clusters.
+    d. Plot these percentages as a bar chart using `geom_col()`. Look at the help
+    pages for `geom_bar` and `geom_col` to see why we want the latter here. Then
+    add a title, tidy up the axis labels, show the full 0-100% range with breaks
+    every 20%, remove the gap between the bars and the axis, apply the Viridis
+    colour scheme (`scale_fill_viridis_d`), and use `theme_bw()` with the
+    vertical grid lines removed.
+
+<details><summary>Answer</summary>
+
+Exercise 6a: count the non-silent TP53 mutations per patient and join them on.
+
+```{r}
+tp53_mutation_counts <- mutations %>%
+    filter(Gene == "TP53", Variant_Classification != "Silent") %>%
+    count(Patient_ID, name = "TP53_mutation_count")
+
+metabric <- left_join(metabric, tp53_mutation_counts, by = "Patient_ID")
+```
+
+Exercise 6b: patients with no entry in the count column have no non-silent TP53
+mutation.
+
+```{r}
+metabric <- metabric %>%
+    mutate(Has_TP53_mutation = !is.na(TP53_mutation_count))
+```
+
+Exercise 6c: taking the mean of a logical variable gives the proportion that are
+`TRUE`.
+
+```{r}
+tp53_percentages <- metabric %>%
+    filter(Sequenced) %>%
+    filter(!is.na(Integrative_cluster)) %>%
+    summarise(Percentage_TP53_mutation = 100 * mean(Has_TP53_mutation),
+              .by = Integrative_cluster)
+tp53_percentages
+```
+
+Exercise 6d: the basic bar chart.
+
+```{r}
+ggplot(data = tp53_percentages) +
+    geom_col(mapping = aes(x = Integrative_cluster,
+                           y = Percentage_TP53_mutation))
+```
+
+And with the customizations applied.
+
+```{r}
+ggplot(data = tp53_percentages) +
+    geom_col(mapping = aes(x = Integrative_cluster,
+                           y = Percentage_TP53_mutation,
+                           fill = Integrative_cluster),
+             show.legend = FALSE) +
+    labs(title = "Prevalence of TP53 mutations across Integrative Clusters",
+         x = "Integrative Cluster",
+         y = "% samples") +
+    scale_y_continuous(breaks = c(0, 20, 40, 60, 80, 100),
+                       expand = expansion(mult = 0),
+                       limits = c(0, 100)) +
+    scale_fill_viridis_d() +
+    theme_bw() +
+    theme(panel.grid.major.x = element_blank())
+```
+
+Compare this with figure 5a from the METABRIC mutation paper. Do the bars look
+to be in roughly the correct proportions? Note that only 9 of the integrative
+clusters are shown in figure 5a.
+
+</details>
+:::
+
+
+:::exercise
+7. Compute the tumour suppressor gene (TSG) score for each gene.
+
+The TSG score is the proportion of inactivating mutations for each gene out of
+the total number of mutations for that gene. Inactivating mutations are nonsense
+SNVs, frameshift substitutions and variants that affect splice sites.
+
+Compute the TSG score for each gene and find the top 10 tumour suppressor genes,
+i.e. those with the highest TSG scores.
+
+*Hint: use `%in%` to determine whether a mutation is an inactivating mutation.*
+
+<details><summary>Answer</summary>
+```{r}
+inactivating_mutation_types <- c("Nonsense_Mutation",
+                                 "Frame_Shift_Del",
+                                 "Frame_Shift_Ins",
+                                 "Splice_Region",
+                                 "Splice_Site")
+
+tsg_scores <- mutations %>%
+    mutate(Inactivating =
+               Variant_Classification %in% inactivating_mutation_types) %>%
+    summarise(TSG_score = mean(Inactivating), .by = Gene)
+
+tsg_scores %>%
+    arrange(desc(TSG_score)) %>%
+    head(10)
+```
+</details>
+:::
+

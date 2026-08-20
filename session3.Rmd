@@ -749,4 +749,88 @@ mean(metabric$ER_status == "Negative")
 </details>
 :::
 
+:::exercise
+
+3. Print out a subset of the `starwars` tibble containing just the characters
+   with blond hair and blue eyes.
+
+   `starwars` is a data set provided by dplyr, so it is available as soon as you
+   have run `library(tidyverse)`.
+
+   *Hint: use `table()` first to see how the hair and eye colours have been
+   recorded — there is more than one spelling of "blond".*
+
+<details><summary>Answer</summary>
+
+First, look at what values these two columns actually take.
+
+```{r}
+table(starwars$hair_color)
+table(starwars$eye_color)
+```
+
+Note that both "blond" and "blonde" have been used, so we need to allow for
+either.
+
+```{r}
+starwars %>%
+    filter((hair_color == "blond" | hair_color == "blonde") &
+               eye_color == "blue")
+```
+
+The `%in%` operator is a tidier way of writing the first condition.
+
+```{r}
+starwars %>%
+    filter(hair_color %in% c("blond", "blonde") & eye_color == "blue")
+```
+
+</details>
+:::
+
+:::exercise
+
+4. Convert the values for the heights of characters in the `starwars` tibble
+   from centimetres to metres.
+
+    a. What happened to the type of the `height` column?
+    b. Convert the heights back to centimetres and see if you can work out how
+    to change the column back to its original type.
+
+<details><summary>Answer</summary>
+
+The `height` column starts out as an integer.
+
+```{r}
+typeof(starwars$height)
+starwars$height <- starwars$height / 100
+starwars
+```
+
+Challenge 4a: dividing by 100 changed the type from integer to double, because
+the result of the division is not a whole number.
+
+```{r}
+typeof(starwars$height)
+```
+
+Challenge 4b: multiplying back up by 100 restores the values, but the column is
+still a double — the type does not change back on its own.
+
+```{r}
+starwars$height <- starwars$height * 100
+typeof(starwars$height)
+```
+
+We have to convert it back explicitly.
+
+```{r}
+starwars$height <- as.integer(starwars$height)
+typeof(starwars$height)
+starwars
+```
+
+</details>
+:::
+
 

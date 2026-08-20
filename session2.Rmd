@@ -566,7 +566,7 @@ results$conf.int
 5b. what is the p-value?
 
 ```{r}
-result$p.value
+results$p.value
 ```
 
 5c. What is the estimated correlation coefficient?

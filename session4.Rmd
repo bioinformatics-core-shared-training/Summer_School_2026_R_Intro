@@ -757,3 +757,131 @@ ggplot(data = metabric, mapping = aes(x = FOXA1, y = MLPH)) +
 
 </details>
 :::
+
+
+:::exercise
+5. Create box plots for the survival time of patients with different tumour
+   stages, only including deceased patients.
+
+   Then convert this into a violin plot, displaying ER negative and ER positive
+   patients separately.
+
+   *Hint: if you get a warning message and only have a single box displayed,
+   consider the type of the tumour stage variable as read into R and what kind
+   of variable is expected for the x aesthetic.*
+
+<details><summary>Answer</summary>
+
+```{r message=FALSE, warning=FALSE}
+deceased <- metabric[metabric$Survival_status == "DECEASED", ]
+```
+
+A better alternative would be to subset based on `Vital_status`, selecting only
+those patients that died of the disease rather than of an unrelated cause.
+
+```{r message=FALSE, warning=FALSE}
+deceased <- metabric[metabric$Vital_status == "Died of Disease", ]
+```
+
+`Tumour_stage` is read in as a number, so ggplot2 treats it as a continuous
+variable and draws a single box. Setting the `group` aesthetic tells it to draw
+one box per stage.
+
+```{r message=FALSE, warning=FALSE}
+ggplot(data = deceased) +
+    geom_boxplot(mapping = aes(x = Tumour_stage,
+                               y = Survival_time,
+                               group = Tumour_stage))
+```
+
+Alternatively, convert `Tumour_stage` into a factor, in which case the `group`
+aesthetic is no longer needed.
+
+```{r message=FALSE, warning=FALSE}
+deceased$Tumour_stage <- as.factor(deceased$Tumour_stage)
+
+ggplot(data = deceased) +
+    geom_boxplot(mapping = aes(x = Tumour_stage, y = Survival_time))
+```
+
+And as a violin plot, split by ER status.
+
+```{r message=FALSE, warning=FALSE}
+ggplot(data = deceased) +
+    geom_violin(mapping = aes(x = Tumour_stage,
+                              y = Survival_time,
+                              fill = ER_status))
+```
+
+</details>
+:::
+
+
+:::exercise
+6. Explore the Apple Mobility data on transport use during the coronavirus
+   lockdown using line plots.
+
+   The spreadsheet we used earlier in this session contains a second worksheet,
+   'Apple Mobility', recording transport use as measured by direction requests
+   on Apple Maps. Read this sheet into R — as before, the data are not in the
+   most convenient format, so you'll need to specify the worksheet and a few
+   other arguments.
+
+    a. Plot the 7-day rolling average against date as a line graph with separate
+    lines for each mode of transport. What is the main (and obvious) conclusion
+    to draw from this plot?
+    b. Now plot the daily percentage instead of the 7-day rolling average. What
+    do you notice about the daily fluctuations?
+    c. **Extension:** create a new column for the weekday and plot just the
+    daily percentage for walking, with separate lines for each day of the week.
+
+<details><summary>Answer</summary>
+
+```{r message=FALSE, warning=FALSE}
+apple_mobility <- read_excel("data/2020-04-26_COVID-19_Press_Conference_Data.xlsx",
+                             sheet = "Apple Mobility",
+                             col_names = c("date", "transport_type",
+                                           "percentage", "rolling_average"),
+                             skip = 4,
+                             n_max = 309)
+apple_mobility
+```
+
+Exercise 6a: the 7-day rolling average for each mode of transport.
+
+```{r message=FALSE, warning=FALSE}
+ggplot(data = apple_mobility) +
+    geom_line(mapping = aes(x = date,
+                            y = rolling_average,
+                            colour = transport_type))
+```
+
+Transport use fell dramatically for all modes of transport at the point
+lockdown began.
+
+Exercise 6b: the daily percentage.
+
+```{r message=FALSE, warning=FALSE}
+ggplot(data = apple_mobility) +
+    geom_line(mapping = aes(x = date,
+                            y = percentage,
+                            colour = transport_type))
+```
+
+The daily values show a regular saw-tooth pattern that the rolling average
+smooths out — this is the weekly cycle of weekdays versus weekends.
+
+Exercise 6c: the weekly cycle made explicit. `wday()` comes from the lubridate
+package, which is loaded as part of the tidyverse.
+
+```{r message=FALSE, warning=FALSE}
+apple_mobility$day <- wday(apple_mobility$date, label = TRUE)
+
+walking <- apple_mobility[apple_mobility$transport_type == "Walking", ]
+
+ggplot(data = walking) +
+    geom_line(mapping = aes(x = date, y = percentage, colour = day))
+```
+
+</details>
+:::
