@@ -1303,17 +1303,18 @@ sequentially recycled to multiply the longer vector’s values.</p>
 <pre><code>## [1]  6  4 12  5 18</code></pre>
 <p>Due to the fact that both vectors have the same length, values are
 sequentially added together</p>
-<pre><code>&lt;/details&gt;
-:::  
-
-:::exercise
-5. From the vector c(23, 12, 41, 65, 23, 6), can you extract those values that are equal to 23 or less than 15?
-
-&lt;details&gt;&lt;summary&gt;Answer&lt;/summary&gt;
-
-
-``` r
-vec &lt;- c(23, 12, 41, 65, 23, 6)
+</details>
+</div>
+<div class="exercise">
+<ol start="5" style="list-style-type: decimal">
+<li>From the vector c(23, 12, 41, 65, 23, 6), can you extract those
+values that are equal to 23 or less than 15?</li>
+</ol>
+<details>
+<summary>
+Answer
+</summary>
+<pre class="r"><code>vec &lt;- c(23, 12, 41, 65, 23, 6)
 vec[ vec == 23 | vec &lt; 15]</code></pre>
 <pre><code>## [1] 23 12 23  6</code></pre>
 </details>
@@ -1369,7 +1370,7 @@ Answer
 <pre class="r"><code>six_sided_die &lt;- 1:6
 rolls &lt;- sample(six_sided_die, size = 1000, replace = TRUE)
 sum(rolls == 6)</code></pre>
-<pre><code>## [1] 162</code></pre>
+<pre><code>## [1] 171</code></pre>
 <p>Challenge 7b: What number would you expect?</p>
 <pre class="r"><code>1000 / 6</code></pre>
 <pre><code>## [1] 166.6667</code></pre>
@@ -1381,7 +1382,7 @@ number_of_rolls / 6</code></pre>
 <pre><code>## [1] 16666.67</code></pre>
 <pre class="r"><code>rolls &lt;- sample(six_sided_die, size = number_of_rolls, replace = TRUE)
 sum(rolls == 6)</code></pre>
-<pre><code>## [1] 16624</code></pre>
+<pre><code>## [1] 16832</code></pre>
 <p>The proportion of sixes gets closer to the expected value as the
 number of rolls increases.</p>
 </details>
@@ -1419,7 +1420,7 @@ rolls &lt;- sample(1:6,
                 replace = TRUE,
                 prob = c(rep(prob_other, 5), prob_six))
 sum(rolls == 6)</code></pre>
-<pre><code>## [1] 10011</code></pre>
+<pre><code>## [1] 10057</code></pre>
 </details>
 </div>
 <div id="credit" class="section level4">

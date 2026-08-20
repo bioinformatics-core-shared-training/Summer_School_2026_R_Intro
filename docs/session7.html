@@ -1536,6 +1536,7 @@ downloaded from <a
 href="https://www.cbioportal.org/study/summary?id=brca_metabric">cBioPortal</a>.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <hr />
+<div class="exercise">
 <p><strong>1. Tidy the WHO tuberculosis data set</strong></p>
 <p>In this session’s materials we demonstrated the restructuring of
 different representations of a very small subset of the WHO tuberculosis
@@ -1712,7 +1713,8 @@ you don’t use any regular expression magic.</em></p>
 <p><em>Hint 2: separating two of the variables is a bit tricky because
 there is no separator character; you could modify the variable before
 separating.</em></p>
-<hr />
+</div>
+<div class="exercise">
 <p><strong>2. Recreate <code>table1</code> from your tidy version of the
 WHO tuberculosis data set</strong></p>
 <p>Recreate the first 3 columns of <code>table1</code>, containing a
@@ -1756,7 +1758,8 @@ Answer
 </details>
 <p><em>Hint: this will involve some filtering, grouping and
 summarization.</em></p>
-<hr />
+</div>
+<div class="exercise">
 <p><strong>3. Create time series plots for cases of
 tuberculosis</strong></p>
 <p>Create a time series plot showing the number of tuberculosis cases in
@@ -1802,7 +1805,7 @@ Answer
     facet_wrap(vars(country), scales = &quot;free_y&quot;)</code></pre>
 <img src="session7_files/figure-html/unnamed-chunk-39-1.png" alt="" width="672" />
 </details>
-<hr />
+</div>
 </div>
 
 <div class="footer-logos">

@@ -123,22 +123,66 @@ blockquote > :last-child{margin-bottom:0}
   padding:0;
 }
 
-.exercise details{
-  border-top:1px solid var(--rule);
-  margin-top:1rem;
-  padding-top:.9rem;
+/* --- disclosure blocks: answers and hints --------------------------------
+
+   Scoped to .section, not .exercise: sessions 5 and 7 write their <details>
+   straight into the document with no :::exercise fence around them, so 16 of
+   the 46 blocks on the site would otherwise go unstyled.
+
+   Closed, both read as the site's action colour — "click me". Open, each takes
+   a tinted panel and its own text colour: indigo for a worked answer, cyan for
+   a hint. The disclosure triangle is drawn with borders in `currentColor`, so it
+   always tracks the summary's colour and cannot drift out of step with it; the
+   native marker is hidden because its colour is not reliably stylable across
+   browsers. */
+.section details{
+  margin:1rem 0 0;
+  padding:.15rem .9rem;
+  border-left:3px solid var(--rule);
+  border-radius:0 4px 4px 0;
+  background:transparent;
+  transition:background .15s,border-color .15s;
 }
-.exercise summary{
+.section details > summary{
   cursor:pointer;
   font-family:var(--body);
   font-weight:600;
   font-size:.92rem;
   color:var(--magenta-safe);
-  list-style-position:outside;
+  padding:.45rem 0;
+  list-style:none;
 }
-.exercise summary:hover{color:var(--indigo)}
-.exercise details[open] summary{margin-bottom:.9rem}
-.exercise details > :last-child{margin-bottom:0}
+.section details > summary::-webkit-details-marker{display:none}
+.section details > summary::before{
+  content:"";
+  display:inline-block;
+  width:0;height:0;
+  border-left:6px solid currentColor;
+  border-top:4px solid transparent;
+  border-bottom:4px solid transparent;
+  margin-right:.55em;
+  vertical-align:.08em;
+  transition:transform .15s;
+}
+.section details[open] > summary::before{transform:rotate(90deg)}
+.section details > summary:hover{color:var(--indigo)}
+.section details > :last-child{margin-bottom:0}
+
+/* revealed answer */
+.section details[open]{
+  background:var(--mist);
+  border-left-color:var(--indigo);
+  padding-bottom:.8rem;
+}
+.section details[open] > summary{color:var(--indigo)}
+
+/* revealed hint — same mechanics, cyan rather than indigo */
+.section details.hint[open]{
+  background:#e8f6fe;
+  border-left-color:var(--cyan);
+}
+.section details.hint[open] > summary{color:#00648f}
+.section details.hint > summary:hover{color:#00648f}
 
 /* ==========================================================================
    R MARKDOWN DEMONSTRATION BLOCKS (session 8)
