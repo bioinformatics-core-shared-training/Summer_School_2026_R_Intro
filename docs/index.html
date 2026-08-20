@@ -1,625 +1,221 @@
-<!DOCTYPE html>
-
-<html>
-
+<!doctype html>
+<html lang="en">
 <head>
-
-<meta charset="utf-8" />
-<meta name="generator" content="pandoc" />
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-
-
-
-
-<title>Introduction to R for Biologists</title>
-
-<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
-<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
-<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<style>h1 {font-size: 34px;}
-       h1.title {font-size: 38px;}
-       h2 {font-size: 30px;}
-       h3 {font-size: 24px;}
-       h4 {font-size: 18px;}
-       h5 {font-size: 16px;}
-       h6 {font-size: 12px;}
-       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
-       pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
-<script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction to R for Biologists | Cambridge–Makerere Summer School 2026</title>
 <meta name="description" content="Introduction to R for Biologists — the R course taught at the Cambridge–Makerere Summer School 2026, Uganda Cancer Institute, Kampala, 14–18 September 2026.">
+
+<!-- Hand-written landing page: it carries no R, so it is plain HTML rather than
+     an .Rmd, and rmarkdown::render_site() copies it into docs/ untouched.
+
+     Consequence: the header and footer below are NOT generated from _site.yml
+     and _includes/footer.html the way the session pages' are. If you change the
+     navbar in _site.yml, or the footer partial, mirror the change here. -->
+
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Progress-SemiBold.woff2" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
-<style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
-
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
-
-
-
-
-
-
-<link rel="stylesheet" href="assets/css/site.css" type="text/css" />
-<link rel="stylesheet" href="styles.css" type="text/css" />
-
-
-
-<style type = "text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-img {
-  max-width:100%;
-}
-.tabbed-pane {
-  padding-top: 12px;
-}
-.html-widget {
-  margin-bottom: 20px;
-}
-button.code-folding-btn:focus {
-  outline: none;
-}
-summary {
-  display: list-item;
-}
-details > summary > p:only-child {
-  display: inline;
-}
-pre code {
-  padding: 0;
-}
-</style>
-
-
-<style type="text/css">
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  border-radius: 0 6px 6px 6px;
-}
-.dropdown-submenu:hover>.dropdown-menu {
-  display: block;
-}
-.dropdown-submenu>a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #cccccc;
-  margin-top: 5px;
-  margin-right: -10px;
-}
-.dropdown-submenu:hover>a:after {
-  border-left-color: #adb5bd;
-}
-.dropdown-submenu.pull-left {
-  float: none;
-}
-.dropdown-submenu.pull-left>.dropdown-menu {
-  left: -100%;
-  margin-left: 10px;
-  border-radius: 6px 0 6px 6px;
-}
-</style>
-
-<script type="text/javascript">
-// manage active state of menu based on current page
-$(document).ready(function () {
-  // active menu anchor
-  href = window.location.pathname
-  href = href.substr(href.lastIndexOf('/') + 1)
-  if (href === "")
-    href = "index.html";
-  var menuAnchor = $('a[href="' + href + '"]');
-
-  // mark the anchor link active (and if it's in a dropdown, also mark that active)
-  var dropdown = menuAnchor.closest('li.dropdown');
-  if (window.bootstrap) { // Bootstrap 4+
-    menuAnchor.addClass('active');
-    dropdown.find('> .dropdown-toggle').addClass('active');
-  } else { // Bootstrap 3
-    menuAnchor.parent().addClass('active');
-    dropdown.addClass('active');
-  }
-
-  // Navbar adjustments
-  var navHeight = $(".navbar").first().height() + 15;
-  var style = document.createElement('style');
-  var pt = "padding-top: " + navHeight + "px; ";
-  var mt = "margin-top: -" + navHeight + "px; ";
-  var css = "";
-  // offset scroll position for anchor links (for fixed navbar)
-  for (var i = 1; i <= 6; i++) {
-    css += ".section h" + i + "{ " + pt + mt + "}\n";
-  }
-  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
-  document.head.appendChild(style);
-});
-</script>
-
-<!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-  background-color: transparent;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
-<!-- code folding -->
-
-
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
-
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-
-
-<div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
-
-
-
-
-<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+<a class="visually-hidden" href="#main">Skip to content</a>
+  <div class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><img class="brand-logo" src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
         
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="index.html">
-    <span class="fa fa-home"></span>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active">
+    <a href="index.html">
+      <span class="fa fa-home"></span>
      
-    Home
-  </a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sessions
+      Home
+    </a>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Sessions
      
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="session1.html">1 · Data types and structures</a>
-    </li>
-    <li>
-      <a href="session2.html">2 · Other data structures</a>
-    </li>
-    <li>
-      <a href="session3.html">3 · Working with data in R</a>
-    </li>
-    <li>
-      <a href="session4.html">4 · Visualizing data with ggplot2</a>
-    </li>
-    <li>
-      <a href="session5.html">5 · Data manipulation with dplyr</a>
-    </li>
-    <li>
-      <a href="session6.html">6 · Grouping and combining data</a>
-    </li>
-    <li>
-      <a href="session7.html">7 · Restructuring data for analysis</a>
-    </li>
-    <li>
-      <a href="session8.html">8 · R Markdown</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/">Summer School</a>
-</li>
-<li>
-  <a href="https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro">
-    <span class="fa fa-github fa-lg"></span>
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" role="menu">
+      <li>
+        <a href="session1.html">1 · Data types and structures</a>
+      </li>
+      <li>
+        <a href="session2.html">2 · Other data structures</a>
+      </li>
+      <li>
+        <a href="session3.html">3 · Working with data in R</a>
+      </li>
+      <li>
+        <a href="session4.html">4 · Visualizing data with ggplot2</a>
+      </li>
+      <li>
+        <a href="session5.html">5 · Data manipulation with dplyr</a>
+      </li>
+      <li>
+        <a href="session6.html">6 · Grouping and combining data</a>
+      </li>
+      <li>
+        <a href="session7.html">7 · Restructuring data for analysis</a>
+      </li>
+      <li>
+        <a href="session8.html">8 · R Markdown</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/">Summer School</a>
+  </li>
+  <li>
+    <a href="https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro">
+      <span class="fa fa-github fa-lg"></span>
      
-  </a>
-</li>
-      </ul>
-    </div><!--/.nav-collapse -->
-  </div><!--/.container -->
-</div><!--/.navbar -->
-
-<div id="header">
-
-
-
-<h1 class="title toc-ignore">Introduction to R for Biologists</h1>
-
-</div>
-
-
-<section class="hero" id="home-hero">
+    </a>
+  </li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div><!--/.container -->
+  </div><!--/.navbar -->
+<main id="main">
+<section class="hero">
 <div class="shell">
 <div class="hero-grid">
 <div>
-<span class="eyebrow">Cambridge–Makerere Summer School · Kampala</span>
-<h1>
-Introduction to R for Biologists
-</h1>
-<p class="hero-dates">
-Monday 14 – Friday 18 September 2026
-</p>
-<p class="hero-venue">
-Uganda Cancer Institute · Makerere University
-</p>
-<p class="hero-lede">
-A friendly introduction to R, pitched at beginners — nine and a half
-hours of teaching on manipulating and visualising tabular data with the
-tidyverse, run alongside the laboratory practicals at the Uganda Cancer
-Institute.
-</p>
+<span class="eyebrow">Cambridge&ndash;Makerere Summer School &middot; Kampala</span>
+<h1>Introduction to R for Biologists</h1>
+<p class="hero-dates">Monday 14 &ndash; Friday 18 September 2026</p>
+<p class="hero-venue">Uganda Cancer Institute &middot; Makerere University</p>
+<p class="hero-lede">A friendly introduction to R, pitched at beginners
+&mdash; nine and a half hours of teaching on manipulating and visualising
+tabular data with the tidyverse, run alongside the laboratory practicals at
+the Uganda Cancer Institute.</p>
 </div>
 <div class="hero-facts-wrap">
 <ul class="hero-facts">
-<li>
-<span class="k">Teaching</span><span class="v">9½ hours across five
-timetabled sessions</span>
-</li>
-<li>
-<span class="k">Materials</span><span class="v">Eight session pages,
-worked through in order</span>
-</li>
-<li>
-<span class="k">Level</span><span class="v">Beginners — no previous
-programming experience needed</span>
-</li>
-<li>
-<span class="k">You will need</span><span class="v">A laptop with R and
-the tidyverse installed before the first session</span>
-</li>
+<li><span class="k">Teaching</span><span class="v">9&frac12; hours across five timetabled sessions</span></li>
+<li><span class="k">Materials</span><span class="v">Eight session pages, worked through in order</span></li>
+<li><span class="k">Level</span><span class="v">Beginners &mdash; no previous programming experience needed</span></li>
+<li><span class="k">You will need</span><span class="v">A laptop with R and the tidyverse installed before the first session</span></li>
 </ul>
 <div class="btn-row">
-<p><a class="btn-brand btn-primary-brand" href="session1.html">Start
-with session 1</a>
-<a class="btn-brand btn-ghost" href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/prepare.html">Set
-your laptop up first</a></p>
+<a class="btn-brand btn-primary-brand" href="session1.html">Start with session 1</a>
+<a class="btn-brand btn-ghost" href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/prepare.html">Set your laptop up first</a>
 </div>
 </div>
 </div>
 </div>
 </section>
+
 <section class="band">
 <div class="shell">
 <span class="eyebrow">The course</span>
-<h2>
-Eight sessions
-</h2>
-<p class="lede">
-The materials are split into eight pages, which do <b>not</b> map
-one-to-one onto the five timetabled sessions — so work through them in
-order and pick up wherever you left off. Each page builds on the last,
-and carries its own exercises with the answers folded away until you
-want them.
-</p>
+<h2>Eight sessions</h2>
+<p class="lede">The materials are split into eight pages, which do <b>not</b>
+map one-to-one onto the five timetabled sessions. Normally we teach this course
+across 8 sessions. We will work through the materials in order and hopefully at
+least cover the first 7 sessions. Each session carries its own exercises with
+the answers folded away until you want them. You can work through these 
+exercises in your own time.</p>
 <ul class="sessions">
-<li>
-<a class="session-card" href="session1.html"><span class="num">Session
-1</span><b>Data types and structures</b><span class="what">An
-introduction to RStudio, R objects, data types, functions and
-vectors</span></a>
-</li>
-<li>
-<a class="session-card" href="session2.html"><span class="num">Session
-2</span><b>Other data structures</b><span class="what">Matrices, lists
-and data frames, and how to get around them</span></a>
-</li>
-<li>
-<a class="session-card" href="session3.html"><span class="num">Session
-3</span><b>Working with data in R</b><span class="what">Reading,
-inspecting and writing tabular data</span></a>
-</li>
-<li>
-<a class="session-card" href="session4.html"><span class="num">Session
-4</span><b>Visualizing data with ggplot2</b><span class="what">A common
-grammar for scatter plots, bar charts, boxplots, histograms and time
-series</span></a>
-</li>
-<li>
-<a class="session-card" href="session5.html"><span class="num">Session
-5</span><b>Data manipulation with dplyr</b><span class="what">Filtering
-and modifying tabular data, computing summary values, faceting with
-ggplot2</span></a>
-</li>
-<li>
-<a class="session-card" href="session6.html"><span class="num">Session
-6</span><b>Grouping and combining data</b><span class="what">Advanced
-grouping and summarization, joining tables, customizing ggplot2
-plots</span></a>
-</li>
-<li>
-<a class="session-card" href="session7.html"><span class="num">Session
-7</span><b>Restructuring data for analysis</b><span class="what">The
-concept of ‘tidy data’, pivoting and separating operations, ggplot2
-extras</span></a>
-</li>
-<li>
-<a class="session-card" href="session8.html"><span class="num">Session
-8</span><b>R Markdown</b><span class="what">Creating reproducible
-reports that combine code, output and prose</span></a>
-</li>
+<li><a class="session-card" href="session1.html"><span class="num">Session 1</span><b>Data types and structures</b><span class="what">An introduction to RStudio, R objects, data types, functions and vectors</span></a></li>
+<li><a class="session-card" href="session2.html"><span class="num">Session 2</span><b>Other data structures</b><span class="what">Matrices, lists and data frames, and how to get around them</span></a></li>
+<li><a class="session-card" href="session3.html"><span class="num">Session 3</span><b>Working with data in R</b><span class="what">Reading, inspecting and writing tabular data</span></a></li>
+<li><a class="session-card" href="session4.html"><span class="num">Session 4</span><b>Visualizing data with ggplot2</b><span class="what">A common grammar for scatter plots, bar charts, boxplots, histograms and time series</span></a></li>
+<li><a class="session-card" href="session5.html"><span class="num">Session 5</span><b>Data manipulation with dplyr</b><span class="what">Filtering and modifying tabular data, computing summary values, faceting with ggplot2</span></a></li>
+<li><a class="session-card" href="session6.html"><span class="num">Session 6</span><b>Grouping and combining data</b><span class="what">Advanced grouping and summarization, joining tables, customizing ggplot2 plots</span></a></li>
+<li><a class="session-card" href="session7.html"><span class="num">Session 7</span><b>Restructuring data for analysis</b><span class="what">The concept of &lsquo;tidy data&rsquo;, pivoting and separating operations, ggplot2 extras</span></a></li>
+<li><a class="session-card" href="session8.html"><span class="num">Session 8</span><b>R Markdown</b><span class="what">Creating reproducible reports that combine code, output and prose</span></a></li>
 </ul>
 </div>
 </section>
+
 <section class="band band-mist">
 <div class="shell">
 <div class="cols cols-2">
 <div>
 <span class="eyebrow">About this course</span>
-<h2>
-Why learn R?
-</h2>
-<p class="lede">
-<b>R</b> is one of the leading programming languages in data science,
-and the most widely used within the CRUK Cambridge Institute for
-interacting with, analyzing and visualizing cancer biology data sets.
-</p>
-<p>
-In this training course we aim to provide a friendly introduction to R,
+<h2>Why learn R?</h2>
+<p class="lede"><b>R</b> is one of the leading programming languages in data
+science, and the most widely used within the CRUK Cambridge Institute for
+interacting with, analyzing and visualizing cancer biology data sets.</p>
+<p>In this training course we aim to provide a friendly introduction to R,
 pitched at a beginners level. We focus on manipulating tabular data and
 visualising data, using a suite of packages known as the
-<a href="https://www.tidyverse.org/">tidyverse</a> — in particular the
-<em>dplyr</em> and <em>ggplot2</em> packages.
-</p>
-<p>
-Working in scripts makes the steps of an analysis explicit: they can be
+<a href="https://www.tidyverse.org/">tidyverse</a> &mdash; in particular the
+<em>dplyr</em> and <em>ggplot2</em> packages.</p>
+<p>Working in scripts makes the steps of an analysis explicit: they can be
 inspected by someone else, checked for errors, and re-run. An increasing
-number of journals and funding agencies expect analyses to be
-reproducible, so knowing R puts you ahead.
-</p>
+number of journals and funding agencies expect analyses to be reproducible,
+so knowing R puts you ahead.</p>
 </div>
 <div>
-<h3 class="rule-top">
-What you will cover
-</h3>
+<h3 class="rule-top">What you will cover</h3>
 <ul class="topic-list">
-<li>
-<b>R and RStudio</b><span>Sessions 1–2</span>
-</li>
-<li>
-<b>Data types and structures</b><span>Sessions 1–2</span>
-</li>
-<li>
-<b>Reading and writing data</b><span>Session 3</span>
-</li>
-<li>
-<b>Plotting with ggplot2</b><span>Sessions 4, 6–7</span>
-</li>
-<li>
-<b>Wrangling with dplyr</b><span>Sessions 5–6</span>
-</li>
-<li>
-<b>Tidy data and pivoting</b><span>Session 7</span>
-</li>
-<li>
-<b>Reproducible reports</b><span>Session 8</span>
-</li>
+<li><b>R and RStudio</b><span>Sessions 1&ndash;2</span></li>
+<li><b>Data types and structures</b><span>Sessions 1&ndash;2</span></li>
+<li><b>Reading and writing data</b><span>Session 3</span></li>
+<li><b>Plotting with ggplot2</b><span>Sessions 4, 6&ndash;7</span></li>
+<li><b>Wrangling with dplyr</b><span>Sessions 5&ndash;6</span></li>
+<li><b>Tidy data and pivoting</b><span>Session 7</span></li>
+<li><b>Reproducible reports</b><span>Session 8</span></li>
 </ul>
-</div>
-</div>
-</div>
-</section>
-<section class="band band-indigo">
-<div class="shell">
-<div class="cols cols-2">
-<div>
-<span class="eyebrow">Before the first session</span>
-<h2>
-Set your laptop up first
-</h2>
-<p class="lede">
-You will need R and the tidyverse installed, and the workshop data
-downloaded, before the first session. Installing R and its packages is
-usually straightforward, but it can go wrong in ways that take time to
-fix — so please work through the setup in advance and bring a laptop
-that already works.
-</p>
-<p class="lede">
-If you get stuck, bring the error message with you and we will sort it
-out before the practical starts.
-</p>
-<div class="btn-row">
-<p><a class="btn-brand btn-primary-brand" href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/prepare.html">Setup
-instructions</a></p>
-</div>
-</div>
-<div>
-<h3>
-Going further
-</h3>
-<ul class="linklist">
-<li>
-<a href="https://r4ds.hadley.nz/">R for Data Science<span
-class="meta">Book</span></a>
-</li>
-<li>
-<a href="https://ggplot2-book.org/">ggplot2: Elegant Graphics for Data
-Analysis<span class="meta">Book</span></a>
-</li>
-<li>
-<a href="https://posit.co/resources/cheatsheets/">Posit cheatsheets<span
-class="meta">PDF</span></a>
-</li>
-<li>
-<a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/">The
-Summer School<span class="meta">Site</span></a>
-</li>
-</ul>
-<p style="margin-top:1.5rem">
-The <em>R for Data Science</em> book covers the concepts introduced here
-in more depth, along with more advanced techniques such as writing your
-own functions and iterating over vectors and lists. The cheatsheets are
-well worth printing out and keeping to hand while you are learning.
-</p>
 </div>
 </div>
 </div>
 </section>
 
+<section class="band band-indigo">
+<div class="shell">
+<div class="cols cols-2">
+<div>
+<span class="eyebrow">Before the first session</span>
+<h2>Set your laptop up first</h2>
+<p class="lede">You will need R and the tidyverse installed, and the workshop
+data downloaded, before the first session. Installing R and its packages is
+usually straightforward, but it can go wrong in ways that take time to fix
+&mdash; so please work through the setup in advance and bring a laptop that
+already works.</p>
+<p class="lede">If you get stuck, bring the error message with you and we will
+sort it out before the practical starts.</p>
+<div class="btn-row">
+<a class="btn-brand btn-primary-brand" href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/prepare.html">Setup instructions</a>
+</div>
+</div>
+<div>
+<h3>Going further</h3>
+<ul class="linklist">
+<li><a href="https://r4ds.hadley.nz/">R for Data Science<span class="meta">Book</span></a></li>
+<li><a href="https://ggplot2-book.org/">ggplot2: Elegant Graphics for Data Analysis<span class="meta">Book</span></a></li>
+<li><a href="https://posit.co/resources/cheatsheets/">Posit cheatsheets<span class="meta">PDF</span></a></li>
+<li><a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/">The Summer School<span class="meta">Site</span></a></li>
+</ul>
+<p style="margin-top:1.5rem">The <em>R for Data Science</em> book covers the
+concepts introduced here in more depth, along with more advanced techniques
+such as writing your own functions and iterating over vectors and lists. The
+cheatsheets are well worth printing out and keeping to hand while you are
+learning.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
 <div class="footer-logos">
   <div class="shell">
     <p class="eyebrow" style="text-align:center">Organised by</p>
@@ -681,100 +277,7 @@ well worth printing out and keeping to hand while you are learning.
     </div>
   </div>
 </footer>
-<script>
-/* rmarkdown places after_body content INSIDE .main-container / .toc-content,
-   which would trap the footer in the nine-column content well beside the TOC.
-   Lift both blocks to <body> so they span the page. Without JS the footer
-   still renders, just narrower. */
-(function () {
-  function lift() {
-    ['.footer-logos', '.site-footer'].forEach(function (sel) {
-      var el = document.querySelector(sel);
-      if (el && el.parentNode !== document.body) document.body.appendChild(el);
-    });
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', lift);
-  } else {
-    lift();
-  }
-})();
-</script>
-
-
-</div>
-</div>
-
-</div>
-
-<script>
-
-// add bootstrap table styles to pandoc tables
-function bootstrapStylePandocTables() {
-  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
-}
-$(document).ready(function () {
-  bootstrapStylePandocTables();
-});
-
-
-</script>
-
-<!-- tabsets -->
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open');
-  });
-});
-</script>
-
-<!-- code folding -->
-
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
-
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 </body>
 </html>
