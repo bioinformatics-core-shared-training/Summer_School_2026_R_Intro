@@ -183,6 +183,7 @@ img{max-width:100%;height:auto}
   min-height:0;
   box-shadow:none;
 }
+.navbar-static-top{position:sticky;top:0;z-index:60}
 .navbar-default > .container{
   max-width:var(--shell);
   width:auto;
@@ -368,7 +369,6 @@ body div.tocify{
 /* The hero escapes .main-container's max-width to run full-bleed. */
 .hero{
   background:var(--indigo);color:#fff;
-  width:100vw;margin-left:calc(50% - 50vw);
   padding-block:clamp(2.75rem,5.5vw,4.5rem) clamp(3rem,6vw,5rem);
   overflow:hidden;
 }
@@ -488,21 +488,6 @@ body div.tocify{
 .band-indigo .linklist a{color:#fff}
 .band-indigo .linklist a:hover{background:rgba(255,255,255,.08);color:#fff}
 .band-indigo .linklist .meta{color:var(--on-indigo-accent)}
-
-/* On the landing page the TOC column is dropped and the content runs the
-   full width of the shell. Keyed off the hero so it cannot affect a
-   session page. */
-body:has(#home-hero) div.tocify,
-body:has(#home-hero) #TOC{display:none}
-/* the now-empty column that wrapped the TOC rail */
-body:has(#home-hero) div.main-container > .row > div:first-child{display:none}
-body:has(#home-hero) div.toc-content{
-  width:100%;max-width:none;float:none;padding-left:0;padding-right:0;
-}
-/* the document title is carried by the hero instead */
-body:has(#home-hero) #header{display:none}
-/* bands run full width; each one's .shell provides the gutter */
-body:has(#home-hero) div.main-container{padding-inline:0;max-width:none}
 
 /* ==========================================================================
    PARTNER LOGOS AND FOOTER
