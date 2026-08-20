@@ -50,9 +50,6 @@ want them.</p>
 <li><a class="session-card" href="session7.html"><span class="num">Session 7</span><b>Restructuring data for analysis</b><span class="what">The concept of &lsquo;tidy data&rsquo;, pivoting and separating operations, ggplot2 extras</span></a></li>
 <li><a class="session-card" href="session8.html"><span class="num">Session 8</span><b>R Markdown</b><span class="what">Creating reproducible reports that combine code, output and prose</span></a></li>
 </ul>
-<div class="btn-row">
-<a class="btn-brand btn-dark" href="Brief_Recap.html">Brief recap of sessions 1 &amp; 2</a>
-</div>
 </div>
 </section>
 

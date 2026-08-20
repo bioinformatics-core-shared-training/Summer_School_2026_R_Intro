@@ -345,32 +345,28 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="session1.html">1 &amp;middot; Data types and structures</a>
+      <a href="session1.html">1 · Data types and structures</a>
     </li>
     <li>
-      <a href="session2.html">2 &amp;middot; Other data structures</a>
+      <a href="session2.html">2 · Other data structures</a>
     </li>
     <li>
-      <a href="session3.html">3 &amp;middot; Working with data in R</a>
+      <a href="session3.html">3 · Working with data in R</a>
     </li>
     <li>
-      <a href="session4.html">4 &amp;middot; Visualizing data with ggplot2</a>
+      <a href="session4.html">4 · Visualizing data with ggplot2</a>
     </li>
     <li>
-      <a href="session5.html">5 &amp;middot; Data manipulation with dplyr</a>
+      <a href="session5.html">5 · Data manipulation with dplyr</a>
     </li>
     <li>
-      <a href="session6.html">6 &amp;middot; Grouping and combining data</a>
+      <a href="session6.html">6 · Grouping and combining data</a>
     </li>
     <li>
-      <a href="session7.html">7 &amp;middot; Restructuring data for analysis</a>
+      <a href="session7.html">7 · Restructuring data for analysis</a>
     </li>
     <li>
-      <a href="session8.html">8 &amp;middot; R Markdown</a>
-    </li>
-    <li class="divider"></li>
-    <li>
-      <a href="Brief_Recap.html">Brief recap of sessions 1 &amp;amp; 2</a>
+      <a href="session8.html">8 · R Markdown</a>
     </li>
   </ul>
 </li>
@@ -525,7 +521,8 @@ negative, but further divided by the cancer type.</p>
 ## ℹ Summaries were computed grouped by ER_status and Cancer_type.
 ## ℹ Output is grouped by ER_status.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(ER_status, Cancer_type))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(ER_status, Cancer_type))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 13 × 3
 ## # Groups:   ER_status [2]
 ##    ER_status Cancer_type                               `mean(ERBB2)`
@@ -557,7 +554,8 @@ which column to rank the rows by.</p>
 ## ℹ Summaries were computed grouped by ER_status and Cancer_type.
 ## ℹ Output is grouped by ER_status.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(ER_status, Cancer_type))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(ER_status, Cancer_type))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 2 × 3
 ## # Groups:   ER_status [2]
 ##   ER_status Cancer_type ERBB2_mean
@@ -579,7 +577,8 @@ use <strong>ungroup()</strong>.</p>
 ## ℹ Summaries were computed grouped by ER_status and Cancer_type.
 ## ℹ Output is grouped by ER_status.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(ER_status, Cancer_type))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(ER_status, Cancer_type))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 1 × 3
 ##   ER_status Cancer_type ERBB2_mean
 ##   &lt;chr&gt;     &lt;chr&gt;            &lt;dbl&gt;
@@ -1200,7 +1199,8 @@ band_members3</code></pre>
 <pre><code>## Warning in left_join(band_members3, band_instruments3, by = join_by(name)): Detected an unexpected many-to-many relationship between `x` and `y`.
 ## ℹ Row 3 of `x` matches multiple rows in `y`.
 ## ℹ Row 2 of `y` matches multiple rows in `x`.
-## ℹ If a many-to-many relationship is expected, set `relationship = &quot;many-to-many&quot;` to silence this warning.</code></pre>
+## ℹ If a many-to-many relationship is expected, set `relationship =
+##   &quot;many-to-many&quot;` to silence this warning.</code></pre>
 <pre><code>## # A tibble: 6 × 3
 ##   name  band    plays 
 ##   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
@@ -1462,8 +1462,8 @@ up in steps of 2.5.</p>
 <pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 160 rows containing non-finite outside the scale range
 ## (`stat_smooth()`).</code></pre>
-<pre><code>## Warning: Removed 160 rows containing missing values or values outside the scale
-## range (`geom_point()`).</code></pre>
+<pre><code>## Warning: Removed 160 rows containing missing values or values outside the scale range
+## (`geom_point()`).</code></pre>
 <p><img src="session6_files/figure-html/scatter_plot_3-1.png" alt="" width="672" /></p>
 <p>Here, just for demonstration purposes, we set the upper limit to be
 less than the largest values of ESR1 expression and ggplot2 warned us
@@ -1919,7 +1919,6 @@ tsg_scores |&gt;
           <li><a href="session6.html">6 &middot; Grouping and combining</a></li>
           <li><a href="session7.html">7 &middot; Restructuring data</a></li>
           <li><a href="session8.html">8 &middot; R Markdown</a></li>
-          <li><a href="Brief_Recap.html">Brief recap of sessions 1 &amp; 2</a></li>
         </ul>
       </div>
       <div>

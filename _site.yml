@@ -7,25 +7,22 @@ navbar:
       href: index.html
     - text: "Sessions"
       menu:
-        - text: "1 &middot; Data types and structures"
+        - text: "1 · Data types and structures"
           href: session1.html
-        - text: "2 &middot; Other data structures"
+        - text: "2 · Other data structures"
           href: session2.html
-        - text: "3 &middot; Working with data in R"
+        - text: "3 · Working with data in R"
           href: session3.html
-        - text: "4 &middot; Visualizing data with ggplot2"
+        - text: "4 · Visualizing data with ggplot2"
           href: session4.html
-        - text: "5 &middot; Data manipulation with dplyr"
+        - text: "5 · Data manipulation with dplyr"
           href: session5.html
-        - text: "6 &middot; Grouping and combining data"
+        - text: "6 · Grouping and combining data"
           href: session6.html
-        - text: "7 &middot; Restructuring data for analysis"
+        - text: "7 · Restructuring data for analysis"
           href: session7.html
-        - text: "8 &middot; R Markdown"
+        - text: "8 · R Markdown"
           href: session8.html
-        - text: "---------"
-        - text: "Brief recap of sessions 1 &amp; 2"
-          href: Brief_Recap.html
     - text: "Summer School"
       href: https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/
     - icon: fa-github fa-lg
