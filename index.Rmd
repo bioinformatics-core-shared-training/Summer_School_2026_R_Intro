@@ -50,12 +50,12 @@ graphical user interface to make working with R more user friendly.
   across vectors or lists
 * The ["ggplot2: Elegant Graphics for Data
   Analysis"](https://ggplot2-book.org/) book provides a more in-depth look at
-  ggplot book, covering the concepts introduced in this course and more advanced
-  plotting and customistation
-* A number of very handy cheatsheets for a variety for R packages, including the
+  ggplot2, covering the concepts introduced in this course and more advanced
+  plotting and customization
+* A number of very handy cheatsheets for a variety of R packages, including the
   tidyverse packages, can be found on the [RStudio
   website](https://posit.co/resources/cheatsheets/). As you are beginning to
-  learn how to use these pacakges it is well worth printing these out and
+  learn how to use these packages it is well worth printing these out and
   having to hand.
  
 

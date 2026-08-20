@@ -222,7 +222,7 @@ begins with `|>`.
 ```
 # R considers the following to be 2 separate commands, the first of which ends
 # with the first filter operation and runs successfully.
-# The second statement is the third and last line, is not a valid commmand and
+# The second statement is the third and last line, is not a valid command and
 # so you'll get an error message
 patients <- metabric |>
     filter(Survival_status == "LIVING")
@@ -307,7 +307,7 @@ select(metabric,
        Nottingham_prognostic_index)
 ```
 
-There is a discrepency. Can you see what the problem is?
+There is a discrepancy. Can you see what the problem is?
 
 It appears that the tumour size wasn't correctly converted into centimetres in
 the original NPI calculation or that the wrong scaling factor for tumour size

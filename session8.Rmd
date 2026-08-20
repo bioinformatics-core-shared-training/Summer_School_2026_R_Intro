@@ -10,8 +10,8 @@ title: "Session 8 - R Markdown"
 # What is R Markdown?
 
 R Markdown provides a means of combining executable R code, code output
-and textual content in a single document. This documents can then be
-used to create report in a variety of different formats, such as PDF,
+and textual content in a single document. These documents can then be
+used to create reports in a variety of different formats, such as PDF,
 HTML or even Word. R Markdown can be used to create static reports or
 slides.
 
@@ -57,7 +57,7 @@ We can start a new R Markdown document in RStudio from the menu bar:
 
 ![](images/Rmarkdown_new_doc.png)
 
-This will bring up the following diaglogue box:
+This will bring up the following dialogue box:
 
 ![](images/Rmarkdown_creation_dialogue.png)
 
@@ -128,7 +128,7 @@ syntax to add formats to the text. The benefit of this is Markdown is
 lightweight and platform independent.
 
 R Markdown combines normal Markdown for text and images with separate
-chunks thank can contain executable R code, the outputs of which can be
+chunks that can contain executable R code, the outputs of which can be
 included in the document.
 
 The full documentation of the Markdown syntax can be found
@@ -414,7 +414,7 @@ As with a standard html web page, we can add hyperlinks, both to
 internal sections of the document or to external pages. The general
 format for creating a link is to surround the link text (what is
 displayed) with square brackets and then follow this with the link
-itself (internal tag or external page) surrounded by round backets:
+itself (internal tag or external page) surrounded by round brackets:
 
 ```         
 [This is the text](this_is_the_link)
@@ -1042,7 +1042,7 @@ which prints the session info. Where the code chunks should be you'll see:
 Code chunk: *some details*
 ```
 
-Replace these as necesary with your own code - you may want to refer back to 
+Replace these as necessary with your own code - you may want to refer back to 
 previous sessions.
 
 You may also need to do a bit of searching in function help pages, documentation

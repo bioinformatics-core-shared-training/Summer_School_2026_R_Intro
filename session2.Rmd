@@ -11,7 +11,7 @@ title: "Session 2 -- Introduction to other data structures"
 
 ## Factors
 
-R has a special vector class for dealing with catergorical data - the *factor*.
+R has a special vector class for dealing with categorical data - the *factor*.
 Categorical data might be something such as sex - "Male", "Female" - or tumour
 stage - "Stage1", "Stage2", "Stage3", etc. Critically, the possible entries, or
 levels, of a factor are limited. 
@@ -312,7 +312,7 @@ result$p.value
 
 ### Data frames
 
-The most commmonly used data structure is the `data.frame`. This can be though
+The most commonly used data structure is the `data.frame`. This can be thought
 of as a table of values. Unlike a matrix each column can have a different data
 class, but each value in that column must be of the same data class.  Although
 it is easiest to think of the data.frame as a table, and R will present and
@@ -331,7 +331,7 @@ dim(dat)
 
 For the purposes of demonstration and testing, R provides many built-in data
 sets, most of which are represented as data frames.  You can list all the
-avilable built-in data sets with the `data()` command.
+available built-in data sets with the `data()` command.
 
 We will look at the `iris` data set:
 

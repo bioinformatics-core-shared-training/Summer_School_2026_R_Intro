@@ -116,7 +116,7 @@ ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3, y = ESR1, colour = Nottingham_prognostic_index))
 ```
 
-ggplot2 uses a colour scale for a continous variable but discrete colours for
+ggplot2 uses a colour scale for a continuous variable but discrete colours for
 discrete or categorical values.
 
 Size is not usually a good aesthetic to map to a variable. This is particularly
@@ -451,7 +451,7 @@ showing data relating to the coronavirus (COVID-19) pandemic. Both the plots and
 the data are published on the Government's
 [website](https://www.gov.uk/government/collections/slides-and-datasets-to-accompany-coronavirus-press-conferences).
 
-One of the plots shows the reduction in different types oftransport use over
+One of the plots shows the reduction in different types of transport use over
 time in the UK in the week leading up to and since the lockdown restrictions
 were introduced in response to the pandemic.
 
@@ -594,7 +594,7 @@ tumour stage. We also have some binary variables that are essentially categorica
 variables but with only 2 possible values, e.g. ER status.
 
 In many of the plots given above, ggplot2 has treated character variables as
-categorical in situtations where a categorical variable is expected. For example,
+categorical in situations where a categorical variable is expected. For example,
 when we displayed points on a scatter plot using different colours for each
 3-gene classification, or when we created separate box plots in the same graph
 for ER positive and negative patients.

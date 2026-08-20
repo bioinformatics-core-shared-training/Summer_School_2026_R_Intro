@@ -344,7 +344,7 @@ metabric |>
 
 ## Selecting or counting distinct things
 
-There are occassions when we want to count the number of distinct values in a
+There are occasions when we want to count the number of distinct values in a
 variable or a combination of variables. Here we introduce another set of data
 from the METABRIC study which contains details of the mutations detected by
 targeted sequencing of a panel of 173 genes. We'll read this data into R now as
@@ -373,7 +373,7 @@ a sample, as can be seen in the first two rows at the top of the table above.
 If we want to count the number of patients in which mutations were detected we
 could select the distinct set of patient identifiers using the **`distinct()`**
 function and then count the number of rows left. Distinct reduces the table to
-ony contain one row for each value of the column (or combination of columns)
+only contain one row for each value of the column (or combination of columns)
 provided:
 
 ```{r}
@@ -537,7 +537,7 @@ You may be wondering what happens if there are multiple rows in one of both of
 the two tables for the thing that is being joined, for example what would happen
 if our second table had two entries for instruments that Paul plays.
 
-Let's add an extra intrument for Paul and see what happens when we join the two
+Let's add an extra instrument for Paul and see what happens when we join the two
 tables. We'll use the `bind_rows()` function to add a row to the `band_instruments`
 tibble.
 
@@ -768,7 +768,7 @@ been removed from the plot.
 
 Another way to alter the way the plot looks is to define a **`theme()`**. The
 theme controls the way in which non-data components are displayed. You can
-specifiy your own themes, e.g. to remove the grid lines you would do:
+specify your own themes, e.g. to remove the grid lines you would do:
 
 ```{r scatter_plot_7a}
 ggplot(data = metabric,
@@ -790,7 +790,7 @@ ggplot(data = metabric,
 
 ## Colours
 
-The colour asthetic is used with a categorical variable, `ER_status`, in the
+The colour aesthetic is used with a categorical variable, `ER_status`, in the
 scatter plots we've been customizing. The default colour scale used by ggplot2
 for categorical variables is `scale_colour_discrete`. We can manually set the
 colours we wish to use using `scale_colour_manual` instead.
@@ -866,7 +866,7 @@ ggplot(data = metabric,
     geom_point(size = 0.6, alpha = 0.5)
 ```
 
-ggplot2 by default uses this black to blue continuours scale.  Higher NPI
+ggplot2 by default uses this black to blue continuous scale.  Higher NPI
 scores correspond to worse prognosis and lower chance of 5 year survival. We'll
 emphasize those points on the scatter plot by adjusting our colour scale to run
 from white to red.
@@ -986,7 +986,7 @@ mutations |>
 :::exercise
 5. Use boxplots to illustrate the distribution of diagnosis age for 3-gene
 classification groups of patients. Remove any patients who are unclassified. The
-boxplots should be colored according to the group.
+boxplots should be coloured according to the group.
 
 <details><summary>Answer</summary>
 ```{r}

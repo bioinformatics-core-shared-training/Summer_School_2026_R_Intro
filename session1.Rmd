@@ -146,7 +146,7 @@ through them using the arrow buttons and the export button will convert them to
 different graphics formats e.g. for publication in a paper or for the web.
 
 The Packages tab shows which R packages are installed (These expand R's
-functionallity and again will be covered later) and can also install new
+functionality and again will be covered later) and can also install new
 packages.
 
 The Help tab is a _extremely useful_ tab which enables you to search R help
@@ -235,7 +235,7 @@ x <- 100
 Here we are creating an object called `x` containing the value '100'.
 
 **Note**: The terms `object` and `variable` are often used interchangeably,
-even though they do have sublty different meanings.
+even though they do have subtly different meanings.
 
 The assignment operator `<-` causes the value 100 to be assigned to the
 variable named `x`.  
@@ -286,7 +286,7 @@ my-name <- "Ashley"
 
 To R the "-" symbol means minus, so it is interpreting the first part of the
 line as an instruction to subtract the value of variable called "name" from
-the value of a variable called "my", however, neigther of these exists, so it
+the value of a variable called "my", however, neither of these exists, so it
 throws an error.
 
 ```{r}
@@ -445,7 +445,7 @@ x
 #### Using a logical vector to select values from a vector
 
 We can also extract values using a vector of logical values. Normally the
-logical vector should be the same lenght as the vector from which we are
+logical vector should be the same length as the vector from which we are
 extracting values, however, if it is shorter then it will be recycled as
 necessary - this can be confusing.
 
@@ -513,7 +513,7 @@ x[x < 40]
 x[ x > 10 & x < 40]
 ```
 
-We could use "!=" to select all values not equal to 20, but to demostrate the
+We could use "!=" to select all values not equal to 20, but to demonstrate the
 "!" (NOT) operator, we could also do:
 
 ```{r}
@@ -632,7 +632,7 @@ scripts" that automate more complicated sets of commands including operations,
 assignments, etc. Functions are contained in packages. There are a number of
 packages that are automatically loaded when you start that provide basic
 functions e.g. `mean` or `c`. We can also extend the number of functions
-avaiable by importing additional R packages (more on that later). 
+available by importing additional R packages (more on that later). 
 
 A function usually takes one or more inputs called arguments. Functions often
 (but not always) return a value. A typical example would be the function
@@ -898,7 +898,7 @@ vec[ vec == 23 | vec < 15]
 :::
 
 :::exercise
-6. "month.name" is a in-built R vector
+6. "month.name" is an in-built R vector
     a. What is the index number of "April" in month.name vector? **hint:** the `which` function may help you.
     b. Extract all the months from April to December
 

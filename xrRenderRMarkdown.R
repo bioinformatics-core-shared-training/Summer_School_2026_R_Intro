@@ -9,7 +9,7 @@ outHTML <- stringr::str_replace(rmdScript, ".Rmd", ".html")
 outHTML <- file.path("docs", outHTML)
 
 message("Script:", rmdScript)
-message("Ouput:", outHTML)
+message("Output:", outHTML)
 
 outHTML <- file.path(ProjectDir, outHTML)
 

@@ -22,7 +22,7 @@ visualizing data, and particularly data in a tabular form. This collection of
 packages is known as the **tidyverse**.
 
 Learning the **tidyverse** is more than just learning about some helpful
-functions to get certain tasks done. The tidyverse packages form a coherant
+functions to get certain tasks done. The tidyverse packages form a coherent
 system for data manipulation, exploration and visualization that share a common
 design philosophy. There is a certain elegance to code crafted using the
 tidyverse approach that is in stark contrast to the strange and often cryptic
@@ -163,10 +163,10 @@ not as much useful as it was when using `data.frame`.
 str(irisTibble)
 ```
 
-Notice that rather than specifing `tibble` as the data structure of surveys,
+Notice that rather than specifying `tibble` as the data structure of surveys,
 the first line of `str`'s output now specifies ‘tbl_df’, ‘tbl’
 and 'data.frame' which can be a bit confusing. These are the classes `tibble`
-inherts from which in simple terms means that `tibble` is a `data.frame` with a
+inherits from which in simple terms means that `tibble` is a `data.frame` with a
 few modifications.  Therefore, most of the functions that were used with
 `data.frame` can also be used with `tibble`.
 
@@ -174,7 +174,7 @@ few modifications.  Therefore, most of the functions that were used with
 
 Another of the tidyverse packages loaded when we ran `library(tidyverse)` is the
 `readr` package, which provides functions for reading tabular data into a tibble
-and writing tibbles to tab-delmited and comma-separated value (CSV) files.
+and writing tibbles to tab-delimited and comma-separated value (CSV) files.
 
 For example, the clinical data for the METABRIC breast cancer dataset generated
 at CRUK CI can be downloaded as a tab-delimited file from
@@ -208,7 +208,7 @@ metabric
 **`read_csv()`** and **`read_tsv()`**
 
 `read_csv()` reads data from a comma-separated value (CSV) file into a tibble.
-`read_tsv()` is the equivalent function that works on tab-delmited files.
+`read_tsv()` is the equivalent function that works on tab-delimited files.
 
 These functions expect the first line to contain column names and try to make
 sensible guesses at the type of data in each column. You can change this by
