@@ -553,8 +553,8 @@ e.g. shape.</p>
 <pre class="r"><code>ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3, y = ESR1, shape = `3-gene_classifier`),
                size = 0.9)</code></pre>
-<pre><code>## Warning: Removed 204 rows containing missing values or values outside the scale range
-## (`geom_point()`).</code></pre>
+<pre><code>## Warning: Removed 204 rows containing missing values or values outside the scale
+## range (`geom_point()`).</code></pre>
 <p><img src="session4_files/figure-html/scatter_plot_6-1.png" alt="" width="672" /></p>
 <p>Note that some of the patient samples have not been classified and
 ggplot has removed those points with missing values for the 3-gene
@@ -569,8 +569,8 @@ different categorical variables.</p>
                              colour = PAM50,
                              shape = `3-gene_classifier`),
               size = 0.9)</code></pre>
-<pre><code>## Warning: Removed 204 rows containing missing values or values outside the scale range
-## (`geom_point()`).</code></pre>
+<pre><code>## Warning: Removed 204 rows containing missing values or values outside the scale
+## range (`geom_point()`).</code></pre>
 <p><img src="session4_files/figure-html/scatter_plot_7-1.png" alt="" width="672" /></p>
 <p>Transparency can be useful when we have a large number of points as
 we can more easily tell when points are overlaid, but like size, it is
