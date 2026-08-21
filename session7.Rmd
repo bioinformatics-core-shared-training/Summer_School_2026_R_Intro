@@ -907,7 +907,9 @@ who
 
 What are the variables in this data set?
 
-_Hint: see the help page for `who` to understand the meaning of the column headings._
+<details class="hint"><summary>Hint</summary>
+See the help page for `who` to understand the meaning of the column headings.
+</details>
 
 <details><summary>Answer</summary>
 * country
@@ -939,14 +941,18 @@ in these column headings.
 
 Also remove all rows with missing values for the number of tuberculosis cases.
 
-*Hint 1: the column headers from new_sp_m014 onwards contain a superfluous
+<details class="hint"><summary>Hint</summary>
+The column headers from new_sp_m014 onwards contain a superfluous
 prefix "new" or "new_" that you will want to remove; this can be done using one
 of the stringr functions in a single step if you know about regular expressions
 but is also achievable in two steps if you don't use any regular expression
-magic.*
+magic.
+</details>
 
-_Hint 2: separating two of the variables is a bit tricky because there is no
-separator character; you could modify the variable before separating._
+<details class="hint"><summary>Hint</summary>
+Separating two of the variables is a bit tricky because there is no
+separator character; you could modify the variable before separating.
+</details>
 
 <details><summary>Answer</summary>
 
@@ -1051,7 +1057,9 @@ tuberculosis data set, from your tidy version of `who`.
 select(table1, 1:3)
 ```
 
-_Hint: this will involve some filtering, grouping and summarization._
+<details class="hint"><summary>Hint</summary>
+This will involve some filtering, grouping and summarization.
+</details>
 
 <details><summary>Answer</summary>
 ```{r}
@@ -1071,7 +1079,10 @@ Create a time series plot showing the number of tuberculosis cases in the United
 Kingdom with separate lines for each age group. The year should be on the x axis
 and the number of cases on the y axis.
 
-_Hint: we're not distinguishing between diagnoses and genders in this plot so you'll need to sum the numbers of cases for each country, year and age group._
+<details class="hint"><summary>Hint</summary>
+We're not distinguishing between diagnoses and genders in this plot so you'll
+need to sum the numbers of cases for each country, year and age group.
+</details>
 
 <details><summary>Answer</summary>
 ```{r}

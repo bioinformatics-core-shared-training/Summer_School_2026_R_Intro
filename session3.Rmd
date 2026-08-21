@@ -679,7 +679,6 @@ tumour stage is the same.
 Sorting is most commonly used in workflows as one of the last steps before
 printing out a data frame or writing out the table to a file.
 
-
 # Reading data from Excel files into R
 
 We haven't yet showed how to read Excel spreadsheets into R. There are several
@@ -755,8 +754,10 @@ mean(metabric$ER_status == "Negative")
    `starwars` is a data set provided by dplyr, so it is available as soon as you
    have run `library(tidyverse)`.
 
-   *Hint: use `table()` first to see how the hair and eye colours have been
-   recorded — there is more than one spelling of "blond".*
+<details class="hint"><summary>Hint</summary>
+Use `table()` first to see how the hair and eye colours have been recorded —
+there is more than one spelling of "blond".
+</details>
 
 <details><summary>Answer</summary>
 

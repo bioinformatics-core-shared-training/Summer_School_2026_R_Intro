@@ -1126,7 +1126,9 @@ SNVs, frameshift substitutions and variants that affect splice sites.
 Compute the TSG score for each gene and find the top 10 tumour suppressor genes,
 i.e. those with the highest TSG scores.
 
-*Hint: use `%in%` to determine whether a mutation is an inactivating mutation.*
+<details class="hint"><summary>Hint</summary>
+Use `%in%` to determine whether a mutation is an inactivating mutation.
+</details>
 
 <details><summary>Answer</summary>
 ```{r}
