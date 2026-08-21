@@ -926,22 +926,42 @@ main.content figure img{margin-bottom:.5rem}
 
 // ==========================================================================
 //    PARTNER LOGOS AND FOOTER
-//    include-after-body lands inside #quarto-content, immediately after
-//    </main>. That makes the two footer blocks children of the page-columns
-//    grid, which pins every child to the body column
-//    (`.page-columns > * {grid-column: body-content-start/body-content-end}`).
-//    Spanning them to the viewport is one declaration, using the same grid
-//    lines as Quarto's own `.column-screen`. Written with the #quarto-content
-//    id so it cannot lose a cascade-order tie with that rule.
+//    The footer comes from `website: page-footer` in _quarto.yml, so Quarto
+//    emits it as <footer class="footer"> directly under <body> - outside
+//    #quarto-content. That placement is deliberate and load-bearing: it is
+//    what keeps the footer out of the page-columns grid (so the bands run
+//    full-bleed with no grid-column override) and out of the sticky TOC rail's
+//    containing block (so the rail stops at the end of the content instead of
+//    staying pinned across the footer).
 //
-//    This replaces the JS DOM-lifting hack that used to live at the foot of
-//    _includes/footer.html, and the `z-index:1` companion rule that existed
-//    only to beat tocify's position:fixed rail. Both are deleted.
+//    What has to be undone is Quarto's own footer chrome: a left/centre/right
+//    triptych, with our markup in the centre cell and non-breaking spaces in
+//    the other two.
 // ==========================================================================
-#quarto-content > .footer-logos,
-#quarto-content > .site-footer{
-  grid-column:screen-start/screen-end;
+body > footer.footer{
+  padding:0;
+  border:0;
+  background:transparent;
+  margin:0;
 }
+body > footer.footer .nav-footer{
+  display:block;
+  max-width:none;
+  padding:0;
+  margin:0;
+  min-height:0;
+  text-align:initial;
+}
+body > footer.footer .nav-footer-left,
+body > footer.footer .nav-footer-right{display:none}
+body > footer.footer .nav-footer-center{
+  display:block;
+  flex:none;
+  margin:0;
+  text-align:initial;
+  min-height:0;
+}
+
 .footer-logos{background:$paper;padding:3rem $pad;border-top:1px solid $rule}
 .partners{
   display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
