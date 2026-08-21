@@ -67,8 +67,8 @@ the Uganda Cancer Institute.</p>
 <h2>Eight sessions</h2>
 <p class="lede">The materials are split into eight sessions, which do <b>not</b>
 map one-to-one onto the five timetabled sessions for the Summer School workshop.
-Normally we teach this course in 8 weekly sessions. For this workshop will work
-through the materials in order and hopefully at least cover the first 7
+Normally we teach this course in 8 weekly sessions. For this workshop we will
+work through the materials in order and hopefully at least cover the first 7
 sessions. The materials will remain available after the workshop, so you can
 work through the later sessions in your own time.</p>
 <p class="lede">Each session carries its own exercises with the answers folded away
