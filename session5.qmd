@@ -246,7 +246,7 @@ much as we do.
 In one of the examples of filtering observations using `filter()` above, we
 created a new logical variable called `Deceased`.
 
-```{r}html_document"
+```{r}
 metabric$Deceased <- metabric$Survival_status == "DECEASED"
 ```
 
