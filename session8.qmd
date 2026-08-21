@@ -1,38 +1,35 @@
 ---
 title: "Session 8 -- Quarto"
+# AUTHORING NOTE (not rendered)
+#
+# This page teaches Quarto and is itself a Quarto document in a Quarto website
+# (see _quarto.yml), so - unlike the R Markdown version of this page - the
+# syntax being taught and the syntax being used are now the same thing. Live
+# chunks use hash-pipe options, and ::: {.panel-tabset} really does produce
+# tabs. The dual-syntax convention this file used to carry, and its warning
+# never to "tidy" the live chunk headers into hash-pipe form, are both gone.
+#
+# One rule still applies, for syntax that must be SHOWN rather than run:
+#
+#   * A chunk header inside a fence would still be seen by knitr, so write it
+#     with a doubled brace - ```{{r}} - which is Quarto's own escape
+#     (engine_escape, in share/filters/main.lua). It renders as a literal
+#     ```{r} block, and it works inside an outer ```` fence too. The inline-R
+#     trick this file used for the same purpose is no longer needed.
+#   * "#|" and ":::" need no escaping at all: the first is only meaningful
+#     inside an executable cell, the second only outside a code fence, so
+#     both are already literal inside a plain fence.
+#   * A shortcode would need a third brace, {{{< video >}}}. None here yet.
+#
+# The note lives in the YAML block, not in an HTML comment, so that it does
+# not ship to the reader in the page source.
 ---
-
-<!--
-  AUTHORING NOTE (not rendered)
-
-  This page teaches Quarto, but it is itself part of an R Markdown *website*
-  (rmarkdown::render_site(), see _site.yml), which is what gives every session
-  its navbar, footer, floating TOC and shared CSS.
-
-  Consequence for editing: knitr parses "#|" hash-pipe options but does NOT
-  translate Quarto's hyphenated names, so "#| fig-cap" and "#| fig-width" are
-  silently ignored here, and "::: {.panel-tabset}" is not turned into tabs.
-
-  The convention used throughout this file is therefore:
-
-    * Everything a student SEES  -> pure Quarto syntax, in a display-only
-      block (a fenced ```markdown block, escaped with the `r ''` trick).
-    * Every chunk that actually RUNS -> classic knitr header form,
-      e.g. {r label, fig.width=5}. The header of a live chunk is never shown
-      in the output, so this is invisible to the reader, and it means the
-      rendered result is exactly what Quarto would produce.
-
-  Do not "tidy" the live chunk headers into hash-pipe form: the figures will
-  quietly come out the wrong size and the tab sets will collapse into plain
-  headings.
--->
-
-> #### Learning objectives
->
-> * Learn how to generate an html/pdf report using Quarto and Positron
-> * Write formatted text, tables, links and images using Markdown
-> * Embed executable R code in a document and control how its output appears
-> * Present tables and figures in a report using knitr, kableExtra, DT and patchwork
+::: {.callout-note .objectives title="Learning objectives"}
+* Learn how to generate an html/pdf report using Quarto and Positron
+* Write formatted text, tables, links and images using Markdown
+* Embed executable R code in a document and control how its output appears
+* Present tables and figures in a report using knitr, kableExtra, DT and patchwork
+:::
 
 ---
 
@@ -56,7 +53,8 @@ More detailed materials can be found [here](https://quarto.org/docs/guide/).
 We will be using the following packages in this session. If you don't have them
 installed, you can do so using the `install.packages()` function.
 
-```{r packages, message=FALSE}
+```{r packages}
+#| message: false
 library(tidyverse)
 library(knitr)
 library(kableExtra)
@@ -265,35 +263,32 @@ The tab set ends when the div is closed.
 
 is rendered as:
 
-<div class="renderedblock">
+:::: {.renderedblock}
 
-<!-- Live demo of a tab set. See the authoring note at the top of this file:
-     the page is knitted by rmarkdown, so the tabs have to be produced with
-     knitr's own {.tabset} mechanism. The syntax taught to the reader is the
-     Quarto `::: {.panel-tabset}` div shown in the block above. -->
+::: {.panel-tabset}
 
-### Some different formattings {.tabset .unlisted .unnumbered}
-
-#### Bold {.unlisted .unnumbered}
+#### Bold
 
 Bold is achieved with double asterisks e.g. `**bold**` is rendered as
 **bold**.
 
-#### Italics {.unlisted .unnumbered}
+#### Italics
 
 Italics is achieved with a single asterisk e.g. `*italics*` is rendered
 as *italics*.
 
-#### Strikethrough {.unlisted .unnumbered}
+#### Strikethrough
 
 Strikethrough is achieved with two tildes e.g. `~~strikethrough~~` is rendered
 as ~~Strikethrough~~.
 
-### Next section {.unlisted .unnumbered}
+:::
+
+#### Next section
 
 The tab set ends when the div is closed.
 
-</div>
+::::
 
 **NOTE**: The border and background colour have been added in order to
 differentiate the output rendered from the markdown above from the main text of
@@ -313,10 +308,10 @@ There are no spaces after the end of the previous line
 
 is rendered as:
 
-<div class="renderedblock">
+::: {.renderedblock}
 This is the first line There are no spaces after the end of the previous
 line
-</div>
+:::
 
 where as:
 
@@ -327,10 +322,10 @@ There are no spaces after the end of the previous line
 
 is rendered as:
 
-<div class="renderedblock">
+::: {.renderedblock}
 This is the first line\
 There are no spaces after the end of the previous line
-</div>
+:::
 
 ## Lists
 
@@ -356,7 +351,7 @@ can created nested lists by indenting by 4 spaces.
 
 is rendered as:
 
-<div class="renderedblock">
+::: {.renderedblock}
 -   Cricket
 -   Rugby
 -   Football
@@ -366,7 +361,7 @@ is rendered as:
 -   Basketball
 -   Volleyball
 -   Hockey
-</div>
+:::
 
 ### Ordered lists
 
@@ -390,7 +385,7 @@ can be used to create nested lists. For example
 
 is rendered as:
 
-<div class="renderedblock">
+::: {.renderedblock}
 1.  Cat
 2.  Ferret
 3.  Dog
@@ -402,7 +397,7 @@ is rendered as:
     b.  Labradors
     c.  Spaniels
 4.  Goldfish
-</div>
+:::
 
 It isn't actually necessary to use particular numbers/letters/roman numerals in
 any particular order - the correct order for the bullets will be determined
@@ -518,13 +513,13 @@ achieved using the following syntax.
 
 is rendered as:
 
-<div class="renderedblock">
+::: {.renderedblock}
 | Animal    | Park            |
 |-----------|-----------------|
 | lion      | Kidepo Valley   |
 | elephant  | Murchison Falls |
 | crocodile | Murchison Falls |
-</div>
+:::
 
 Table alignments can be done using the following syntax:
 
@@ -538,13 +533,13 @@ Table alignments can be done using the following syntax:
 
 This is rendered as:
 
-<div class="renderedblock">
+::: {.renderedblock}
 | Animal    |      Park       |   Eats |
 |:----------|:---------------:|-------:|
 | lion      |  Kidepo Valley  |   meat |
 | elephant  | Murchison Falls | plants |
 | crocodile | Murchison Falls |   meat |
-</div>
+:::
 
 ## Blockquotes
 
@@ -586,12 +581,12 @@ metabric |>
 
 This will be rendered as:
 
-```{block type = "renderedblock"}
+::: {.renderedblock}
 metabric |>
     group_by(ER_status, Cancer_type) |>
     summarise(ERBB2_mean = mean(ERBB2)) |>
     slice_max(ERBB2_mean, n = 1)
-```
+:::
 
 For code that we actually want to run, we will use code chunks.
 
@@ -609,7 +604,7 @@ The R code chunk is created by surrounding the code with three backticks and
 adding `{r}` after the first three backticks. For example:
 
 ```` markdown
-`r ''````{r}
+```{{r}}
 x <- 10
 y <- 20
 x + y
@@ -665,7 +660,7 @@ Chunk options are set using the "hash-pipe" syntax (`#|`) at the start of the
 chunk. Each option is written on its own line in YAML format:
 
 ```` markdown
-`r ''````{r}
+```{{r}}
 #| echo: false
 #| warning: false
 x <- 10
@@ -708,7 +703,7 @@ A thorough guide to all the available chunk options can be found
 We can give the code chunk a label using the `label` option:
 
 ```` markdown
-`r ''````{r}
+```{{r}}
 #| label: my-chunk
 ```
 ````
@@ -745,7 +740,7 @@ document, which loads all the packages that you will need to run the code in
 the document:
 
 ```` markdown
-`r ''````{r}
+```{{r}}
 #| label: setup
 #| include: false
 library(tidyverse)
@@ -821,6 +816,7 @@ appearance of the table in much the same way as we add layers to a ggplot. The
 tables, including `kable_styling()`, `column_spec()`, and `row_spec()`. 
 
 ```{r kableExtraA}
+#| html-table-processing: none
 smallTable |>
     kbl() |>
     kable_styling(bootstrap_options = c("striped", "hover")) |>
@@ -833,6 +829,7 @@ As well as allowing us to control the formatting of the table ourselves,
 quickly format our tables.
 
 ```{r kableExtraB}
+#| html-table-processing: none
 smallTable |>
     kbl() |>
     kable_classic(full_width = F, html_font = "Cambria")
@@ -842,7 +839,7 @@ For a chunk like this one you will need to add the `html-table-processing:
 none` chunk option:
 
 ```` markdown
-`r ''````{r}
+```{{r}}
 #| label: kableExtraB
 #| html-table-processing: none
 smallTable |>
@@ -938,7 +935,7 @@ If a code chunk generates a plot, the plot will be displayed in the output
 document. 
 
 ```` markdown
-`r ''````{r}
+```{{r}}
 #| label: plot
 mtcars |>
     ggplot(aes(x = mpg, y = wt)) +
@@ -952,7 +949,8 @@ mtcars |>
 
 is rendered as:
 
-```{r plot, echo=FALSE}
+```{r plot}
+#| echo: false
 mtcars |>
     ggplot(aes(x = mpg, y = wt)) +
     geom_point() +
@@ -972,7 +970,7 @@ The caption is specified with `fig-cap`. Chunk option values are written in
 YAML, so a string value is simply quoted.
 
 ```` markdown
-`r ''````{r}
+```{{r}}
 #| label: plot2
 #| fig-width: 5
 #| fig-height: 3
@@ -992,7 +990,11 @@ is rendered as:
      this file. The options must be given in knitr's dotted form here, or the
      figure comes out at the default size with no caption. -->
 
-```{r plot2, fig.width=5, fig.height=3, fig.cap="Scatter plot of weight vs miles per gallon", echo=FALSE}
+```{r plot2}
+#| fig-width: 5
+#| fig-height: 3
+#| fig-cap: "Scatter plot of weight vs miles per gallon"
+#| echo: false
 mtcars |>
     ggplot(aes(x = mpg, y = wt)) +
     geom_point() +
@@ -1011,7 +1013,9 @@ provides a very simple and intuitive way to combine ggplots in a grid.
 First create each plot and rather than printing them, assign them to a variable.
 Then we can use the `patchwork` syntax to combine the plots.
 
-```{r patchworkA, fig.height=5, fig.width=10}
+```{r patchworkA}
+#| fig-height: 5
+#| fig-width: 10
 p1 <- mtcars |>
     mutate(across(cyl, factor)) |>
     ggplot(aes(x = mpg, y = wt)) +
@@ -1035,7 +1039,9 @@ annotations).
 I am going to reuse the same plots a few times just to show you how the layout
 works.
 
-```{r patchworkB, fig.height=8, fig.width=12}
+```{r patchworkB}
+#| fig-height: 8
+#| fig-width: 12
 ((p1 + p2) / (p2 + p1 + p2) | (p1 / p2 / p1)) +
     plot_layout(guides = "collect") +
     plot_annotation(title = "Patchwork example",
@@ -1063,7 +1069,7 @@ text. For example:
 
 
 ```` markdown
-`r ''````{r}
+```{{r}}
 #| label: inline
 six_cyl_mean_mpg <- mtcars |>
     filter(cyl == 6) |>
@@ -1075,7 +1081,7 @@ The mean mpg of cars with 6 cylinders was **``r "r six_cyl_mean_mpg"``**.
 
 Will be rendered as:
 
-<div class="renderedblock">
+::: {.renderedblock}
 ```{r inline}
 six_cyl_mean_mpg <- mtcars |>
     filter(cyl == 6) |>
@@ -1084,7 +1090,7 @@ six_cyl_mean_mpg <- mtcars |>
 ```
 
 The mean mpg of cars with 6 cylinders was **`r six_cyl_mean_mpg`**.
-</div>
+:::
 
 # Rendering the document
 
@@ -1125,7 +1131,7 @@ a lot of images.
 
 # Challenge
 
-:::exercise
+:::: exercise
 **Write a report on the METABRIC data set**
 
 Based on the information in this document and in the various links, create a
@@ -1149,7 +1155,7 @@ code. For example, in the final figure I have added sub-figure labels (a, b, c,
 d) using `patchwork`.  I couldn't remember how to do this, so I did a web search
 for "patchwork figure labels".
 
-<details class="hint"><summary>Hint</summary>
+::: {.callout-tip .hint collapse="true" title="Hint"}
 * The data are in `data/metabric_clinical_and_expression_data.csv`, the same
   file used in earlier sessions.
 * Set `echo: false` and `warning: false` once, in the `execute:` block of the
@@ -1159,14 +1165,14 @@ for "patchwork figure labels".
 * The tables use `kbl()` from `kableExtra` with `kable_styling()` and
   `column_spec()`, and need the `html-table-processing: none` chunk option.
 * The caption on the final figure comes from the `fig-cap` chunk option.
-</details>
+:::
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 The Quarto source for the report is
 [session8_exercise.qmd](session8_exercise.qmd) - have a proper go at it before
 you look.
-</details>
 :::
+::::
 
 # Acknowledgements
 
