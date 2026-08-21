@@ -692,8 +692,8 @@ for each observation (row) in the table. The values are separated by either
 commas or tab characters depending on the function used to write the file.
 
 ```{r, writeTable, eval=FALSE}
-write_csv(metabric, "metabric_clinical_data.csv")
-write_tsv(metabric, "metabric_clinical_data.tsv")
+write_csv(metabric, "filtered_metabric_clinical_data.csv")
+write_tsv(metabric, "filtered_metabric_clinical_data.tsv")
 ```
 
 # Reading data from Excel files into R
