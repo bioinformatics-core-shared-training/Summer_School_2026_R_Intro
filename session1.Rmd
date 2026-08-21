@@ -36,23 +36,36 @@ title: "Session 1: Data types and structures"
 
 ---
 
-# RStudio  a brief tour
+# Positron - a brief tour
 
-RStudio provides us with a friendly interface to the R statistical programming language.
-It consists of four main "Panes". These can be re-sized and moved around to suit how
-you like to work.
+Positron provides us with a friendly interface to the R statistical programming
+language.  It's a sophisticated IDE (Integrated Development Environment) that is
+built on top of Microsoft's Visual Studio Code. It has many features that make
+it easier to write and run R code, including syntax highlighting and code
+completion. In this course we will only explore a few of the features of
+Positron.
 
-<img src="assets/imgs/session1/RStudioataglance.png" alt="RStudio screenshot" width="90%">
+When you first open Positron you will see a screen similar to the one below. At
+the bottom of the screen is the "Panel", currently this shows theconsole window,
+which is the actual interface for the R programme. Above the "Panel" is the 
+"Editor" window; we will write our code here. On the left-hand side of the 
+screen is the "Activity Bar" which provides access to various features of 
+Positron. Hovering the mouse over the icons in the "Activity Bar" will show you
+what each icon does. In this course we will only be using the "Explorer" icon
+to open the folder in which we will be working and files that we will work on.
+
+<img src="assets/imgs/session1/Positron_Start.png" alt="Positron screenshot" width="90%">
+
 
 ## Console
 
-By default, in the bottom left-hand pane we find the console window. This is the actual
+At the bottom of the screenwe find the console window. This is the actual
 interface for the R programme. 
 
 We can type commands directly into the console and run them by pressing
 `Enter`.
 
-<img src="assets/imgs/session1/RStudio_console.png" alt="RStudio screenshot" width="50%">
+<img src="assets/imgs/session1/Positron_Console.png" alt="RStudio screenshot" width="60%">
 
 So, this area could be used like a calculator. Let's just type in something like
 `23 + 45` followed by the `Enter` key and see what happens. You should get the
@@ -92,66 +105,86 @@ sequence incrementing in steps of 2:
 [26] 52 54 56 58 60 62 64 66 68 70 72
 ```
 
-There are other tabs on this pane but we shall not be covering these on this course.
+There are other tabs on this pane but we shall not be covering these on this
+course.
 
+## The Explorer
 
-## Editing pane
+As general rule, the first thing to do is to open the folder in which you wish
+to work. In our case this will be the `Bioinformatics_Workshop` directory, which
+contains the `data` directory with all the data files we will be using in this 
+course. To do this, click on the "Open Folder" button (or use the `File` menu >>
+`Open Folder`) and navigate to the `Bioinformatics_Workshop` directory. 
 
-Above the Console, in the top left-hand pane is a text editor for creating,
-editing & running R scripts. Rather than simply typing our commands directly into
-the console, we can type them here as an R script.  As you will see, a script
-is basically a text file that contains R commands and comments to explain what
-the code does.
+When you first open the `Bioinformatics_Workshop` directory, you will just see
+the `data` directory.  If you click on the small triangle to the left of the
+`data` directory, you will see all the files as below.
 
-We send the commands typed here to the console, either using the `Run` button
-in the toolbar or by pressing `Ctrl + Enter` (`Cmd + Enter` on a Mac).  
+<img src="assets/imgs/session1/Positron_OpenFolder.png" alt="Positron screenshot" width="90%">
 
-The advantage of this is that our commands are not lost, we can save the text
-file for future use and it is easier to make changes to our code.
+Note that once you have used Positron to open a folder, it will remember this
+and automatically open the last folder you were working in when you next open
+Positron. 
 
-<img src="assets/imgs/session1/RStudio_scripting.png" alt="RStudio edit pane screenshot" width="50%">
+## The Editor
+
+The Editor is a panel for creating, editing & running R scripts. Rather than
+simply typing our commands directly into the console, we can write them here as
+an "R script".  As you will see, a script is basically a text file that contains
+R commands and comments to explain what the code does.
+
+Currently the Editor panel just contains the "Welcome" tab. To create a new R
+script click on the "New File" button on the "Welcome" tab or use `File` menu >>
+`New File`.  This will open the dialogue shown below. 
+
+<img src="assets/imgs/session1/Positron_NewFile.png" alt="Positron screenshot" width="90%">
+
+In the dialogue box where it says "*Select File Type or Enter File Name...*"
+type `My_First_Rscript.R` and press `Enter`.  Save the new file in the
+`Bioinformatics_Workshop` directory.  You should now see the new file in the
+Explorer pane and the Editor pane should now look like this:
+
+<img src="assets/imgs/session1/Positron_NewScript.png" alt="Positron screenshot" width="90%">
+
+This is a blank script file.  You can now type your R commands here.  
+
+We send the commands typed here to the console by placing the cursor on the line
+with the command and pressing `Ctrl + Enter` (`Cmd + Enter` on a Mac). You can
+also send multiple lines to the console by highlighting them and pressing `Ctrl
++ Enter` (`Cmd + Enter`  
+
+The advantage of using a script rather than typing directly into the console is
+that our commands are not lost, we can save the text file for future use and it
+is easier to make changes to our code.
+
+<img src="assets/imgs/session1/Positron_Scripting.png" alt="Positron edit pane screenshot" width="50%">
 
 A script is an R program that you have written. Good practice is for each 
 script to perform only one role in your analysis workflow and so you may have
 several R scripts which you call, in a particular sequence, to analyse your
 data.
 
-As well as R scripts, there are many types of RStudio document including
-Quarto documents, which we will use in the teaching of this course. These can
-provide interactive workbooks or pdf and web documents to name but a few
-possible outcomes.
+As well as R scripts, there are many types of Positron document including Quarto
+documents, which we have used to build the materials for this course. These can
+provide interactive workbooks or web documents to name but a few possible
+outcomes.
 
-## Environment
+## Session Panel
 
-Next we move to the top right-hand corner pane. Here we have even more tabs (of
-which we will only consider two Environment and History).
+Now go to the `View` menu and select `Variables`. This will open the "Session" 
+Panel on the right of the screen. This contains two panels: "Variables" and "Plots".
 
-<img src="assets/imgs/session1/RStudio_env.png" alt="RStudio screenshot" width="50%">
+The "Variables" panel will show you all the variables that you have created in
+your R session and their values.
 
-The Environment pane keeps track on R variables which we create (more on those
-later) and their contents. History is like a tally role of all the R commands
-we have entered in our session.
+<img src="assets/imgs/session1/Positron_Variables.png" alt="Positron variable panel" width="90%">
 
-## Files, Plots & Help
+Below the "Variables" panel is the "Plots" panel, which will display any graphs
+you create in your R session.
 
-Our final bottom right-hand pane also has several tabs. The Files tab is a file
-explorer that enable us to move around our directories and select which files
-we wish to work on. We can also change the default working directory that
-RStudio will use.
-
-<img src="assets/imgs/session1/RStudio_filexpl.png" alt="RStudio screenshot" width="50%">
-
-The Plots tab is where any graphs that we create in R will appear. We can move
-through them using the arrow buttons and the export button will convert them to
-different graphics formats e.g. for publication in a paper or for the web.
-
-The Packages tab shows which R packages are installed (These expand R's
-functionality and again will be covered later) and can also install new
-packages.
-
-The Help tab is a _extremely useful_ tab which enables you to search R help
-index to get help pages on R functions and provide example code to help you use
-them in your R scripts.
+There are a number of other tabs available alongside the "Session" panel. The
+only one that we will look at in this course is the "Help" tab, which will
+display the help pages for any R function you are using. 
 
 ---
 
