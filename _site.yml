@@ -21,7 +21,7 @@ navbar:
           href: session6.html
         - text: "7 · Restructuring data for analysis"
           href: session7.html
-        - text: "8 · R Markdown"
+        - text: "8 · Quarto"
           href: session8.html
     - text: "Summer School"
       href: https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/

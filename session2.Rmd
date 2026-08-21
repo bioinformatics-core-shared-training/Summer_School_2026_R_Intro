@@ -6,7 +6,6 @@ title: "Session 2 -- Introduction to other data structures"
 >
 > * To learn about the categorical data class - *factors* 
 > * To understand more complex R data structures like data frames, lists etc
-> * To demonstrate the R markdown
 
 
 # Factors

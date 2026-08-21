@@ -1,0 +1,7 @@
+# Quarto renders session8_exercise.qmd at the repo root; render_site() then
+# copies the result into docs/, which is the published site and IS committed.
+# Only these root-level files are intermediate build output - the leading
+# slash keeps the patterns from also matching the copies under docs/.
+/session8_exercise.html
+/session8_exercise_files/
+/.quarto/

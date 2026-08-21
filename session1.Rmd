@@ -20,7 +20,7 @@ title: "Session 1: Data types and structures"
   funding agencies expect analyses to be reproducible, so knowing R will give
   you an edge with these requirements.  
 * R integrates with other tools to generate manuscripts from your code.  This
-  document (RMarkdown a .Rmd file) is a case in point.  
+  document (a Quarto document) is a case in point.  
 * R is interdisciplinary and extensible and has thousands of installable
   packages to extend its capabilities. R has packages for image analysis, GIS,
   time series, population genetics, and a lot more.  
@@ -117,7 +117,7 @@ several R scripts which you call, in a particular sequence, to analyse your
 data.
 
 As well as R scripts, there are many types of RStudio document including
-Markdown files which we will use in the teaching of this course. These can
+Quarto documents, which we will use in the teaching of this course. These can
 provide interactive workbooks or pdf and web documents to name but a few
 possible outcomes.
 
