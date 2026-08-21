@@ -1423,7 +1423,7 @@ window.Quarto = {
 <span id="cb192-2"><a href="#cb192-2" aria-hidden="true" tabindex="-1"></a>rolls <span class="ot">&lt;-</span> <span class="fu">sample</span>(six_sided_die, <span class="at">size =</span> <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb192-3"><a href="#cb192-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(rolls <span class="sc">==</span> <span class="dv">6</span>)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>## [1] 148</code></pre>
+<pre><code>## [1] 166</code></pre>
 </div>
 </div>
 <p>Challenge 7b: What number would you expect?</p>
@@ -1444,7 +1444,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a>rolls <span class="ot">&lt;-</span> <span class="fu">sample</span>(six_sided_die, <span class="at">size =</span> number_of_rolls, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb198-2"><a href="#cb198-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(rolls <span class="sc">==</span> <span class="dv">6</span>)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>## [1] 16468</code></pre>
+<pre><code>## [1] 16670</code></pre>
 </div>
 </div>
 <p>The proportion of sixes gets closer to the expected value as the number of rolls increases.</p>
@@ -1490,7 +1490,7 @@ window.Quarto = {
 <span id="cb202-5"><a href="#cb202-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">prob =</span> <span class="fu">c</span>(<span class="fu">rep</span>(prob_other, <span class="dv">5</span>), prob_six))</span>
 <span id="cb202-6"><a href="#cb202-6" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(rolls <span class="sc">==</span> <span class="dv">6</span>)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>## [1] 10027</code></pre>
+<pre><code>## [1] 9884</code></pre>
 </div>
 </div>
 </div>

@@ -461,7 +461,7 @@ patients &lt;- metabric |&gt;
 <section id="modifying-data-using-mutate" class="level1">
 <h1>Modifying data using <code>mutate()</code></h1>
 <p>In one of the examples of filtering observations using <code>filter()</code> above, we created a new logical variable called <code>Deceased</code>.</p>
-<pre class="eavhtml_document&quot;"><code>metabric$Deceased &lt;- metabric$Survival_status == "DECEASED"</code></pre>
+<pre class="riqhtml_document&quot;"><code>metabric$Deceased &lt;- metabric$Survival_status == "DECEASED"</code></pre>
 <p>This is an example of a rather common type of data manipulation in which we create a new column based on the values contained in one or more other columns. The <code>dplyr</code> package provides the <code>mutate()</code> function for this purpose.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>metabric <span class="ot">&lt;-</span> <span class="fu">mutate</span>(metabric, <span class="at">Deceased =</span> Survival_status <span class="sc">==</span> <span class="st">"DECEASED"</span>)</span></code></pre></div>
