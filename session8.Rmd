@@ -509,41 +509,41 @@ however, on rare occasions we may want to manually include a table. This can be
 achieved using the following syntax.
 
 ```         
-| Name        | Band        |
-| ----------- | ----------- |
-| Mick        | Stones      |
-| John        | Beatles     |
-| Paul        | Beatles     |          
+| Animal      | Park            |
+| ----------- | --------------- |
+| lion        | Kidepo Valley   |
+| elephant    | Murchison Falls |
+| crocodile   | Murchison Falls |
 ```
 
 is rendered as:
 
 <div class="renderedblock">
-| Name | Band    |
-|------|---------|
-| Mick | Stones  |
-| John | Beatles |
-| Paul | Beatles |
+| Animal    | Park            |
+|-----------|-----------------|
+| lion      | Kidepo Valley   |
+| elephant  | Murchison Falls |
+| crocodile | Murchison Falls |
 </div>
 
 Table alignments can be done using the following syntax:
 
 ```         
-| Name  | Band    | Instrument |
-| :---  | :----:  |       ---: |
-| John  | Beatles | Guitar     | 
-| Paul  | Beatles | Bass       |
-| Keith | Stones  | Guitar     |
+| Animal    | Park            |   Eats |
+| :---      | :----:          |   ---: |
+| lion      | Kidepo Valley   | meat   |
+| elephant  | Murchison Falls | plants |
+| crocodile | Murchison Falls | meat   |
 ```
 
 This is rendered as:
 
 <div class="renderedblock">
-| Name  |  Band   | Instrument |
-|:------|:-------:|-----------:|
-| John  | Beatles |     Guitar |
-| Paul  | Beatles |       Bass |
-| Keith | Stones  |     Guitar |
+| Animal    |      Park       |   Eats |
+|:----------|:---------------:|-------:|
+| lion      |  Kidepo Valley  |   meat |
+| elephant  | Murchison Falls | plants |
+| crocodile | Murchison Falls |   meat |
 </div>
 
 ## Blockquotes
