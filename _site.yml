@@ -1,6 +1,6 @@
 name: "Summer_School_2026_R_Intro"
 navbar:
-  title: '<img class="brand-logo" src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span>'
+  title: '<img class="brand-logo" src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span>'
   right:
     - text: "Home"
       icon: fa-home

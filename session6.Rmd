@@ -83,7 +83,7 @@ metabric |>
 The following schematic contains another example using a simplified subset of
 the METABRIC tumour samples to show what's going on.
 
-![](images/group_and_summarise.png)
+![](assets/imgs/session6/group_and_summarise.png)
 
 
 We get an additional column in our output for the categorical variable,
@@ -440,7 +440,7 @@ can combine the two data frames into a single data frame by matching rows in the
 first data frame with those in the second data frame that share the same value
 of variable V1.
 
-![dplyr left join](images/dplyr_left_join.png)
+![dplyr left join](assets/imgs/session6/dplyr_left_join.png)
 
 `left_join()` returns all rows from the first data frame regardless of whether
 there is a match in the second data frame. Rows with no match are included in
@@ -499,7 +499,7 @@ right_join(animals, animal_diets, by = join_by(animal))
 Another joining operation is the "inner join" in which only observations that
 are common to both data frames are included.
 
-![dplyr inner join](images/dplyr_inner_join.png)
+![dplyr inner join](assets/imgs/session6/dplyr_inner_join.png)
 
 ```{r}
 inner_join(animals, animal_diets, by = join_by(animal))
@@ -518,7 +518,7 @@ appear in the combined table. A `full_join` will return all rows and all columns
 from the two tables and where there are no matching values, `NA` values are used
 to fill in the missing values.
 
-![dplyr full join](images/dplyr_full_join.png)
+![dplyr full join](assets/imgs/session6/dplyr_full_join.png)
 
 ```{r}
 full_join(animals, animal_diets, by = join_by(animal))

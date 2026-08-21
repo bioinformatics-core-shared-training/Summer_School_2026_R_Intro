@@ -4,12 +4,12 @@ title: Brief recap of sessions 1 & 2
 
 # Data types in R
 
-![Image source:https://www.javatpoint.com/r-data-types](./images/r-programming-data-types.png)
+![Image source:https://www.javatpoint.com/r-data-types](./assets/imgs/shared/r-programming-data-types.png)
 
 
 # Data structures in R
 
-![Image source:http://venus.ifca.unican.es/Rintro/dataStruct.html](./images/dataStructures.png)
+![Image source:http://venus.ifca.unican.es/Rintro/dataStruct.html](./assets/imgs/shared/dataStructures.png)
 
 # Atomic vector
 ```{r}

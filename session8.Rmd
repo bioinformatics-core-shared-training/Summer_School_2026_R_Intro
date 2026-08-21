@@ -83,11 +83,11 @@ We can start a new Quarto document in RStudio from the menu bar:
 
 `File` --\> `New File` --\> `Quarto Document...`
 
-![](images/Quarto_new_doc.png)
+![](assets/imgs/session8/Quarto_new_doc.png)
 
 This will bring up the following dialogue box:
 
-![](images/Quarto_creation_dialogue.png)
+![](assets/imgs/session8/Quarto_creation_dialogue.png)
 
 Change the title to something meaningful, add your name as the author if you
 wish, select the type of document you want Quarto to generate (this can be
@@ -106,12 +106,12 @@ A Quarto file is made up of 3 components:
 - Code chunks - Code chunks to be executed and the output included in the
   report
 
-![](images/Quarto_starter_script_Annotated.png)
+![](assets/imgs/session8/Quarto_starter_script_Annotated.png)
 
 You may have noticed that opening a Quarto (`.qmd`) document caused a few new
 icons to appear on the toolbar above the script window. For now just click:
 
-<img src="images/Quarto_render_button.png" width="90"/>
+<img src="assets/imgs/session8/Quarto_render_button.png" width="90"/>
 
 This will convert (or *render*) the document to html format.
 
@@ -493,27 +493,27 @@ uses a similar syntax to links, but this time preceded by an exclamation mark:
 The link can be a URL to an image elsewhere on the internet or a relative path
 to an image on the same file system.
 
-`![Figure 1: A cheetah!](images/cheetah.png)`
+`![Figure 1: A cheetah!](assets/imgs/session8/cheetah.png)`
 
 inserts the image like this:
 
-![Figure 1: Cheetah](images/cheetah.png)
+![Figure 1: Cheetah](assets/imgs/session8/cheetah.png)
 
 This does not give us much control over how the image is rendered. We can
 control the size by specifying the width in either absolute display pixels or
 the percentage of the document width with the following syntax:
 
-`![Figure 1: Cheetah](images/cheetah.png){width=10%}`
+`![Figure 1: Cheetah](assets/imgs/session8/cheetah.png){width=10%}`
 
 inserts the image like this:
 
-![Figure 1: Cheetah](images/cheetah.png){width="10%"}
+![Figure 1: Cheetah](assets/imgs/session8/cheetah.png){width="10%"}
 
-`![Figure 1: Cheetah](images/cheetah.png){width=150px}`
+`![Figure 1: Cheetah](assets/imgs/session8/cheetah.png){width=150px}`
 
 inserts the image like this:
 
-![Figure 1: Cheetah](images/cheetah.png){width="150px"}
+![Figure 1: Cheetah](assets/imgs/session8/cheetah.png){width="150px"}
 
 ## Tables {#tables}
 
@@ -647,7 +647,7 @@ errors.
 
 To create a code chunk, you can use the insert icon on the toolbar:
 
-![](images/Quarto_insert_chunk.png)
+![](assets/imgs/session8/Quarto_insert_chunk.png)
 
 or you can use the keyboard shortcut `Ctrl + Alt + I` (Windows) or
 `Cmd + Option + I` (Mac), or you can type the code chunk manually as shown
@@ -656,7 +656,7 @@ document.
 
 The empty code chunk will look like this:
 
-![](images/Quarto_empty_code_chunk.png)
+![](assets/imgs/session8/Quarto_empty_code_chunk.png)
 
 You'll notice a few icons on the right in the toolbar above the code chunk.
 These are used to run the code chunk, run all code chunks above the current
@@ -729,7 +729,7 @@ We can give the code chunk a label using the `label` option:
 This has a number of uses. In RStudio you should see a menu in the bottom left
 of the script panel:
 
-![](images/Quarto_outline_menu.png)
+![](assets/imgs/session8/Quarto_outline_menu.png)
 
 This gives us a way to navigate through the document and includes any headers and
 code chunks with labels. This is very useful for long documents.

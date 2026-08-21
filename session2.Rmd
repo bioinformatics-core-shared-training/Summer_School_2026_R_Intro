@@ -120,7 +120,7 @@ age
 ```
 
 # Beyond the atomic vector - matrices, data.frames and lists
-![Image source:http://venus.ifca.unican.es/Rintro/dataStruct.html](./images/dataStructures.png)
+![Image source:http://venus.ifca.unican.es/Rintro/dataStruct.html](./assets/imgs/shared/dataStructures.png)
 
 
 R has many data structures. These include:

@@ -42,7 +42,7 @@ RStudio provides us with a friendly interface to the R statistical programming l
 It consists of four main "Panes". These can be re-sized and moved around to suit how
 you like to work.
 
-<img src="images/RStudioataglance.png" alt="RStudio screenshot" width="90%">
+<img src="assets/imgs/session1/RStudioataglance.png" alt="RStudio screenshot" width="90%">
 
 ## Console
 
@@ -52,7 +52,7 @@ interface for the R programme.
 We can type commands directly into the console and run them by pressing
 `Enter`.
 
-<img src="images/RStudio_console.png" alt="RStudio screenshot" width="50%">
+<img src="assets/imgs/session1/RStudio_console.png" alt="RStudio screenshot" width="50%">
 
 So, this area could be used like a calculator. Let's just type in something like
 `23 + 45` followed by the `Enter` key and see what happens. You should get the
@@ -109,7 +109,7 @@ in the toolbar or by pressing `Ctrl + Enter` (`Cmd + Enter` on a Mac).
 The advantage of this is that our commands are not lost, we can save the text
 file for future use and it is easier to make changes to our code.
 
-<img src="images/RStudio_scripting.png" alt="RStudio edit pane screenshot" width="50%">
+<img src="assets/imgs/session1/RStudio_scripting.png" alt="RStudio edit pane screenshot" width="50%">
 
 A script is an R program that you have written. Good practice is for each 
 script to perform only one role in your analysis workflow and so you may have
@@ -126,7 +126,7 @@ possible outcomes.
 Next we move to the top right-hand corner pane. Here we have even more tabs (of
 which we will only consider two Environment and History).
 
-<img src="images/RStudio_env.png" alt="RStudio screenshot" width="50%">
+<img src="assets/imgs/session1/RStudio_env.png" alt="RStudio screenshot" width="50%">
 
 The Environment pane keeps track on R variables which we create (more on those
 later) and their contents. History is like a tally role of all the R commands
@@ -139,7 +139,7 @@ explorer that enable us to move around our directories and select which files
 we wish to work on. We can also change the default working directory that
 RStudio will use.
 
-<img src="images/RStudio_filexpl.png" alt="RStudio screenshot" width="50%">
+<img src="assets/imgs/session1/RStudio_filexpl.png" alt="RStudio screenshot" width="50%">
 
 The Plots tab is where any graphs that we create in R will appear. We can move
 through them using the arrow buttons and the export button will convert them to
@@ -168,7 +168,7 @@ Data comes in many forms: Numbers (Integers and decimal values) or alphabetical
 representing this wide range of data with it’s diverse properties.
 
 ## Data types in R
-![Image source:https://www.javatpoint.com/r-data-types](./images/r-programming-data-types.png)
+![Image source:https://www.javatpoint.com/r-data-types](./assets/imgs/shared/r-programming-data-types.png)
 
 
 R has 6 basic data types:
@@ -210,7 +210,7 @@ mathematical operations (+, -, x and /) are only meaningful for numbers.
 
 ## Data structures in R
 
-![Image source:http://venus.ifca.unican.es/Rintro/dataStruct.html](./images/dataStructures.png)
+![Image source:http://venus.ifca.unican.es/Rintro/dataStruct.html](./assets/imgs/shared/dataStructures.png)
 
 R has many data structures. These include:
 
@@ -392,7 +392,7 @@ y <- c(1, 2)
 x + y
 ```
 
-![](./images/vector_recycling.png){width=40%}
+![](./assets/imgs/session1/vector_recycling.png){width=40%}
   
 ### Accessing specific elements of an atomic vector  
 
@@ -404,7 +404,7 @@ Within `[]` one can give any of the following:
 * Vector of index numbers   
 * Vector of logical values
 
-![](./images/atomic_vector.png)
+![](./assets/imgs/session1/atomic_vector.png)
 
 #### Using integer vector containing index numbers
 

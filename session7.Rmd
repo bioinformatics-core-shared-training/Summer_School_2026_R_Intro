@@ -101,7 +101,7 @@ A tidy data set is a data frame (or table) for which the following are true:
 2. Each **observation** has its own row
 3. Each **value** has its own cell
 
-![](images/tidy_data.png)
+![](assets/imgs/session7/tidy_data.png)
 
 A **variable** contains all values that measure the same underlying attribute
 (like height, temperature, duration) across units.
@@ -182,7 +182,7 @@ number of columns.
 
 `table4a_long <- pivot_longer(table4a, c("1999", "2000"), names_to = "year", values_to = "cases")`
 
-![](images/pivot_longer.png)
+![](assets/imgs/session7/pivot_longer.png)
 
 **`pivot_wider(data, names_from = name, values_from = value)`**
 
