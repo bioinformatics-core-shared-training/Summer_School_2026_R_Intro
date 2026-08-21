@@ -1,450 +1,289 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<html>
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
 
-<head>
-
-<meta charset="utf-8" />
-<meta name="generator" content="pandoc" />
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Session 4 – Visualizing tabular data with ggplot2</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
 
-<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
-<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
-<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<style>h1 {font-size: 34px;}
-       h1.title {font-size: 38px;}
-       h2 {font-size: 30px;}
-       h3 {font-size: 24px;}
-       h4 {font-size: 18px;}
-       h5 {font-size: 16px;}
-       h6 {font-size: 12px;}
-       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
-       pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
-<script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ac3c9d0c3ee301a688d32d8927d28e20.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-78cd34c0ad4daa77b343598149360044.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
 <meta name="description" content="Introduction to R for Biologists — the R course taught at the Cambridge–Makerere Summer School 2026, Uganda Cancer Institute, Kampala, 14–18 September 2026.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Progress-SemiBold.woff2" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
-<style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
-
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Progress-SemiBold.woff2" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet">
 
 
-
-
-
-
-<link rel="stylesheet" href="assets/css/site.css" type="text/css" />
-<link rel="stylesheet" href="styles.css" type="text/css" />
-
-
-
-<style type = "text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-img {
-  max-width:100%;
-}
-.tabbed-pane {
-  padding-top: 12px;
-}
-.html-widget {
-  margin-bottom: 20px;
-}
-button.code-folding-btn:focus {
-  outline: none;
-}
-summary {
-  display: list-item;
-}
-details > summary > p:only-child {
-  display: inline;
-}
-pre code {
-  padding: 0;
-}
-</style>
-
-
-<style type="text/css">
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  border-radius: 0 6px 6px 6px;
-}
-.dropdown-submenu:hover>.dropdown-menu {
-  display: block;
-}
-.dropdown-submenu>a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #cccccc;
-  margin-top: 5px;
-  margin-right: -10px;
-}
-.dropdown-submenu:hover>a:after {
-  border-left-color: #adb5bd;
-}
-.dropdown-submenu.pull-left {
-  float: none;
-}
-.dropdown-submenu.pull-left>.dropdown-menu {
-  left: -100%;
-  margin-left: 10px;
-  border-radius: 6px 0 6px 6px;
-}
-</style>
-
-<script type="text/javascript">
-// manage active state of menu based on current page
-$(document).ready(function () {
-  // active menu anchor
-  href = window.location.pathname
-  href = href.substr(href.lastIndexOf('/') + 1)
-  if (href === "")
-    href = "index.html";
-  var menuAnchor = $('a[href="' + href + '"]');
-
-  // mark the anchor link active (and if it's in a dropdown, also mark that active)
-  var dropdown = menuAnchor.closest('li.dropdown');
-  if (window.bootstrap) { // Bootstrap 4+
-    menuAnchor.addClass('active');
-    dropdown.find('> .dropdown-toggle').addClass('active');
-  } else { // Bootstrap 3
-    menuAnchor.parent().addClass('active');
-    dropdown.addClass('active');
-  }
-
-  // Navbar adjustments
-  var navHeight = $(".navbar").first().height() + 15;
-  var style = document.createElement('style');
-  var pt = "padding-top: " + navHeight + "px; ";
-  var mt = "margin-top: -" + navHeight + "px; ";
-  var css = "";
-  // offset scroll position for anchor links (for fixed navbar)
-  for (var i = 1; i <= 6; i++) {
-    css += ".section h" + i + "{ " + pt + mt + "}\n";
-  }
-  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
-  document.head.appendChild(style);
-});
-</script>
-
-<!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-  background-color: transparent;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
-<!-- code folding -->
-
-
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
-
+<link rel="stylesheet" href="assets/css/fonts.css">
 </head>
 
-<body>
+<body class="floating nav-fixed quarto-light">
 
-
-<div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
-
-
-
-
-<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title"><img class="brand-logo" src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> <i class="bi bi-house-door" role="img">
+</i> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-sessions" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Sessions</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-sessions">    
         <li>
-  <a href="index.html">
-    <span class="fa fa-home"></span>
-     
-    Home
-  </a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sessions
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="session1.html">1 · Data types and structures</a>
-    </li>
-    <li>
-      <a href="session2.html">2 · Other data structures</a>
-    </li>
-    <li>
-      <a href="session3.html">3 · Working with data in R</a>
-    </li>
-    <li>
-      <a href="session4.html">4 · Visualizing data with ggplot2</a>
-    </li>
-    <li>
-      <a href="session5.html">5 · Data manipulation with dplyr</a>
-    </li>
-    <li>
-      <a href="session6.html">6 · Grouping and combining data</a>
-    </li>
-    <li>
-      <a href="session7.html">7 · Restructuring data for analysis</a>
-    </li>
-    <li>
-      <a href="session8.html">8 · Quarto</a>
-    </li>
+    <a class="dropdown-item" href="./session1.html">
+ <span class="dropdown-text">1 · Data types and structures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./session2.html">
+ <span class="dropdown-text">2 · Other data structures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./session3.html">
+ <span class="dropdown-text">3 · Working with data in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./session4.html">
+ <span class="dropdown-text">4 · Visualizing data with ggplot2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./session5.html">
+ <span class="dropdown-text">5 · Data manipulation with dplyr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./session6.html">
+ <span class="dropdown-text">6 · Grouping and combining data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./session7.html">
+ <span class="dropdown-text">7 · Restructuring data for analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./session8.html">
+ <span class="dropdown-text">8 · Quarto</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/"> 
+<span class="menu-text">Summer School</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#visualizing-data-with-ggplot2" id="toc-visualizing-data-with-ggplot2" class="nav-link active" data-scroll-target="#visualizing-data-with-ggplot2">Visualizing data with ggplot2</a>
+  <ul class="collapse">
+  <li><a href="#metabric-data-set" id="toc-metabric-data-set" class="nav-link" data-scroll-target="#metabric-data-set">METABRIC data set</a></li>
+  </ul></li>
+  <li><a href="#our-first-ggplot---a-scatter-plot" id="toc-our-first-ggplot---a-scatter-plot" class="nav-link" data-scroll-target="#our-first-ggplot---a-scatter-plot">Our first ggplot - a scatter plot</a></li>
+  <li><a href="#aesthetic-mappings" id="toc-aesthetic-mappings" class="nav-link" data-scroll-target="#aesthetic-mappings">Aesthetic mappings</a></li>
+  <li><a href="#ggplot2-grammar" id="toc-ggplot2-grammar" class="nav-link" data-scroll-target="#ggplot2-grammar">ggplot2 grammar</a></li>
+  <li><a href="#another-plot-type---bar-chart" id="toc-another-plot-type---bar-chart" class="nav-link" data-scroll-target="#another-plot-type---bar-chart">Another plot type - bar chart</a></li>
+  <li><a href="#multiple-layers" id="toc-multiple-layers" class="nav-link" data-scroll-target="#multiple-layers">Multiple layers</a></li>
+  <li><a href="#box-plots" id="toc-box-plots" class="nav-link" data-scroll-target="#box-plots">Box plots</a></li>
+  <li><a href="#time-series-data" id="toc-time-series-data" class="nav-link" data-scroll-target="#time-series-data">Time series data</a>
+  <ul class="collapse">
+  <li><a href="#covid-19-data-set" id="toc-covid-19-data-set" class="nav-link" data-scroll-target="#covid-19-data-set">COVID-19 data set</a></li>
+  <li><a href="#dates" id="toc-dates" class="nav-link" data-scroll-target="#dates">Dates</a></li>
+  <li><a href="#line-plot" id="toc-line-plot" class="nav-link" data-scroll-target="#line-plot">Line plot</a></li>
+  </ul></li>
+  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms">Histograms</a></li>
+  <li><a href="#categorical-variables-factors" id="toc-categorical-variables-factors" class="nav-link" data-scroll-target="#categorical-variables-factors">Categorical variables – factors</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
   </ul>
-</li>
-<li>
-  <a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/">Summer School</a>
-</li>
-<li>
-  <a href="https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
-    </div><!--/.nav-collapse -->
-  </div><!--/.container -->
-</div><!--/.navbar -->
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
 
-<div id="header">
-
-
-
-<h1 class="title toc-ignore">Session 4 – Visualizing tabular data with
-ggplot2</h1>
-
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Session 4 – Visualizing tabular data with ggplot2</h1>
 </div>
 
 
-<blockquote>
-<h4 id="learning-objectives">Learning objectives</h4>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="objectives callout callout-style-default callout-note callout-titled" title="Learning objectives">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
 <li>Understand ggplot2’s grammar of graphics</li>
-<li>Apply the grammar to create a variety of plots including scatter
-plots, box plots and histograms</li>
+<li>Apply the grammar to create a variety of plots including scatter plots, box plots and histograms</li>
 <li>Learn about how R handles categorical data</li>
 </ul>
-</blockquote>
-<div id="visualizing-data-with-ggplot2" class="section level1">
+</div>
+</div>
+<section id="visualizing-data-with-ggplot2" class="level1">
 <h1>Visualizing data with ggplot2</h1>
-<p>In this session we will focus our attention on the popular
-<strong>ggplot2</strong> package for visualizing tabular data and will
-be learning how to create various different kinds of plot.</p>
-<div id="metabric-data-set" class="section level2">
-<h2>METABRIC data set</h2>
-<p>We’ll be using an extended version of the METABRIC data set (from the
-last session) in which columns have been added for the mRNA expression
-values for selected genes, including estrogen receptor alpha (ESR1),
-progesterone receptor (PGR), GATA3 and FOXA1.</p>
-<p>The METABRIC study characterized the genomic mutations and gene
-expression profiles for over 2000 primary breast tumours. In addition to
-the gene expression data generated using microarrays, genome-wide copy
-number profiles were obtained using SNP microarrays and targeted
-sequencing was performed using a panel of 40 driver-mutation genes to
-detect mutations (single nucleotide variants).</p>
-<p><a href="https://pubmed.ncbi.nlm.nih.gov/22522925">Curtis <em>et
-al.</em>, Nature 486:346-52, 2012</a></p>
-<p><a href="https://www.ncbi.nlm.nih.gov/pubmed/27161491">Pereira <em>et
-al.</em>, Nature Communications 7:11479, 2016</a></p>
-<p>Both the clinical data and the gene expression values were downloaded
-from <a
-href="https://www.cbioportal.org/study/summary?id=brca_metabric">cBioPortal</a>.</p>
-<p>These have been combined into a single table using techniques we will
-cover later in the course. We’ve removed observations for patient tumour
-samples for which expression data are not available, so our table has
-fewer rows.</p>
-<p>In addition, we have replaced spaces in column names with underscores
-so we don’t have to constantly refer to these using backticks (
-<strong><code>`</code></strong> ). Note, however, that even after
-renaming some of the column names, we have one column, ‘3-gene
-classifier’, that is not strictly a valid name in R as it starts with a
-number and contains a hyphen. Valid names for variables in R contain
-only letters, numbers and the dot (<strong><code>.</code></strong>) and
-underscore (<strong><code>_</code></strong>) characters and should not
-begin with a number. So when we refer to the ‘3-gene classifier’ column
-we’ll have to use backticks,
-e.g. <code>metabric$`3-gene_classifier`</code>.</p>
-<pre class="r"><code>library(tidyverse)
-metabric &lt;- read_csv(&quot;data/metabric_clinical_and_expression_data.csv&quot;)
-metabric</code></pre>
+<p>In this session we will focus our attention on the popular <strong>ggplot2</strong> package for visualizing tabular data and will be learning how to create various different kinds of plot.</p>
+<section id="metabric-data-set" class="level2">
+<h2 data-anchor-id="metabric-data-set">METABRIC data set</h2>
+<p>We’ll be using an extended version of the METABRIC data set (from the last session) in which columns have been added for the mRNA expression values for selected genes, including estrogen receptor alpha (ESR1), progesterone receptor (PGR), GATA3 and FOXA1.</p>
+<p>The METABRIC study characterized the genomic mutations and gene expression profiles for over 2000 primary breast tumours. In addition to the gene expression data generated using microarrays, genome-wide copy number profiles were obtained using SNP microarrays and targeted sequencing was performed using a panel of 40 driver-mutation genes to detect mutations (single nucleotide variants).</p>
+<p><a href="https://pubmed.ncbi.nlm.nih.gov/22522925">Curtis <em>et al.</em>, Nature 486:346-52, 2012</a></p>
+<p><a href="https://www.ncbi.nlm.nih.gov/pubmed/27161491">Pereira <em>et al.</em>, Nature Communications 7:11479, 2016</a></p>
+<p>Both the clinical data and the gene expression values were downloaded from <a href="https://www.cbioportal.org/study/summary?id=brca_metabric">cBioPortal</a>.</p>
+<p>These have been combined into a single table using techniques we will cover later in the course. We’ve removed observations for patient tumour samples for which expression data are not available, so our table has fewer rows.</p>
+<p>In addition, we have replaced spaces in column names with underscores so we don’t have to constantly refer to these using backticks ( <strong><code>`</code></strong> ). Note, however, that even after renaming some of the column names, we have one column, ‘3-gene classifier’, that is not strictly a valid name in R as it starts with a number and contains a hyphen. Valid names for variables in R contain only letters, numbers and the dot (<strong><code>.</code></strong>) and underscore (<strong><code>_</code></strong>) characters and should not begin with a number. So when we refer to the ‘3-gene classifier’ column we’ll have to use backticks, e.g.&nbsp;<code>metabric$`3-gene_classifier`</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>metabric <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/metabric_clinical_and_expression_data.csv"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>metabric</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## # A tibble: 1,904 × 32
 ##    Patient_ID Cohort Age_at_diagnosis Survival_time Survival_status Vital_status
 ##    &lt;chr&gt;       &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;       
@@ -467,359 +306,462 @@ metabric</code></pre>
 ## #   Nottingham_prognostic_index &lt;dbl&gt;, Cellularity &lt;chr&gt;, …</code></pre>
 </div>
 </div>
-<div id="our-first-ggplot---a-scatter-plot" class="section level1">
+</section>
+</section>
+<section id="our-first-ggplot---a-scatter-plot" class="level1">
 <h1>Our first ggplot - a scatter plot</h1>
-<p>First we’ll create a simple scatter plot much like the ones we’ve
-created in previous sessions using R’s <code>plot()</code> function.
-We’ll plot the expression of estrogen receptor alpha (ESR1) against that
-of the transcription factor, GATA3.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_point(mapping = aes(x = GATA3, y = ESR1))</code></pre>
-<p><img src="session4_files/figure-html/scatter_plot_1-1.png" alt="" width="672" /></p>
-<p>We specified 3 things to create this plot:</p>
-<ol style="list-style-type: decimal">
-<li>The <strong>data</strong> – needs to be a data frame (or a
-tibble)</li>
-<li>The type of plot – this is called a <strong>geom</strong> in ggplot2
-terminology</li>
-<li>The mapping of variables in the data to visual properties of objects
-in the plot - these are called <strong>aesthetics</strong> in
-ggplot2</li>
-</ol>
-<p>In this case, the type of plot is a
-<strong><code>geom_point</code></strong>, ggplot2’s function for a
-scatter plot, and the expression of the genes GATA3 and ESR1 (estrogen
-receptor alpha) are mapped to the <strong><code>x</code></strong> and
-<strong><code>y</code></strong> coordinates, i.e. the positions of
-points on the scatter plot.</p>
-<p>Other aesthetics include the size, shape and colour of the points. It
-might seem a little surprising that the x and y coordinates are treated
-in the same way as we wouldn’t normally think about these as having
-aesthetic qualities but this is indeed the case with ggplot2.</p>
+<p>First we’ll create a simple scatter plot much like the ones we’ve created in previous sessions using R’s <code>plot()</code> function. We’ll plot the expression of estrogen receptor alpha (ESR1) against that of the transcription factor, GATA3.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_plot_1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<div id="aesthetic-mappings" class="section level1">
+</div>
+</div>
+<p>We specified 3 things to create this plot:</p>
+<ol type="1">
+<li>The <strong>data</strong> – needs to be a data frame (or a tibble)</li>
+<li>The type of plot – this is called a <strong>geom</strong> in ggplot2 terminology</li>
+<li>The mapping of variables in the data to visual properties of objects in the plot - these are called <strong>aesthetics</strong> in ggplot2</li>
+</ol>
+<p>In this case, the type of plot is a <strong><code>geom_point</code></strong>, ggplot2’s function for a scatter plot, and the expression of the genes GATA3 and ESR1 (estrogen receptor alpha) are mapped to the <strong><code>x</code></strong> and <strong><code>y</code></strong> coordinates, i.e.&nbsp;the positions of points on the scatter plot.</p>
+<p>Other aesthetics include the size, shape and colour of the points. It might seem a little surprising that the x and y coordinates are treated in the same way as we wouldn’t normally think about these as having aesthetic qualities but this is indeed the case with ggplot2.</p>
+</section>
+<section id="aesthetic-mappings" class="level1">
 <h1>Aesthetic mappings</h1>
-<p>Look up the <code>geom_point</code> help page to see the list of
-aesthetics that are available for this geom.</p>
-<pre class="r"><code>?geom_point</code></pre>
-<p>If you scroll down to the aesthetics section in the help page for
-<code>geom_point</code>, you’ll see that the
-<strong><code>x</code></strong> and <strong><code>y</code></strong>
-aesthetics are in bold face which tells us that these are required,
-i.e. you have to supply them, otherwise you’ll get an error message from
-ggplot.</p>
-<p>Other aesthetics such as size, shape, colour and transparency
-(<code>alpha</code>) are optional.</p>
-<p>So what about those other aesthetics? Colours are usually fun – let’s
-try to use the <code>colour</code> aesthetic.</p>
-<p>We need to map a variable to a colour just like we did for x and y.
-We’ll use the ER status as an example.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_point(mapping = aes(x = GATA3, y = ESR1, colour = ER_status))</code></pre>
-<p><img src="session4_files/figure-html/scatter_plot_2-1.png" alt="" width="672" /></p>
+<p>Look up the <code>geom_point</code> help page to see the list of aesthetics that are available for this geom.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>?geom_point</span></code></pre></div>
+</div>
+<p>If you scroll down to the aesthetics section in the help page for <code>geom_point</code>, you’ll see that the <strong><code>x</code></strong> and <strong><code>y</code></strong> aesthetics are in bold face which tells us that these are required, i.e.&nbsp;you have to supply them, otherwise you’ll get an error message from ggplot.</p>
+<p>Other aesthetics such as size, shape, colour and transparency (<code>alpha</code>) are optional.</p>
+<p>So what about those other aesthetics? Colours are usually fun – let’s try to use the <code>colour</code> aesthetic.</p>
+<p>We need to map a variable to a colour just like we did for x and y. We’ll use the ER status as an example.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1, <span class="at">colour =</span> ER_status))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_plot_2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>What about colouring points based on a continuous variable?</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_point(mapping = aes(x = GATA3, y = ESR1, colour = Nottingham_prognostic_index))</code></pre>
-<p><img src="session4_files/figure-html/scatter_plot_3-1.png" alt="" width="672" /></p>
-<p>ggplot2 uses a colour scale for a continuous variable but discrete
-colours for discrete or categorical values.</p>
-<p>Size is not usually a good aesthetic to map to a variable. This is
-particularly the case where we have such a large number of
-observations.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_point(mapping = aes(x = GATA3, y = ESR1, size = ER_status))</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1, <span class="at">colour =</span> Nottingham_prognostic_index))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_plot_3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>ggplot2 uses a colour scale for a continuous variable but discrete colours for discrete or categorical values.</p>
+<p>Size is not usually a good aesthetic to map to a variable. This is particularly the case where we have such a large number of observations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1, <span class="at">size =</span> ER_status))</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
 <pre><code>## Warning: Using size for a discrete variable is not advised.</code></pre>
-<p><img src="session4_files/figure-html/scatter_plot_4-1.png" alt="" width="672" /></p>
-<p>Some aesthetics, such as size, are designed to be used with
-continuous variables. If you map these to a discrete variable as we have
-done here, then ggplot warns you that this isn’t such a good idea.</p>
-<p>It would however be useful to be able to decrease the size of the
-points given that there are around 2000 in this data set. We can do so
-by setting the size to a single value rather than mapping it to one of
-the variables in the data set - this has to be done outside the
-aesthetic mappings, i.e. outside the <code>aes()</code> bit.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_point(mapping = aes(x = GATA3,
-                             y = ESR1,
-                             colour = Nottingham_prognostic_index),
-               size = 0.5)</code></pre>
-<p><img src="session4_files/figure-html/scatter_plot_5-1.png" alt="" width="672" /></p>
-<p>Some aesthetics can only be used with categorical variables,
-e.g. shape.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_point(mapping = aes(x = GATA3, y = ESR1, shape = Survival_time))</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_plot_4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Some aesthetics, such as size, are designed to be used with continuous variables. If you map these to a discrete variable as we have done here, then ggplot warns you that this isn’t such a good idea.</p>
+<p>It would however be useful to be able to decrease the size of the points given that there are around 2000 in this data set. We can do so by setting the size to a single value rather than mapping it to one of the variables in the data set - this has to be done outside the aesthetic mappings, i.e.&nbsp;outside the <code>aes()</code> bit.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">y =</span> ESR1,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                             <span class="at">colour =</span> Nottingham_prognostic_index),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_plot_5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Some aesthetics can only be used with categorical variables, e.g.&nbsp;shape.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1, <span class="at">shape =</span> Survival_time))</span></code></pre></div>
+</div>
 <pre><code>Error: A continuous variable can not be mapped to shape</code></pre>
 <p>Here we set the shape based on the 3-gene classifier.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_point(mapping = aes(x = GATA3, y = ESR1, shape = `3-gene_classifier`),
-               size = 0.9)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1, <span class="at">shape =</span> <span class="st">`</span><span class="at">3-gene_classifier</span><span class="st">`</span>),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="fl">0.9</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
 <pre><code>## Warning: Removed 204 rows containing missing values or values outside the scale range
 ## (`geom_point()`).</code></pre>
-<p><img src="session4_files/figure-html/scatter_plot_6-1.png" alt="" width="672" /></p>
-<p>Note that some of the patient samples have not been classified and
-ggplot has removed those points with missing values for the 3-gene
-classifier.</p>
-<p>It is usually preferable to use colours to distinguish between
-different categories but sometimes colour and shape are used together
-where we want to show which group a data point belongs to in two
-different categorical variables.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_point(mapping = aes(x = GATA3,
-                             y = ESR1,
-                             colour = PAM50,
-                             shape = `3-gene_classifier`),
-              size = 0.9)</code></pre>
-<pre><code>## Warning: Removed 204 rows containing missing values or values outside the scale range
-## (`geom_point()`).</code></pre>
-<p><img src="session4_files/figure-html/scatter_plot_7-1.png" alt="" width="672" /></p>
-<p>Transparency can be useful when we have a large number of points as
-we can more easily tell when points are overlaid, but like size, it is
-not usually mapped to a variable and sits outside the
-<code>aes()</code>.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_point(mapping = aes(x = GATA3, y = ESR1, colour = `3-gene_classifier`),
-               size = 0.75,
-               alpha = 0.5)</code></pre>
-<p><img src="session4_files/figure-html/scatter_plot_8-1.png" alt="" width="672" /></p>
-<p>Colours are more commonly used than shapes, sizes or
-transparency.</p>
-<p>Virtually every aspect of the plots we’ve created can be customized.
-We will learn how to change the colours used as well as other display
-parameters later in the course.</p>
 </div>
-<div id="ggplot2-grammar" class="section level1">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_plot_6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that some of the patient samples have not been classified and ggplot has removed those points with missing values for the 3-gene classifier.</p>
+<p>It is usually preferable to use colours to distinguish between different categories but sometimes colour and shape are used together where we want to show which group a data point belongs to in two different categorical variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">y =</span> ESR1,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                             <span class="at">colour =</span> PAM50,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                             <span class="at">shape =</span> <span class="st">`</span><span class="at">3-gene_classifier</span><span class="st">`</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="fl">0.9</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>## Warning: Removed 204 rows containing missing values or values outside the scale range
+## (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_plot_7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Transparency can be useful when we have a large number of points as we can more easily tell when points are overlaid, but like size, it is not usually mapped to a variable and sits outside the <code>aes()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1, <span class="at">colour =</span> <span class="st">`</span><span class="at">3-gene_classifier</span><span class="st">`</span>),</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="fl">0.75</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_plot_8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Colours are more commonly used than shapes, sizes or transparency.</p>
+<p>Virtually every aspect of the plots we’ve created can be customized. We will learn how to change the colours used as well as other display parameters later in the course.</p>
+</section>
+<section id="ggplot2-grammar" class="level1">
 <h1>ggplot2 grammar</h1>
-<p>The “gg” in ggplot2 stands for “grammar of graphics”. This grammar is
-a coherent system for describing and building graphs.</p>
-<p>The basic template is given in the summary box below. This template
-can be used to create any of a wide range of graph types with
-ggplot2.</p>
+<p>The “gg” in ggplot2 stands for “grammar of graphics”. This grammar is a coherent system for describing and building graphs.</p>
+<p>The basic template is given in the summary box below. This template can be used to create any of a wide range of graph types with ggplot2.</p>
 <div class="rmdblock">
-<p>
-<strong>ggplot2 grammar of graphics</strong>
-</p>
-<p>
-<strong><code>ggplot(data = &lt;DATA&gt;) +
-&lt;GEOM_FUNCTION&gt;(mapping = aes(&lt;MAPPINGS&gt;))</code></strong>
-</p>
-<p>
-<code>ggplot()</code> creates the plot object.
-</p>
-<p>
-Layers can be added by adding geoms such as <code>geom_point()</code>
-using the <code>+</code> operator that ggplot2 has overridden for this
-purpose.
-</p>
+<p><strong>ggplot2 grammar of graphics</strong></p>
+<p><strong><code>ggplot(data = &lt;DATA&gt;) + &lt;GEOM_FUNCTION&gt;(mapping = aes(&lt;MAPPINGS&gt;))</code></strong></p>
+<p><code>ggplot()</code> creates the plot object.</p>
+<p>Layers can be added by adding geoms such as <code>geom_point()</code> using the <code>+</code> operator that ggplot2 has overridden for this purpose.</p>
 </div>
-</div>
-<div id="another-plot-type---bar-chart" class="section level1">
+</section>
+<section id="another-plot-type---bar-chart" class="level1">
 <h1>Another plot type - bar chart</h1>
-<p>The range of geoms available in ggplot2 can be obtained by searching
-for the ggplot2 package in the Packages panel (bottom icon in the
-Activity Bar on the left)then right-clicking on the package and select
-“Show Help”. A menu of commands will appear in the Help panel on the
-right. You can scroll down the list of functions sorted alphabetically
-to the <code>geom_...</code> functions.</p>
-<p>The METABRIC study redefined how we think about breast cancer by
-identifying and characterizing several new subtypes, referred to as
-<em>integrative clusters</em>. Let’s create a bar chart of the number of
-patients whose cancers fall within each subtype in the METABRIC
-cohort.</p>
-<p><code>geom_bar</code> is the geom we need and it requires a single
-aesthetic mapping of the categorical variable of interest to
-<code>x</code>.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_bar(mapping = aes(x = Integrative_cluster))</code></pre>
-<p><img src="session4_files/figure-html/bar_plot_1-1.png" alt="" width="672" /></p>
-<p>The dark grey bars are a big ugly - what if we want each bar to be a
-different colour?</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_bar(mapping = aes(x = Integrative_cluster,
-                           colour = Integrative_cluster))</code></pre>
-<p><img src="session4_files/figure-html/bar_plot_2-1.png" alt="" width="672" /></p>
-<p>Colouring the edges wasn’t quite what we had in mind. Look at the
-help for <code>geom_bar</code> to see what other aesthetic we should
-have used.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_bar(mapping = aes(x = Integrative_cluster, fill = Integrative_cluster))</code></pre>
-<p><img src="session4_files/figure-html/bar_plot_3-1.png" alt="" width="672" /></p>
-<p>What happens if we colour (fill) with something other than the
-integrative cluster?</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_bar(mapping = aes(x = Integrative_cluster, fill = ER_status))</code></pre>
-<p><img src="session4_files/figure-html/bar_plot_4-1.png" alt="" width="672" /></p>
-<p>We get a stacked bar plot.</p>
-<p>Note the similarity in what we did here to what we did with the
-scatter plot - there is a common grammar.</p>
-<p>Let’s try another stacked bar plot, this time with a categorical
-variable with more than two categories.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_bar(mapping = aes(x = Integrative_cluster, fill = `3-gene_classifier`))</code></pre>
-<p><img src="session4_files/figure-html/bar_plot_5-1.png" alt="" width="672" /></p>
-<p>What if want all the bars to be the same colour but not dark grey,
-e.g. blue?</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_bar(mapping = aes(x = Integrative_cluster, fill = &quot;blue&quot;))</code></pre>
-<p><img src="session4_files/figure-html/bar_plot_6-1.png" alt="" width="672" /></p>
-<p>That doesn’t look right - why not?</p>
-<p>You can set the aesthetics to a fixed value but this needs to be
-outside the mapping, just like we did before for size and transparency
-in the scatter plots.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_bar(mapping = aes(x = Integrative_cluster), fill = &quot;blue&quot;)</code></pre>
-<p><img src="session4_files/figure-html/bar_plot_7-1.png" alt="" width="672" /></p>
-<p>Setting this inside the <code>aes()</code> mapping told ggplot2 to
-map the colour aesthetic to some variable in the data frame, one that
-doesn’t really exist but which is created on-the-fly with a value of
-“blue” for every observation.</p>
+<p>The range of geoms available in ggplot2 can be obtained by searching for the ggplot2 package in the Packages panel (bottom icon in the Activity Bar on the left)then right-clicking on the package and select “Show Help”. A menu of commands will appear in the Help panel on the right. You can scroll down the list of functions sorted alphabetically to the <code>geom_...</code> functions.</p>
+<p>The METABRIC study redefined how we think about breast cancer by identifying and characterizing several new subtypes, referred to as <em>integrative clusters</em>. Let’s create a bar chart of the number of patients whose cancers fall within each subtype in the METABRIC cohort.</p>
+<p><code>geom_bar</code> is the geom we need and it requires a single aesthetic mapping of the categorical variable of interest to <code>x</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Integrative_cluster))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/bar_plot_1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<div id="multiple-layers" class="section level1">
+</div>
+</div>
+<p>The dark grey bars are a big ugly - what if we want each bar to be a different colour?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Integrative_cluster,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">colour =</span> Integrative_cluster))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/bar_plot_2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Colouring the edges wasn’t quite what we had in mind. Look at the help for <code>geom_bar</code> to see what other aesthetic we should have used.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Integrative_cluster, <span class="at">fill =</span> Integrative_cluster))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/bar_plot_3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>What happens if we colour (fill) with something other than the integrative cluster?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Integrative_cluster, <span class="at">fill =</span> ER_status))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/bar_plot_4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We get a stacked bar plot.</p>
+<p>Note the similarity in what we did here to what we did with the scatter plot - there is a common grammar.</p>
+<p>Let’s try another stacked bar plot, this time with a categorical variable with more than two categories.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Integrative_cluster, <span class="at">fill =</span> <span class="st">`</span><span class="at">3-gene_classifier</span><span class="st">`</span>))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/bar_plot_5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>What if want all the bars to be the same colour but not dark grey, e.g.&nbsp;blue?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Integrative_cluster, <span class="at">fill =</span> <span class="st">"blue"</span>))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/bar_plot_6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>That doesn’t look right - why not?</p>
+<p>You can set the aesthetics to a fixed value but this needs to be outside the mapping, just like we did before for size and transparency in the scatter plots.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Integrative_cluster), <span class="at">fill =</span> <span class="st">"blue"</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/bar_plot_7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Setting this inside the <code>aes()</code> mapping told ggplot2 to map the colour aesthetic to some variable in the data frame, one that doesn’t really exist but which is created on-the-fly with a value of “blue” for every observation.</p>
+</section>
+<section id="multiple-layers" class="level1">
 <h1>Multiple layers</h1>
 <p>Consider again the ggplot2 grammar:</p>
 <pre><code>ggplot(data = &lt;DATA&gt;) +
   &lt;GEOM_FUNCTION&gt;(mapping = aes(&lt;MAPPINGS&gt;))</code></pre>
-<p>Why do we have the ggplot part and geom part joined by a “+”
-symbol?</p>
-<p>The <strong>‘+’</strong> operator has been overridden by ggplot2 to
-add layers (geoms) and other components (scales, themes, etc.) to the
-plot.</p>
-<p>We can have multiple geoms in the same plot. Each is a different
-layer.</p>
+<p>Why do we have the ggplot part and geom part joined by a “+” symbol?</p>
+<p>The <strong>‘+’</strong> operator has been overridden by ggplot2 to add layers (geoms) and other components (scales, themes, etc.) to the plot.</p>
+<p>We can have multiple geoms in the same plot. Each is a different layer.</p>
 <p>Let’s create a plot with two geoms.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_point(mapping = aes(x = GATA3, y = ESR1)) +
-    geom_smooth(mapping = aes(x = GATA3, y = ESR1))</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula = &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
-<p><img src="session4_files/figure-html/scatter_line_plot_1-1.png" alt="" width="672" /></p>
-<p>What is <strong><code>geom_smooth()</code></strong> doing? Look up
-the help page.</p>
-<p>Note that the shaded area surrounding blue line represents the
-standard error bounds on the fitted model.</p>
-<p>It is important when breaking these ggplot statements across multiple
-lines to ensure that the <code>+</code> is at the end of the line so
-that R knows you haven’t finished constructing your plot.</p>
-<p>There is some annoying duplication of code used to create this plot.
-We’ve repeated the exact same aesthetic mapping for both geoms. We can
-avoid this by putting the mappings in the <code>ggplot()</code> function
-instead.</p>
-<pre class="r"><code>ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1)) +
-    geom_point() +
-    geom_smooth()</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula = &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
-<p><img src="session4_files/figure-html/scatter_line_plot_2-1.png" alt="" width="672" /></p>
-<p>Let’s make the plot look a bit prettier by reducing the size of the
-points and making them transparent. We’re not mapping <code>size</code>
-or <code>alpha</code> to any variables, just setting them to constant
-values, and we only want these settings to apply to the points, so we
-set them inside <code>geom_point()</code>.</p>
-<pre class="r"><code>ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1)) +
-    geom_point(size = 0.5, alpha = 0.5) +
-    geom_smooth()</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula = &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
-<p><img src="session4_files/figure-html/scatter_line_plot_3-1.png" alt="" width="672" /></p>
-<p>Aesthetics set in the <code>ggplot</code> function are treated as
-global mappings for the plot and are inherited by all geoms added to the
-plot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1)) <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1))</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_line_plot_1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>What is <strong><code>geom_smooth()</code></strong> doing? Look up the help page.</p>
+<p>Note that the shaded area surrounding blue line represents the standard error bounds on the fitted model.</p>
+<p>It is important when breaking these ggplot statements across multiple lines to ensure that the <code>+</code> is at the end of the line so that R knows you haven’t finished constructing your plot.</p>
+<p>There is some annoying duplication of code used to create this plot. We’ve repeated the exact same aesthetic mapping for both geoms. We can avoid this by putting the mappings in the <code>ggplot()</code> function instead.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1)) <span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>()</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_line_plot_2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Let’s make the plot look a bit prettier by reducing the size of the points and making them transparent. We’re not mapping <code>size</code> or <code>alpha</code> to any variables, just setting them to constant values, and we only want these settings to apply to the points, so we set them inside <code>geom_point()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1)) <span class="sc">+</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>()</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_line_plot_3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Aesthetics set in the <code>ggplot</code> function are treated as global mappings for the plot and are inherited by all geoms added to the plot.</p>
 <p>Let’s say we still want to colour the points by ER status.</p>
-<pre class="r"><code>ggplot(data = metabric,
-       mapping = aes(x = GATA3, y = ESR1, colour = ER_status)) +
-    geom_point(size = 0.5, alpha = 0.5) +
-    geom_smooth()</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula = &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
-<p><img src="session4_files/figure-html/scatter_line_plot_4-1.png" alt="" width="672" /></p>
-<p>Well, that wasn’t expected, although it’s pretty neat. We only wanted
-to apply the colour aesthetic to the points.</p>
-<p>We can add the colour aesthetic to the <code>geom_point()</code>
-function instead of as a global mapping in the <code>ggplot()</code>
-function.</p>
-<pre class="r"><code>ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1)) +
-    geom_point(mapping = aes(colour = ER_status), size = 0.5, alpha = 0.5) +
-    geom_smooth()</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula = &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
-<p><img src="session4_files/figure-html/scatter_line_plot_5-1.png" alt="" width="672" /></p>
-<p>Or suppose you’ve spent a bit of time getting your scatter plot just
-right and decide to add another layer but you’re a bit worried about
-interfering with the the code you so lovingly crafted, you can set the
-<code>inherit.aes</code> option to <code>FALSE</code> and set the
-aesthetic mappings explicitly for your new layer.</p>
-<pre class="r"><code>ggplot(data = metabric,
-       mapping = aes(x = GATA3, y = ESR1, colour = ER_status)) +
-    geom_point(size = 0.5, alpha = 0.5) +
-    geom_smooth(mapping = aes(x = GATA3, y = ESR1), inherit.aes = FALSE)</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula = &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
-<p><img src="session4_files/figure-html/scatter_line_plot_6-1.png" alt="" width="672" /></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric,</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1, <span class="at">colour =</span> ER_status)) <span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>()</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'</code></pre>
 </div>
-<div id="box-plots" class="section level1">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_line_plot_4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Well, that wasn’t expected, although it’s pretty neat. We only wanted to apply the colour aesthetic to the points.</p>
+<p>We can add the colour aesthetic to the <code>geom_point()</code> function instead of as a global mapping in the <code>ggplot()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1)) <span class="sc">+</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">colour =</span> ER_status), <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>()</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_line_plot_5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Or suppose you’ve spent a bit of time getting your scatter plot just right and decide to add another layer but you’re a bit worried about interfering with the the code you so lovingly crafted, you can set the <code>inherit.aes</code> option to <code>FALSE</code> and set the aesthetic mappings explicitly for your new layer.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric,</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1, <span class="at">colour =</span> ER_status)) <span class="sc">+</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1), <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_line_plot_6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="box-plots" class="level1">
 <h1>Box plots</h1>
-<p>Box plots are a particular favourite of Wednesday lunchtime
-seminars.</p>
-<pre class="r"><code>ggplot(data = metabric, mapping = aes(x = ER_status, y = GATA3)) +
-    geom_boxplot()</code></pre>
-<p><img src="session4_files/figure-html/box_plot_1-1.png" alt="" width="672" /></p>
-<p>See <code>geom_boxplot</code> help to explain how the box and
-whiskers are constructed and how it decides which points are outliers
-and should be displayed as points.</p>
-<p>How about adding another layer to display all the points?</p>
-<pre class="r"><code>ggplot(data = metabric, mapping = aes(x = ER_status, y = GATA3)) +
-    geom_boxplot() +
-    geom_point()</code></pre>
-<p><img src="session4_files/figure-html/box_plot_2-1.png" alt="" width="672" /></p>
-<p>Ideally, we’d like these points to be spread out a bit. The
-<code>geom_point</code> help points to <code>geom_jitter</code> as more
-suitable when one of the variables is categorical.</p>
-<pre class="r"><code>ggplot(data = metabric, mapping = aes(x = ER_status, y = GATA3)) +
-    geom_boxplot() +
-    geom_jitter()</code></pre>
-<p><img src="session4_files/figure-html/box_plot_3-1.png" alt="" width="672" /></p>
-<p>Well, that’s a bit of a mess. We need to reduce the spread or jitter
-and make the points smaller and transparent.</p>
-<pre class="r"><code>ggplot(data = metabric, mapping = aes(x = ER_status, y = GATA3)) +
-    geom_boxplot() +
-    geom_jitter(width = 0.3, size = 0.5, alpha = 0.25)</code></pre>
-<p><img src="session4_files/figure-html/box_plot_4-1.png" alt="" width="672" /></p>
-<p>Displaying points in this way makes much more sense when we only have
-a few observations and where the box plot masks the fact, perhaps giving
-the false impression that the sample size is larger than it actually is.
-Here it makes less sense as we have very many observations.</p>
-<p>Let’s try a colour aesthetic to also look at how estrogen receptor
-expression differs between HER2 positive and negative tumours.</p>
-<pre class="r"><code>ggplot(data = metabric,
-       mapping = aes(x = ER_status, y = GATA3, colour = HER2_status)) +
-    geom_boxplot()</code></pre>
-<p><img src="session4_files/figure-html/box_plot_5-1.png" alt="" width="672" /></p>
+<p>Box plots are a particular favourite of Wednesday lunchtime seminars.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> ER_status, <span class="at">y =</span> GATA3)) <span class="sc">+</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/box_plot_1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<div id="time-series-data" class="section level1">
+</div>
+</div>
+<p>See <code>geom_boxplot</code> help to explain how the box and whiskers are constructed and how it decides which points are outliers and should be displayed as points.</p>
+<p>How about adding another layer to display all the points?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> ER_status, <span class="at">y =</span> GATA3)) <span class="sc">+</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/box_plot_2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ideally, we’d like these points to be spread out a bit. The <code>geom_point</code> help points to <code>geom_jitter</code> as more suitable when one of the variables is categorical.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> ER_status, <span class="at">y =</span> GATA3)) <span class="sc">+</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_jitter</span>()</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/box_plot_3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Well, that’s a bit of a mess. We need to reduce the spread or jitter and make the points smaller and transparent.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> ER_status, <span class="at">y =</span> GATA3)) <span class="sc">+</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.3</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/box_plot_4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Displaying points in this way makes much more sense when we only have a few observations and where the box plot masks the fact, perhaps giving the false impression that the sample size is larger than it actually is. Here it makes less sense as we have very many observations.</p>
+<p>Let’s try a colour aesthetic to also look at how estrogen receptor expression differs between HER2 positive and negative tumours.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric,</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> ER_status, <span class="at">y =</span> GATA3, <span class="at">colour =</span> HER2_status)) <span class="sc">+</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/box_plot_5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="time-series-data" class="level1">
 <h1>Time series data</h1>
-<p>The next type of plot we’re going to look at is a <strong>line
-plot</strong>. Line plots are a common visualization for time series
-data but we don’t have data of this kind in the METABRIC data set so
-we’ll turn our attention to a more topical data set.</p>
-<div id="covid-19-data-set" class="section level2">
-<h2>COVID-19 data set</h2>
-<p>Every day during the pandemic the UK Government presents a series of
-plots showing data relating to the coronavirus (COVID-19) pandemic. Both
-the plots and the data are published on the Government’s <a
-href="https://www.gov.uk/government/collections/slides-and-datasets-to-accompany-coronavirus-press-conferences">website</a>.</p>
-<p>One of the plots shows the reduction in different types of transport
-use over time in the UK in the week leading up to and since the lockdown
-restrictions were introduced in response to the pandemic.</p>
-<p>Reading these data into R from the downloaded Excel spreadsheet
-requires a bit more care as the spreadsheet contains multiple sheets and
-each table has header lines and footnotes. The date column doesn’t have
-a column heading, so in the code below we’ve skipped that row as well
-and told <code>read_excel()</code> what column names to use. We’ve also
-given it a heads-up about which type of data are in each column. Look up
-the help page for <code>read_excel()</code> for more details about the
-arguments we’ve used below.</p>
-<pre class="r"><code>library(readxl)
-transport_use &lt;- read_excel(&quot;data/2020-04-26_COVID-19_Press_Conference_Data.xlsx&quot;,
-                            sheet = &quot;Transport use&quot;,
-                            col_names = c(&quot;date&quot;, &quot;transport_type&quot;, &quot;percentage&quot;),
-                            col_types = c(&quot;date&quot;, &quot;text&quot;, &quot;numeric&quot;),
-                            skip = 4,
-                            n_max = 186)
-transport_use$percentage &lt;- transport_use$percentage * 100
-transport_use</code></pre>
+<p>The next type of plot we’re going to look at is a <strong>line plot</strong>. Line plots are a common visualization for time series data but we don’t have data of this kind in the METABRIC data set so we’ll turn our attention to a more topical data set.</p>
+<section id="covid-19-data-set" class="level2">
+<h2 data-anchor-id="covid-19-data-set">COVID-19 data set</h2>
+<p>Every day during the pandemic the UK Government presents a series of plots showing data relating to the coronavirus (COVID-19) pandemic. Both the plots and the data are published on the Government’s <a href="https://www.gov.uk/government/collections/slides-and-datasets-to-accompany-coronavirus-press-conferences">website</a>.</p>
+<p>One of the plots shows the reduction in different types of transport use over time in the UK in the week leading up to and since the lockdown restrictions were introduced in response to the pandemic.</p>
+<p>Reading these data into R from the downloaded Excel spreadsheet requires a bit more care as the spreadsheet contains multiple sheets and each table has header lines and footnotes. The date column doesn’t have a column heading, so in the code below we’ve skipped that row as well and told <code>read_excel()</code> what column names to use. We’ve also given it a heads-up about which type of data are in each column. Look up the help page for <code>read_excel()</code> for more details about the arguments we’ve used below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>transport_use <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/2020-04-26_COVID-19_Press_Conference_Data.xlsx"</span>,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">sheet =</span> <span class="st">"Transport use"</span>,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"transport_type"</span>, <span class="st">"percentage"</span>),</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                            <span class="at">col_types =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"text"</span>, <span class="st">"numeric"</span>),</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">skip =</span> <span class="dv">4</span>,</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">n_max =</span> <span class="dv">186</span>)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>transport_use<span class="sc">$</span>percentage <span class="ot">&lt;-</span> transport_use<span class="sc">$</span>percentage <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>transport_use</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## # A tibble: 186 × 3
 ##    date                transport_type     percentage
 ##    &lt;dttm&gt;              &lt;chr&gt;                   &lt;dbl&gt;
@@ -834,22 +776,25 @@ transport_use</code></pre>
 ##  9 2020-03-24 00:00:00 All motor vehicles         49
 ## 10 2020-03-25 00:00:00 All motor vehicles         42
 ## # ℹ 176 more rows</code></pre>
-<p>In this data set each row represents an observation of the current
-traffic volume for various modes of transport (motor vehicle, bus,
-train, etc.) since 16 March as a percentage of the volume measured
-during the first week of February.</p>
-<p>So let’s get a feel for this data set. Firstly, what modes of
-transport are included and how many observations do we have for
-each?</p>
-<pre class="r"><code>table(transport_use$transport_type)</code></pre>
+</div>
+</div>
+<p>In this data set each row represents an observation of the current traffic volume for various modes of transport (motor vehicle, bus, train, etc.) since 16 March as a percentage of the volume measured during the first week of February.</p>
+<p>So let’s get a feel for this data set. Firstly, what modes of transport are included and how many observations do we have for each?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(transport_use<span class="sc">$</span>transport_type)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## 
 ## All motor vehicles Bus (excl. London)      National rail          TfL - Bus 
 ##                 40                 40                 40                 34 
 ##         TfL - Tube 
 ##                 32</code></pre>
+</div>
+</div>
 <p>We’ll focus solely on rail use to start with.</p>
-<pre class="r"><code>rail_use &lt;- transport_use[transport_use$transport_type == &quot;National rail&quot;, ]
-rail_use</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>rail_use <span class="ot">&lt;-</span> transport_use[transport_use<span class="sc">$</span>transport_type <span class="sc">==</span> <span class="st">"National rail"</span>, ]</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>rail_use</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## # A tibble: 40 × 3
 ##    date                transport_type percentage
 ##    &lt;dttm&gt;              &lt;chr&gt;               &lt;dbl&gt;
@@ -865,113 +810,159 @@ rail_use</code></pre>
 ## 10 2020-03-25 00:00:00 National rail          18
 ## # ℹ 30 more rows</code></pre>
 </div>
-<div id="dates" class="section level2">
-<h2>Dates</h2>
-<p>There is something unfamiliar about the <code>date</code> column that
-needs some explanation. Let’s check the type and class of
-<code>date</code>.</p>
-<pre class="r"><code>typeof(rail_use$date)</code></pre>
-<pre><code>## [1] &quot;double&quot;</code></pre>
-<pre class="r"><code>class(rail_use$date)</code></pre>
-<pre><code>## [1] &quot;POSIXct&quot; &quot;POSIXt&quot;</code></pre>
-<p>So the <code>date</code> column is stored as a double and is a
-suitable continuous variable for a line plot but it’s also got some
-special properties, afforded to it by its <code>POSIXct</code> class,
-that allows it to be treated as a date.</p>
-<p>The <code>POSIXct</code> class is how R represents dates, where POSIX
-is a standardization scheme in the world of computers, spanning multiple
-operating systems and programming languages, and the <code>ct</code>
-part stands for calendar time. We won’t go into the details here but
-note that the numeric representation of a date, i.e. the
-<code>double</code> value, is the number of seconds since 1 January
-1970. For example, the date in our first row is:</p>
-<pre class="r"><code>rail_use$date[1]</code></pre>
-<pre><code>## [1] &quot;2020-03-16 UTC&quot;</code></pre>
-<pre class="r"><code>as.double(rail_use$date[1])</code></pre>
+</div>
+</section>
+<section id="dates" class="level2">
+<h2 data-anchor-id="dates">Dates</h2>
+<p>There is something unfamiliar about the <code>date</code> column that needs some explanation. Let’s check the type and class of <code>date</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(rail_use<span class="sc">$</span>date)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "double"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(rail_use<span class="sc">$</span>date)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "POSIXct" "POSIXt"</code></pre>
+</div>
+</div>
+<p>So the <code>date</code> column is stored as a double and is a suitable continuous variable for a line plot but it’s also got some special properties, afforded to it by its <code>POSIXct</code> class, that allows it to be treated as a date.</p>
+<p>The <code>POSIXct</code> class is how R represents dates, where POSIX is a standardization scheme in the world of computers, spanning multiple operating systems and programming languages, and the <code>ct</code> part stands for calendar time. We won’t go into the details here but note that the numeric representation of a date, i.e. the <code>double</code> value, is the number of seconds since 1 January 1970. For example, the date in our first row is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>rail_use<span class="sc">$</span>date[<span class="dv">1</span>]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "2020-03-16 UTC"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.double</span>(rail_use<span class="sc">$</span>date[<span class="dv">1</span>])</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 1584316800</code></pre>
 </div>
-<div id="line-plot" class="section level2">
-<h2>Line plot</h2>
-<p>We’re going to plot the volume of traffic on each date with each
-measurement represented as a point on our graph and observations on
-successive dates connected by a line. For this we use
-<strong><code>geom_line</code></strong>.</p>
-<p>The aesthetics section in the help page for <code>geom_line</code>
-tells us we need an x and y mapping. Our x aesthetic will be
-<code>date</code> and the y aesthetic will be
-<code>percentage</code>.</p>
-<pre class="r"><code>ggplot(data = rail_use) +
-    geom_line(mapping = aes(x = date, y = percentage))</code></pre>
-<p><img src="session4_files/figure-html/line_plot_1-1.png" alt="" width="672" /></p>
-<p>We can return to our original <code>transport_use</code> table
-containing data for all transport modes and use another aesthetic,
-e.g. colour, to plot a line for each.</p>
-<pre class="r"><code>ggplot(data = transport_use) +
-    geom_line(mapping = aes(x = date, y = percentage, colour = transport_type))</code></pre>
-<p><img src="session4_files/figure-html/line_plot_2-1.png" alt="" width="672" /></p>
-<p>Another aesthetic available for <code>geom_line</code> is
-<code>linetype</code>.</p>
-<pre class="r"><code>ggplot(data = transport_use) +
-    geom_line(mapping = aes(x = date, y = percentage, linetype = transport_type))</code></pre>
-<p><img src="session4_files/figure-html/line_plot_3-1.png" alt="" width="672" /></p>
+</div>
+</section>
+<section id="line-plot" class="level2">
+<h2 data-anchor-id="line-plot">Line plot</h2>
+<p>We’re going to plot the volume of traffic on each date with each measurement represented as a point on our graph and observations on successive dates connected by a line. For this we use <strong><code>geom_line</code></strong>.</p>
+<p>The aesthetics section in the help page for <code>geom_line</code> tells us we need an x and y mapping. Our x aesthetic will be <code>date</code> and the y aesthetic will be <code>percentage</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> rail_use) <span class="sc">+</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> percentage))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/line_plot_1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<div id="histograms" class="section level1">
+</div>
+<p>We can return to our original <code>transport_use</code> table containing data for all transport modes and use another aesthetic, e.g.&nbsp;colour, to plot a line for each.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> transport_use) <span class="sc">+</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> percentage, <span class="at">colour =</span> transport_type))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/line_plot_2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Another aesthetic available for <code>geom_line</code> is <code>linetype</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> transport_use) <span class="sc">+</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> percentage, <span class="at">linetype =</span> transport_type))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/line_plot_3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="histograms" class="level1">
 <h1>Histograms</h1>
-<p>The geom for creating histograms is, rather unsurprisingly,
-<code>geom_histogram()</code>.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_histogram(mapping = aes(x = Age_at_diagnosis))</code></pre>
+<p>The geom for creating histograms is, rather unsurprisingly, <code>geom_histogram()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Age_at_diagnosis))</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
-<p><img src="session4_files/figure-html/histogram_plot_1-1.png" alt="" width="672" /></p>
-<p>The warning message hints at picking a more optimal number of bins by
-specifying the <code>binwidth</code> argument.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_histogram(mapping = aes(x = Age_at_diagnosis), binwidth = 5)</code></pre>
-<p><img src="session4_files/figure-html/histogram_plot_2-1.png" alt="" width="672" /></p>
-<p>Or we can set the number of bins.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_histogram(mapping = aes(x = Age_at_diagnosis), bins = 20)</code></pre>
-<p><img src="session4_files/figure-html/histogram_plot_3-1.png" alt="" width="672" /></p>
-<p>These histograms are not very pleasing, aesthetically speaking - how
-about some better aesthetics?</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_histogram(mapping = aes(x = Age_at_diagnosis), bins = 20, colour = &quot;darkblue&quot;, fill = &quot;grey&quot;)</code></pre>
-<p><img src="session4_files/figure-html/histogram_plot_4-1.png" alt="" width="672" /></p>
 </div>
-<div id="categorical-variables-factors" class="section level1">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/histogram_plot_1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The warning message hints at picking a more optimal number of bins by specifying the <code>binwidth</code> argument.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Age_at_diagnosis), <span class="at">binwidth =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/histogram_plot_2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Or we can set the number of bins.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Age_at_diagnosis), <span class="at">bins =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/histogram_plot_3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>These histograms are not very pleasing, aesthetically speaking - how about some better aesthetics?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Age_at_diagnosis), <span class="at">bins =</span> <span class="dv">20</span>, <span class="at">colour =</span> <span class="st">"darkblue"</span>, <span class="at">fill =</span> <span class="st">"grey"</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/histogram_plot_4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="categorical-variables-factors" class="level1">
 <h1>Categorical variables – factors</h1>
-<p>Several of the variables in the METABRIC data set are categorical,
-i.e. they can take one of a limited set of values. Some of these have
-been read into R as character types (e.g. the 3-gene classifier), other
-as numerical values, e.g. tumour stage. We also have some binary
-variables that are essentially categorical variables but with only 2
-possible values, e.g. ER status.</p>
-<p>In many of the plots given above, ggplot2 has treated character
-variables as categorical in situations where a categorical variable is
-expected. For example, when we displayed points on a scatter plot using
-different colours for each 3-gene classification, or when we created
-separate box plots in the same graph for ER positive and negative
-patients.</p>
-<p>But what about when our categorical variable has been read into R as
-a continuous variable, e.g. <code>Tumour_stage</code>, which is read in
-as a double type.</p>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_point(mapping = aes(x = GATA3, y = ESR1, colour = Tumour_stage))</code></pre>
-<p><img src="session4_files/figure-html/scatter_plot_9-1.png" alt="" width="672" /></p>
-<pre class="r"><code>table(metabric$Tumour_stage)</code></pre>
+<p>Several of the variables in the METABRIC data set are categorical, i.e.&nbsp;they can take one of a limited set of values. Some of these have been read into R as character types (e.g.&nbsp;the 3-gene classifier), other as numerical values, e.g. tumour stage. We also have some binary variables that are essentially categorical variables but with only 2 possible values, e.g.&nbsp;ER status.</p>
+<p>In many of the plots given above, ggplot2 has treated character variables as categorical in situations where a categorical variable is expected. For example, when we displayed points on a scatter plot using different colours for each 3-gene classification, or when we created separate box plots in the same graph for ER positive and negative patients.</p>
+<p>But what about when our categorical variable has been read into R as a continuous variable, e.g.&nbsp;<code>Tumour_stage</code>, which is read in as a double type.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1, <span class="at">colour =</span> Tumour_stage))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_plot_9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(metabric<span class="sc">$</span>Tumour_stage)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## 
 ##   0   1   2   3   4 
 ##   4 475 800 115   9</code></pre>
-<p>Tumour stage has only 5 discrete states but ggplot2 doesn’t know
-these are supposed to be a restricted set of values and has used a
-colour scale to show them as if they were continuous. We need to tell R
-that these are categorical.</p>
-<p>R has a special type for categorical variables called a
-<strong>factor</strong>. Let’s convert our tumour stage variable to a
-factor using the <code>as.factor()</code> function.</p>
-<pre class="r"><code>metabric$Tumour_stage &lt;- as.factor(metabric$Tumour_stage)
-metabric[, c(&quot;Patient_ID&quot;, &quot;Tumour_stage&quot;)]</code></pre>
+</div>
+</div>
+<p>Tumour stage has only 5 discrete states but ggplot2 doesn’t know these are supposed to be a restricted set of values and has used a colour scale to show them as if they were continuous. We need to tell R that these are categorical.</p>
+<p>R has a special type for categorical variables called a <strong>factor</strong>. Let’s convert our tumour stage variable to a factor using the <code>as.factor()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>metabric<span class="sc">$</span>Tumour_stage <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(metabric<span class="sc">$</span>Tumour_stage)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>metabric[, <span class="fu">c</span>(<span class="st">"Patient_ID"</span>, <span class="st">"Tumour_stage"</span>)]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## # A tibble: 1,904 × 2
 ##    Patient_ID Tumour_stage
 ##    &lt;chr&gt;      &lt;fct&gt;       
@@ -986,211 +977,326 @@ metabric[, c(&quot;Patient_ID&quot;, &quot;Tumour_stage&quot;)]</code></pre>
 ##  9 MB-0028    2           
 ## 10 MB-0035    2           
 ## # ℹ 1,894 more rows</code></pre>
-<p>R actually stores categorical variables as integers but with some
-additional metadata about which of the integer values, or ‘levels’,
-corresponds to each category.</p>
-<pre class="r"><code>typeof(metabric$Tumour_stage)</code></pre>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
-<pre class="r"><code>class(metabric$Tumour_stage)</code></pre>
-<pre><code>## [1] &quot;factor&quot;</code></pre>
-<pre class="r"><code>levels(metabric$Tumour_stage)</code></pre>
-<pre><code>## [1] &quot;0&quot; &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot;</code></pre>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_point(mapping = aes(x = GATA3, y = ESR1, colour = Tumour_stage))</code></pre>
-<p><img src="session4_files/figure-html/scatter_plot_10-1.png" alt="" width="672" /></p>
-<p>In this case the order of the levels makes sense but for other
-variables you may wish for more control over the ordering. Take the
-integrative cluster variable for example. We created a bar plot of the
-numbers of patients in the METABRIC cohort within each integrative
-cluster. Did you notice the ordering of the clusters? 10 came just after
-1 and before 2. That looked a bit odd as we’d have naturally expected it
-to come last of all. R, on the other hand, is treating this vector as a
-character vector (mainly because of the ‘ER-’ and ‘ER+’ subtypes of
-cluster 4, and sorts the values into alphanumerical order.</p>
-<pre class="r"><code>metabric$Integrative_cluster &lt;- as.factor(metabric$Integrative_cluster)
-levels(metabric$Integrative_cluster)</code></pre>
-<pre><code>##  [1] &quot;1&quot;    &quot;10&quot;   &quot;2&quot;    &quot;3&quot;    &quot;4ER-&quot; &quot;4ER+&quot; &quot;5&quot;    &quot;6&quot;    &quot;7&quot;    &quot;8&quot;   
-## [11] &quot;9&quot;</code></pre>
-<p>A look at the help page for <code>as.factor</code> shows that we can
-create a factor using the <code>factor()</code> function and specify the
-levels using the <code>levels</code> argument.</p>
-<pre class="r"><code>metabric$Integrative_cluster &lt;- factor(metabric$Integrative_cluster, 
-                                       levels = c(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4ER-&quot;, 
-                                                  &quot;4ER+&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, 
-                                                  &quot;8&quot;, &quot;9&quot;, &quot;10&quot;))
-levels(metabric$Integrative_cluster)</code></pre>
-<pre><code>##  [1] &quot;1&quot;    &quot;2&quot;    &quot;3&quot;    &quot;4ER-&quot; &quot;4ER+&quot; &quot;5&quot;    &quot;6&quot;    &quot;7&quot;    &quot;8&quot;    &quot;9&quot;   
-## [11] &quot;10&quot;</code></pre>
-<p>The <code>forcats</code> package in the <code>tidyverse</code>
-provides a number of functions for manipulating factors and their
-levels. In this case the <code>fct_relevel</code> function provides a
-methods with slightly less typing. We just want to move “10” to the end
-of levels.</p>
-<pre class="r"><code>metabric$Integrative_cluster &lt;- fct_relevel(metabric$Integrative_cluster, 
-                                            &quot;10&quot;,
-                                            after = Inf)
-levels(metabric$Integrative_cluster)</code></pre>
-<pre><code>##  [1] &quot;1&quot;    &quot;2&quot;    &quot;3&quot;    &quot;4ER-&quot; &quot;4ER+&quot; &quot;5&quot;    &quot;6&quot;    &quot;7&quot;    &quot;8&quot;    &quot;9&quot;   
-## [11] &quot;10&quot;</code></pre>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_bar(mapping = aes(x = Integrative_cluster, fill = Integrative_cluster))</code></pre>
-<p><img src="session4_files/figure-html/bar_plot_9-1.png" alt="" width="672" /></p>
-<hr />
 </div>
-<div id="summary" class="section level1">
+</div>
+<p>R actually stores categorical variables as integers but with some additional metadata about which of the integer values, or ‘levels’, corresponds to each category.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(metabric<span class="sc">$</span>Tumour_stage)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "integer"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(metabric<span class="sc">$</span>Tumour_stage)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "factor"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(metabric<span class="sc">$</span>Tumour_stage)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "0" "1" "2" "3" "4"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> GATA3, <span class="at">y =</span> ESR1, <span class="at">colour =</span> Tumour_stage))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/scatter_plot_10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In this case the order of the levels makes sense but for other variables you may wish for more control over the ordering. Take the integrative cluster variable for example. We created a bar plot of the numbers of patients in the METABRIC cohort within each integrative cluster. Did you notice the ordering of the clusters? 10 came just after 1 and before 2. That looked a bit odd as we’d have naturally expected it to come last of all. R, on the other hand, is treating this vector as a character vector (mainly because of the ‘ER-’ and ‘ER+’ subtypes of cluster 4, and sorts the values into alphanumerical order.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>metabric<span class="sc">$</span>Integrative_cluster <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(metabric<span class="sc">$</span>Integrative_cluster)</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(metabric<span class="sc">$</span>Integrative_cluster)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>##  [1] "1"    "10"   "2"    "3"    "4ER-" "4ER+" "5"    "6"    "7"    "8"   
+## [11] "9"</code></pre>
+</div>
+</div>
+<p>A look at the help page for <code>as.factor</code> shows that we can create a factor using the <code>factor()</code> function and specify the levels using the <code>levels</code> argument.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>metabric<span class="sc">$</span>Integrative_cluster <span class="ot">&lt;-</span> <span class="fu">factor</span>(metabric<span class="sc">$</span>Integrative_cluster, </span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>, <span class="st">"4ER-"</span>, </span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>                                                  <span class="st">"4ER+"</span>, <span class="st">"5"</span>, <span class="st">"6"</span>, <span class="st">"7"</span>, </span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>                                                  <span class="st">"8"</span>, <span class="st">"9"</span>, <span class="st">"10"</span>))</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(metabric<span class="sc">$</span>Integrative_cluster)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>##  [1] "1"    "2"    "3"    "4ER-" "4ER+" "5"    "6"    "7"    "8"    "9"   
+## [11] "10"</code></pre>
+</div>
+</div>
+<p>The <code>forcats</code> package in the <code>tidyverse</code> provides a number of functions for manipulating factors and their levels. In this case the <code>fct_relevel</code> function provides a methods with slightly less typing. We just want to move “10” to the end of levels.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>metabric<span class="sc">$</span>Integrative_cluster <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(metabric<span class="sc">$</span>Integrative_cluster, </span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"10"</span>,</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">after =</span> <span class="cn">Inf</span>)</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(metabric<span class="sc">$</span>Integrative_cluster)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>##  [1] "1"    "2"    "3"    "4ER-" "4ER+" "5"    "6"    "7"    "8"    "9"   
+## [11] "10"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Integrative_cluster, <span class="at">fill =</span> Integrative_cluster))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/bar_plot_9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="summary" class="level1">
 <h1>Summary</h1>
 <p>In this session we have covered the following concepts:</p>
 <ul>
-<li>How to use ggplot2 to create different types of plot using a common
-grammar</li>
+<li>How to use ggplot2 to create different types of plot using a common grammar</li>
 <li>How to map variables to aesthetic features of a plot</li>
 <li>How to construct a plot with multiple layers (geoms)</li>
-<li>Various types of plot including scatter plots, box plots, bar plots
-and histograms</li>
+<li>Various types of plot including scatter plots, box plots, bar plots and histograms</li>
 <li>Working with dates</li>
 <li>Plotting time series data as line graphs</li>
 <li>How to work with time series data</li>
-<li>Categorical variables and how R handles these with its factor
-type</li>
+<li>Categorical variables and how R handles these with its factor type</li>
 </ul>
-<hr />
-</div>
-<div id="exercises" class="section level1">
+<hr>
+</section>
+<section id="exercises" class="level1">
 <h1>Exercises</h1>
 <div class="exercise">
-<ol style="list-style-type: decimal">
-<li>Create a bar plot showing the number of patients with tumours at
-each of the different neoplasm histologic grades</li>
+<ol type="1">
+<li>Create a bar plot showing the number of patients with tumours at each of the different neoplasm histologic grades</li>
 </ol>
-<details>
-<summary>
-Answer
-</summary>
-<pre class="r"><code>library(tidyverse)
-metabric &lt;- read_csv(&quot;data/metabric_clinical_and_expression_data.csv&quot;)
-ggplot(data = metabric) +
-    geom_bar(mapping = aes(x = Neoplasm_histologic_grade))</code></pre>
-<img src="session4_files/figure-html/ex_1-1.png" alt="" width="672" />
-</details>
+<div class="answer callout callout-style-default callout-note callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>metabric <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/metabric_clinical_and_expression_data.csv"</span>)</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Neoplasm_histologic_grade))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/ex_1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="exercise">
-<ol start="2" style="list-style-type: decimal">
-<li>Use <code>iris</code> data set to create a box plot showing the
-distribution of petal lengths based on the <code>iris</code> data
-set.</li>
+<ol start="2" type="1">
+<li>Use <code>iris</code> data set to create a box plot showing the distribution of petal lengths based on the <code>iris</code> data set.</li>
 </ol>
-<details>
-<summary>
-Answer
-</summary>
-<pre class="r"><code># 2 a.
-ggplot(data=iris, mapping = aes(x=Species, y= Petal.Length)) + 
-    geom_boxplot()</code></pre>
-<img src="session4_files/figure-html/unnamed-chunk-16-1.png" alt="" width="672" />
-</details>
+<div class="answer callout callout-style-default callout-note callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 a.</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>iris, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>Species, <span class="at">y=</span> Petal.Length)) <span class="sc">+</span> </span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="exercise">
-<ol start="3" style="list-style-type: decimal">
-<li>Create a density plot of the estrogen receptor (ESR1) expression
-level using <code>metabric</code> data set.</li>
+<ol start="3" type="1">
+<li>Create a density plot of the estrogen receptor (ESR1) expression level using <code>metabric</code> data set.</li>
 </ol>
-<details>
-<summary>
-Answer
-</summary>
-<pre class="r"><code>ggplot(data = metabric) +
-    geom_density(mapping = aes(x = ESR1))</code></pre>
-<img src="session4_files/figure-html/unnamed-chunk-17-1.png" alt="" width="672" />
-</details>
+<div class="answer callout callout-style-default callout-note callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric) <span class="sc">+</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_density</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> ESR1))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="exercise">
-<ol start="4" style="list-style-type: decimal">
-<li>Create a scatter plot of the expression of FOXA1 and this gene with
-a line of best fit using <code>metabric</code> data set.</li>
+<ol start="4" type="1">
+<li>Create a scatter plot of the expression of FOXA1 and this gene with a line of best fit using <code>metabric</code> data set.</li>
 </ol>
-<details>
-<summary>
-Answer
-</summary>
-<pre class="r"><code>ggplot(data = metabric, mapping = aes(x = FOXA1, y = MLPH)) +
-    geom_point() +
-    geom_smooth()</code></pre>
-<p><img src="session4_files/figure-html/unnamed-chunk-18-1.png" alt="" width="672" /></p>
-</details>
+<div class="answer callout callout-style-default callout-note callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> metabric, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> FOXA1, <span class="at">y =</span> MLPH)) <span class="sc">+</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>()</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="exercise">
-<ol start="5" style="list-style-type: decimal">
-<li><p>Create box plots for the survival time of patients with different
-tumour stages, only including deceased patients.</p>
-<p>Then convert this into a violin plot, displaying ER negative and ER
-positive patients separately.</p>
-<p><em>Hint: if you get a warning message and only have a single box
-displayed, consider the type of the tumour stage variable as read into R
-and what kind of variable is expected for the x aesthetic.</em></p></li>
+<ol start="5" type="1">
+<li><p>Create box plots for the survival time of patients with different tumour stages, only including deceased patients.</p>
+<p>Then convert this into a violin plot, displaying ER negative and ER positive patients separately.</p>
+<p><em>Hint: if you get a warning message and only have a single box displayed, consider the type of the tumour stage variable as read into R and what kind of variable is expected for the x aesthetic.</em></p></li>
 </ol>
-<details>
-<summary>
-Answer
-</summary>
-<pre class="r"><code>deceased &lt;- metabric[metabric$Survival_status == &quot;DECEASED&quot;, ]</code></pre>
-<p>A better alternative would be to subset based on
-<code>Vital_status</code>, selecting only those patients that died of
-the disease rather than of an unrelated cause.</p>
-<pre class="r"><code>deceased &lt;- metabric[metabric$Vital_status == &quot;Died of Disease&quot;, ]</code></pre>
-<p><code>Tumour_stage</code> is read in as a number, so ggplot2 treats
-it as a continuous variable and draws a single box. Setting the
-<code>group</code> aesthetic tells it to draw one box per stage.</p>
-<pre class="r"><code>ggplot(data = deceased) +
-    geom_boxplot(mapping = aes(x = Tumour_stage,
-                               y = Survival_time,
-                               group = Tumour_stage))</code></pre>
-<p><img src="session4_files/figure-html/unnamed-chunk-21-1.png" alt="" width="672" /></p>
-<p>Alternatively, convert <code>Tumour_stage</code> into a factor, in
-which case the <code>group</code> aesthetic is no longer needed.</p>
-<pre class="r"><code>deceased$Tumour_stage &lt;- as.factor(deceased$Tumour_stage)
-
-ggplot(data = deceased) +
-    geom_boxplot(mapping = aes(x = Tumour_stage, y = Survival_time))</code></pre>
-<p><img src="session4_files/figure-html/unnamed-chunk-22-1.png" alt="" width="672" /></p>
+<div class="answer callout callout-style-default callout-note callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>deceased <span class="ot">&lt;-</span> metabric[metabric<span class="sc">$</span>Survival_status <span class="sc">==</span> <span class="st">"DECEASED"</span>, ]</span></code></pre></div>
+</div>
+<p>A better alternative would be to subset based on <code>Vital_status</code>, selecting only those patients that died of the disease rather than of an unrelated cause.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>deceased <span class="ot">&lt;-</span> metabric[metabric<span class="sc">$</span>Vital_status <span class="sc">==</span> <span class="st">"Died of Disease"</span>, ]</span></code></pre></div>
+</div>
+<p><code>Tumour_stage</code> is read in as a number, so ggplot2 treats it as a continuous variable and draws a single box. Setting the <code>group</code> aesthetic tells it to draw one box per stage.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> deceased) <span class="sc">+</span></span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Tumour_stage,</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">y =</span> Survival_time,</span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">group =</span> Tumour_stage))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Alternatively, convert <code>Tumour_stage</code> into a factor, in which case the <code>group</code> aesthetic is no longer needed.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>deceased<span class="sc">$</span>Tumour_stage <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(deceased<span class="sc">$</span>Tumour_stage)</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> deceased) <span class="sc">+</span></span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Tumour_stage, <span class="at">y =</span> Survival_time))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>And as a violin plot, split by ER status.</p>
-<pre class="r"><code>ggplot(data = deceased) +
-    geom_violin(mapping = aes(x = Tumour_stage,
-                              y = Survival_time,
-                              fill = ER_status))</code></pre>
-<p><img src="session4_files/figure-html/unnamed-chunk-23-1.png" alt="" width="672" /></p>
-</details>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> deceased) <span class="sc">+</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_violin</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Tumour_stage,</span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">y =</span> Survival_time,</span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">fill =</span> ER_status))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="exercise">
-<ol start="6" style="list-style-type: decimal">
-<li><p>Explore the Apple Mobility data on transport use during the
-coronavirus lockdown using line plots.</p>
-<p>The spreadsheet we used earlier in this session contains a second
-worksheet, ‘Apple Mobility’, recording transport use as measured by
-direction requests on Apple Maps. Read this sheet into R — as before,
-the data are not in the most convenient format, so you’ll need to
-specify the worksheet and a few other arguments.</p>
-<ol style="list-style-type: lower-alpha">
-<li>Plot the 7-day rolling average against date as a line graph with
-separate lines for each mode of transport. What is the main (and
-obvious) conclusion to draw from this plot?</li>
-<li>Now plot the daily percentage instead of the 7-day rolling average.
-What do you notice about the daily fluctuations?</li>
-<li><strong>Extension:</strong> create a new column for the weekday and
-plot just the daily percentage for walking, with separate lines for each
-day of the week.</li>
+<ol start="6" type="1">
+<li><p>Explore the Apple Mobility data on transport use during the coronavirus lockdown using line plots.</p>
+<p>The spreadsheet we used earlier in this session contains a second worksheet, ‘Apple Mobility’, recording transport use as measured by direction requests on Apple Maps. Read this sheet into R — as before, the data are not in the most convenient format, so you’ll need to specify the worksheet and a few other arguments.</p>
+<ol type="a">
+<li>Plot the 7-day rolling average against date as a line graph with separate lines for each mode of transport. What is the main (and obvious) conclusion to draw from this plot?</li>
+<li>Now plot the daily percentage instead of the 7-day rolling average. What do you notice about the daily fluctuations?</li>
+<li><strong>Extension:</strong> create a new column for the weekday and plot just the daily percentage for walking, with separate lines for each day of the week.</li>
 </ol></li>
 </ol>
-<details>
-<summary>
-Answer
-</summary>
-<pre class="r"><code>apple_mobility &lt;- read_excel(&quot;data/2020-04-26_COVID-19_Press_Conference_Data.xlsx&quot;,
-                             sheet = &quot;Apple Mobility&quot;,
-                             col_names = c(&quot;date&quot;, &quot;transport_type&quot;,
-                                           &quot;percentage&quot;, &quot;rolling_average&quot;),
-                             skip = 4,
-                             n_max = 309)
-apple_mobility</code></pre>
+<div class="answer callout callout-style-default callout-note callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>apple_mobility <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/2020-04-26_COVID-19_Press_Conference_Data.xlsx"</span>,</span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">sheet =</span> <span class="st">"Apple Mobility"</span>,</span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"transport_type"</span>,</span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"percentage"</span>, <span class="st">"rolling_average"</span>),</span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>                             <span class="at">skip =</span> <span class="dv">4</span>,</span>
+<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>                             <span class="at">n_max =</span> <span class="dv">309</span>)</span>
+<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a>apple_mobility</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## # A tibble: 309 × 4
 ##    date                transport_type   percentage rolling_average
 ##    &lt;dttm&gt;              &lt;chr&gt;                 &lt;dbl&gt;           &lt;dbl&gt;
@@ -1205,38 +1311,63 @@ apple_mobility</code></pre>
 ##  9 2020-01-15 00:00:00 Walking                114.              NA
 ## 10 2020-01-16 00:00:00 Driving                104.              NA
 ## # ℹ 299 more rows</code></pre>
-<p>Exercise 6a: the 7-day rolling average for each mode of
-transport.</p>
-<pre class="r"><code>ggplot(data = apple_mobility) +
-    geom_line(mapping = aes(x = date,
-                            y = rolling_average,
-                            colour = transport_type))</code></pre>
-<p><img src="session4_files/figure-html/unnamed-chunk-25-1.png" alt="" width="672" /></p>
-<p>Transport use fell dramatically for all modes of transport at the
-point lockdown began.</p>
+</div>
+</div>
+<p>Exercise 6a: the 7-day rolling average for each mode of transport.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> apple_mobility) <span class="sc">+</span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> date,</span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">y =</span> rolling_average,</span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">colour =</span> transport_type))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Transport use fell dramatically for all modes of transport at the point lockdown began.</p>
 <p>Exercise 6b: the daily percentage.</p>
-<pre class="r"><code>ggplot(data = apple_mobility) +
-    geom_line(mapping = aes(x = date,
-                            y = percentage,
-                            colour = transport_type))</code></pre>
-<p><img src="session4_files/figure-html/unnamed-chunk-26-1.png" alt="" width="672" /></p>
-<p>The daily values show a regular saw-tooth pattern that the rolling
-average smooths out — this is the weekly cycle of weekdays versus
-weekends.</p>
-<p>Exercise 6c: the weekly cycle made explicit. <code>wday()</code>
-comes from the lubridate package, which is loaded as part of the
-tidyverse.</p>
-<pre class="r"><code>apple_mobility$day &lt;- wday(apple_mobility$date, label = TRUE)
-
-walking &lt;- apple_mobility[apple_mobility$transport_type == &quot;Walking&quot;, ]
-
-ggplot(data = walking) +
-    geom_line(mapping = aes(x = date, y = percentage, colour = day))</code></pre>
-<p><img src="session4_files/figure-html/unnamed-chunk-27-1.png" alt="" width="672" /></p>
-</details>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> apple_mobility) <span class="sc">+</span></span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> date,</span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">y =</span> percentage,</span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">colour =</span> transport_type))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
+</div>
+<p>The daily values show a regular saw-tooth pattern that the rolling average smooths out — this is the weekly cycle of weekdays versus weekends.</p>
+<p>Exercise 6c: the weekly cycle made explicit. <code>wday()</code> comes from the lubridate package, which is loaded as part of the tidyverse.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>apple_mobility<span class="sc">$</span>day <span class="ot">&lt;-</span> <span class="fu">wday</span>(apple_mobility<span class="sc">$</span>date, <span class="at">label =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>walking <span class="ot">&lt;-</span> apple_mobility[apple_mobility<span class="sc">$</span>transport_type <span class="sc">==</span> <span class="st">"Walking"</span>, ]</span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> walking) <span class="sc">+</span></span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> percentage, <span class="at">colour =</span> day))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="session4_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
+
+</section>
+
+</main> <!-- /main -->
 <div class="footer-logos">
   <div class="shell">
     <p class="eyebrow" style="text-align:center">Organised by</p>
@@ -1258,19 +1389,19 @@ ggplot(data = walking) +
     <div class="footer-grid">
       <div>
         <h2>Introduction to R<br>for Biologists</h2>
-        <p>Cancer Biology Summer School 2026<br>Monday 14 &ndash; Friday 18 September 2026<br>Uganda Cancer Institute, Kampala</p>
+        <p>Cancer Biology Summer School 2026<br>Monday 14 – Friday 18 September 2026<br>Uganda Cancer Institute, Kampala</p>
       </div>
       <div>
         <h3>Sessions</h3>
         <ul>
-          <li><a href="session1.html">1 &middot; Data types and structures</a></li>
-          <li><a href="session2.html">2 &middot; Other data structures</a></li>
-          <li><a href="session3.html">3 &middot; Working with data</a></li>
-          <li><a href="session4.html">4 &middot; Visualizing data</a></li>
-          <li><a href="session5.html">5 &middot; Data manipulation</a></li>
-          <li><a href="session6.html">6 &middot; Grouping and combining</a></li>
-          <li><a href="session7.html">7 &middot; Restructuring data</a></li>
-          <li><a href="session8.html">8 &middot; Quarto</a></li>
+          <li><a href="session1.html">1 · Data types and structures</a></li>
+          <li><a href="session2.html">2 · Other data structures</a></li>
+          <li><a href="session3.html">3 · Working with data</a></li>
+          <li><a href="session4.html">4 · Visualizing data</a></li>
+          <li><a href="session5.html">5 · Data manipulation</a></li>
+          <li><a href="session6.html">6 · Grouping and combining</a></li>
+          <li><a href="session7.html">7 · Restructuring data</a></li>
+          <li><a href="session8.html">8 · Quarto</a></li>
         </ul>
       </div>
       <div>
@@ -1298,100 +1429,340 @@ ggplot(data = walking) +
     </div>
   </div>
 </footer>
-<script>
-/* rmarkdown places after_body content INSIDE .main-container / .toc-content,
-   which would trap the footer in the nine-column content well beside the TOC.
-   Lift both blocks to <body> so they span the page. Without JS the footer
-   still renders, just narrower. */
-(function () {
-  function lift() {
-    ['.footer-logos', '.site-footer'].forEach(function (sel) {
-      var el = document.querySelector(sel);
-      if (el && el.parentNode !== document.body) document.body.appendChild(el);
-    });
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', lift);
-  } else {
-    lift();
-  }
-})();
-</script>
-
-
-</div>
-</div>
-
-</div>
-
-<script>
-
-// add bootstrap table styles to pandoc tables
-function bootstrapStylePandocTables() {
-  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
-}
-$(document).ready(function () {
-  bootstrapStylePandocTables();
-});
-
-
-</script>
-
-<!-- tabsets -->
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open');
-  });
-});
-</script>
-
-<!-- code folding -->
-
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
     };
-    options.showAndHide = true;
-    options.smoothScroll = true;
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
 
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 
-</body>
-</html>
+
+</body></html>

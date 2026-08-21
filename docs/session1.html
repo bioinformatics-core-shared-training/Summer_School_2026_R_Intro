@@ -1,1088 +1,1014 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<html>
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
 
-<head>
-
-<meta charset="utf-8" />
-<meta name="generator" content="pandoc" />
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Session 1: Data types and structures</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
 
-<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
-<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
-<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<style>h1 {font-size: 34px;}
-       h1.title {font-size: 38px;}
-       h2 {font-size: 30px;}
-       h3 {font-size: 24px;}
-       h4 {font-size: 18px;}
-       h5 {font-size: 16px;}
-       h6 {font-size: 12px;}
-       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
-       pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
-<script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ac3c9d0c3ee301a688d32d8927d28e20.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-78cd34c0ad4daa77b343598149360044.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
 <meta name="description" content="Introduction to R for Biologists — the R course taught at the Cambridge–Makerere Summer School 2026, Uganda Cancer Institute, Kampala, 14–18 September 2026.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Progress-SemiBold.woff2" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Progress-SemiBold.woff2" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet">
 
-<style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
-
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
-
-
-
-
-
-
-<link rel="stylesheet" href="assets/css/site.css" type="text/css" />
-<link rel="stylesheet" href="styles.css" type="text/css" />
-
-
-
-<style type = "text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-img {
-  max-width:100%;
-}
-.tabbed-pane {
-  padding-top: 12px;
-}
-.html-widget {
-  margin-bottom: 20px;
-}
-button.code-folding-btn:focus {
-  outline: none;
-}
-summary {
-  display: list-item;
-}
-details > summary > p:only-child {
-  display: inline;
-}
-pre code {
-  padding: 0;
-}
-</style>
-
-
-<style type="text/css">
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  border-radius: 0 6px 6px 6px;
-}
-.dropdown-submenu:hover>.dropdown-menu {
-  display: block;
-}
-.dropdown-submenu>a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #cccccc;
-  margin-top: 5px;
-  margin-right: -10px;
-}
-.dropdown-submenu:hover>a:after {
-  border-left-color: #adb5bd;
-}
-.dropdown-submenu.pull-left {
-  float: none;
-}
-.dropdown-submenu.pull-left>.dropdown-menu {
-  left: -100%;
-  margin-left: 10px;
-  border-radius: 6px 0 6px 6px;
-}
-</style>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-// manage active state of menu based on current page
-$(document).ready(function () {
-  // active menu anchor
-  href = window.location.pathname
-  href = href.substr(href.lastIndexOf('/') + 1)
-  if (href === "")
-    href = "index.html";
-  var menuAnchor = $('a[href="' + href + '"]');
-
-  // mark the anchor link active (and if it's in a dropdown, also mark that active)
-  var dropdown = menuAnchor.closest('li.dropdown');
-  if (window.bootstrap) { // Bootstrap 4+
-    menuAnchor.addClass('active');
-    dropdown.find('> .dropdown-toggle').addClass('active');
-  } else { // Bootstrap 3
-    menuAnchor.parent().addClass('active');
-    dropdown.addClass('active');
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
   }
-
-  // Navbar adjustments
-  var navHeight = $(".navbar").first().height() + 15;
-  var style = document.createElement('style');
-  var pt = "padding-top: " + navHeight + "px; ";
-  var mt = "margin-top: -" + navHeight + "px; ";
-  var css = "";
-  // offset scroll position for anchor links (for fixed navbar)
-  for (var i = 1; i <= 6; i++) {
-    css += ".section h" + i + "{ " + pt + mt + "}\n";
-  }
-  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
-  document.head.appendChild(style);
-});
+}
+window.Quarto = {
+  typesetMath
+};
 </script>
 
-<!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-  background-color: transparent;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
-<!-- code folding -->
-
-
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
-
+<link rel="stylesheet" href="assets/css/fonts.css">
 </head>
 
-<body>
+<body class="floating nav-fixed quarto-light">
 
-
-<div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
-
-
-
-
-<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title"><img class="brand-logo" src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> <i class="bi bi-house-door" role="img">
+</i> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-sessions" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Sessions</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-sessions">    
         <li>
-  <a href="index.html">
-    <span class="fa fa-home"></span>
-     
-    Home
-  </a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sessions
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="session1.html">1 · Data types and structures</a>
-    </li>
-    <li>
-      <a href="session2.html">2 · Other data structures</a>
-    </li>
-    <li>
-      <a href="session3.html">3 · Working with data in R</a>
-    </li>
-    <li>
-      <a href="session4.html">4 · Visualizing data with ggplot2</a>
-    </li>
-    <li>
-      <a href="session5.html">5 · Data manipulation with dplyr</a>
-    </li>
-    <li>
-      <a href="session6.html">6 · Grouping and combining data</a>
-    </li>
-    <li>
-      <a href="session7.html">7 · Restructuring data for analysis</a>
-    </li>
-    <li>
-      <a href="session8.html">8 · Quarto</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/">Summer School</a>
-</li>
-<li>
-  <a href="https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
-    </div><!--/.nav-collapse -->
-  </div><!--/.container -->
-</div><!--/.navbar -->
-
-<div id="header">
-
-
-
-<h1 class="title toc-ignore">Session 1: Data types and structures</h1>
-
-</div>
-
-
-<blockquote>
-<h4 id="learning-objectives">Learning objectives</h4>
-<ul>
-<li>Become familiar with using Positron for writing and running R
-scripts</li>
-<li>Understand the basics of the different data types and data
-structures used in R</li>
-<li>Learn how to use simple functions</li>
-<li>Understand the concept of missing data and how it is handled in
-R</li>
+    <a class="dropdown-item" href="./session1.html">
+ <span class="dropdown-text">1 · Data types and structures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./session2.html">
+ <span class="dropdown-text">2 · Other data structures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./session3.html">
+ <span class="dropdown-text">3 · Working with data in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./session4.html">
+ <span class="dropdown-text">4 · Visualizing data with ggplot2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./session5.html">
+ <span class="dropdown-text">5 · Data manipulation with dplyr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./session6.html">
+ <span class="dropdown-text">6 · Grouping and combining data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./session7.html">
+ <span class="dropdown-text">7 · Restructuring data for analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./session8.html">
+ <span class="dropdown-text">8 · Quarto</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/"> 
+<span class="menu-text">Summer School</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
 </ul>
-</blockquote>
-<div id="introduction-to-r-and-positron" class="section level1">
-<h1>Introduction to R and Positron</h1>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
 </div>
-<div id="why-learn-r" class="section level1">
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-r-and-positron" id="toc-introduction-to-r-and-positron" class="nav-link active" data-scroll-target="#introduction-to-r-and-positron">Introduction to R and Positron</a></li>
+  <li><a href="#why-learn-r" id="toc-why-learn-r" class="nav-link" data-scroll-target="#why-learn-r">Why learn R?</a></li>
+  <li><a href="#positron---a-brief-tour" id="toc-positron---a-brief-tour" class="nav-link" data-scroll-target="#positron---a-brief-tour">Positron - a brief tour</a>
+  <ul class="collapse">
+  <li><a href="#console" id="toc-console" class="nav-link" data-scroll-target="#console">Console</a></li>
+  <li><a href="#the-explorer" id="toc-the-explorer" class="nav-link" data-scroll-target="#the-explorer">The Explorer</a></li>
+  <li><a href="#the-editor" id="toc-the-editor" class="nav-link" data-scroll-target="#the-editor">The Editor</a></li>
+  <li><a href="#session-panel" id="toc-session-panel" class="nav-link" data-scroll-target="#session-panel">Session Panel</a></li>
+  </ul></li>
+  <li><a href="#our-first-look-at-the-r-language" id="toc-our-first-look-at-the-r-language" class="nav-link" data-scroll-target="#our-first-look-at-the-r-language">Our first look at the R language</a>
+  <ul class="collapse">
+  <li><a href="#data-types-in-r" id="toc-data-types-in-r" class="nav-link" data-scroll-target="#data-types-in-r">Data types in R</a></li>
+  <li><a href="#data-structures-in-r" id="toc-data-structures-in-r" class="nav-link" data-scroll-target="#data-structures-in-r">Data structures in R</a>
+  <ul class="collapse">
+  <li><a href="#atomic-vector" id="toc-atomic-vector" class="nav-link" data-scroll-target="#atomic-vector">Atomic vector</a></li>
+  <li><a href="#vectorization-in-r" id="toc-vectorization-in-r" class="nav-link" data-scroll-target="#vectorization-in-r">Vectorization in R</a></li>
+  <li><a href="#accessing-specific-elements-of-an-atomic-vector" id="toc-accessing-specific-elements-of-an-atomic-vector" class="nav-link" data-scroll-target="#accessing-specific-elements-of-an-atomic-vector">Accessing specific elements of an atomic vector</a></li>
+  <li><a href="#converting-the-class-of-vector-from-one-data-type-to-another" id="toc-converting-the-class-of-vector-from-one-data-type-to-another" class="nav-link" data-scroll-target="#converting-the-class-of-vector-from-one-data-type-to-another">Converting the class of vector from one data type to another</a></li>
+  <li><a href="#testing-the-class-of-an-object" id="toc-testing-the-class-of-an-object" class="nav-link" data-scroll-target="#testing-the-class-of-an-object">Testing the class of an object</a></li>
+  </ul></li>
+  <li><a href="#r-arithmetic-operators" id="toc-r-arithmetic-operators" class="nav-link" data-scroll-target="#r-arithmetic-operators">R Arithmetic Operators</a></li>
+  <li><a href="#functions-and-their-arguments" id="toc-functions-and-their-arguments" class="nav-link" data-scroll-target="#functions-and-their-arguments">Functions and their arguments</a></li>
+  <li><a href="#missing-data" id="toc-missing-data" class="nav-link" data-scroll-target="#missing-data">Missing data</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Session 1: Data types and structures</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="objectives callout callout-style-default callout-note callout-titled" title="Learning objectives">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Become familiar with using Positron for writing and running R scripts</li>
+<li>Understand the basics of the different data types and data structures used in R</li>
+<li>Learn how to use simple functions</li>
+<li>Understand the concept of missing data and how it is handled in R</li>
+</ul>
+</div>
+</div>
+<section id="introduction-to-r-and-positron" class="level1">
+<h1>Introduction to R and Positron</h1>
+</section>
+<section id="why-learn-r" class="level1">
 <h1>Why learn R?</h1>
 <ul>
-<li>R involves creating &amp; using scripts which makes the steps you
-used in your analysis clear and can be inspected by someone else for
-feedback and error-checking.<br />
+<li>R involves creating &amp; using scripts which makes the steps you used in your analysis clear and can be inspected by someone else for feedback and error-checking.<br>
 </li>
-<li>R code is great for reproducibility. An increasing number of
-journals and funding agencies expect analyses to be reproducible, so
-knowing R will give you an edge with these requirements.<br />
+<li>R code is great for reproducibility. An increasing number of journals and funding agencies expect analyses to be reproducible, so knowing R will give you an edge with these requirements.<br>
 </li>
-<li>R integrates with other tools to generate manuscripts from your
-code. This document (a Quarto document) is a case in point.<br />
+<li>R integrates with other tools to generate manuscripts from your code. This document (a Quarto document) is a case in point.<br>
 </li>
-<li>R is interdisciplinary and extensible and has thousands of
-installable packages to extend its capabilities. R has packages for
-image analysis, GIS, time series, population genetics, and a lot
-more.<br />
+<li>R is interdisciplinary and extensible and has thousands of installable packages to extend its capabilities. R has packages for image analysis, GIS, time series, population genetics, and a lot more.<br>
 </li>
-<li>R scales well to work on data of all shapes and sizes.<br />
+<li>R scales well to work on data of all shapes and sizes.<br>
 </li>
-<li>R can connect to spreadsheets, databases, and many other data
-formats, on your computer or on the web.<br />
+<li>R can connect to spreadsheets, databases, and many other data formats, on your computer or on the web.<br>
 </li>
-<li>R produces high-quality graphics suitable for publication in
-journals or the web.<br />
+<li>R produces high-quality graphics suitable for publication in journals or the web.<br>
 </li>
-<li>R has a large and welcoming community - Thousands use R daily and
-many of them are willing to help you through websites such as Stack
-Overflow or the Bioconductor community.<br />
+<li>R has a large and welcoming community - Thousands use R daily and many of them are willing to help you through websites such as Stack Overflow or the Bioconductor community.<br>
 </li>
-<li>Not only is R free, but it is also open-source and
-cross-platform.</li>
+<li>Not only is R free, but it is also open-source and cross-platform.</li>
 </ul>
-<hr />
-</div>
-<div id="positron---a-brief-tour" class="section level1">
+<hr>
+</section>
+<section id="positron---a-brief-tour" class="level1">
 <h1>Positron - a brief tour</h1>
-<p>Positron provides us with a friendly interface to the R statistical
-programming language. It’s a sophisticated IDE (Integrated Development
-Environment) that is built on top of Microsoft’s Visual Studio Code. It
-has many features that make it easier to write and run R code, including
-syntax highlighting and code completion. In this course we will only
-explore a few of the features of Positron.</p>
-<p>When you first open Positron you will see a screen similar to the one
-below. At the bottom of the screen is the “Panel”, currently this shows
-theconsole window, which is the actual interface for the R programme.
-Above the “Panel” is the “Editor” window; we will write our code here.
-On the left-hand side of the screen is the “Activity Bar” which provides
-access to various features of Positron. Hovering the mouse over the
-icons in the “Activity Bar” will show you what each icon does. In this
-course we will only be using the “Explorer” icon to open the folder in
-which we will be working and files that we will work on.</p>
+<p>Positron provides us with a friendly interface to the R statistical programming language. It’s a sophisticated IDE (Integrated Development Environment) that is built on top of Microsoft’s Visual Studio Code. It has many features that make it easier to write and run R code, including syntax highlighting and code completion. In this course we will only explore a few of the features of Positron.</p>
+<p>When you first open Positron you will see a screen similar to the one below. At the bottom of the screen is the “Panel”, currently this shows theconsole window, which is the actual interface for the R programme. Above the “Panel” is the “Editor” window; we will write our code here. On the left-hand side of the screen is the “Activity Bar” which provides access to various features of Positron. Hovering the mouse over the icons in the “Activity Bar” will show you what each icon does. In this course we will only be using the “Explorer” icon to open the folder in which we will be working and files that we will work on.</p>
 <p><img src="assets/imgs/session1/Positron_Start.png" alt="Positron screenshot" width="90%"></p>
-<div id="console" class="section level2">
-<h2>Console</h2>
-<p>At the bottom of the screenwe find the console window. This is the
-actual interface for the R programme.</p>
-<p>We can type commands directly into the console and run them by
-pressing <code>Enter</code>.</p>
+<section id="console" class="level2">
+<h2 data-anchor-id="console">Console</h2>
+<p>At the bottom of the screenwe find the console window. This is the actual interface for the R programme.</p>
+<p>We can type commands directly into the console and run them by pressing <code>Enter</code>.</p>
 <p><img src="assets/imgs/session1/Positron_Console.png" alt="Positron screenshot" width="60%"></p>
-<p>So, this area could be used like a calculator. Let’s just type in
-something like <code>23 + 45</code> followed by the <code>Enter</code>
-key and see what happens. You should get the following:</p>
+<p>So, this area could be used like a calculator. Let’s just type in something like <code>23 + 45</code> followed by the <code>Enter</code> key and see what happens. You should get the following:</p>
 <pre><code>&gt; 23 + 45
 [1] 68</code></pre>
 <p>Now 68 is clearly the answer but what is that 1 in brackets?</p>
-<p>Here is another example to explain. If we type <code>1:36</code> and
-press enter, what happens? R generates output counting from 1 to 36 but
-cannot fit all the output on one line and so starts another like
-this:</p>
+<p>Here is another example to explain. If we type <code>1:36</code> and press enter, what happens? R generates output counting from 1 to 36 but cannot fit all the output on one line and so starts another like this:</p>
 <pre><code>&gt; 1:36
  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
 [26] 26 27 28 29 30 31 32 33 34 35 36</code></pre>
-<p>Now we have two lines beginning with a number in square brackets.
-Note that the number of values displayed on each line may differ on your
-computer; it largely depends on the width of your console pane and the
-font size. Try creating a larger sequence of numbers,
-e.g. <code>1:100</code>, if all 36 numbers fit on a single line in your
-case.</p>
-<p>This is just R helping us to keep tabs on which number we are looking
-at. <code>[1]</code> denotes that the line starts with the first result
-and the <code>[26]</code> denotes that this line starts with the 26th
-number. Let’s try another one and generate a sequence incrementing in
-steps of 2:</p>
+<p>Now we have two lines beginning with a number in square brackets. Note that the number of values displayed on each line may differ on your computer; it largely depends on the width of your console pane and the font size. Try creating a larger sequence of numbers, e.g.&nbsp;<code>1:100</code>, if all 36 numbers fit on a single line in your case.</p>
+<p>This is just R helping us to keep tabs on which number we are looking at. <code>[1]</code> denotes that the line starts with the first result and the <code>[26]</code> denotes that this line starts with the 26th number. Let’s try another one and generate a sequence incrementing in steps of 2:</p>
 <pre><code>&gt; 1:36 * 2
  [1]  2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50
 [26] 52 54 56 58 60 62 64 66 68 70 72</code></pre>
-<p>There are other tabs on this pane but we shall not be covering these
-on this course.</p>
-</div>
-<div id="the-explorer" class="section level2">
-<h2>The Explorer</h2>
-<p>As general rule, the first thing to do is to open the folder in which
-you wish to work. In our case this will be the
-<code>Bioinformatics_Workshop</code> directory, which contains the
-<code>data</code> directory with all the data files we will be using in
-this course. To do this, click on the “Open Folder” button (or use the
-<code>File</code> menu &gt;&gt; <code>Open Folder</code>) and navigate
-to the <code>Bioinformatics_Workshop</code> directory.</p>
-<p>When you first open the <code>Bioinformatics_Workshop</code>
-directory, you will just see the <code>data</code> directory. If you
-click on the small triangle to the left of the <code>data</code>
-directory, you will see all the files as below.</p>
+<p>There are other tabs on this pane but we shall not be covering these on this course.</p>
+</section>
+<section id="the-explorer" class="level2">
+<h2 data-anchor-id="the-explorer">The Explorer</h2>
+<p>As general rule, the first thing to do is to open the folder in which you wish to work. In our case this will be the <code>Bioinformatics_Workshop</code> directory, which contains the <code>data</code> directory with all the data files we will be using in this course. To do this, click on the “Open Folder” button (or use the <code>File</code> menu &gt;&gt; <code>Open Folder</code>) and navigate to the <code>Bioinformatics_Workshop</code> directory.</p>
+<p>When you first open the <code>Bioinformatics_Workshop</code> directory, you will just see the <code>data</code> directory. If you click on the small triangle to the left of the <code>data</code> directory, you will see all the files as below.</p>
 <p><img src="assets/imgs/session1/Positron_OpenFolder.png" alt="Positron screenshot" width="90%"></p>
-<p>Note that once you have used Positron to open a folder, it will
-remember this and automatically open the last folder you were working in
-when you next open Positron.</p>
-</div>
-<div id="the-editor" class="section level2">
-<h2>The Editor</h2>
-<p>The Editor is a panel for creating, editing &amp; running R scripts.
-Rather than simply typing our commands directly into the console, we can
-write them here as an “R script”. As you will see, a script is basically
-a text file that contains R commands and comments to explain what the
-code does.</p>
-<p>Currently the Editor panel just contains the “Welcome” tab. To create
-a new R script click on the “New File” button on the “Welcome” tab or
-use <code>File</code> menu &gt;&gt; <code>New File</code>. This will
-open the dialogue shown below.</p>
+<p>Note that once you have used Positron to open a folder, it will remember this and automatically open the last folder you were working in when you next open Positron.</p>
+</section>
+<section id="the-editor" class="level2">
+<h2 data-anchor-id="the-editor">The Editor</h2>
+<p>The Editor is a panel for creating, editing &amp; running R scripts. Rather than simply typing our commands directly into the console, we can write them here as an “R script”. As you will see, a script is basically a text file that contains R commands and comments to explain what the code does.</p>
+<p>Currently the Editor panel just contains the “Welcome” tab. To create a new R script click on the “New File” button on the “Welcome” tab or use <code>File</code> menu &gt;&gt; <code>New File</code>. This will open the dialogue shown below.</p>
 <p><img src="assets/imgs/session1/Positron_NewFile.png" alt="Positron screenshot" width="90%"></p>
-<p>In the dialogue box where it says “<em>Select File Type or Enter File
-Name…</em>” type <code>My_First_Rscript.R</code> and press
-<code>Enter</code>. Save the new file in the
-<code>Bioinformatics_Workshop</code> directory. You should now see the
-new file in the Explorer pane and the Editor pane should now look like
-this:</p>
+<p>In the dialogue box where it says “<em>Select File Type or Enter File Name…</em>” type <code>My_First_Rscript.R</code> and press <code>Enter</code>. Save the new file in the <code>Bioinformatics_Workshop</code> directory. You should now see the new file in the Explorer pane and the Editor pane should now look like this:</p>
 <p><img src="assets/imgs/session1/Positron_NewScript.png" alt="Positron screenshot" width="90%"></p>
-<p>This is a blank script file. You can now type your R commands
-here.</p>
-<p>We send the commands typed here to the console by placing the cursor
-on the line with the command and pressing <code>Ctrl + Enter</code>
-(<code>Cmd + Enter</code> on a Mac). You can also send multiple lines to
-the console by highlighting them and pressing <code>Ctrl + Enter</code>
-(<code>Cmd + Enter</code></p>
-<p>The advantage of using a script rather than typing directly into the
-console is that our commands are not lost, we can save the text file for
-future use and it is easier to make changes to our code.</p>
+<p>This is a blank script file. You can now type your R commands here.</p>
+<p>We send the commands typed here to the console by placing the cursor on the line with the command and pressing <code>Ctrl + Enter</code> (<code>Cmd + Enter</code> on a Mac). You can also send multiple lines to the console by highlighting them and pressing <code>Ctrl + Enter</code> (<code>Cmd + Enter</code></p>
+<p>The advantage of using a script rather than typing directly into the console is that our commands are not lost, we can save the text file for future use and it is easier to make changes to our code.</p>
 <p><img src="assets/imgs/session1/Positron_Scripting.png" alt="Positron edit pane screenshot" width="50%"></p>
-<p>A script is an R program that you have written. Good practice is for
-each script to perform only one role in your analysis workflow and so
-you may have several R scripts which you call, in a particular sequence,
-to analyse your data.</p>
-<p>As well as R scripts, there are many types of Positron document
-including Quarto documents, which we have used to build the materials
-for this course. These can provide interactive workbooks or web
-documents to name but a few possible outcomes.</p>
-</div>
-<div id="session-panel" class="section level2">
-<h2>Session Panel</h2>
-<p>Now go to the <code>View</code> menu and select
-<code>Variables</code>. This will open the “Session” Panel on the right
-of the screen. This contains two panels: “Variables” and “Plots”.</p>
-<p>The “Variables” panel will show you all the variables that you have
-created in your R session and their values.</p>
+<p>A script is an R program that you have written. Good practice is for each script to perform only one role in your analysis workflow and so you may have several R scripts which you call, in a particular sequence, to analyse your data.</p>
+<p>As well as R scripts, there are many types of Positron document including Quarto documents, which we have used to build the materials for this course. These can provide interactive workbooks or web documents to name but a few possible outcomes.</p>
+</section>
+<section id="session-panel" class="level2">
+<h2 data-anchor-id="session-panel">Session Panel</h2>
+<p>Now go to the <code>View</code> menu and select <code>Variables</code>. This will open the “Session” Panel on the right of the screen. This contains two panels: “Variables” and “Plots”.</p>
+<p>The “Variables” panel will show you all the variables that you have created in your R session and their values.</p>
 <p><img src="assets/imgs/session1/Positron_Variables.png" alt="Positron variable panel" width="90%"></p>
-<p>Below the “Variables” panel is the “Plots” panel, which will display
-any graphs you create in your R session.</p>
-<p>There are a number of other tabs available alongside the “Session”
-panel. The only one that we will look at in this course is the “Help”
-tab, which will display the help pages for any R function you are
-using.</p>
-<hr />
-</div>
-</div>
-<div id="our-first-look-at-the-r-language" class="section level1">
+<p>Below the “Variables” panel is the “Plots” panel, which will display any graphs you create in your R session.</p>
+<p>There are a number of other tabs available alongside the “Session” panel. The only one that we will look at in this course is the “Help” tab, which will display the help pages for any R function you are using.</p>
+<hr>
+</section>
+</section>
+<section id="our-first-look-at-the-r-language" class="level1">
 <h1>Our first look at the R language</h1>
-<p>Our overall goal for this course is to give you the ability to import
-your data into R, select a subset of the data most of interest for a
-given analysis, carry out an analysis to summarize these data and create
-visualizations of the data. First though, let us consider <strong>“What
-is Data?”</strong></p>
-<p>Data comes in many forms: Numbers (Integers and decimal values) or
-alphabetical (characters or lines of text). Clearly a computer (or R)
-needs a way of representing this wide range of data with it’s diverse
-properties.</p>
-<div id="data-types-in-r" class="section level2">
-<h2>Data types in R</h2>
-<div class="float">
-<img src="assets/imgs/shared/r-programming-data-types.png"
-alt="Image source:https://www.javatpoint.com/r-data-types" />
-<div class="figcaption">Image source:<a
-href="https://www.javatpoint.com/r-data-types"
-class="uri">https://www.javatpoint.com/r-data-types</a></div>
+<p>Our overall goal for this course is to give you the ability to import your data into R, select a subset of the data most of interest for a given analysis, carry out an analysis to summarize these data and create visualizations of the data. First though, let us consider <strong>“What is Data?”</strong></p>
+<p>Data comes in many forms: Numbers (Integers and decimal values) or alphabetical (characters or lines of text). Clearly a computer (or R) needs a way of representing this wide range of data with it’s diverse properties.</p>
+<section id="data-types-in-r" class="level2">
+<h2 data-anchor-id="data-types-in-r">Data types in R</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./assets/imgs/shared/r-programming-data-types.png" class="img-fluid figure-img"></p>
+<figcaption>Image source:https://www.javatpoint.com/r-data-types</figcaption>
+</figure>
 </div>
 <p>R has 6 basic data types:</p>
 <ul>
 <li><strong>character</strong>
 <ul>
-<li>a “character” is nothing but a series of letters, numbers and
-punctuation marks. You will often see this referred to as a
-<em>string</em>.</li>
-<li>anything between two quotes (Single or double quotes): “a”,
-‘cat’<br />
+<li>a “character” is nothing but a series of letters, numbers and punctuation marks. You will often see this referred to as a <em>string</em>.</li>
+<li>anything between two quotes (Single or double quotes): “a”, ‘cat’<br>
 </li>
-<li>Quoted numbers are character type: ‘3.14’<br />
+<li>Quoted numbers are character type: ‘3.14’<br>
 </li>
 </ul></li>
 <li><strong>double</strong>:
 <ul>
-<li>Set of all real numbers<br />
+<li>Set of all real numbers<br>
 </li>
-<li>Could be a integer or include a decimal: 10, 3.14, 1.45765, 5,
-1000000<br />
+<li>Could be a integer or include a decimal: 10, 3.14, 1.45765, 5, 1000000<br>
 </li>
 </ul></li>
-<li><strong>integer</strong>: Whole numbers. 5L (the “L” tells R to
-store this as an integer)<br />
+<li><strong>integer</strong>: Whole numbers. 5L (the “L” tells R to store this as an integer)<br>
 </li>
-<li><strong>logical</strong>: TRUE, FALSE<br />
+<li><strong>logical</strong>: TRUE, FALSE<br>
 </li>
-<li><strong>complex</strong>: 1+4i (complex numbers with real and
-imaginary parts)<br />
+<li><strong>complex</strong>: 1+4i (complex numbers with real and imaginary parts)<br>
 </li>
 <li><strong>raw</strong>: Holds raw bytes</li>
 </ul>
 <p>The last two data types are rarely used in practice.</p>
-<p>We will learn about an additional specialist data class
-<strong>factor</strong> in the next session.</p>
-<p><strong>double</strong> and <strong>integer</strong> both have the
-additional type <strong>numeric</strong>.</p>
-<p>There are some additional specialist data types, such as dates, but
-we wont be dealing with them in this course.</p>
-<p>Different types of data are needed in programming for a variety of
-reasons:</p>
+<p>We will learn about an additional specialist data class <strong>factor</strong> in the next session.</p>
+<p><strong>double</strong> and <strong>integer</strong> both have the additional type <strong>numeric</strong>.</p>
+<p>There are some additional specialist data types, such as dates, but we wont be dealing with them in this course.</p>
+<p>Different types of data are needed in programming for a variety of reasons:</p>
 <ul>
-<li>Some commands can only be used on particular data types. For
-instance mathematical operations (+, -, x and /) are only meaningful for
-numbers.</li>
+<li>Some commands can only be used on particular data types. For instance mathematical operations (+, -, x and /) are only meaningful for numbers.</li>
 </ul>
-<pre class="r"><code>11 + 3 # Operation of addition performed correctly
-&quot;11&quot; + 3 # gives error</code></pre>
-<ul>
-<li>Efficient storage, e.g. the <strong>integer</strong> type uses less
-memory than the <strong>double</strong> (decimal) data type.</li>
-</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dv">11</span> <span class="sc">+</span> <span class="dv">3</span> <span class="co"># Operation of addition performed correctly</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">"11"</span> <span class="sc">+</span> <span class="dv">3</span> <span class="co"># gives error</span></span></code></pre></div>
 </div>
-<div id="data-structures-in-r" class="section level2">
-<h2>Data structures in R</h2>
-<div class="float">
-<img src="assets/imgs/shared/dataStructures.png"
-alt="Image source:http://venus.ifca.unican.es/Rintro/dataStruct.html" />
-<div class="figcaption">Image source:<a
-href="http://venus.ifca.unican.es/Rintro/dataStruct.html"
-class="uri">http://venus.ifca.unican.es/Rintro/dataStruct.html</a></div>
+<ul>
+<li>Efficient storage, e.g.&nbsp;the <strong>integer</strong> type uses less memory than the <strong>double</strong> (decimal) data type.</li>
+</ul>
+</section>
+<section id="data-structures-in-r" class="level2">
+<h2 data-anchor-id="data-structures-in-r">Data structures in R</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./assets/imgs/shared/dataStructures.png" class="img-fluid figure-img"></p>
+<figcaption>Image source:http://venus.ifca.unican.es/Rintro/dataStruct.html</figcaption>
+</figure>
 </div>
 <p>R has many data structures. These include:</p>
 <ul>
-<li>Atomic vector<br />
+<li>Atomic vector<br>
 </li>
-<li>data frame<br />
+<li>data frame<br>
 </li>
-<li>matrix<br />
+<li>matrix<br>
 </li>
-<li>list<br />
+<li>list<br>
 </li>
 <li>factors</li>
 </ul>
-<div id="atomic-vector" class="section level3">
-<h3>Atomic vector</h3>
-<p>The atomic vector is the fundamental data structure in R and all the
-other data structures built on vectors.</p>
+<section id="atomic-vector" class="level3">
+<h3 data-anchor-id="atomic-vector">Atomic vector</h3>
+<p>The atomic vector is the fundamental data structure in R and all the other data structures built on vectors.</p>
 <p>We can assign a value to an object with a name:</p>
-<pre class="r"><code>x &lt;- 100</code></pre>
-<p>Here we are creating an object called <code>x</code> containing the
-value ‘100’.</p>
-<p><strong>Note</strong>: The terms <code>object</code> and
-<code>variable</code> are often used interchangeably, even though they
-do have subtly different meanings.</p>
-<p>The assignment operator <code>&lt;-</code> causes the value 100 to be
-assigned to the variable named <code>x</code>.</p>
-<p><strong>Note</strong>: you can also use <code>=</code> instead of
-<code>&lt;-</code>, however, best practice is to use
-<code>&lt;-</code>.</p>
-<pre class="r"><code>x &lt;- 100
-x = 100</code></pre>
-<p>After a variable/object is created, it can be used as many times as
-needed.</p>
-<pre class="r"><code>y &lt;- 10
-y * y</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">100</span></span></code></pre></div>
+</div>
+<p>Here we are creating an object called <code>x</code> containing the value ‘100’.</p>
+<p><strong>Note</strong>: The terms <code>object</code> and <code>variable</code> are often used interchangeably, even though they do have subtly different meanings.</p>
+<p>The assignment operator <code>&lt;-</code> causes the value 100 to be assigned to the variable named <code>x</code>.</p>
+<p><strong>Note</strong>: you can also use <code>=</code> instead of <code>&lt;-</code>, however, best practice is to use <code>&lt;-</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">100</span></span></code></pre></div>
+</div>
+<p>After a variable/object is created, it can be used as many times as needed.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y <span class="sc">*</span> y</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 100</code></pre>
-<pre class="r"><code>y + y</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">+</span> y</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 20</code></pre>
-<pre class="r"><code>100 + y</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">+</span> y</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 110</code></pre>
+</div>
+</div>
 <p>The values assigned to a variable can be replaced:</p>
-<pre class="r"><code>x &lt;- &quot;Tom&quot;
-x</code></pre>
-<pre><code>## [1] &quot;Tom&quot;</code></pre>
-<pre class="r"><code>x &lt;- &quot;Jerry&quot;
-x</code></pre>
-<pre><code>## [1] &quot;Jerry&quot;</code></pre>
-<p>Variable names can not start with a number or a special characters
-like (_, -, *, etc)</p>
-<pre class="r"><code>2x &lt;- 100</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">"Tom"</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "Tom"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">"Jerry"</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "Jerry"</code></pre>
+</div>
+</div>
+<p>Variable names can not start with a number or a special characters like (_, -, *, etc)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>x <span class="ot">&lt;-</span> <span class="dv">100</span></span></code></pre></div>
+<div class="cell-output cell-output-error">
 <pre><code>## Error in parse(text = input): &lt;text&gt;:1:2: unexpected symbol
 ## 1: 2x
 ##      ^</code></pre>
-<pre class="r"><code>_x &lt;- 100</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>_x <span class="ot">&lt;-</span> <span class="dv">100</span></span></code></pre></div>
+<div class="cell-output cell-output-error">
 <pre><code>## Error in parse(text = input): &lt;text&gt;:1:2: unexpected symbol
 ## 1: _x
 ##      ^</code></pre>
-<p>The only special characters allowed in variable names are “_” and “.”
-any other special character throws an error]</p>
-<pre class="r"><code>my-name &lt;- &quot;Ashley&quot;</code></pre>
+</div>
+</div>
+<p>The only special characters allowed in variable names are “_” and “.” any other special character throws an error]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>my<span class="sc">-</span>name <span class="ot">&lt;-</span> <span class="st">"Ashley"</span></span></code></pre></div>
+<div class="cell-output cell-output-error">
 <pre><code>## Error:
-## ! object &#39;my&#39; not found</code></pre>
-<p>To R the “-” symbol means minus, so it is interpreting the first part
-of the line as an instruction to subtract the value of variable called
-“name” from the value of a variable called “my”, however, neither of
-these exists, so it throws an error.</p>
-<pre class="r"><code>my_name &lt;- &quot;Ashley&quot;
-my.name &lt;- &quot;Ashley&quot;</code></pre>
+## ! object 'my' not found</code></pre>
+</div>
+</div>
+<p>To R the “-” symbol means minus, so it is interpreting the first part of the line as an instruction to subtract the value of variable called “name” from the value of a variable called “my”, however, neither of these exists, so it throws an error.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>my_name <span class="ot">&lt;-</span> <span class="st">"Ashley"</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>my.name <span class="ot">&lt;-</span> <span class="st">"Ashley"</span></span></code></pre></div>
+</div>
 <ul>
 <li>R is case sensitive</li>
 <li>COUNTRY and country are two different variables</li>
 </ul>
-<pre class="r"><code>COUNTRY &lt;- &quot;United Kingdom&quot;
-country &lt;- &quot;Uganda&quot;
-
-COUNTRY</code></pre>
-<pre><code>## [1] &quot;United Kingdom&quot;</code></pre>
-<pre class="r"><code>country</code></pre>
-<pre><code>## [1] &quot;Uganda&quot;</code></pre>
-<div id="atomic-vectors-with-more-than-one-value"
-class="section level4">
-<h4>Atomic vectors with more than one value</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>COUNTRY <span class="ot">&lt;-</span> <span class="st">"United Kingdom"</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>country <span class="ot">&lt;-</span> <span class="st">"Uganda"</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>COUNTRY</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "United Kingdom"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>country</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "Uganda"</code></pre>
+</div>
+</div>
+<section id="atomic-vectors-with-more-than-one-value" class="level4">
+<h4 data-anchor-id="atomic-vectors-with-more-than-one-value">Atomic vectors with more than one value</h4>
 <ul>
-<li>The <code>c()</code> function should be used to create a vector that
-holds more than one value</li>
+<li>The <code>c()</code> function should be used to create a vector that holds more than one value</li>
 <li>c stands for combine</li>
 <li>values are separated by “,”</li>
 </ul>
-<pre class="r"><code>x &lt;- 100, 200</code></pre>
-<pre><code>## Error in parse(text = input): &lt;text&gt;:1:9: unexpected &#39;,&#39;
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">100</span>, <span class="dv">200</span></span></code></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>## Error in parse(text = input): &lt;text&gt;:1:9: unexpected ','
 ## 1: x &lt;- 100,
 ##             ^</code></pre>
-<pre class="r"><code>x &lt;- c(100, 200)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>)</span></code></pre></div>
+</div>
 <ul>
 <li>the “:” operator that generates a range of values</li>
 </ul>
-<pre class="r"><code>x &lt;- 1:40
-x</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">40</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
 ## [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40</code></pre>
-<p>The values in a vector must all be of the same data type, such as
-numerics, integers, characters, logic, complexes, or raw data.</p>
-<p>When we attempt to mix different data types in a single vector, R
-automatically converts the data types, this phenomenon is called <a
-href="https://adv-r.hadley.nz/vectors-chap.html#testing-and-coercion">Coercion</a></p>
-<pre class="r"><code>x &lt;- c(1, 2, 3, 4)
-typeof(x)</code></pre>
-<pre><code>## [1] &quot;double&quot;</code></pre>
-<pre class="r"><code>x &lt;- c(1, &quot;2&quot;, 3, 4)
-typeof(x)</code></pre>
-<pre><code>## [1] &quot;character&quot;</code></pre>
-<pre class="r"><code>z &lt;- c(TRUE, FALSE, FALSE)
-typeof(z)</code></pre>
-<pre><code>## [1] &quot;logical&quot;</code></pre>
-<pre class="r"><code>z &lt;- c(TRUE, FALSE, &quot;FALSE&quot;)
-z</code></pre>
-<pre><code>## [1] &quot;TRUE&quot;  &quot;FALSE&quot; &quot;FALSE&quot;</code></pre>
-<pre class="r"><code>typeof(z)</code></pre>
-<pre><code>## [1] &quot;character&quot;</code></pre>
-<pre class="r"><code>y &lt;- c(TRUE, FALSE, TRUE, 1L)
-y</code></pre>
-<pre><code>## [1] 1 0 1 1</code></pre>
-<pre class="r"><code>typeof(y)</code></pre>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
 </div>
-<div id="a-note-on-logical-vectors" class="section level4">
-<h4>A note on logical vectors</h4>
-<p>The logical values “TRUE” and “FALSE” are internally represented as 1
-and 0. Therefore mathematical operations can be performed on these
-vectors.</p>
-<pre class="r"><code>y &lt;- c(TRUE, FALSE, TRUE)
-y</code></pre>
+</div>
+<p>The values in a vector must all be of the same data type, such as numerics, integers, characters, logic, complexes, or raw data.</p>
+<p>When we attempt to mix different data types in a single vector, R automatically converts the data types, this phenomenon is called <a href="https://adv-r.hadley.nz/vectors-chap.html#testing-and-coercion">Coercion</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "double"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="st">"2"</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "character"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(z)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "logical"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="st">"FALSE"</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>z</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "TRUE"  "FALSE" "FALSE"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(z)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "character"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="dv">1</span>L)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>y</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] 1 0 1 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(y)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "integer"</code></pre>
+</div>
+</div>
+</section>
+<section id="a-note-on-logical-vectors" class="level4">
+<h4 data-anchor-id="a-note-on-logical-vectors">A note on logical vectors</h4>
+<p>The logical values “TRUE” and “FALSE” are internally represented as 1 and 0. Therefore mathematical operations can be performed on these vectors.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>y</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1]  TRUE FALSE  TRUE</code></pre>
-<pre class="r"><code>sum(y)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(y)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 2</code></pre>
-<pre class="r"><code>mean(y)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 0.6666667</code></pre>
 </div>
 </div>
-<div id="vectorization-in-r" class="section level3">
-<h3>Vectorization in R</h3>
-<p>It is important to note that most of R’s functions are
-<strong>vectorized</strong>, which means that they operate on all
-elements of a vector without looping through each element one by one.
-Coding becomes more concise, easier to read, and less prone to errors as
-a result.</p>
-<pre class="r"><code>x &lt;- c(1, 2, 3, 4, 5)
-x * 5</code></pre>
+</section>
+</section>
+<section id="vectorization-in-r" class="level3">
+<h3 data-anchor-id="vectorization-in-r">Vectorization in R</h3>
+<p>It is important to note that most of R’s functions are <strong>vectorized</strong>, which means that they operate on all elements of a vector without looping through each element one by one. Coding becomes more concise, easier to read, and less prone to errors as a result.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>x <span class="sc">*</span> <span class="dv">5</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1]  5 10 15 20 25</code></pre>
-<pre class="r"><code>x + 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 2 3 4 5 6</code></pre>
-<p>Vectorization is powerful, quick and concise, but leads to confusion
-when vector lengths are different.</p>
-<pre class="r"><code>x &lt;- c(1, 2, 3, 4, 5, 6)
-y &lt;- c(1, 2, 3, 4, 5, 6)
-x + y</code></pre>
+</div>
+</div>
+<p>Vectorization is powerful, quick and concise, but leads to confusion when vector lengths are different.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1]  2  4  6  8 10 12</code></pre>
-<pre class="r"><code>x &lt;- c(1, 2, 3, 4, 5)
-y &lt;- c(1, 2)
-x + y</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
 <pre><code>## Warning in x + y: longer object length is not a multiple of shorter object
 ## length</code></pre>
-<pre><code>## [1] 2 4 4 6 6</code></pre>
-<p><img src="assets/imgs/session1/vector_recycling.png"
-style="width:40.0%" /></p>
 </div>
-<div id="accessing-specific-elements-of-an-atomic-vector"
-class="section level3">
-<h3>Accessing specific elements of an atomic vector</h3>
-<p>If a vector contains more than one value, we may times only wish to
-access specific values within the vector. To this we use the
-<code>[]</code> subscript operator.</p>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] 2 4 4 6 6</code></pre>
+</div>
+</div>
+<p><img src="./assets/imgs/session1/vector_recycling.png" class="img-fluid" style="width:40.0%"></p>
+</section>
+<section id="accessing-specific-elements-of-an-atomic-vector" class="level3">
+<h3 data-anchor-id="accessing-specific-elements-of-an-atomic-vector">Accessing specific elements of an atomic vector</h3>
+<p>If a vector contains more than one value, we may times only wish to access specific values within the vector. To this we use the <code>[]</code> subscript operator.</p>
 <p>Within <code>[]</code> one can give any of the following:</p>
 <ul>
-<li>Vector of index numbers<br />
+<li>Vector of index numbers<br>
 </li>
 <li>Vector of logical values</li>
 </ul>
-<p><img src="assets/imgs/session1/atomic_vector.png" /></p>
-<div id="using-integer-vector-containing-index-numbers"
-class="section level4">
-<h4>Using integer vector containing index numbers</h4>
-<pre class="r"><code>vec &lt;- c(10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
-vec</code></pre>
+<p><img src="./assets/imgs/session1/atomic_vector.png" class="img-fluid"></p>
+<section id="using-integer-vector-containing-index-numbers" class="level4">
+<h4 data-anchor-id="using-integer-vector-containing-index-numbers">Using integer vector containing index numbers</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">60</span>, <span class="dv">70</span>, <span class="dv">80</span>, <span class="dv">90</span>, <span class="dv">100</span>)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>vec</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>##  [1]  10  20  30  40  50  60  70  80  90 100</code></pre>
+</div>
+</div>
 <p>To extract 4th value from the vector:</p>
-<pre class="r"><code>vec[4]</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>vec[<span class="dv">4</span>]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 40</code></pre>
+</div>
+</div>
 <p>To extract 4th and 7th values from the vector:</p>
-<pre class="r"><code>vec[c(4, 7)]</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>vec[<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">7</span>)]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 40 70</code></pre>
-<p>We can also invert the selection using “-” symbol, e.g. to extract
-all the values except 4th and 7th values:</p>
-<pre class="r"><code>vec[c(-4, -7)]</code></pre>
+</div>
+</div>
+<p>We can also invert the selection using “-” symbol, e.g.&nbsp;to extract all the values except 4th and 7th values:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>vec[<span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="sc">-</span><span class="dv">7</span>)]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1]  10  20  30  50  60  80  90 100</code></pre>
-<p>It is also possible to selectively replace specific vector values
-using the same notation.</p>
-<pre class="r"><code>x &lt;- c(10, 20, 30)
-x[2]</code></pre>
+</div>
+</div>
+<p>It is also possible to selectively replace specific vector values using the same notation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">2</span>]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 20</code></pre>
-<pre class="r"><code>x[2] &lt;- 1000
-x</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1]   10 1000   30</code></pre>
 </div>
-<div id="using-a-logical-vector-to-select-values-from-a-vector"
-class="section level4">
-<h4>Using a logical vector to select values from a vector</h4>
-<p>We can also extract values using a vector of logical values. Normally
-the logical vector should be the same length as the vector from which we
-are extracting values, however, if it is shorter then it will be
-recycled as necessary - this can be confusing.</p>
-<pre class="r"><code>y &lt;- c(5, 8, 10)
-myLogicalVec &lt;- c(FALSE, TRUE, FALSE)
-y[myLogicalVec]</code></pre>
+</div>
+</section>
+<section id="using-a-logical-vector-to-select-values-from-a-vector" class="level4">
+<h4 data-anchor-id="using-a-logical-vector-to-select-values-from-a-vector">Using a logical vector to select values from a vector</h4>
+<p>We can also extract values using a vector of logical values. Normally the logical vector should be the same length as the vector from which we are extracting values, however, if it is shorter then it will be recycled as necessary - this can be confusing.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">10</span>)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>myLogicalVec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>y[myLogicalVec]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 8</code></pre>
-<pre class="r"><code>vec[myLogicalVec]</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>vec[myLogicalVec]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 20 50 80</code></pre>
-<p>In practice we do not create logical vectors manually, they are most
-usually generated as the outputs of boolean comparison. This allows us
-to select values from a vector based on their characteristics.</p>
+</div>
+</div>
+<p>In practice we do not create logical vectors manually, they are most usually generated as the outputs of boolean comparison. This allows us to select values from a vector based on their characteristics.</p>
 <p>The basic comparison operators are:</p>
-<table>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th align="left">Operator</th>
-<th align="left">Meaning</th>
-<th align="left">Example</th>
-<th align="left">Result</th>
+<th style="text-align: left;">Operator</th>
+<th style="text-align: left;">Meaning</th>
+<th style="text-align: left;">Example</th>
+<th style="text-align: left;">Result</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">==</td>
-<td align="left">Equal to</td>
-<td align="left">100 == 90</td>
-<td align="left">FALSE</td>
+<td style="text-align: left;">==</td>
+<td style="text-align: left;">Equal to</td>
+<td style="text-align: left;">100 == 90</td>
+<td style="text-align: left;">FALSE</td>
 </tr>
 <tr class="even">
-<td align="left">!=</td>
-<td align="left">Not equal to</td>
-<td align="left">100 != 90</td>
-<td align="left">TRUE</td>
+<td style="text-align: left;">!=</td>
+<td style="text-align: left;">Not equal to</td>
+<td style="text-align: left;">100 != 90</td>
+<td style="text-align: left;">TRUE</td>
 </tr>
 <tr class="odd">
-<td align="left">&gt;</td>
-<td align="left">Greater than</td>
-<td align="left">100 &gt; 90</td>
-<td align="left">TRUE</td>
+<td style="text-align: left;">&gt;</td>
+<td style="text-align: left;">Greater than</td>
+<td style="text-align: left;">100 &gt; 90</td>
+<td style="text-align: left;">TRUE</td>
 </tr>
 <tr class="even">
-<td align="left">&lt;</td>
-<td align="left">Less than</td>
-<td align="left">100 &lt; 90</td>
-<td align="left">FALSE</td>
+<td style="text-align: left;">&lt;</td>
+<td style="text-align: left;">Less than</td>
+<td style="text-align: left;">100 &lt; 90</td>
+<td style="text-align: left;">FALSE</td>
 </tr>
 <tr class="odd">
-<td align="left">&gt;=</td>
-<td align="left">Greater than or equal to</td>
-<td align="left">100 &gt;= 90</td>
-<td align="left">TRUE</td>
+<td style="text-align: left;">&gt;=</td>
+<td style="text-align: left;">Greater than or equal to</td>
+<td style="text-align: left;">100 &gt;= 90</td>
+<td style="text-align: left;">TRUE</td>
 </tr>
 <tr class="even">
-<td align="left">&lt;=</td>
-<td align="left">Less than or equal to</td>
-<td align="left">90 &lt;= 90</td>
-<td align="left">TRUE</td>
+<td style="text-align: left;">&lt;=</td>
+<td style="text-align: left;">Less than or equal to</td>
+<td style="text-align: left;">90 &lt;= 90</td>
+<td style="text-align: left;">TRUE</td>
 </tr>
 </tbody>
 </table>
-<p>We will encounter other functions that can also generate logical
-vectors using more complex tests later in the course.</p>
-<p>Using these comparison operators we can test each of value in a
-vector and generate a logical vector that tells us which values match
-our criteria.</p>
+</div>
+</div>
+<p>We will encounter other functions that can also generate logical vectors using more complex tests later in the course.</p>
+<p>Using these comparison operators we can test each of value in a vector and generate a logical vector that tells us which values match our criteria.</p>
 <p>For example, to only keep values that are greater than 20:</p>
-<pre class="r"><code>x &lt;- c(10, 20, 30, 40)
-x == 20</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>)</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>x <span class="sc">==</span> <span class="dv">20</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] FALSE  TRUE FALSE FALSE</code></pre>
-<pre class="r"><code>x &gt; 20</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&gt;</span> <span class="dv">20</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] FALSE FALSE  TRUE  TRUE</code></pre>
-<pre class="r"><code>keep &lt;- x &gt; 20
-keep</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>keep <span class="ot">&lt;-</span> x <span class="sc">&gt;</span> <span class="dv">20</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>keep</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] FALSE FALSE  TRUE  TRUE</code></pre>
-<pre class="r"><code>x[keep]</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>x[keep]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 30 40</code></pre>
-<pre class="r"><code>x[ x &gt; 20 ]</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>x[ x <span class="sc">&gt;</span> <span class="dv">20</span> ]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 30 40</code></pre>
-<p>By using logical operators one can create complex expression for more
-complex subsetting. The logical operators are:</p>
-<table>
+</div>
+</div>
+<p>By using logical operators one can create complex expression for more complex subsetting. The logical operators are:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col width="4%" />
-<col width="4%" />
-<col width="91%" />
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 91%">
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Operator</th>
-<th align="left">Meaning</th>
-<th align="left">Effect</th>
+<th style="text-align: left;">Operator</th>
+<th style="text-align: left;">Meaning</th>
+<th style="text-align: left;">Effect</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">&amp;</td>
-<td align="left">AND</td>
-<td align="left">Connects two expressions into one. Both expressions
-must be true for the overall expression to be true</td>
+<td style="text-align: left;">&amp;</td>
+<td style="text-align: left;">AND</td>
+<td style="text-align: left;">Connects two expressions into one. Both expressions must be true for the overall expression to be true</td>
 </tr>
 <tr class="even">
-<td align="left">|</td>
-<td align="left">OR</td>
-<td align="left">Connects two expressions into one. One or both of the
-expressions must be true for the overall expression to be true. It is
-only necessary for one to be true, it doesn’t matter which</td>
+<td style="text-align: left;">|</td>
+<td style="text-align: left;">OR</td>
+<td style="text-align: left;">Connects two expressions into one. One or both of the expressions must be true for the overall expression to be true. It is only necessary for one to be true, it doesn’t matter which</td>
 </tr>
 <tr class="odd">
-<td align="left">!</td>
-<td align="left">NOT</td>
-<td align="left">Inverts the “truth” of the expression - FALSE becomes
-TRUE and TRUE becomes FALSE</td>
+<td style="text-align: left;">!</td>
+<td style="text-align: left;">NOT</td>
+<td style="text-align: left;">Inverts the “truth” of the expression - FALSE becomes TRUE and TRUE becomes FALSE</td>
 </tr>
 </tbody>
 </table>
-<p>For instance if you want to extract all the values in a vector that
-are greater than 10 but less than 40</p>
-<pre class="r"><code>x &lt;- c(10, 20, 30, 40)
-x[x &gt; 10]</code></pre>
+</div>
+</div>
+<p>For instance if you want to extract all the values in a vector that are greater than 10 but less than 40</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>)</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>x[x <span class="sc">&gt;</span> <span class="dv">10</span>]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 20 30 40</code></pre>
-<pre class="r"><code>x[x &lt; 40]</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>x[x <span class="sc">&lt;</span> <span class="dv">40</span>]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 10 20 30</code></pre>
-<pre class="r"><code>x[ x &gt; 10 &amp; x &lt; 40]</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>x[ x <span class="sc">&gt;</span> <span class="dv">10</span> <span class="sc">&amp;</span> x <span class="sc">&lt;</span> <span class="dv">40</span>]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 20 30</code></pre>
-<p>We could use “!=” to select all values not equal to 20, but to
-demonstrate the “!” (NOT) operator, we could also do:</p>
-<pre class="r"><code>x[ !x == 20 ]</code></pre>
+</div>
+</div>
+<p>We could use “!=” to select all values not equal to 20, but to demonstrate the “!” (NOT) operator, we could also do:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>x[ <span class="sc">!</span>x <span class="sc">==</span> <span class="dv">20</span> ]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 10 30 40</code></pre>
 </div>
 </div>
-<div id="converting-the-class-of-vector-from-one-data-type-to-another"
-class="section level3">
-<h3>Converting the class of vector from one data type to another</h3>
-<p>We can convert the data type of a vector to different classes using
-the “as” family of functions:</p>
+</section>
+</section>
+<section id="converting-the-class-of-vector-from-one-data-type-to-another" class="level3">
+<h3 data-anchor-id="converting-the-class-of-vector-from-one-data-type-to-another">Converting the class of vector from one data type to another</h3>
+<p>We can convert the data type of a vector to different classes using the “as” family of functions:</p>
 <ul>
 <li><code>as.character()</code>: convert to character type data</li>
 <li><code>as.numeric()</code>: convert to numerics vector</li>
 <li><code>as.integer()</code>: convert to integer vector</li>
 <li><code>as.logical()</code>: convert to logical vector</li>
 </ul>
-<p>This will have different effects depending on the original class of
-the vector.</p>
-<p>For example it is perfectly sensible that we could convert an integer
-vector to a character vector:</p>
-<pre class="r"><code>x &lt;- 1:5
-x</code></pre>
+<p>This will have different effects depending on the original class of the vector.</p>
+<p>For example it is perfectly sensible that we could convert an integer vector to a character vector:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 1 2 3 4 5</code></pre>
-<pre class="r"><code>as.character(x)</code></pre>
-<pre><code>## [1] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; &quot;5&quot;</code></pre>
-<p>On the other hand there is usually no logical way we could convert a
-character vector qo an integer vector:</p>
-<pre class="r"><code>x &lt;- c(&quot;apple&quot;, &quot;banana&quot;, &quot;orange&quot;)
-x</code></pre>
-<pre><code>## [1] &quot;apple&quot;  &quot;banana&quot; &quot;orange&quot;</code></pre>
-<pre class="r"><code>as.integer(x)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.character</span>(x)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "1" "2" "3" "4" "5"</code></pre>
+</div>
+</div>
+<p>On the other hand there is usually no logical way we could convert a character vector qo an integer vector:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"banana"</span>, <span class="st">"orange"</span>)</span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "apple"  "banana" "orange"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.integer</span>(x)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
 <pre><code>## Warning: NAs introduced by coercion</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] NA NA NA</code></pre>
+</div>
+</div>
 <p>Except where the value is a number:</p>
-<pre class="r"><code>x &lt;- c(&quot;Blue&quot;, &quot;23&quot;, &quot;45&quot;, &quot;9.89&quot;, &quot;Red&quot;)
-x</code></pre>
-<pre><code>## [1] &quot;Blue&quot; &quot;23&quot;   &quot;45&quot;   &quot;9.89&quot; &quot;Red&quot;</code></pre>
-<pre class="r"><code>as.integer(x)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Blue"</span>, <span class="st">"23"</span>, <span class="st">"45"</span>, <span class="st">"9.89"</span>, <span class="st">"Red"</span>)</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "Blue" "23"   "45"   "9.89" "Red"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.integer</span>(x)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
 <pre><code>## Warning: NAs introduced by coercion</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] NA 23 45  9 NA</code></pre>
-<p>Note that as we specified <code>as.integer</code>, rather than
-<code>as.numeric</code> “9.89” was converted to 9.</p>
-<pre class="r"><code>as.numeric(x)</code></pre>
+</div>
+</div>
+<p>Note that as we specified <code>as.integer</code>, rather than <code>as.numeric</code> “9.89” was converted to 9.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(x)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
 <pre><code>## Warning: NAs introduced by coercion</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1]    NA 23.00 45.00  9.89    NA</code></pre>
+</div>
+</div>
 <p>A logical vector can be converted to either character or integer:</p>
-<pre class="r"><code>x &lt;- c(TRUE, FALSE, TRUE, FALSE)
-x</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1]  TRUE FALSE  TRUE FALSE</code></pre>
-<pre class="r"><code>as.character(x)</code></pre>
-<pre><code>## [1] &quot;TRUE&quot;  &quot;FALSE&quot; &quot;TRUE&quot;  &quot;FALSE&quot;</code></pre>
-<pre class="r"><code>as.integer(x)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.character</span>(x)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "TRUE"  "FALSE" "TRUE"  "FALSE"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.integer</span>(x)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 1 0 1 0</code></pre>
 </div>
-<div id="testing-the-class-of-an-object" class="section level3">
-<h3>Testing the class of an object</h3>
-<p>We can perform a logical test on an object to determine it’s data
-class using the “is.XXX” family of functions:</p>
+</div>
+</section>
+<section id="testing-the-class-of-an-object" class="level3">
+<h3 data-anchor-id="testing-the-class-of-an-object">Testing the class of an object</h3>
+<p>We can perform a logical test on an object to determine it’s data class using the “is.XXX” family of functions:</p>
 <ul>
-<li>is.character(): to test if the object holds character type
-data<br />
+<li>is.character(): to test if the object holds character type data<br>
 </li>
-<li>is.double(): to test if the object holds decimal type data<br />
+<li>is.double(): to test if the object holds decimal type data<br>
 </li>
-<li>is.numeric(): to test if the object holds numeric type data<br />
+<li>is.numeric(): to test if the object holds numeric type data<br>
 </li>
-<li>is.integer(): to test if the object holds integer type data<br />
+<li>is.integer(): to test if the object holds integer type data<br>
 </li>
 <li>is.logical(): to test if the object holds logical type data</li>
 </ul>
-<p>The output of this family of functions is a logical value TRUE or
-FALSE</p>
+<p>The output of this family of functions is a logical value TRUE or FALSE</p>
 <p>We can also test for the type of data structure</p>
 <ul>
-<li>is.vector(): To determine if the object is a vector<br />
+<li>is.vector(): To determine if the object is a vector<br>
 </li>
-<li>is.matrix(): To determine if the object is a matrix<br />
+<li>is.matrix(): To determine if the object is a matrix<br>
 </li>
 <li>is.data.frame(): To determine if the object is a data frame</li>
 </ul>
-<pre class="r"><code>x &lt;- 1:100
-typeof(x)</code></pre>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
-<pre class="r"><code>is.integer(x)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "integer"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.integer</span>(x)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code>is.vector(x)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.vector</span>(x)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code>is.matrix(x)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.matrix</span>(x)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] FALSE</code></pre>
 </div>
 </div>
-<div id="r-arithmetic-operators" class="section level2">
-<h2>R Arithmetic Operators</h2>
-<p>Mathematical operations such as addition and multiplication are
-performed using various operators. Here is a list of R’s arithmetic
-operators.</p>
+</section>
+</section>
+<section id="r-arithmetic-operators" class="level2">
+<h2 data-anchor-id="r-arithmetic-operators">R Arithmetic Operators</h2>
+<p>Mathematical operations such as addition and multiplication are performed using various operators. Here is a list of R’s arithmetic operators.</p>
 <ul>
 <li>Addition: +</li>
 <li>Subtraction: -</li>
@@ -1093,87 +1019,99 @@ operators.</p>
 <li>Exponent: ^</li>
 </ul>
 <p>For example</p>
-<pre class="r"><code>5 * 5</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">*</span> <span class="dv">5</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 25</code></pre>
-<pre class="r"><code>3 ^ 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="sc">^</span> <span class="dv">3</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 27</code></pre>
-<pre class="r"><code>7 / 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span> <span class="sc">/</span> <span class="dv">3</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 2.333333</code></pre>
-<pre class="r"><code>7 %/% 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span> <span class="sc">%/%</span> <span class="dv">3</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 2</code></pre>
-<pre class="r"><code>7 %% 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span> <span class="sc">%%</span> <span class="dv">3</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 1</code></pre>
 </div>
-<div id="functions-and-their-arguments" class="section level2">
-<h2>Functions and their arguments</h2>
-<p>Functions are a fundamental building block of R code. Functions are
-“canned scripts” that automate more complicated sets of commands
-including operations, assignments, etc. Functions are contained in
-packages. There are a number of packages that are automatically loaded
-when you start that provide basic functions e.g. <code>mean</code> or
-<code>c</code>. We can also extend the number of functions available by
-importing additional R packages (more on that later).</p>
-<p>A function usually takes one or more inputs called arguments.
-Functions often (but not always) return a value. A typical example would
-be the function <code>round()</code>. The input (the argument) must be a
-number, and the return value (in fact, the output) is the rounded
-number. Executing a function (‘running it’) is referred to as “calling”
-the function. An example of a function call is:</p>
-<pre class="r"><code>round(pi)</code></pre>
+</div>
+</section>
+<section id="functions-and-their-arguments" class="level2">
+<h2 data-anchor-id="functions-and-their-arguments">Functions and their arguments</h2>
+<p>Functions are a fundamental building block of R code. Functions are “canned scripts” that automate more complicated sets of commands including operations, assignments, etc. Functions are contained in packages. There are a number of packages that are automatically loaded when you start that provide basic functions e.g.&nbsp;<code>mean</code> or <code>c</code>. We can also extend the number of functions available by importing additional R packages (more on that later).</p>
+<p>A function usually takes one or more inputs called arguments. Functions often (but not always) return a value. A typical example would be the function <code>round()</code>. The input (the argument) must be a number, and the return value (in fact, the output) is the rounded number. Executing a function (‘running it’) is referred to as “calling” the function. An example of a function call is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pi)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 3</code></pre>
-<p><code>round</code> is a function that takes at least one number and
-returns a number that rounded to the nearest integer.</p>
-<p>In R function calls always have the same syntax, which is the
-function name followed by <code>()</code>.</p>
-<p>The arguments that you need to specify between the <code>()</code>
-will depend on the function - the names and numbers of arguments vary
-from function to function. The best way to learn how to use a particular
-function is to access the documentation page for that function. You can
-do this in number of ways:</p>
+</div>
+</div>
+<p><code>round</code> is a function that takes at least one number and returns a number that rounded to the nearest integer.</p>
+<p>In R function calls always have the same syntax, which is the function name followed by <code>()</code>.</p>
+<p>The arguments that you need to specify between the <code>()</code> will depend on the function - the names and numbers of arguments vary from function to function. The best way to learn how to use a particular function is to access the documentation page for that function. You can do this in number of ways:</p>
 <ul>
-<li>How to get help in R details: <a
-href="https://www.r-project.org/help.html"
-class="uri">https://www.r-project.org/help.html</a></li>
-<li>By typing <code>?</code> followed by the name of the function in the
-console, e.g. <code>?round</code></li>
-<li>By using the <code>help()</code> function, e.g. help(“round”) - note
-the quotes around the work “round”</li>
-<li>Use your favourite browser to search the web, e.g. “R round
-documentation”</li>
+<li>How to get help in R details: https://www.r-project.org/help.html</li>
+<li>By typing <code>?</code> followed by the name of the function in the console, e.g. <code>?round</code></li>
+<li>By using the <code>help()</code> function, e.g.&nbsp;help(“round”) - note the quotes around the work “round”</li>
+<li>Use your favourite browser to search the web, e.g.&nbsp;“R round documentation”</li>
 </ul>
-<pre class="r"><code>?round</code></pre>
-<p>From the documentation page, you can see that <code>round()</code>
-takes exactly two arguments:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>?round</span></code></pre></div>
+</div>
+<p>From the documentation page, you can see that <code>round()</code> takes exactly two arguments:</p>
 <ul>
 <li>x: a numeric vector</li>
-<li>digits: integer indicating the number of decimal places to
-round</li>
+<li>digits: integer indicating the number of decimal places to round</li>
 </ul>
-<pre class="r"><code>round(x = pi, digits = 0)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="at">x =</span> pi, <span class="at">digits =</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 3</code></pre>
-<pre class="r"><code>round(x = pi, digits = 2)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="at">x =</span> pi, <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 3.14</code></pre>
-<pre class="r"><code>round(x = pi, digits = 4)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="at">x =</span> pi, <span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 3.1416</code></pre>
-<p>As long as you use argument names, the order of the arguments does
-not matter.</p>
-<pre class="r"><code>round(digits = 4, x = pi)</code></pre>
+</div>
+</div>
+<p>As long as you use argument names, the order of the arguments does not matter.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">4</span>, <span class="at">x =</span> pi)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 3.1416</code></pre>
-<p>As long as you provide the arguments in the correct order, then you
-don’t need to use the names.</p>
-<pre class="r"><code>round(pi, 4)</code></pre>
+</div>
+</div>
+<p>As long as you provide the arguments in the correct order, then you don’t need to use the names.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pi, <span class="dv">4</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 3.1416</code></pre>
-<p><strong>However</strong>, it is best practice to use the names for at
-least everything but the first argument, rather than relying on being
-able to remember what the arguments are when you come back to your code
-at a later date.</p>
-<pre class="r"><code>round(pi, digits = 4)</code></pre>
+</div>
+</div>
+<p><strong>However</strong>, it is best practice to use the names for at least everything but the first argument, rather than relying on being able to remember what the arguments are when you come back to your code at a later date.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pi, <span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 3.1416</code></pre>
+</div>
+</div>
 <p>It also avoids inadvertent mistakes:</p>
-<pre class="r"><code>round(4, pi)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">4</span>, pi)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 4</code></pre>
-<p>This worked, but it’s not what I meant. In a more complex function,
-with many arguments, this would be hard to spot.</p>
+</div>
+</div>
+<p>This worked, but it’s not what I meant. In a more complex function, with many arguments, this would be hard to spot.</p>
 <p>Some useful math/stat functions in R:</p>
 <ul>
 <li><code>max()</code>: maximum value in a numeric vector</li>
@@ -1188,281 +1126,386 @@ with many arguments, this would be hard to spot.</p>
 <li><code>length()</code>: length of an object</li>
 <li><code>cor()</code>: correlation of x and y</li>
 </ul>
-<p>Data type conversion functions - the <code>as."datatype"</code>
-family of functions are useful for converting one data type to
-other:</p>
+<p>Data type conversion functions - the <code>as."datatype"</code> family of functions are useful for converting one data type to other:</p>
 <ul>
-<li><code>as.numeric()</code><br />
+<li><code>as.numeric()</code><br>
 </li>
-<li><code>as.character()</code><br />
+<li><code>as.character()</code><br>
 </li>
 <li><code>as.integer()</code></li>
 </ul>
+</section>
+<section id="missing-data" class="level2">
+<h2 data-anchor-id="missing-data">Missing data</h2>
+<p>As R was designed to analyze datasets, it includes the concept of missing data (which is uncommon in other programming languages). Missing data are represented in vectors as NA.</p>
+<p>When doing operations on numbers, most functions will return NA if the data you are working with include missing values. This feature makes it harder to overlook the cases where you are dealing with missing data. For some functions you can add the argument na.rm = TRUE to calculate the result while ignoring the missing values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a>heights <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="cn">NA</span>, <span class="dv">6</span>)</span>
+<span id="cb154-2"><a href="#cb154-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(heights)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] NA</code></pre>
 </div>
-<div id="missing-data" class="section level2">
-<h2>Missing data</h2>
-<p>As R was designed to analyze datasets, it includes the concept of
-missing data (which is uncommon in other programming languages). Missing
-data are represented in vectors as NA.</p>
-<p>When doing operations on numbers, most functions will return NA if
-the data you are working with include missing values. This feature makes
-it harder to overlook the cases where you are dealing with missing data.
-For some functions you can add the argument na.rm = TRUE to calculate
-the result while ignoring the missing values.</p>
-<pre class="r"><code>heights &lt;- c(2, 4, 4, NA, 6)
-mean(heights)</code></pre>
+<div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(heights)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] NA</code></pre>
-<pre class="r"><code>max(heights)</code></pre>
-<pre><code>## [1] NA</code></pre>
-<pre class="r"><code>mean(heights, na.rm = TRUE)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(heights, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 4</code></pre>
-<pre class="r"><code>max(heights, na.rm = TRUE)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(heights, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 6</code></pre>
-<p>The function <code>is.na()</code> is useful to identify missing data
-in your data set. It generates a logical vector that tells whether or
-not each value is missing. We could then use this to omit missing values
-for function that do not include the <code>na.rm</code> argument, or
-just to remove them from the dataset entirely.</p>
-<pre class="r"><code>missingValues &lt;- is.na(heights)
-missingValues</code></pre>
+</div>
+</div>
+<p>The function <code>is.na()</code> is useful to identify missing data in your data set. It generates a logical vector that tells whether or not each value is missing. We could then use this to omit missing values for function that do not include the <code>na.rm</code> argument, or just to remove them from the dataset entirely.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a>missingValues <span class="ot">&lt;-</span> <span class="fu">is.na</span>(heights)</span>
+<span id="cb162-2"><a href="#cb162-2" aria-hidden="true" tabindex="-1"></a>missingValues</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] FALSE FALSE FALSE  TRUE FALSE</code></pre>
-<pre class="r"><code>cleanedHeights &lt;- heights[!missingValues]
-cleanedHeights</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a>cleanedHeights <span class="ot">&lt;-</span> heights[<span class="sc">!</span>missingValues]</span>
+<span id="cb164-2"><a href="#cb164-2" aria-hidden="true" tabindex="-1"></a>cleanedHeights</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 2 4 4 6</code></pre>
 </div>
 </div>
-<div id="exercises" class="section level1">
+</section>
+</section>
+<section id="exercises" class="level1">
 <h1>Exercises</h1>
 <div class="exercise">
-<ol style="list-style-type: decimal">
-<li>You have been given a list of tumour volumes from 5 patients, 2.1,
-1.9, 2.6, 1.8, and 3 <span class="math inline">\(cm^3\)</span>. Create a
-vector in R containing this data. Then get the following characteristics
-of data by applying some of the functions listed above.
-<ol style="list-style-type: lower-alpha">
+<ol type="1">
+<li>You have been given a list of tumour volumes from 5 patients, 2.1, 1.9, 2.6, 1.8, and 3 <span class="math inline">\(cm^3\)</span>. Create a vector in R containing this data. Then get the following characteristics of data by applying some of the functions listed above.
+<ol type="a">
 <li>How many observations we have?</li>
 <li>What is the mean tumour volume?</li>
-<li>How many patients has tumour volume less than 2 <span
-class="math inline">\(cm^3\)</span>?</li>
+<li>How many patients has tumour volume less than 2 <span class="math inline">\(cm^3\)</span>?</li>
 </ol></li>
 </ol>
-<details>
-<summary>
-Answer
-</summary>
-<p>First create the vector using the <code>c()</code> function and
-assign it to a variable.</p>
-<pre class="r"><code>tumourVol &lt;- c(2.1, 1.9, 2.6, 1.8,3)</code></pre>
-<p>We can use the <code>length()</code> function to find the number of
-values in a vector.</p>
-<pre class="r"><code>length(tumourVol)</code></pre>
+<div class="answer callout callout-style-default callout-note callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>First create the vector using the <code>c()</code> function and assign it to a variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a>tumourVol <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">2.1</span>, <span class="fl">1.9</span>, <span class="fl">2.6</span>, <span class="fl">1.8</span>,<span class="dv">3</span>)</span></code></pre></div>
+</div>
+<p>We can use the <code>length()</code> function to find the number of values in a vector.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(tumourVol)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 5</code></pre>
+</div>
+</div>
 <p>The <code>mean()</code> function will give us the mean volume.</p>
-<pre class="r"><code>mean(tumourVol)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(tumourVol)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 2.28</code></pre>
-<p>First test the vector using the “&lt;” operator to generate a logical
-vector and then use <code>sum()</code> to determine how many of these
-are “TRUE”.</p>
-<pre class="r"><code>isSmall &lt;- tumourVol &lt; 2
-sum(isSmall)</code></pre>
+</div>
+</div>
+<p>First test the vector using the “&lt;” operator to generate a logical vector and then use <code>sum()</code> to determine how many of these are “TRUE”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a>isSmall <span class="ot">&lt;-</span> tumourVol <span class="sc">&lt;</span> <span class="dv">2</span></span>
+<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(isSmall)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 2</code></pre>
-</details>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="exercise">
-<ol start="2" style="list-style-type: decimal">
+<ol start="2" type="1">
 <li><p>You have given two vectors of observations:</p>
 <pre><code>  data1 &lt;- c(10, 9, 7, 6, 7, 3, 7, 5, 6, 6)
   data2 &lt;- c(5, 2, 10, 7, 2, 5, 1, 5, 3, 4)</code></pre>
-<ol style="list-style-type: lower-alpha">
-<li>use the function <code>cor()</code> to get the correlation
-coefficient</li>
-<li>Can you identify the default correlation method the
-<code>cor()</code> function uses? For help use <code>help()</code> or
-<code>?</code></li>
-<li>Can you get Spearman correlation coefficient for these two
-vectors?</li>
+<ol type="a">
+<li>use the function <code>cor()</code> to get the correlation coefficient</li>
+<li>Can you identify the default correlation method the <code>cor()</code> function uses? For help use <code>help()</code> or <code>?</code></li>
+<li>Can you get Spearman correlation coefficient for these two vectors?</li>
 </ol></li>
 </ol>
-<details>
-<summary>
-Answer
-</summary>
-<p>Challenge 2a: use the function <code>cor()</code> to get the
-correlation coefficient:</p>
-<pre class="r"><code>data1 &lt;- c(10, 9, 7, 6, 7, 3, 7, 5, 6, 6)
-data2 &lt;- c(5, 2, 10, 7, 2, 5, 1, 5, 3, 4)
-cor(x=data1, y=data2)</code></pre>
+<div class="answer callout callout-style-default callout-note callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Challenge 2a: use the function <code>cor()</code> to get the correlation coefficient:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="#cb174-1" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">6</span>)</span>
+<span id="cb174-2"><a href="#cb174-2" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb174-3"><a href="#cb174-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="at">x=</span>data1, <span class="at">y=</span>data2)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] -0.1572206</code></pre>
-<p>Challenge 2b: Can you identify the default correlation method the
-<code>cor()</code> function uses?</p>
-<pre class="r"><code>?cor</code></pre>
-<p>According to the help in the ‘cor’ file, if no method is specified by
-default the function will use the ‘pearson’ method.</p>
-<p>Challenge 2c: Can you get Spearman correlation coefficient for these
-two vectors?</p>
-<pre class="r"><code>cor(x=data1, y=data2, method = &quot;spearman&quot;)</code></pre>
+</div>
+</div>
+<p>Challenge 2b: Can you identify the default correlation method the <code>cor()</code> function uses?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="#cb176-1" aria-hidden="true" tabindex="-1"></a>?cor</span></code></pre></div>
+</div>
+<p>According to the help in the ‘cor’ file, if no method is specified by default the function will use the ‘pearson’ method.</p>
+<p>Challenge 2c: Can you get Spearman correlation coefficient for these two vectors?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="at">x=</span>data1, <span class="at">y=</span>data2, <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] -0.2839244</code></pre>
-</details>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="exercise">
-<ol start="4" style="list-style-type: decimal">
-<li>What is the output of following operations and explain your logic
-behind it.
-<ol style="list-style-type: lower-alpha">
+<ol start="4" type="1">
+<li>What is the output of following operations and explain your logic behind it.
+<ol type="a">
 <li>c(5, 2, 9, 1, 13) * 2</li>
 <li>c(5, 2, 9, 1, 13) * c(1, 2)</li>
 <li>c(5, 2, 9, 1, 13) + c(1, 2, 3, 4, 5)</li>
 </ol></li>
 </ol>
-<details>
-<summary>
-Answer
-</summary>
+<div class="answer callout callout-style-default callout-note callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>Challenge 4a: c(5, 2, 9, 1, 13) * 2</p>
-<pre class="r"><code>c(5, 2, 9, 1, 13) * c(2)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">13</span>) <span class="sc">*</span> <span class="fu">c</span>(<span class="dv">2</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 10  4 18  2 26</code></pre>
-<p>Since the shorter vector has only one value, every value of the
-longer vector is multiplied by the value of the shorter vector.</p>
+</div>
+</div>
+<p>Since the shorter vector has only one value, every value of the longer vector is multiplied by the value of the shorter vector.</p>
 <p>Challenge 4b: c(5, 2, 9, 1, 13) * c(1,2)</p>
-<pre class="r"><code>c(5, 2, 9, 1, 13) * c(1,2)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">13</span>) <span class="sc">*</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
 <pre><code>## Warning in c(5, 2, 9, 1, 13) * c(1, 2): longer object length is not a multiple
 ## of shorter object length</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1]  5  4  9  2 13</code></pre>
-<p>Since the shorter vector has only two values, these two values are
-sequentially recycled to multiply the longer vector’s values.</p>
+</div>
+</div>
+<p>Since the shorter vector has only two values, these two values are sequentially recycled to multiply the longer vector’s values.</p>
 <p>Challenge 4c: c(5, 2, 9, 1, 13) + c(1,2,3,4,5)</p>
-<pre class="r"><code>c(5, 2, 9, 1, 13) + c(1,2,3,4,5)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">13</span>) <span class="sc">+</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1]  6  4 12  5 18</code></pre>
-<p>Due to the fact that both vectors have the same length, values are
-sequentially added together</p>
-</details>
+</div>
+</div>
+<p>Due to the fact that both vectors have the same length, values are sequentially added together</p>
+</div>
+</div>
+</div>
 </div>
 <div class="exercise">
-<ol start="5" style="list-style-type: decimal">
-<li>From the vector c(23, 12, 41, 65, 23, 6), can you extract those
-values that are equal to 23 or less than 15?</li>
+<ol start="5" type="1">
+<li>From the vector c(23, 12, 41, 65, 23, 6), can you extract those values that are equal to 23 or less than 15?</li>
 </ol>
-<details>
-<summary>
-Answer
-</summary>
-<pre class="r"><code>vec &lt;- c(23, 12, 41, 65, 23, 6)
-vec[ vec == 23 | vec &lt; 15]</code></pre>
+<div class="answer callout callout-style-default callout-note callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="#cb186-1" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">12</span>, <span class="dv">41</span>, <span class="dv">65</span>, <span class="dv">23</span>, <span class="dv">6</span>)</span>
+<span id="cb186-2"><a href="#cb186-2" aria-hidden="true" tabindex="-1"></a>vec[ vec <span class="sc">==</span> <span class="dv">23</span> <span class="sc">|</span> vec <span class="sc">&lt;</span> <span class="dv">15</span>]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 23 12 23  6</code></pre>
-</details>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="exercise">
-<ol start="6" style="list-style-type: decimal">
+<ol start="6" type="1">
 <li>“month.name” is an in-built R vector
-<ol style="list-style-type: lower-alpha">
-<li>What is the index number of “April” in month.name vector?
-<strong>hint:</strong> the <code>which</code> function may help
-you.</li>
+<ol type="a">
+<li>What is the index number of “April” in month.name vector? <strong>hint:</strong> the <code>which</code> function may help you.</li>
 <li>Extract all the months from April to December</li>
 </ol></li>
 </ol>
-<details>
-<summary>
-Answer
-</summary>
-<p>Challenge 6a: What is the index number of “April” in month.name
-vector?</p>
-<pre class="r"><code>april &lt;- which(month.name == &quot;April&quot;)
-april</code></pre>
+<div class="answer callout callout-style-default callout-note callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Challenge 6a: What is the index number of “April” in month.name vector?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="#cb188-1" aria-hidden="true" tabindex="-1"></a>april <span class="ot">&lt;-</span> <span class="fu">which</span>(month.name <span class="sc">==</span> <span class="st">"April"</span>)</span>
+<span id="cb188-2"><a href="#cb188-2" aria-hidden="true" tabindex="-1"></a>april</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 4</code></pre>
+</div>
+</div>
 <p>Challenge 6b:Extract all the months from April to December</p>
-<pre class="r"><code>month.name[april:length(month.name)]</code></pre>
-<pre><code>## [1] &quot;April&quot;     &quot;May&quot;       &quot;June&quot;      &quot;July&quot;      &quot;August&quot;    &quot;September&quot;
-## [7] &quot;October&quot;   &quot;November&quot;  &quot;December&quot;</code></pre>
-</details>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="#cb190-1" aria-hidden="true" tabindex="-1"></a>month.name[april<span class="sc">:</span><span class="fu">length</span>(month.name)]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] "April"     "May"       "June"      "July"      "August"    "September"
+## [7] "October"   "November"  "December"</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="exercise">
-<ol start="7" style="list-style-type: decimal">
-<li><p>Use the <code>sample()</code> function to simulate the rolling of
-a 6-sided die.</p>
-<p>If you look at the help page for <code>sample</code> you’ll find
-there are two functions with the same name, one in the <code>base</code>
-package and the other in the <code>dplyr</code> package. The
-<code>sample</code> function in the <code>base</code> package is the one
-you need for this exercise.</p>
-<ol style="list-style-type: lower-alpha">
+<ol start="7" type="1">
+<li><p>Use the <code>sample()</code> function to simulate the rolling of a 6-sided die.</p>
+<p>If you look at the help page for <code>sample</code> you’ll find there are two functions with the same name, one in the <code>base</code> package and the other in the <code>dplyr</code> package. The <code>sample</code> function in the <code>base</code> package is the one you need for this exercise.</p>
+<ol type="a">
 <li>Count the number of sixes you get for 1000 rolls.</li>
 <li>What number would you expect to get? Calculate this in R.</li>
-<li>Re-run the simulation a few times by clicking on the green ‘Run
-current chunk’ button. What do you notice?</li>
-<li>Re-run the simulation with a much larger sample size. Check that the
-number of sixes you obtain is much closer to the expected value.</li>
+<li>Re-run the simulation a few times by clicking on the green ‘Run current chunk’ button. What do you notice?</li>
+<li>Re-run the simulation with a much larger sample size. Check that the number of sixes you obtain is much closer to the expected value.</li>
 </ol></li>
 </ol>
-<details>
-<summary>
-Answer
-</summary>
+<div class="answer callout callout-style-default callout-note callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>Challenge 7a: Count the number of sixes in 1000 rolls.</p>
-<pre class="r"><code>six_sided_die &lt;- 1:6
-rolls &lt;- sample(six_sided_die, size = 1000, replace = TRUE)
-sum(rolls == 6)</code></pre>
-<pre><code>## [1] 150</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a>six_sided_die <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb192-2"><a href="#cb192-2" aria-hidden="true" tabindex="-1"></a>rolls <span class="ot">&lt;-</span> <span class="fu">sample</span>(six_sided_die, <span class="at">size =</span> <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb192-3"><a href="#cb192-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(rolls <span class="sc">==</span> <span class="dv">6</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] 161</code></pre>
+</div>
+</div>
 <p>Challenge 7b: What number would you expect?</p>
-<pre class="r"><code>1000 / 6</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1000</span> <span class="sc">/</span> <span class="dv">6</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 166.6667</code></pre>
-<p>Challenge 7c: Re-running the simulation gives a different number of
-sixes each time, because each run draws a new random sample.</p>
+</div>
+</div>
+<p>Challenge 7c: Re-running the simulation gives a different number of sixes each time, because each run draws a new random sample.</p>
 <p>Challenge 7d: Re-running with a larger sample size.</p>
-<pre class="r"><code>number_of_rolls &lt;- 100000
-number_of_rolls / 6</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="#cb196-1" aria-hidden="true" tabindex="-1"></a>number_of_rolls <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb196-2"><a href="#cb196-2" aria-hidden="true" tabindex="-1"></a>number_of_rolls <span class="sc">/</span> <span class="dv">6</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 16666.67</code></pre>
-<pre class="r"><code>rolls &lt;- sample(six_sided_die, size = number_of_rolls, replace = TRUE)
-sum(rolls == 6)</code></pre>
-<pre><code>## [1] 16680</code></pre>
-<p>The proportion of sixes gets closer to the expected value as the
-number of rolls increases.</p>
-</details>
+</div>
+<div class="sourceCode cell-code" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a>rolls <span class="ot">&lt;-</span> <span class="fu">sample</span>(six_sided_die, <span class="at">size =</span> number_of_rolls, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb198-2"><a href="#cb198-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(rolls <span class="sc">==</span> <span class="dv">6</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] 16750</code></pre>
+</div>
+</div>
+<p>The proportion of sixes gets closer to the expected value as the number of rolls increases.</p>
+</div>
+</div>
+</div>
 </div>
 <div class="exercise">
-<ol start="8" style="list-style-type: decimal">
+<ol start="8" type="1">
 <li><p>Simulate the rolling of a weighted six-sided die.</p>
-<p>Imagine we’re running a casino and we have some weighted dice in
-which the probability of throwing a six is a bit lower than it should be
-if all is fair and square. Let’s say the probability of throwing a six
-is 0.1 while the other 5 numbers all have equal probability.</p>
-<p>Calculate the probability of throwing each of the other numbers and
-then, referring again to the help page for <code>sample()</code>, re-run
-the simulation using these probabilities. See how many sixes you
-get.</p>
-<p><em>Hint:</em> use the <code>rep()</code> function to save some
-typing.</p></li>
+<p>Imagine we’re running a casino and we have some weighted dice in which the probability of throwing a six is a bit lower than it should be if all is fair and square. Let’s say the probability of throwing a six is 0.1 while the other 5 numbers all have equal probability.</p>
+<p>Calculate the probability of throwing each of the other numbers and then, referring again to the help page for <code>sample()</code>, re-run the simulation using these probabilities. See how many sixes you get.</p>
+<p><em>Hint:</em> use the <code>rep()</code> function to save some typing.</p></li>
 </ol>
-<details>
-<summary>
-Answer
-</summary>
-<pre class="r"><code>prob_six &lt;- 0.1
-prob_not_six &lt;- 1.0 - prob_six
-prob_other &lt;- prob_not_six / 5
-
-number_of_rolls &lt;- 100000
-
-# the number of sixes we would expect with the weighted die
-number_of_rolls * prob_six</code></pre>
+<div class="answer callout callout-style-default callout-note callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a>prob_six <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb200-2"><a href="#cb200-2" aria-hidden="true" tabindex="-1"></a>prob_not_six <span class="ot">&lt;-</span> <span class="fl">1.0</span> <span class="sc">-</span> prob_six</span>
+<span id="cb200-3"><a href="#cb200-3" aria-hidden="true" tabindex="-1"></a>prob_other <span class="ot">&lt;-</span> prob_not_six <span class="sc">/</span> <span class="dv">5</span></span>
+<span id="cb200-4"><a href="#cb200-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-5"><a href="#cb200-5" aria-hidden="true" tabindex="-1"></a>number_of_rolls <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb200-6"><a href="#cb200-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-7"><a href="#cb200-7" aria-hidden="true" tabindex="-1"></a><span class="co"># the number of sixes we would expect with the weighted die</span></span>
+<span id="cb200-8"><a href="#cb200-8" aria-hidden="true" tabindex="-1"></a>number_of_rolls <span class="sc">*</span> prob_six</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>## [1] 10000</code></pre>
-<pre class="r"><code># rep() saves us writing out prob_other five times
-rolls &lt;- sample(1:6,
-                size = number_of_rolls,
-                replace = TRUE,
-                prob = c(rep(prob_other, 5), prob_six))
-sum(rolls == 6)</code></pre>
-<pre><code>## [1] 10137</code></pre>
-</details>
 </div>
-<div id="credit" class="section level4">
-<h4>Credit</h4>
-<p>These instructions were adapted from <a
-href="https://datacarpentry.org">Data Carpentry</a> course materials by
-various members of the Bioinformatics Core at CRUK CI.</p>
+<div class="sourceCode cell-code" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rep() saves us writing out prob_other five times</span></span>
+<span id="cb202-2"><a href="#cb202-2" aria-hidden="true" tabindex="-1"></a>rolls <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb202-3"><a href="#cb202-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">size =</span> number_of_rolls,</span>
+<span id="cb202-4"><a href="#cb202-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">replace =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb202-5"><a href="#cb202-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">prob =</span> <span class="fu">c</span>(<span class="fu">rep</span>(prob_other, <span class="dv">5</span>), prob_six))</span>
+<span id="cb202-6"><a href="#cb202-6" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(rolls <span class="sc">==</span> <span class="dv">6</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## [1] 9929</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<section id="credit" class="level4">
+<h4 data-anchor-id="credit">Credit</h4>
+<p>These instructions were adapted from <a href="https://datacarpentry.org">Data Carpentry</a> course materials by various members of the Bioinformatics Core at CRUK CI.</p>
 
+
+</section>
+</section>
+
+</main> <!-- /main -->
 <div class="footer-logos">
   <div class="shell">
     <p class="eyebrow" style="text-align:center">Organised by</p>
@@ -1484,19 +1527,19 @@ various members of the Bioinformatics Core at CRUK CI.</p>
     <div class="footer-grid">
       <div>
         <h2>Introduction to R<br>for Biologists</h2>
-        <p>Cancer Biology Summer School 2026<br>Monday 14 &ndash; Friday 18 September 2026<br>Uganda Cancer Institute, Kampala</p>
+        <p>Cancer Biology Summer School 2026<br>Monday 14 – Friday 18 September 2026<br>Uganda Cancer Institute, Kampala</p>
       </div>
       <div>
         <h3>Sessions</h3>
         <ul>
-          <li><a href="session1.html">1 &middot; Data types and structures</a></li>
-          <li><a href="session2.html">2 &middot; Other data structures</a></li>
-          <li><a href="session3.html">3 &middot; Working with data</a></li>
-          <li><a href="session4.html">4 &middot; Visualizing data</a></li>
-          <li><a href="session5.html">5 &middot; Data manipulation</a></li>
-          <li><a href="session6.html">6 &middot; Grouping and combining</a></li>
-          <li><a href="session7.html">7 &middot; Restructuring data</a></li>
-          <li><a href="session8.html">8 &middot; Quarto</a></li>
+          <li><a href="session1.html">1 · Data types and structures</a></li>
+          <li><a href="session2.html">2 · Other data structures</a></li>
+          <li><a href="session3.html">3 · Working with data</a></li>
+          <li><a href="session4.html">4 · Visualizing data</a></li>
+          <li><a href="session5.html">5 · Data manipulation</a></li>
+          <li><a href="session6.html">6 · Grouping and combining</a></li>
+          <li><a href="session7.html">7 · Restructuring data</a></li>
+          <li><a href="session8.html">8 · Quarto</a></li>
         </ul>
       </div>
       <div>
@@ -1524,100 +1567,340 @@ various members of the Bioinformatics Core at CRUK CI.</p>
     </div>
   </div>
 </footer>
-<script>
-/* rmarkdown places after_body content INSIDE .main-container / .toc-content,
-   which would trap the footer in the nine-column content well beside the TOC.
-   Lift both blocks to <body> so they span the page. Without JS the footer
-   still renders, just narrower. */
-(function () {
-  function lift() {
-    ['.footer-logos', '.site-footer'].forEach(function (sel) {
-      var el = document.querySelector(sel);
-      if (el && el.parentNode !== document.body) document.body.appendChild(el);
-    });
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', lift);
-  } else {
-    lift();
-  }
-})();
-</script>
-
-
-</div>
-</div>
-
-</div>
-
-<script>
-
-// add bootstrap table styles to pandoc tables
-function bootstrapStylePandocTables() {
-  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
-}
-$(document).ready(function () {
-  bootstrapStylePandocTables();
-});
-
-
-</script>
-
-<!-- tabsets -->
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open');
-  });
-});
-</script>
-
-<!-- code folding -->
-
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
     };
-    options.showAndHide = true;
-    options.smoothScroll = true;
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
 
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 
-</body>
-</html>
+
+</body></html>
