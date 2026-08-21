@@ -366,7 +366,7 @@ div.tocify {
       <a href="session7.html">7 · Restructuring data for analysis</a>
     </li>
     <li>
-      <a href="session8.html">8 · R Markdown</a>
+      <a href="session8.html">8 · Quarto</a>
     </li>
   </ul>
 </li>
@@ -1565,6 +1565,13 @@ of the <strong>tidyr</strong> package, named <code>who</code>.</p>
 ## #   new_sn_m1524 &lt;dbl&gt;, new_sn_m2534 &lt;dbl&gt;, new_sn_m3544 &lt;dbl&gt;,
 ## #   new_sn_m4554 &lt;dbl&gt;, new_sn_m5564 &lt;dbl&gt;, new_sn_m65 &lt;dbl&gt;, …</code></pre>
 <p>What are the variables in this data set?</p>
+<details class="hint">
+<summary>
+Hint
+</summary>
+See the help page for <code>who</code> to understand the meaning of the
+column headings.
+</details>
 <details>
 <summary>
 Answer
@@ -1579,11 +1586,6 @@ Answer
 <li>number of cases of tuberculosis</li>
 </ul>
 </details>
-<p><em>Hint: see the help page for <code>who</code> to understand the
-meaning of the column headings.</em></p>
-<p><em>Hint: the Markdown Quick Reference available from the Help menu
-in RStudio is a very useful guide to formatting text in R markdown
-documents.</em></p>
 <p>Why isn’t this data set tidy and what kinds of analysis are not
 straightforward with the data in this format?</p>
 <p>Transform the data into a tidy format.</p>
@@ -1601,6 +1603,23 @@ together:</p>
 separated values in these column headings.</p>
 <p>Also remove all rows with missing values for the number of
 tuberculosis cases.</p>
+<details class="hint">
+<summary>
+Hint
+</summary>
+The column headers from new_sp_m014 onwards contain a superfluous prefix
+“new” or “new_” that you will want to remove; this can be done using one
+of the stringr functions in a single step if you know about regular
+expressions but is also achievable in two steps if you don’t use any
+regular expression magic.
+</details>
+<details class="hint">
+<summary>
+Hint
+</summary>
+Separating two of the variables is a bit tricky because there is no
+separator character; you could modify the variable before separating.
+</details>
 <details>
 <summary>
 Answer
@@ -1705,14 +1724,6 @@ who_tidy</code></pre>
 ## 10 Afghanistan AF    AFG    1997 sp        f      25-34        36
 ## # ℹ 76,036 more rows</code></pre>
 </details>
-<p><em>Hint 1: the column headers from new_sp_m014 onwards contain a
-superfluous prefix “new” or “new_” that you will want to remove; this
-can be done using one of the stringr functions in a single step if you
-know about regular expressions but is also achievable in two steps if
-you don’t use any regular expression magic.</em></p>
-<p><em>Hint 2: separating two of the variables is a bit tricky because
-there is no separator character; you could modify the variable before
-separating.</em></p>
 </div>
 <div class="exercise">
 <p><strong>2. Recreate <code>table1</code> from your tidy version of the
@@ -1730,6 +1741,12 @@ small subset of the WHO tuberculosis data set, from your tidy version of
 ## 4 Brazil       2000  80488
 ## 5 China        1999 212258
 ## 6 China        2000 213766</code></pre>
+<details class="hint">
+<summary>
+Hint
+</summary>
+This will involve some filtering, grouping and summarization.
+</details>
 <details>
 <summary>
 Answer
@@ -1756,8 +1773,6 @@ Answer
 ## 5 China        1999 212258
 ## 6 China        2000 213766</code></pre>
 </details>
-<p><em>Hint: this will involve some filtering, grouping and
-summarization.</em></p>
 </div>
 <div class="exercise">
 <p><strong>3. Create time series plots for cases of
@@ -1765,6 +1780,14 @@ tuberculosis</strong></p>
 <p>Create a time series plot showing the number of tuberculosis cases in
 the United Kingdom with separate lines for each age group. The year
 should be on the x axis and the number of cases on the y axis.</p>
+<details class="hint">
+<summary>
+Hint
+</summary>
+We’re not distinguishing between diagnoses and genders in this plot so
+you’ll need to sum the numbers of cases for each country, year and age
+group.
+</details>
 <details>
 <summary>
 Answer
@@ -1785,9 +1808,6 @@ who_tidy |&gt;
     geom_line(mapping = aes(x = year, y = cases, colour = age_group))</code></pre>
 <img src="session7_files/figure-html/unnamed-chunk-38-1.png" alt="" width="672" />
 </details>
-<p><em>Hint: we’re not distinguishing between diagnoses and genders in
-this plot so you’ll need to sum the numbers of cases for each country,
-year and age group.</em></p>
 <p>Use faceting in ggplot2 to create a series of plots showing the same
 information for France, Brazil, Japan and Namibia.</p>
 <p>The numbers of cases in these countries are on quite different
@@ -1841,7 +1861,7 @@ Answer
           <li><a href="session5.html">5 &middot; Data manipulation</a></li>
           <li><a href="session6.html">6 &middot; Grouping and combining</a></li>
           <li><a href="session7.html">7 &middot; Restructuring data</a></li>
-          <li><a href="session8.html">8 &middot; R Markdown</a></li>
+          <li><a href="session8.html">8 &middot; Quarto</a></li>
         </ul>
       </div>
       <div>

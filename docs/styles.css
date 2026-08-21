@@ -4,7 +4,7 @@
    The design tokens, header, footer and landing-page components live in
    assets/css/site.css, which loads first. This file styles the things that
    are specific to THIS course's teaching content: code, the learning
-   objectives panel, exercise blocks, R Markdown demo blocks, tables and
+   objectives panel, exercise blocks, Quarto demo blocks, tables and
    tabsets.
 
    Reminder from site.css: never put a border-top, padding-top or background
@@ -185,7 +185,7 @@ blockquote > :last-child{margin-bottom:0}
 .section details.hint > summary:hover{color:#00648f}
 
 /* ==========================================================================
-   R MARKDOWN DEMONSTRATION BLOCKS (session 8)
+   QUARTO DEMONSTRATION BLOCKS (session 8)
    .renderedblock shows knitted output, so it stays quiet. .rmdblock is the
    source counterpart — currently unused in the content, kept available.
    ========================================================================== */

@@ -366,7 +366,7 @@ div.tocify {
       <a href="session7.html">7 · Restructuring data for analysis</a>
     </li>
     <li>
-      <a href="session8.html">8 · R Markdown</a>
+      <a href="session8.html">8 · Quarto</a>
     </li>
   </ul>
 </li>
@@ -420,7 +420,7 @@ journals and funding agencies expect analyses to be reproducible, so
 knowing R will give you an edge with these requirements.<br />
 </li>
 <li>R integrates with other tools to generate manuscripts from your
-code. This document (RMarkdown a .Rmd file) is a case in point.<br />
+code. This document (a Quarto document) is a case in point.<br />
 </li>
 <li>R is interdisciplinary and extensible and has thousands of
 installable packages to extend its capabilities. R has packages for
@@ -506,7 +506,7 @@ each script to perform only one role in your analysis workflow and so
 you may have several R scripts which you call, in a particular sequence,
 to analyse your data.</p>
 <p>As well as R scripts, there are many types of RStudio document
-including Markdown files which we will use in the teaching of this
+including Quarto documents, which we will use in the teaching of this
 course. These can provide interactive workbooks or pdf and web documents
 to name but a few possible outcomes.</p>
 </div>
@@ -1370,7 +1370,7 @@ Answer
 <pre class="r"><code>six_sided_die &lt;- 1:6
 rolls &lt;- sample(six_sided_die, size = 1000, replace = TRUE)
 sum(rolls == 6)</code></pre>
-<pre><code>## [1] 171</code></pre>
+<pre><code>## [1] 177</code></pre>
 <p>Challenge 7b: What number would you expect?</p>
 <pre class="r"><code>1000 / 6</code></pre>
 <pre><code>## [1] 166.6667</code></pre>
@@ -1382,7 +1382,7 @@ number_of_rolls / 6</code></pre>
 <pre><code>## [1] 16666.67</code></pre>
 <pre class="r"><code>rolls &lt;- sample(six_sided_die, size = number_of_rolls, replace = TRUE)
 sum(rolls == 6)</code></pre>
-<pre><code>## [1] 16832</code></pre>
+<pre><code>## [1] 16533</code></pre>
 <p>The proportion of sixes gets closer to the expected value as the
 number of rolls increases.</p>
 </details>
@@ -1420,7 +1420,7 @@ rolls &lt;- sample(1:6,
                 replace = TRUE,
                 prob = c(rep(prob_other, 5), prob_six))
 sum(rolls == 6)</code></pre>
-<pre><code>## [1] 10057</code></pre>
+<pre><code>## [1] 10120</code></pre>
 </details>
 </div>
 <div id="credit" class="section level4">
@@ -1464,7 +1464,7 @@ various members of the Bioinformatics Core at CRUK CI.</p>
           <li><a href="session5.html">5 &middot; Data manipulation</a></li>
           <li><a href="session6.html">6 &middot; Grouping and combining</a></li>
           <li><a href="session7.html">7 &middot; Restructuring data</a></li>
-          <li><a href="session8.html">8 &middot; R Markdown</a></li>
+          <li><a href="session8.html">8 &middot; Quarto</a></li>
         </ul>
       </div>
       <div>
