@@ -980,6 +980,12 @@ month.name[april:length(month.name)]
 Challenge 7a: Count the number of sixes in 1000 rolls.
 
 ```{r}
+#| include: false
+set.seed(101010) # for reproducibility 
+```
+
+
+```{r}
 six_sided_die <- 1:6
 rolls <- sample(six_sided_die, size = 1000, replace = TRUE)
 sum(rolls == 6)

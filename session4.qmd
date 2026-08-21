@@ -413,6 +413,11 @@ Ideally, we'd like these points to be spread out a bit. The `geom_point` help
 points to `geom_jitter` as more suitable when one of the variables is
 categorical.
 
+```{r}
+#| include: false
+set.seed(101010)
+```
+
 ```{r box_plot_3}
 ggplot(data = metabric, mapping = aes(x = ER_status, y = GATA3)) +
     geom_boxplot() +

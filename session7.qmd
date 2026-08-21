@@ -651,6 +651,11 @@ overlaid is only slightly more involved. We can use faceting to create separate
 plots for each of the proteins (we'll use gene symbols as they're more
 recognizable).
 
+```{r}
+#| include: false
+set.seed(101010)
+```
+
 ```{r box_plot_3}
 #| fig-height: 7
 ggplot(data = protein_levels, mapping = aes(x = group, y = protein_level)) +
