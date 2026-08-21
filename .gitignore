@@ -1,11 +1,20 @@
-# Quarto renders session8_exercise.qmd at the repo root; render_site() then
-# copies the result into docs/, which is the published site and IS committed.
-# Only these root-level files are intermediate build output - the leading
-# slash keeps the patterns from also matching the copies under docs/.
+# Quarto's working directory.
+/.quarto/
+
+# session8_exercise.qmd is rendered at the repo root (it is excluded from the
+# website render so that it stays free of site chrome) and then copied into
+# docs/, which is the published site and IS committed. Only the root-level
+# copies are intermediate build output - the leading slash keeps these patterns
+# from also matching the published copies under docs/.
 /session8_exercise.html
 /session8_exercise_files/
-/.quarto/
+
+# Emitted next to the theme when Quarto's css-vars analyser trips over an id
+# selector in assets/css/site.scss. Diagnostic only; see that file's header.
+/_quarto_internal_scss_error.scss
 
 # Local-only stash of images removed from the site (recoverable from git
 # history too); not part of the repo.
 backup_images/
+
+**/*.quarto_ipynb

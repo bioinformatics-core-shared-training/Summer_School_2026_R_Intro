@@ -1,0 +1,131 @@
+# Quarto project configuration, replacing the former _site.yml.
+#
+# Everything the site needs is here: the eight session pages plus the landing
+# page render into docs/, which is committed and served by GitHub Pages.
+#
+# Two things are deliberately excluded from the website render:
+#   * session8_exercise.qmd - the students' target output. It is a standalone,
+#     self-contained report and must NOT pick up the site navbar, so
+#     render_site.R renders it separately and `resources` copies the result in.
+#   * anything beginning with "_" - Quarto ignores those by convention, which
+#     is what keeps _Brief_Recap.qmd unpublished and _includes/ out of docs/.
+#
+# data/ needs no exclusion either: Quarto copies only rendered pages, discovered
+# resources and the `resources` list below, so the .csv/.tsv/.rds files the
+# pages read at render time never reach docs/. Students get them from
+# Bioinformatics_Workshop.zip.
+
+project:
+  type: website
+  output-dir: docs
+  render:
+    - "*.qmd"
+    - "!session8_exercise.qmd"
+  resources:
+    - .nojekyll
+    - Bioinformatics_Workshop.zip
+    # Both halves of the session 8 exercise: the rendered report that
+    # session8.qmd links to, and its source, which students are invited to
+    # download and compare against their own attempt.
+    - session8_exercise.html
+    - session8_exercise.qmd
+    # Linked from _includes/footer.html on every page.
+    - LICENSE
+
+website:
+  title: "R for Biologists"
+  # Raw HTML passes through into <span class="navbar-title">, so the two-line
+  # brand lockup carried over from _site.yml unchanged.
+  navbar:
+    background: light
+    title: '<img class="brand-logo" src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span>'
+    search: false
+    right:
+      # Navbar icons are Bootstrap Icons here, not Font Awesome as in _site.yml.
+      - text: "Home"
+        icon: house-door
+        href: index.qmd
+      - text: "Sessions"
+        menu:
+          - text: "1 · Data types and structures"
+            href: session1.qmd
+          - text: "2 · Other data structures"
+            href: session2.qmd
+          - text: "3 · Working with data in R"
+            href: session3.qmd
+          - text: "4 · Visualizing data with ggplot2"
+            href: session4.qmd
+          - text: "5 · Data manipulation with dplyr"
+            href: session5.qmd
+          - text: "6 · Grouping and combining data"
+            href: session6.qmd
+          - text: "7 · Restructuring data for analysis"
+            href: session7.qmd
+          - text: "8 · Quarto"
+            href: session8.qmd
+      - text: "Summer School"
+        href: https://bioinformatics-core-shared-training.github.io/Cambridge_UCI_Summer_School_2026/
+      - icon: github
+        href: https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro
+
+format:
+  html:
+    theme: assets/css/site.scss
+    # Plain CSS, not part of the theme: see the header of fonts.css for why
+    # the @font-face rules cannot live in site.scss.
+    css: assets/css/fonts.css
+    highlight-style: assets/brand.theme
+    toc: true
+    toc-location: left
+    toc-title: "On this page"
+    toc-depth: 3
+    # toc-location: left puts the TOC in #quarto-sidebar, so its width is
+    # sidebar-width (not margin-width, which stays empty). 275 + 900 + gutters
+    # reproduces the old 1200px shell.
+    grid:
+      sidebar-width: 275px
+      body-width: 900px
+      margin-width: 0px
+      gutter-width: 2.5rem
+    include-in-header: _includes/head.html
+    include-after-body: _includes/footer.html
+    # These three all match the previous rmarkdown output, which had none of
+    # them. title-prefix is set empty because `website: title` otherwise
+    # appends " - R for Biologists" to every <title>, and the landing page's
+    # title already names the course.
+    anchor-sections: false
+    code-copy: false
+    title-prefix: ""
+    # Pinned to reproduce rmarkdown html_document's figure device exactly.
+    # The committed baseline figures are 1344x960 = 7in x 96dpi x2, i.e.
+    # fig.retina = 2, so this must be `retina` and not `png` - plain png would
+    # halve every figure to 672x480 and rewrite all 94 committed PNGs.
+    fig-format: retina
+    fig-dpi: 96
+    fig-width: 7
+    fig-height: 5
+
+# CRITICAL. Quarto's knitr shim sets opts_chunk$comment = NA
+# (/opt/quarto/share/rmd/execute.R:322), whereas knitr and every previous build
+# of this site used "##". Without this block the "## " prefix disappears from
+# every console-output block on all eight session pages.
+knitr:
+  opts_chunk:
+    comment: "##"
+    # Pin the console width. Without this, output that adapts to the terminal
+    # (anything via the cli package - the tidyverse startup banner, readr's
+    # column specifications) is rendered at whatever width the tty of whoever
+    # ran the build happened to be: the previously published pages were built
+    # at 88 columns, a bare `quarto render` in a pipe gives 80. Pinning both
+    # keeps docs/ reproducible and stops spurious diffs. cli.width is needed
+    # as well as width because cli probes the terminal before falling back to
+    # getOption("width").
+    R.options:
+      width: 80
+      cli.width: 80
+
+execute:
+  # Stated explicitly: every render re-executes all code, as
+  # rmarkdown::render_site() did. Switching to `freeze: auto` would also mean
+  # committing _freeze/, and would decouple figure regeneration from renders.
+  freeze: false
