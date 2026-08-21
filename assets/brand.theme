@@ -1,0 +1,292 @@
+{
+    "custom-styles": {},
+    "editor-colors": {
+        "BackgroundColor": "#fbfbfe",
+        "BracketMatching": "#bef5cb",
+        "CodeFolding": "#f6f8fa",
+        "CurrentLine": "#f6f8fa",
+        "CurrentLineNumber": "#24292e",
+        "IconBorder": "#ffffff",
+        "IndentationLine": "#d7dbe0",
+        "LineNumbers": "#c7c2bc",
+        "MarkBookmark": "#8be9fd",
+        "MarkBreakpointActive": "#ff5555",
+        "MarkBreakpointDisabled": "#bd93f9",
+        "MarkBreakpointReached": "#f1fa8c",
+        "MarkError": "#b31d28",
+        "MarkExecution": "#44475a",
+        "MarkWarning": "#e36209",
+        "ModifiedLines": "#d73a49",
+        "ReplaceHighlight": "#50fa7b",
+        "SavedLines": "#28a745",
+        "SearchHighlight": "#ffea7f",
+        "Separator": "#e1e4e8",
+        "SpellChecking": "#ff5555",
+        "TabMarker": "#d1d5da",
+        "TemplateBackground": "#23241e",
+        "TemplateFocusedPlaceholder": "#22231d",
+        "TemplatePlaceholder": "#22231d",
+        "TemplateReadOnlyPlaceholder": "#262721",
+        "TextSelection": "#dee6fc",
+        "WordWrapMarker": "#e1e4e8",
+        "TextColor": "#000000"
+    },
+    "metadata": {
+        "copyright": [
+            "Cancer Research UK Cambridge Institute"
+        ],
+        "license": "SPDX-License-Identifier: MIT",
+        "name": "CRUK CI brand",
+        "revision": 1
+    },
+    "text-styles": {
+        "Alert": {
+            "background-color": null,
+            "bold": true,
+            "italic": false,
+            "selected-text-color": "#b3002d",
+            "text-color": "#b3002d",
+            "underline": false
+        },
+        "Annotation": {
+            "background-color": null,
+            "bold": false,
+            "italic": true,
+            "selected-text-color": "#5d6480",
+            "text-color": "#5d6480",
+            "underline": false
+        },
+        "Attribute": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#cc006c",
+            "text-color": "#cc006c",
+            "underline": false
+        },
+        "BaseN": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#00648f",
+            "text-color": "#00648f",
+            "underline": false
+        },
+        "BuiltIn": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#00005c",
+            "text-color": "#00005c",
+            "underline": false
+        },
+        "Char": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#a1005c",
+            "text-color": "#a1005c",
+            "underline": false
+        },
+        "Comment": {
+            "background-color": null,
+            "bold": false,
+            "italic": true,
+            "selected-text-color": "#5d6480",
+            "text-color": "#5d6480",
+            "underline": false
+        },
+        "CommentVar": {
+            "background-color": null,
+            "bold": false,
+            "italic": true,
+            "selected-text-color": "#5d6480",
+            "text-color": "#5d6480",
+            "underline": false
+        },
+        "Constant": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#00648f",
+            "text-color": "#00648f",
+            "underline": false
+        },
+        "ControlFlow": {
+            "background-color": null,
+            "bold": true,
+            "italic": false,
+            "selected-text-color": "#00007e",
+            "text-color": "#00007e",
+            "underline": false
+        },
+        "DataType": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#000000",
+            "text-color": "#000000",
+            "underline": false
+        },
+        "DecVal": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#00648f",
+            "text-color": "#00648f",
+            "underline": false
+        },
+        "Documentation": {
+            "background-color": null,
+            "bold": false,
+            "italic": true,
+            "selected-text-color": "#5d6480",
+            "text-color": "#5d6480",
+            "underline": false
+        },
+        "Error": {
+            "background-color": null,
+            "bold": true,
+            "italic": false,
+            "selected-text-color": "#b3002d",
+            "text-color": "#b3002d",
+            "underline": false
+        },
+        "Extension": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#000000",
+            "text-color": "#000000",
+            "underline": false
+        },
+        "Float": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#00648f",
+            "text-color": "#00648f",
+            "underline": false
+        },
+        "Function": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#00005c",
+            "text-color": "#00005c",
+            "underline": false
+        },
+        "Import": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#000000",
+            "text-color": "#000000",
+            "underline": false
+        },
+        "Information": {
+            "background-color": null,
+            "bold": false,
+            "italic": true,
+            "selected-text-color": "#5d6480",
+            "text-color": "#5d6480",
+            "underline": false
+        },
+        "Keyword": {
+            "background-color": null,
+            "bold": true,
+            "italic": false,
+            "selected-text-color": "#00007e",
+            "text-color": "#00007e",
+            "underline": false
+        },
+        "Normal": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#000000",
+            "text-color": "#000000",
+            "underline": false
+        },
+        "Operator": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#000000",
+            "text-color": "#000000",
+            "underline": false
+        },
+        "Others": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#000000",
+            "text-color": "#000000",
+            "underline": false
+        },
+        "Preprocessor": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#000000",
+            "text-color": "#000000",
+            "underline": false
+        },
+        "RegionMarker": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#000000",
+            "text-color": "#000000",
+            "underline": false
+        },
+        "SpecialChar": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#a1005c",
+            "text-color": "#a1005c",
+            "underline": false
+        },
+        "SpecialString": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#a1005c",
+            "text-color": "#a1005c",
+            "underline": false
+        },
+        "String": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#a1005c",
+            "text-color": "#a1005c",
+            "underline": false
+        },
+        "Variable": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#000000",
+            "text-color": "#000000",
+            "underline": false
+        },
+        "VerbatimString": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#a1005c",
+            "text-color": "#a1005c",
+            "underline": false
+        },
+        "Warning": {
+            "background-color": null,
+            "bold": false,
+            "italic": false,
+            "selected-text-color": "#8a5a00",
+            "text-color": "#8a5a00",
+            "underline": false
+        }
+    }
+}

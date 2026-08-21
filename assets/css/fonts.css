@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Progress (F37), the CRUK display face. Shipped unmodified.
+
+   Deliberately NOT in site.scss. Quarto compiles the theme into
+   site_libs/bootstrap/, and it resolves url() inside a theme SCSS file
+   relative to the PROJECT ROOT rather than to the stylesheet -- so
+   `url(../fonts/...)` there is looked up as <project>/../fonts, which is
+   outside the repo, and the render fails with a NotFound on the woff2.
+
+   A plain stylesheet listed under `format: html: css:` is copied preserving
+   its project-relative path, so ../fonts/ resolves from assets/css/ exactly
+   as it did under rmarkdown.
+
+   Licensing: Progress is a licensed brand face. Only the four web formats are
+   in the repo -- see assets/fonts/README.md. site.scss carries a Poppins
+   fallback in $display for anyone without it.
+   ========================================================================== */
+@font-face{font-family:Progress;font-weight:300;font-style:normal;font-display:swap;
+  src:url(../fonts/Progress-Light.woff2) format("woff2"),url(../fonts/Progress-Light.woff) format("woff")}
+@font-face{font-family:Progress;font-weight:400;font-style:normal;font-display:swap;
+  src:url(../fonts/Progress-Regular.woff2) format("woff2"),url(../fonts/Progress-Regular.woff) format("woff")}
+@font-face{font-family:Progress;font-weight:500;font-style:normal;font-display:swap;
+  src:url(../fonts/Progress-Medium.woff2) format("woff2"),url(../fonts/Progress-Medium.woff) format("woff")}
+@font-face{font-family:Progress;font-weight:600;font-style:normal;font-display:swap;
+  src:url(../fonts/Progress-SemiBold.woff2) format("woff2"),url(../fonts/Progress-SemiBold.woff) format("woff")}

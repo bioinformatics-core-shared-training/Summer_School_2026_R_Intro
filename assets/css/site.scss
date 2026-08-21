@@ -1,0 +1,1014 @@
+// ==========================================================================
+//  Introduction to R for Biologists
+//  Cambridge–Makerere Summer School 2026 · Uganda Cancer Institute, Kampala
+//
+//  The design system, carried over from the Summer School site
+//  (Cambridge_UCI_Summer_School_2026/assets/css/site.css) so the two sites
+//  read as one. Palette and typography are the CRUK Cambridge Institute's
+//  own tokens, from cruk.cam.ac.uk/app/themes/cruk-ci/style.css
+//
+//  This file replaces the former assets/css/site.css + styles.css pair. It is
+//  the Quarto theme for the site: the `scss:defaults` block hands the brand to
+//  Bootstrap 5's own variables so Quarto GENERATES correct chrome, and
+//  `scss:rules` carries the bespoke components.
+//
+//  --- What Quarto's markup actually is (verified against quarto 1.10.18) ---
+//
+//    header#quarto-header.headroom.fixed-top
+//      nav.navbar[data-bs-theme="dark"]        <- hard-coded dark, see below
+//        div.navbar-container.container-fluid
+//          div.navbar-brand-container.mx-auto
+//            a.navbar-brand > span.navbar-title   <- our raw-HTML lockup
+//          div#navbarCollapse > ul.navbar-nav.ms-auto
+//            li.nav-item > a.nav-link[.active]
+//            li.nav-item.dropdown > ul.dropdown-menu > li > a.dropdown-item
+//          button.navbar-toggler
+//    div#quarto-content.page-columns.page-layout-article
+//      nav#quarto-sidebar.sidebar.sidebar-navigation   <- the TOC lives HERE
+//        nav#TOC > h2#toc-title + ul > li > a.nav-link[.active]
+//      div#quarto-margin-sidebar                       <- empty; toc is left
+//      main.content#quarto-document-content
+//        header#title-block-header > div.quarto-title > h1.title
+//        section.level1 > h1 ; section.level2 > h2
+//
+//    code input   div.sourceCode[.cell-code] > pre.sourceCode.r > code
+//    code output  div.cell-output > pre > code          <- no class on the pre
+//    bare fence   pre > code                            <- also no class,
+//                 so `pre:not([class])` still selects output AND display
+//                 fences, exactly as it did under rmarkdown.
+//    callout      div.{answer|hint|objectives}.callout.callout-note
+//                   > div.callout-header > div.callout-icon-container
+//                                        + div.callout-title-container
+//                   > div.callout-body-container.callout-body
+//    tabset       ul.nav-tabs > li.nav-item > a.nav-link[.active]
+//                 + div.tab-content > div.tab-pane
+//
+//  Three Quarto quirks this file has to work around, all verified:
+//    1. `navbar: background: light` does NOT clear data-bs-theme="dark" on
+//       <nav class="navbar">, so the dropdown panel inherits Bootstrap's dark
+//       --bs-dropdown-* values. They are re-asserted explicitly below.
+//    2. quarto-nav.scss:120 sets .navbar-brand{overflow:hidden;
+//       text-overflow:ellipsis} and .navbar-brand-container{max-width:
+//       calc(100% - 115px)} — both clip the two-line brand lockup.
+//    3. .navbar-brand-container carries `mx-auto`, which centres the brand
+//       when there are no left-hand nav items. We want it hard left.
+//
+//  Two notes on the shape of this file:
+//
+//    * It is written FLAT, with no SCSS nesting, deliberately. The two
+//      stylesheets it replaces were plain CSS, so a flat rewrite can be diffed
+//      against them rule for rule during a visual-parity review. SCSS is used
+//      here for variables, not for nesting.
+//    * `quarto render` prints "Error adding css vars block ... The resulting
+//      CSS file will not have SCSS color variables exported as CSS" for this
+//      file. It is benign. Quarto's css-vars analyser cannot parse a rules
+//      block containing an id selector (`#quarto-header`, `#TOC`), and the
+//      block it declines to emit is purely diagnostic: nothing in
+//      /opt/quarto/share references var(--quarto-scss-export-*). Every rule
+//      below still compiles into the theme. Do not contort the selectors to
+//      silence it - the ids are needed to outrank Quarto's own #quarto-* rules.
+//
+//  Note what is NO LONGER true, versus the rmarkdown version of this file:
+//  there is no runtime anchor-scroll offset on headings (Quarto adjusts scroll
+//  position in JS), so an in-page heading may now safely carry a border-top,
+//  padding-top or background. The old prohibition is lifted.
+// ==========================================================================
+
+
+/*-- scss:defaults --*/
+
+// --- CRUK CI brand ---------------------------------------------------------
+// Formerly the :root custom properties in site.css. NB $indigo and $cyan
+// deliberately shadow Bootstrap's own palette entries of the same name; that
+// also retints $info, which is what we want.
+$indigo:       #00007e;
+$indigo-deep:  #00005c;
+$magenta:      #ff0087;
+$magenta-safe: #cc006c;
+$cyan:         #009cee;
+$mist:         #f0f0ff;
+$slate:        #bbc4d9;
+$ink:          #000;
+$paper:        #fff;
+
+// derived, used sparingly
+$rule:  #dfe3f2;
+$muted: #4a4a63;
+
+// text on dark grounds
+$on-indigo:        #cdd0f2;
+$on-footer:        #c9cdf0;
+$on-indigo-accent: #7cd3ff;
+
+$display: Progress, "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
+$body:    "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+$shell: 1200px;
+$pad:   clamp(1.25rem, 4vw, 2.5rem);
+$shadow-card: 0 18px 50px -22px rgba(0, 0, 30, .4);
+
+$code-ground: #fbfbfe;
+
+// --- Handed to Bootstrap 5 / Quarto ---------------------------------------
+// Setting these means Quarto compiles brand-correct chrome rather than us
+// overriding it after the fact. Bootstrap declares them !default, so ours win.
+$primary:          $indigo;
+$secondary:        $muted;
+$body-color:       $ink;
+$body-bg:          $paper;
+$link-color:       $magenta-safe;
+$link-hover-color: $indigo;
+$border-color:     $rule;
+$border-radius:    4px;
+
+$font-family-sans-serif: $body;
+$font-family-monospace:  $mono;
+$headings-font-family:   $display;
+$headings-font-weight:   600;
+$h1h2h3-font-weight:     600;
+$headings-color:         $ink;
+$headings-line-height:   1.14;
+$font-size-root:         16px;
+$font-size-base:         1rem;
+$line-height-base:       1.6;
+
+// Navbar. Quarto-specific variables; see quirk 1 above for the dropdown.
+$navbar-bg:       rgba(255, 255, 255, .96);
+$navbar-fg:       $ink;
+$navbar-hl:       $magenta-safe;
+$navbar-brand:    $ink;
+$navbar-brand-hl: $ink;
+
+// Floating TOC rail (site.css:359-384).
+$toc-color:           $muted;
+$toc-font-size:       .85rem;
+$toc-active-border:   $magenta;
+$toc-inactive-border: $rule;
+
+// Code. Aligning Quarto's own code rules with the design stops them
+// double-painting the block we style explicitly below.
+$code-block-bg: $code-ground;
+$code-bg:       $mist;
+$code-color:    $indigo;
+
+$table-border-color: $rule;
+$nav-tabs-border-color: $ink;
+$nav-tabs-border-width: 2px;
+
+
+/*-- scss:rules --*/
+
+// The @font-face rules for Progress live in assets/css/fonts.css, not here:
+// Quarto resolves url() inside a theme SCSS relative to the project root, so
+// ../fonts/ would point outside the repo and the render would fail. See the
+// header comment in that file.
+
+// The bespoke components below are still authored against CSS custom
+// properties, so the tokens are re-exported. SCSS cannot read them back, which
+// is why the values above are the single source of truth.
+:root{
+  --indigo:#{$indigo};
+  --indigo-deep:#{$indigo-deep};
+  --magenta:#{$magenta};
+  --magenta-safe:#{$magenta-safe};
+  --cyan:#{$cyan};
+  --mist:#{$mist};
+  --slate:#{$slate};
+  --ink:#{$ink};
+  --paper:#{$paper};
+  --rule:#{$rule};
+  --muted:#{$muted};
+  --on-indigo:#{$on-indigo};
+  --on-footer:#{$on-footer};
+  --on-indigo-accent:#{$on-indigo-accent};
+  --display:#{$display};
+  --body:#{$body};
+  --mono:#{$mono};
+  --shell:#{$shell};
+  --pad:#{$pad};
+  --shadow-card:#{$shadow-card};
+}
+
+// ==========================================================================
+//    BASE TYPOGRAPHY
+//    Bootstrap 5 no longer sets html{font-size:10px}, so the old
+//    html{font-size:100%} counter-measure is gone. Faces and weights now come
+//    from the defaults block, so only the scale and colour live here.
+// ==========================================================================
+h1,h2,h3,h4,h5,h6{letter-spacing:-.015em}
+
+// In-page section headings. Sized for a long technical document, not a
+// poster — the Summer School's h1 tops out at 4.5rem, which is the banner
+// size and lives on h1.title below.
+h1{font-size:clamp(1.5rem,2.6vw,2rem);color:$indigo;margin-bottom:.7em}
+h2{font-size:clamp(1.2rem,1.9vw,1.5rem);margin-bottom:.6em}
+h3{font-size:1.12rem;letter-spacing:-.005em;margin-bottom:.5em}
+h4{font-size:1rem;letter-spacing:0;margin-bottom:.5em}
+h5{font-size:.92rem;letter-spacing:0;color:$muted}
+h6{font-size:.85rem;letter-spacing:0;color:$muted}
+
+// Level-1 sections get a hairline closing the heading. Quarto emits
+// <section class="level1">, not <div class="section level1">.
+section.level1 > h1{
+  border-bottom:1px solid $rule;
+  padding-bottom:.35em;
+}
+
+p{margin:0 0 1.1em}
+ul,ol{margin:0 0 1.1em;padding-left:1.5rem}
+li{margin-bottom:.35em}
+li > ul,li > ol{margin-top:.35em;margin-bottom:.5em}
+strong,b{font-weight:600}
+
+a{text-decoration-thickness:1px;text-underline-offset:.16em}
+:focus-visible{outline:3px solid $magenta;outline-offset:3px;border-radius:2px}
+
+hr{border:0;border-top:1px solid $rule;margin:2.5rem 0}
+
+img{max-width:100%;height:auto}
+
+// --- shared utilities (also used by the landing page) ---------------------
+// .visually-hidden is a Bootstrap 5 built-in, so our copy is gone.
+.shell{max-width:$shell;margin-inline:auto;padding-inline:$pad}
+.band{padding-block:clamp(2.75rem,6vw,4.5rem)}
+.band-mist{background:$mist}
+.band-indigo{background:$indigo;color:#fff}
+.band-indigo h1,.band-indigo h2,.band-indigo h3{color:#fff}
+.band-indigo a{color:#fff}
+.lede{font-size:clamp(1.05rem,1.5vw,1.18rem);line-height:1.62;max-width:62ch;color:$muted}
+.band-indigo .lede{color:$on-indigo}
+.lede b{color:$ink;font-weight:600}
+.band-indigo .lede b{color:#fff}
+.measure{max-width:68ch}
+
+// The eyebrow: mono, uppercase, wide-tracked. The single most recognisable
+// mannerism of the brand — reused for every small label on the site.
+.eyebrow{
+  font-family:$mono;font-size:.72rem;font-weight:500;
+  text-transform:uppercase;letter-spacing:.2em;color:$magenta-safe;
+  margin:0 0 1.1rem;display:block;
+}
+.band-indigo .eyebrow{color:$cyan}
+
+.rule-top{border-top:2px solid $ink;padding-top:1.1rem}
+
+// --- buttons -------------------------------------------------------------
+.btn-brand{
+  display:inline-flex;align-items:center;gap:.55rem;
+  font-family:$body;font-size:.94rem;font-weight:600;line-height:1.2;
+  padding:.85rem 1.5rem;border:2px solid transparent;border-radius:4px;
+  text-decoration:none;cursor:pointer;
+  transition:background .15s,color .15s,border-color .15s;
+}
+.btn-primary-brand{background:$magenta;color:#000;border-color:$magenta}
+.btn-primary-brand:hover,.btn-primary-brand:focus{background:#000;border-color:#000;color:#fff}
+.btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+.btn-ghost:hover,.btn-ghost:focus{background:#fff;color:$indigo;border-color:#fff}
+.btn-dark{background:transparent;color:$ink;border-color:$ink}
+.btn-dark:hover,.btn-dark:focus{background:$ink;color:#fff}
+.btn-row{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+
+// ==========================================================================
+//    SITE HEADER
+//    Quarto's .navbar, restyled into the Summer School's .site-header. The
+//    colours come from $navbar-* in the defaults block; what remains here is
+//    the brand lockup, the underline treatment on nav items, and the three
+//    Quarto quirks listed at the top of this file.
+// ==========================================================================
+#quarto-header .navbar{
+  backdrop-filter:saturate(180%) blur(8px);
+  -webkit-backdrop-filter:saturate(180%) blur(8px);
+  border:0;
+  border-bottom:1px solid $rule;
+  border-radius:0;
+  margin-bottom:0;
+  min-height:0;
+  box-shadow:none;
+  padding-block:0;
+}
+// width:100%, not the width:auto the Bootstrap 3 rule used: Quarto's
+// .navbar-container is a flex row set to width:100%, so width:auto would
+// shrink-wrap it to its content and margin-inline:auto would then centre the
+// whole navbar instead of capping it at the shell width.
+#quarto-header .navbar-container{
+  max-width:$shell;
+  width:100%;
+  margin-inline:auto;
+  padding-inline:$pad;
+}
+
+// Quirk 3: mx-auto centres the brand when there are no left-hand nav items.
+// Quirk 2: both of these clip the two-line lockup.
+#quarto-header .navbar-brand-container{
+  margin-left:0 !important;
+  margin-right:auto !important;
+  max-width:none;
+}
+#quarto-header .navbar-brand{
+  overflow:visible;
+  text-overflow:clip;
+  height:auto;
+  padding:.7rem 0;
+  font-family:$display;
+  font-size:.95rem;
+  color:$ink;
+}
+#quarto-header .navbar-brand:hover,
+#quarto-header .navbar-brand:focus{color:$ink}
+// The flex container is now the inner span, not the anchor.
+#quarto-header .navbar-brand .navbar-title{
+  display:flex;align-items:center;gap:.85rem;
+  font-size:.95rem;
+}
+// Brand: 34px logo, a slate hairline, then the two-line lockup.
+.navbar-brand .brand-logo{
+  height:34px;width:auto;float:none;margin:0;flex:none;display:block;
+  max-height:none;
+}
+.brand-text{
+  font-family:$display;font-weight:500;font-size:.95rem;line-height:1.15;
+  border-left:1px solid $slate;padding-left:.85rem;
+}
+.brand-text b{display:block;font-weight:600}
+.brand-text span{
+  font-family:$mono;font-size:.68rem;font-weight:400;letter-spacing:.12em;
+  color:$muted;text-transform:uppercase;
+}
+
+// Nav items. Quarto marks the current page's .nav-link with .active.
+#quarto-header .navbar-nav{margin-left:1.25rem}
+#quarto-header .navbar-nav .nav-link{
+  font-family:$body;font-size:.92rem;font-weight:500;
+  color:$ink;
+  padding:.5rem .8rem;
+  margin:.2rem .05rem;
+  border-bottom:3px solid transparent;
+  border-radius:2px 2px 0 0;
+  background:transparent;
+}
+#quarto-header .navbar-nav .nav-link:hover,
+#quarto-header .navbar-nav .nav-link:focus{color:$magenta-safe;background:transparent}
+#quarto-header .navbar-nav .nav-link.active,
+#quarto-header .navbar-nav .nav-item.dropdown.show > .nav-link{
+  background:transparent;
+  color:$ink;
+  border-bottom-color:$magenta;
+  box-shadow:none;
+}
+
+// Dropdown panel. Quirk 1: the nav carries data-bs-theme="dark", so the
+// --bs-dropdown-* custom properties have to be re-asserted for a light panel.
+#quarto-header .navbar .dropdown-menu{
+  --bs-dropdown-bg:#{$paper};
+  --bs-dropdown-color:#{$ink};
+  --bs-dropdown-link-color:#{$ink};
+  --bs-dropdown-link-hover-color:#{$magenta-safe};
+  --bs-dropdown-link-hover-bg:#{$mist};
+  --bs-dropdown-link-active-color:#{$magenta-safe};
+  --bs-dropdown-link-active-bg:#{$mist};
+  --bs-dropdown-border-color:#{$rule};
+  border:1px solid $rule;border-radius:0 0 4px 4px;
+  box-shadow:$shadow-card;padding:.35rem 0;margin-top:0;
+}
+#quarto-header .navbar .dropdown-menu .dropdown-item{
+  font-size:.88rem;font-weight:500;color:$ink;padding:.5rem 1.1rem;
+}
+#quarto-header .navbar .dropdown-menu .dropdown-item:hover,
+#quarto-header .navbar .dropdown-menu .dropdown-item:focus{background:$mist;color:$magenta-safe}
+#quarto-header .navbar .dropdown-menu .dropdown-divider{border-color:$rule;margin:.35rem 0}
+
+// Mobile toggle
+#quarto-header .navbar-toggler{
+  border:2px solid $ink;border-radius:4px;margin:.55rem 0;padding:.45rem .7rem;
+  box-shadow:none;
+}
+#quarto-header .navbar-toggler:hover,
+#quarto-header .navbar-toggler:focus{background:$mist}
+#quarto-header .navbar-collapse{border-color:$rule;box-shadow:none}
+
+// ==========================================================================
+//    LAYOUT
+//    Quarto lays the page out with a named CSS grid built from the `grid:`
+//    keys in _quarto.yml, so all of the old counter-measures are gone: the
+//    .main-container max-width, the Bootstrap .row negative-margin
+//    cancellation, the .toc-content gutter, tocify's extendPage spacer, and
+//    rmarkdown's injected body{padding-bottom:40px}. Nothing replaces them.
+// ==========================================================================
+
+// ==========================================================================
+//    PAGE BANNER
+// ==========================================================================
+#title-block-header{
+  margin-bottom:2.25rem;
+  padding-bottom:0;
+}
+h1.title{
+  font-family:$display;font-weight:600;
+  font-size:clamp(1.9rem,3.6vw,2.9rem);
+  line-height:1.08;letter-spacing:-.015em;
+  color:$indigo;
+  margin:0;
+  border:0;padding:0;
+  text-wrap:balance;
+}
+h1.title::after{
+  content:"";display:block;
+  width:112px;height:7px;background:$magenta-safe;
+  margin:20px 0 26px;
+}
+
+// ==========================================================================
+//    FLOATING TOC
+//    Quarto puts the TOC in nav#quarto-sidebar when toc-location is left.
+//    Strip the sidebar chrome back to a rule-and-bar system. The eyebrow
+//    label is a real element now (h2#toc-title, from toc-title in
+//    _quarto.yml), replacing the old #TOC::before content hack.
+// ==========================================================================
+#quarto-sidebar{
+  border:0;border-radius:0;
+  background:transparent;
+  padding-top:0;
+}
+#TOC h2#toc-title,
+#TOC #toc-title{
+  font-family:$mono;font-size:.7rem;font-weight:500;
+  text-transform:uppercase;letter-spacing:.16em;
+  color:$magenta-safe;
+  border:0;padding:0;
+  margin:0 0 .85rem .9rem;
+}
+#TOC ul,#TOC li{line-height:1.4}
+#TOC ul{list-style:none;padding-left:0;margin:0}
+
+#TOC .nav-link{
+  display:block;
+  border:0;
+  border-left:2px solid $rule;
+  border-radius:0;
+  background:transparent;
+  color:$muted;
+  font-size:.85rem;
+  padding:.42rem .9rem;
+}
+#TOC .nav-link:hover,
+#TOC .nav-link:focus{
+  background:$mist;
+  color:$magenta-safe;
+  border-left-color:$slate;
+}
+#TOC .nav-link.active{
+  background:transparent;
+  border-left-color:$magenta;
+  color:$indigo;
+  font-weight:600;
+}
+// nested levels
+#TOC ul ul .nav-link{font-size:.8rem;padding-left:1.6rem}
+#TOC ul ul ul .nav-link{padding-left:2.3rem}
+
+// ==========================================================================
+//    CODE
+//    Quarto's markup, verified: executed input is
+//    div.sourceCode > pre.sourceCode.r; knitted output is
+//    div.cell-output > pre (no class); a display-only fence with no language
+//    is also a bare pre. So `pre:not([class])` still means "this is a result,
+//    not something to type", exactly as it did under rmarkdown.
+//
+//    Deliberately light rather than the Summer School's white-on-indigo pre:
+//    eight sessions of dense R is a lot of reading, and the syntax colours
+//    need a pale ground to stay legible. The brand comes through in the indigo
+//    left rule, the retuned token palette (assets/brand.theme), and inline code.
+// ==========================================================================
+div.sourceCode{
+  background:$code-ground;
+  border:1px solid $rule;
+  border-left:3px solid $indigo;
+  border-radius:0 4px 4px 0;
+  margin:0 0 1.2em;
+}
+pre.sourceCode,div.sourceCode > pre{
+  background:transparent;
+  border:0;
+  border-radius:0;
+  margin:0;
+  padding:.9rem 1.1rem;
+  font-family:$mono;
+  font-size:.86rem;
+  line-height:1.55;
+  color:$ink;
+  overflow-x:auto;
+}
+pre code{padding:0;background:transparent;color:inherit;font-size:inherit}
+
+// Knitted output, and display-only fences, read as a result.
+pre:not([class]){
+  background:$paper;
+  border:1px solid $rule;
+  border-left:3px solid $slate;
+  border-radius:0 4px 4px 0;
+  padding:.9rem 1.1rem;
+  font-family:$mono;
+  font-size:.86rem;
+  line-height:1.55;
+  color:$muted;
+  overflow-x:auto;
+  margin:0 0 1.2em;
+}
+
+:not(pre) > code{
+  font-family:$mono;
+  font-size:.88em;
+  background:$mist;
+  padding:.13em .38em;
+  border-radius:3px;
+  color:$indigo;
+}
+
+// The palette itself lives in assets/brand.theme, which Quarto compiles into
+// --quarto-hl-*-color custom properties. Pandoc emits `bold` for keywords
+// where highlight.js used 600; match the lighter weight.
+code span.kw,code span.cf{font-weight:600}
+
+// ==========================================================================
+//    CALLOUTS
+//    Three roles, distinguished by an extra class on the fenced div so the
+//    SCSS can tell them apart unambiguously:
+//      ::: {.callout-note .objectives}                  learning objectives
+//      ::: {.callout-note collapse="true" .answer}      worked answer
+//      ::: {.callout-tip  collapse="true" .hint}        hint
+//    Quarto's own chrome — the icon and the tinted header bar — is suppressed;
+//    what is kept is the treatment these blocks had as a blockquote and a
+//    <details> respectively.
+// ==========================================================================
+main.content .callout{
+  border:0;
+  border-radius:0 4px 4px 0;
+  box-shadow:none;
+}
+main.content .callout .callout-icon-container{display:none}
+main.content .callout .callout-header{
+  background:transparent;
+  border:0;
+  padding:0;
+  font-family:$mono;
+  font-size:.72rem;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+}
+main.content .callout .callout-title-container{padding:0}
+main.content .callout .callout-body-container{padding:0}
+main.content .callout .callout-body > :last-child{margin-bottom:0}
+// Quarto puts a screen-reader-only "Note"/"Tip" before the title text.
+main.content .callout .screen-reader-only{
+  position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);
+}
+
+// --- learning objectives: was a blockquote (styles.css:71-95) -------------
+main.content .callout.objectives{
+  background:$mist;
+  border-left:5px solid $cyan;
+  padding:1.15rem 1.4rem;
+  margin:0 0 1.75em;
+  font-size:1rem;
+}
+main.content .callout.objectives .callout-header{color:$indigo;margin:0 0 .8rem}
+main.content .callout.objectives .callout-body p,
+main.content .callout.objectives .callout-body ul,
+main.content .callout.objectives .callout-body ol{font-size:.95rem;color:$muted}
+main.content .callout.objectives .callout-body li{margin-bottom:.3rem}
+
+// --- answers and hints: were <details> (styles.css:126-185) ---------------
+//
+//  Closed, both read as the site's action colour — "click me". Open, each takes
+//  a tinted panel and its own text colour: indigo for a worked answer, cyan for
+//  a hint. The disclosure triangle is drawn with borders in `currentColor`, so
+//  it always tracks the header's colour and cannot drift out of step with it;
+//  Quarto's own chevron is hidden because its colour is not reliably stylable.
+main.content .callout.answer,
+main.content .callout.hint{
+  margin:1rem 0 0;
+  padding:.15rem .9rem;
+  border-left:3px solid $rule;
+  background:transparent;
+  transition:background .15s,border-color .15s;
+}
+main.content .callout.answer .callout-header,
+main.content .callout.hint .callout-header{
+  cursor:pointer;
+  font-family:$body;
+  font-weight:600;
+  font-size:.92rem;
+  text-transform:none;
+  letter-spacing:0;
+  color:$magenta-safe;
+  padding:.45rem 0;
+}
+main.content .callout.answer .callout-header::before,
+main.content .callout.hint .callout-header::before{
+  content:"";
+  display:inline-block;
+  width:0;height:0;
+  border-left:6px solid currentColor;
+  border-top:4px solid transparent;
+  border-bottom:4px solid transparent;
+  margin-right:.55em;
+  vertical-align:.08em;
+  transition:transform .15s;
+  flex:none;
+}
+main.content .callout.answer .callout-header:not(.collapsed)::before,
+main.content .callout.hint .callout-header:not(.collapsed)::before{transform:rotate(90deg)}
+main.content .callout.answer .callout-header:hover{color:$indigo}
+// Quarto's own toggle affordance
+main.content .callout.answer .callout-btn-toggle,
+main.content .callout.hint .callout-btn-toggle,
+main.content .callout.answer .callout-toggle,
+main.content .callout.hint .callout-toggle{display:none}
+main.content .callout.answer .callout-body-container,
+main.content .callout.hint .callout-body-container{padding-bottom:.8rem}
+
+// revealed answer
+main.content .callout.answer:has(.callout-header:not(.collapsed)){
+  background:$mist;
+  border-left-color:$indigo;
+}
+main.content .callout.answer:has(.callout-header:not(.collapsed)) .callout-header{color:$indigo}
+// revealed hint — same mechanics, cyan rather than indigo
+main.content .callout.hint:has(.callout-header:not(.collapsed)){
+  background:#e8f6fe;
+  border-left-color:$cyan;
+}
+main.content .callout.hint:has(.callout-header:not(.collapsed)) .callout-header{color:#00648f}
+main.content .callout.hint .callout-header:hover{color:#00648f}
+
+// A genuine blockquote is now free to look like a blockquote again: under
+// rmarkdown the Learning-objectives panel was styled as `blockquote`, which
+// also caught session 8's demo of what `>` does.
+main.content blockquote.blockquote{
+  border-left:3px solid $slate;
+  padding:.2rem 0 .2rem 1.1rem;
+  margin:0 0 1.2em;
+  color:$muted;
+  font-size:inherit;
+}
+
+// ==========================================================================
+//    EXERCISES
+//    :::: exercise fenced divs, ~37 of them across sessions 1–8, each wrapping
+//    an Answer callout (hence four colons — Pandoc needs the outer fence to
+//    outrank the inner one). Magenta is the brand's action colour.
+// ==========================================================================
+.exercise{
+  background:$paper;
+  border:1px solid $rule;
+  border-left:5px solid $magenta;
+  border-radius:0 4px 4px 0;
+  padding:1.15rem 1.4rem;
+  margin:1.75em 0;
+}
+.exercise > :last-child{margin-bottom:0}
+
+// The exercise's own heading, where one is written, as an eyebrow.
+.exercise > h1,.exercise > h2,.exercise > h3,.exercise > h4,.exercise > h5{
+  font-family:$mono;
+  font-size:.72rem;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  color:$magenta-safe;
+  margin:0 0 .8rem;
+  border:0;
+  padding:0;
+}
+
+// ==========================================================================
+//    QUARTO DEMONSTRATION BLOCKS (session 8)
+//    .renderedblock shows knitted output, so it stays quiet. .rmdblock is the
+//    source counterpart, used by sessions 3, 4, 5 and 7.
+// ==========================================================================
+.renderedblock{
+  background:$paper;
+  border:1px solid $rule;
+  border-radius:4px;
+  padding:1rem 1.2rem;
+  margin:1.5em 0;
+}
+.renderedblock > :last-child{margin-bottom:0}
+
+.rmdblock{
+  background:$mist;
+  border:1px solid $slate;
+  border-radius:4px;
+  padding:1rem 1.2rem;
+  margin:1.5em 0;
+}
+.rmdblock > :last-child{margin-bottom:0}
+
+// ==========================================================================
+//    TABLES
+//    Scoped to the content column, and excluding DataTables output so
+//    interactive tables keep their own styling. Quarto also adds Bootstrap's
+//    .table class, so the reset has to be explicit.
+// ==========================================================================
+main.content table:not(.dataTable){
+  border-collapse:collapse;
+  width:auto;
+  max-width:100%;
+  margin:0 0 1.5em;
+  font-size:.92rem;
+  --bs-table-bg:transparent;
+}
+main.content table:not(.dataTable) th{
+  font-family:$mono;
+  font-size:.7rem;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:$muted;
+  text-align:left;
+  border:0;
+  border-bottom:2px solid $ink;
+  padding:.5rem .8rem;
+  vertical-align:bottom;
+}
+main.content table:not(.dataTable) td{
+  border:0;
+  border-top:1px solid $rule;
+  padding:.5rem .8rem;
+  vertical-align:top;
+}
+main.content table:not(.dataTable) tr:last-child td{border-bottom:1px solid $rule}
+
+// ==========================================================================
+//    TABSETS
+//    Quarto's panel-tabset markup is ul.nav-tabs > li.nav-item > a.nav-link,
+//    not Bootstrap 3's > li.active > a.
+// ==========================================================================
+.panel-tabset .nav-tabs{
+  border-bottom:2px solid $ink;
+  gap:0;
+}
+.panel-tabset .nav-tabs .nav-item{margin-bottom:-2px}
+.panel-tabset .nav-tabs .nav-link{
+  font-family:$body;font-size:.9rem;font-weight:600;
+  color:$muted;
+  background:transparent;
+  border:2px solid transparent;
+  border-bottom:0;
+  border-radius:4px 4px 0 0;
+  padding:.7rem 1.15rem;
+  margin-right:.4rem;
+}
+.panel-tabset .nav-tabs .nav-link:hover{background:$mist;border-color:transparent;color:$ink}
+.panel-tabset .nav-tabs .nav-link.active{
+  background:$indigo;
+  color:#fff;
+  border-color:$indigo;
+  border-bottom:0;
+}
+// Quarto boxes the tab panel; the rmarkdown tabsets did not.
+.panel-tabset .tab-content{
+  padding-top:1.5rem;
+  border:0;
+}
+
+// ==========================================================================
+//    CONTENT IMAGES
+//    Diagrams and screenshots. Kept as blocks with breathing room, as before.
+// ==========================================================================
+main.content img{
+  display:block;
+  margin-top:1rem;
+  margin-bottom:1.25rem;
+  max-width:100%;
+  height:auto;
+}
+main.content figure img{margin-bottom:.5rem}
+// Logos and brand marks lay themselves out; exempt them.
+.navbar-brand img,.navbar-logo,.partners img{margin:0}
+
+// ==========================================================================
+//    LANDING-PAGE COMPONENTS
+//    Ported from the Summer School stylesheet. Used only by index.qmd, which
+//    is page-layout: custom, so these sit directly in #quarto-content.
+// ==========================================================================
+
+// The hero runs full-bleed.
+.hero{
+  background:$indigo;color:#fff;
+  padding-block:clamp(2.75rem,5.5vw,4.5rem) clamp(3rem,6vw,5rem);
+  overflow:hidden;
+}
+.hero-grid{
+  display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);
+  gap:clamp(2rem,5vw,4.5rem);align-items:end;
+}
+.hero h1{
+  color:#fff;
+  font-size:clamp(2.1rem,5vw,3.4rem);
+  line-height:1.08;
+  margin:0 0 .35em;
+  border:0;padding:0;
+}
+// The title is grouped into two phrases in the markup, each an inline-block, so
+// the line breaks after "R" rather than wherever the measure happens to run out
+// — "Introduction to R" is the subject and should not be split. They still sit
+// on one line if there is room, and each can wrap internally on a narrow
+// screen, so this is not a hard <br>. text-wrap:balance is deliberately absent:
+// it would re-even the lines and undo the grouping.
+.hero h1 span{display:inline-block}
+.hero .eyebrow{color:$cyan}
+.hero-dates{
+  font-family:$display;font-weight:500;
+  font-size:clamp(1.2rem,2.2vw,1.7rem);
+  color:#fff;margin:0 0 .35rem;letter-spacing:-.01em;
+}
+.hero-venue{color:$on-indigo;font-size:1rem;margin:0}
+.hero-lede{
+  color:$on-indigo;font-size:clamp(1.02rem,1.35vw,1.13rem);
+  line-height:1.6;margin:1.5rem 0 0;max-width:48ch;
+}
+.hero-facts-wrap{align-self:end}
+.hero-facts{list-style:none;margin:0;padding:0;display:grid;gap:1.1rem}
+.hero-facts li{border-top:1px solid rgba(255,255,255,.28);padding-top:.7rem;margin:0}
+.hero-facts .k{
+  font-family:$mono;font-size:.68rem;text-transform:uppercase;
+  letter-spacing:.16em;color:$cyan;display:block;margin-bottom:.3rem;
+}
+.hero-facts .v{font-size:.98rem;color:#fff;line-height:1.45;display:block}
+// Too narrow for two buttons abreast — stack and let them span the column.
+.hero-facts-wrap .btn-row{flex-direction:column;align-items:stretch;gap:.65rem}
+.hero-facts-wrap .btn-brand{justify-content:center}
+
+// Band headings are display type, not document type: the base h2/h3 scale is
+// tuned for the session pages, which are long and dense.
+.band h2,.hero h2{
+  font-size:clamp(1.7rem,3.2vw,2.5rem);
+  line-height:1.1;
+  margin-bottom:.55em;
+  border:0;padding:0;
+}
+.band h3{font-size:clamp(1.15rem,1.7vw,1.4rem);letter-spacing:-.005em}
+.band-indigo h2,.band-indigo h3{color:#fff}
+
+// Generic grids
+.cols{display:grid;gap:clamp(1.5rem,3.5vw,2.75rem)}
+.cols-2{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.cols-3{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+
+// Session cards: the numbered grid on the landing page.
+.sessions{
+  display:grid;gap:1rem;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));
+  list-style:none;margin:0;padding:0;
+}
+.sessions li{margin:0}
+.session-card{
+  display:flex;flex-direction:column;gap:.45rem;height:100%;
+  background:$paper;border:1px solid $rule;border-radius:5px;
+  padding:1.25rem 1.35rem;
+  text-decoration:none;color:$ink;
+  transition:border-color .15s,box-shadow .15s,transform .15s;
+}
+.session-card:hover,.session-card:focus{
+  border-color:$indigo;
+  box-shadow:$shadow-card;
+  color:$ink;
+  transform:translateY(-2px);
+}
+.session-card .num{
+  font-family:$mono;font-size:.68rem;font-weight:500;
+  text-transform:uppercase;letter-spacing:.16em;color:$magenta-safe;
+}
+.session-card:hover .num{color:$indigo}
+.session-card b{
+  font-family:$display;font-weight:600;font-size:1.08rem;
+  line-height:1.2;letter-spacing:-.01em;
+}
+.session-card span.what{font-size:.88rem;color:$muted;line-height:1.5}
+.band-mist .session-card{background:$paper}
+
+.topic-list{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.topic-list li{
+  border-top:1px solid $rule;padding:.85rem 0;margin:0;
+  display:flex;gap:1rem;align-items:baseline;
+}
+.topic-list li:last-child{border-bottom:1px solid $rule}
+.topic-list b{font-family:$display;font-weight:500;font-size:1.05rem;flex:1}
+.topic-list span{
+  font-family:$mono;font-size:.72rem;color:$muted;
+  text-transform:uppercase;letter-spacing:.1em;
+}
+
+.card{background:$paper;border:1px solid $rule;border-radius:5px;padding:1.5rem}
+.card h3{margin-bottom:.5rem}
+.card p:last-child{margin-bottom:0}
+
+.linklist{list-style:none;margin:0;padding:0}
+.linklist li{border-top:1px solid $rule;margin:0}
+.linklist li:last-child{border-bottom:1px solid $rule}
+.linklist a{
+  display:flex;gap:1rem;align-items:baseline;justify-content:space-between;
+  padding:.95rem .25rem;text-decoration:none;color:$ink;font-weight:500;
+}
+.linklist a:hover,.linklist a:focus{background:$mist;color:$magenta-safe}
+.linklist .meta{
+  font-family:$mono;font-size:.7rem;text-transform:uppercase;
+  letter-spacing:.1em;color:$muted;flex:none;
+}
+.linklist a:hover .meta{color:$magenta-safe}
+.band-indigo .linklist li{border-color:rgba(255,255,255,.22)}
+.band-indigo .linklist a{color:#fff}
+.band-indigo .linklist a:hover{background:rgba(255,255,255,.08);color:#fff}
+.band-indigo .linklist .meta{color:$on-indigo-accent}
+
+// ==========================================================================
+//    PARTNER LOGOS AND FOOTER
+//    include-after-body lands inside #quarto-content, immediately after
+//    </main>. That makes the two footer blocks children of the page-columns
+//    grid, which pins every child to the body column
+//    (`.page-columns > * {grid-column: body-content-start/body-content-end}`).
+//    Spanning them to the viewport is one declaration, using the same grid
+//    lines as Quarto's own `.column-screen`. Written with the #quarto-content
+//    id so it cannot lose a cascade-order tie with that rule.
+//
+//    This replaces the JS DOM-lifting hack that used to live at the foot of
+//    _includes/footer.html, and the `z-index:1` companion rule that existed
+//    only to beat tocify's position:fixed rail. Both are deleted.
+// ==========================================================================
+#quarto-content > .footer-logos,
+#quarto-content > .site-footer{
+  grid-column:screen-start/screen-end;
+}
+.footer-logos{background:$paper;padding:3rem $pad;border-top:1px solid $rule}
+.partners{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  gap:clamp(1.75rem,5vw,3.5rem);margin-top:1.75rem;
+}
+.partners img{height:54px;width:auto;object-fit:contain;display:block;margin:0}
+// Makerere's lockup packs a crest, a wordmark and the centenary device into
+// one image, so it needs more height than the simpler marks to stay legible.
+.partners img.p-tall{height:72px}
+.partners.p-sm img{height:34px}
+.partners-split{
+  text-align:center;margin:2.75rem 0 0;padding-top:2rem;
+  border-top:1px solid $rule;
+}
+
+.site-footer{
+  background:$indigo-deep;color:$on-footer;
+  padding:clamp(3rem,5vw,4.5rem) $pad 2rem;
+}
+.site-footer h2{color:#fff;font-size:1.5rem;margin-bottom:.5rem;border:0;padding:0}
+.site-footer a{color:#fff}
+.site-footer a:hover{color:$on-indigo-accent}
+.footer-grid{
+  display:grid;gap:2.5rem;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));
+}
+.footer-grid h3{
+  color:#fff;font-size:.72rem;font-family:$mono;font-weight:500;
+  text-transform:uppercase;letter-spacing:.16em;margin-bottom:.9rem;
+}
+.footer-grid ul{list-style:none;margin:0;padding:0}
+.footer-grid li{margin-bottom:.45rem;font-size:.92rem}
+.footer-bar{
+  border-top:1px solid rgba(255,255,255,.18);margin-top:3rem;padding-top:1.5rem;
+  display:flex;flex-wrap:wrap;gap:.75rem 2rem;justify-content:space-between;
+  font-size:.82rem;
+}
+
+// ==========================================================================
+//    BREAKPOINTS
+// ==========================================================================
+@media (max-width:820px){
+  .hero-grid{grid-template-columns:1fr;align-items:start}
+}
+
+@media (max-width:991px){
+  // Quarto collapses the navbar at lg; the brand needs to stay compact.
+  #quarto-header .navbar-brand{padding:.55rem 0}
+  .navbar-brand .brand-logo{height:28px}
+  .brand-text{font-size:.88rem;padding-left:.7rem}
+  #quarto-header .navbar-nav{margin-left:0}
+  #quarto-header .navbar-nav .nav-link{
+    border-bottom:1px solid $rule;border-radius:0;margin:0;padding:.8rem .25rem;
+  }
+  #quarto-header .navbar-nav .nav-link.active{border-bottom:3px solid $magenta}
+  #TOC h2#toc-title,#TOC #toc-title{margin-left:0}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;scroll-behavior:auto !important;
+  }
+}
+
+@media print{
+  #quarto-header,#quarto-sidebar,#TOC,#quarto-margin-sidebar,
+  .footer-logos,.site-footer{display:none !important}
+  main.content{padding:0;width:100%}
+}

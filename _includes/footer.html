@@ -59,22 +59,3 @@
     </div>
   </div>
 </footer>
-<script>
-/* rmarkdown places after_body content INSIDE .main-container / .toc-content,
-   which would trap the footer in the nine-column content well beside the TOC.
-   Lift both blocks to <body> so they span the page. Without JS the footer
-   still renders, just narrower. */
-(function () {
-  function lift() {
-    ['.footer-logos', '.site-footer'].forEach(function (sel) {
-      var el = document.querySelector(sel);
-      if (el && el.parentNode !== document.body) document.body.appendChild(el);
-    });
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', lift);
-  } else {
-    lift();
-  }
-})();
-</script>
