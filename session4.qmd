@@ -2,11 +2,11 @@
 title: "Session 4 -- Visualizing tabular data with ggplot2"
 ---
 
-> #### Learning objectives
->
-> * Understand ggplot2's grammar of graphics
-> * Apply the grammar to create a variety of plots including scatter plots, box plots and histograms
-> * Learn about how R handles categorical data
+::: {.callout-note .objectives title="Learning objectives"}
+* Understand ggplot2's grammar of graphics
+* Apply the grammar to create a variety of plots including scatter plots, box plots and histograms
+* Learn about how R handles categorical data
+:::
 
 # Visualizing data with ggplot2
 
@@ -48,7 +48,8 @@ letters, numbers and the dot (**`.`**) and underscore (**`_`**) characters and
 should not begin with a number. So when we refer to the '3-gene classifier'
 column we'll have to use backticks, e.g. ``metabric$`3-gene_classifier` ``.
 
-```{r message = FALSE}
+```{r}
+#| message: false
 library(tidyverse)
 metabric <- read_csv("data/metabric_clinical_and_expression_data.csv")
 metabric
@@ -86,7 +87,8 @@ indeed the case with ggplot2.
 Look up the `geom_point` help page to see the list of aesthetics that are
 available for this geom.
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 ?geom_point
 ```
 
@@ -147,7 +149,8 @@ ggplot(data = metabric) +
 
 Some aesthetics can only be used with categorical variables, e.g. shape.
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3, y = ESR1, shape = Survival_time))
 ```
@@ -205,7 +208,7 @@ system for describing and building graphs.
 The basic template is given in the summary box below. This template can be used
 to create any of a wide range of graph types with ggplot2.
 
-```{block type = "rmdblock"}
+::: {.rmdblock}
 **ggplot2 grammar of graphics**
 
 **`ggplot(data = <DATA>) + <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))`**
@@ -214,7 +217,7 @@ to create any of a wide range of graph types with ggplot2.
 
 Layers can be added by adding geoms such as `geom_point()` using the `+`
 operator that ggplot2 has overridden for this purpose.
-```
+:::
 
 # Another plot type - bar chart
 
@@ -464,7 +467,9 @@ names to use. We've also given it a heads-up about which type of data are in
 each column. Look up the help page for `read_excel()` for more details about the
 arguments we've used below.
 
-```{r message = FALSE, warning = FALSE}
+```{r}
+#| message: false
+#| warning: false
 library(readxl)
 transport_use <- read_excel("data/2020-04-26_COVID-19_Press_Conference_Data.xlsx",
                             sheet = "Transport use",
@@ -699,66 +704,75 @@ In this session we have covered the following concepts:
 # Exercises
 
 
-:::exercise
+:::: exercise
 
 1. Create a bar plot showing the number of patients with tumours at each of the different neoplasm histologic grades
 
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
-```{r ex_1, purl=FALSE, message=FALSE, warning=FALSE}
+```{r ex_1}
+#| purl: false
+#| message: false
+#| warning: false
 library(tidyverse)
 metabric <- read_csv("data/metabric_clinical_and_expression_data.csv")
 ggplot(data = metabric) +
     geom_bar(mapping = aes(x = Neoplasm_histologic_grade))
 ```
-</details>
 :::
+::::
 
-:::exercise
+:::: exercise
 2. Use `iris` data set to create a box plot showing the distribution of petal lengths based on the `iris` data set.
 
-<details><summary>Answer</summary>
-```{r message=FALSE, warning=FALSE}
+::: {.callout-note .answer collapse="true" title="Answer"}
+```{r}
+#| message: false
+#| warning: false
 # 2 a.
 ggplot(data=iris, mapping = aes(x=Species, y= Petal.Length)) + 
     geom_boxplot()
 ```
-</details>
-
 :::
 
+::::
 
-:::exercise
+
+:::: exercise
 
 3. Create a density plot of the estrogen receptor (ESR1) expression level using `metabric` data set.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
-```{r message=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
 ggplot(data = metabric) +
     geom_density(mapping = aes(x = ESR1))
 ```
-</details>
 :::
+::::
 
 
-:::exercise
+:::: exercise
 4. Create a scatter plot of the expression of FOXA1 and this gene with a line of
 best fit using `metabric` data set.
 
-<details><summary>Answer</summary>
-```{r message=FALSE, warning=FALSE}
+::: {.callout-note .answer collapse="true" title="Answer"}
+```{r}
+#| message: false
+#| warning: false
 ggplot(data = metabric, mapping = aes(x = FOXA1, y = MLPH)) +
     geom_point() +
     geom_smooth()
 ```
 
-</details>
 :::
+::::
 
 
-:::exercise
+:::: exercise
 5. Create box plots for the survival time of patients with different tumour
    stages, only including deceased patients.
 
@@ -769,16 +783,20 @@ ggplot(data = metabric, mapping = aes(x = FOXA1, y = MLPH)) +
    consider the type of the tumour stage variable as read into R and what kind
    of variable is expected for the x aesthetic.*
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
-```{r message=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
 deceased <- metabric[metabric$Survival_status == "DECEASED", ]
 ```
 
 A better alternative would be to subset based on `Vital_status`, selecting only
 those patients that died of the disease rather than of an unrelated cause.
 
-```{r message=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
 deceased <- metabric[metabric$Vital_status == "Died of Disease", ]
 ```
 
@@ -786,7 +804,9 @@ deceased <- metabric[metabric$Vital_status == "Died of Disease", ]
 variable and draws a single box. Setting the `group` aesthetic tells it to draw
 one box per stage.
 
-```{r message=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
 ggplot(data = deceased) +
     geom_boxplot(mapping = aes(x = Tumour_stage,
                                y = Survival_time,
@@ -796,7 +816,9 @@ ggplot(data = deceased) +
 Alternatively, convert `Tumour_stage` into a factor, in which case the `group`
 aesthetic is no longer needed.
 
-```{r message=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
 deceased$Tumour_stage <- as.factor(deceased$Tumour_stage)
 
 ggplot(data = deceased) +
@@ -805,18 +827,20 @@ ggplot(data = deceased) +
 
 And as a violin plot, split by ER status.
 
-```{r message=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
 ggplot(data = deceased) +
     geom_violin(mapping = aes(x = Tumour_stage,
                               y = Survival_time,
                               fill = ER_status))
 ```
 
-</details>
 :::
+::::
 
 
-:::exercise
+:::: exercise
 6. Explore the Apple Mobility data on transport use during the coronavirus
    lockdown using line plots.
 
@@ -834,9 +858,11 @@ ggplot(data = deceased) +
     c. **Extension:** create a new column for the weekday and plot just the
     daily percentage for walking, with separate lines for each day of the week.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
-```{r message=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
 apple_mobility <- read_excel("data/2020-04-26_COVID-19_Press_Conference_Data.xlsx",
                              sheet = "Apple Mobility",
                              col_names = c("date", "transport_type",
@@ -848,7 +874,9 @@ apple_mobility
 
 Exercise 6a: the 7-day rolling average for each mode of transport.
 
-```{r message=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
 ggplot(data = apple_mobility) +
     geom_line(mapping = aes(x = date,
                             y = rolling_average,
@@ -860,7 +888,9 @@ lockdown began.
 
 Exercise 6b: the daily percentage.
 
-```{r message=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
 ggplot(data = apple_mobility) +
     geom_line(mapping = aes(x = date,
                             y = percentage,
@@ -873,7 +903,9 @@ smooths out — this is the weekly cycle of weekdays versus weekends.
 Exercise 6c: the weekly cycle made explicit. `wday()` comes from the lubridate
 package, which is loaded as part of the tidyverse.
 
-```{r message=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
 apple_mobility$day <- wday(apple_mobility$date, label = TRUE)
 
 walking <- apple_mobility[apple_mobility$transport_type == "Walking", ]
@@ -882,5 +914,5 @@ ggplot(data = walking) +
     geom_line(mapping = aes(x = date, y = percentage, colour = day))
 ```
 
-</details>
 :::
+::::

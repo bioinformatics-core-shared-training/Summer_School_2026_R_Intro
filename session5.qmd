@@ -2,12 +2,12 @@
 title: "Session 5 -- Data manipulation with dplyr"
 ---
 
-> #### Learning objectives
->
-> * Chain operations together into a workflow using pipes
-> * Learn the key **dplyr** functions for manipulating your data
-> * Learn about faceting in ggplot2 to split your data into separate categories
->   and create a series of sub-plots arranged in a grid
+::: {.callout-note .objectives title="Learning objectives"}
+* Chain operations together into a workflow using pipes
+* Learn the key **dplyr** functions for manipulating your data
+* Learn about faceting in ggplot2 to split your data into separate categories
+  and create a series of sub-plots arranged in a grid
+:::
 
 ---
 
@@ -34,7 +34,8 @@ the observations based on one or more categorical variables.
 
 We'll again use the METABRIC data set to illustrate how these operations work.
 
-```{r message = FALSE}
+```{r}
+#| message: false
 metabric <- read_csv("data/metabric_clinical_and_expression_data.csv")
 metabric
 ```
@@ -83,7 +84,8 @@ needed in order to get to the final result. We could just have used the same
 name to avoid cluttering our environment and overwritten the results from the
 `filter()` operation with those of the `select()` operation.
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 patients <- select(patients,
                    Patient_ID,
                    Survival_time,
@@ -121,7 +123,7 @@ However, there is another way chaining together a series of operations into a
 mini workflow that is elegant, intuitive and makes for very readable R code.
 For that we need to introduce a new operator, the **pipe** operator, **`|>`**.
 
-```{block type = "rmdblock"}
+::: {.rmdblock}
 **The pipe operator `|>`**
 
 The pipe operator takes the output from one operation, i.e. whatever is on the
@@ -160,7 +162,7 @@ That one comes from the **magrittr** package and becomes available when you load
 the tidyverse. For everyday use of the sort we're doing on this course the two
 behave the same way, so when you meet `%>%` you can read it as `|>`. We'll use
 the native `|>` throughout.
-```
+:::
 
 We can rewrite the code for our filtering and column selection operations as
 follows.
@@ -270,7 +272,7 @@ centimetres. We can convert to `Tumour_size` to centimetres by dividing by 10.
 metabric <- mutate(metabric, Tumour_size = Tumour_size / 10)
 ```
 
-```{block type = "rmdblock"}
+::: {.rmdblock}
 **Nottingham Prognostic Index**
 
 The Nottingham prognostic index (**NPI**) is used to determine prognosis
@@ -287,7 +289,7 @@ where
 * **S** is the size of the tumour in centimetres
 * **N** is the node status (0 nodes = 1, 1-3 nodes = 2, >3 nodes = 3)
 * **G** is the grade of tumour (Grade I = 1, Grade II = 2, Grade III = 3)
-```
+:::
 
 We'll recalculate the Nottingham prognostic index using the values
 `Tumour_size`, `Neoplasm_histologic_grade` and `Lymph_node_status` columns in
@@ -324,7 +326,8 @@ create a small workflow that carries out the tumour size conversion, computes
 the NPI, rounds the tumour size and the resulting NPI value to 1 decimal place
 and displays the results in decreasing order of NPI.
 
-```{r message = FALSE}
+```{r}
+#| message: false
 read_csv("data/metabric_clinical_and_expression_data.csv") |>
     mutate(Tumour_size = Tumour_size / 10) |>
     mutate(NPI = (0.2 * Tumour_size) +
@@ -470,7 +473,7 @@ summarise(metabric, ESR1_mean = mean(ESR1), ESR1_sd = sd(ESR1))
 
 Notice how we also named the output columns in this last example.
 
-```{block type = "rmdblock"}
+::: {.rmdblock}
 **`summarise()`**
 
 `summarise()` collapses a data frame into a single row by calculating summary
@@ -490,7 +493,7 @@ groups of observations using **`group_by()`**.
 
 **`n()`** is a special function that returns the number of observations; it
 doesn't take a vector argument, i.e. a column.
-```
+:::
 
 It is also possible to summarise using a function that takes more than one
 value, i.e. from multiple columns. For example, we could compute the correlation
@@ -744,20 +747,22 @@ We are expecting you to use the 5 main dplyr 'verb' functions: `select()`,
 operator, `|>`, in cases where more than one operation is required to achieve
 the outcome requested.
 
-```{r message = FALSE, warning = FALSE}
+```{r}
+#| message: false
+#| warning: false
 library(tidyverse)
 metabric <- read_csv("data/metabric_clinical_and_expression_data.csv")
 ```
 
 ---
 
-:::exercise
+:::: exercise
 **1. Investigate the subset of long-surviving breast cancer patients that didn't receive chemo or radiotherapy**
 
 First obtain the subset of patients that received neither chemotherapy or
 radiotherapy and survived for more than 20 years.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
 patients <- metabric |>
     mutate(Survival_time_years = Survival_time / 12) |>
@@ -767,31 +772,31 @@ patients <- metabric |>
 
 patients
 ```
-</details>
+:::
 
 Now look at the breakdown of these patients in terms of ER status. Count the
 numbers of ER positive and ER negative patients in this subset. Calculate the
 proportion that are ER positive.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
 table(patients$ER_status)
 mean(patients$ER_status == "Positive")
 ```
-</details>
+:::
 
 What does this tell us? Calculate the proportion of ER positive patients in the
 whole cohort by way of a comparison.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
 table(metabric$ER_status)
 mean(metabric$ER_status == "Positive")
 ```
-</details>
 :::
+::::
 
-:::exercise
+:::: exercise
 **2. Which patients have spent the largest proportion of their lives dealing
 with breast cancer? Note that the current Survival_time column is months.
 Present the final results as a table showing Patient_ID, Age, Age_at_diagnosis,
@@ -799,13 +804,13 @@ Survival_time_in_years and Proportion_of_life_since_diagnosis. Round all
 numbers in the final table to 2 decimal places and sort it so that the patient
 with the highest proportion is at the top.**
 
-<details class="hint"><summary>Hint</summary>
+::: {.callout-tip .hint collapse="true" title="Hint"}
 1. Create a column of Survival_time_years
 2. Add Survival_time_years it to Age_at_diagnosis to get final Age
 3. Calculate the proportion: Survival_time_years/Age
-</details>
+:::
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
 metabric |>
     mutate(Survival_time_years = Survival_time / 12) |>
@@ -819,10 +824,10 @@ metabric |>
     arrange(desc(Proportion_of_life_since_diagnosis)) |>
     mutate(across(where(is.numeric), ~round(.x, digits = 2)))
 ```
-</details>
 :::
+::::
 
-:::exercise
+:::: exercise
 **3. Convert the expression values for each of the genes into standardized
 z-scores**
 
@@ -840,29 +845,29 @@ of 0 and a standard deviation of 1.
 Create a modified version of the `metabric` data frame containing a new column
 with the standardized expression values (z-scores) for the ESR1 gene.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
 metabric_z_scores <- mutate(metabric,
                             ESR1_z_score = (ESR1 - mean(ESR1)) / sd(ESR1))
 ```
-</details>
+:::
 
 Check that you've done this correctly by calculating the mean and standard
 deviation of your new z-score variable.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
 summarise(metabric_z_scores,
           mean = mean(ESR1_z_score),
           sd = sd(ESR1_z_score))
 ```
-</details>
+:::
 
 Add another column containing a z-score for GATA3 and then create a scatter
 plot of the z-scores of GATA3 against ESR1. Modify your plot to facet by the
 PAM50 classification.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
 metabric_z_scores <- mutate(metabric_z_scores,
                             GATA3_z_score = (GATA3 - mean(GATA3)) / sd(GATA3))
@@ -871,7 +876,7 @@ ggplot(data = metabric_z_scores) +
     geom_point(mapping = aes(x = GATA3_z_score, y = ESR1_z_score)) +
     facet_wrap(vars(PAM50))
 ```
-</details>
+:::
 
 **Extension**
 
@@ -879,7 +884,7 @@ Standardize the expression values for all 8 genes in a single operation using
 an anonymous function, overwriting their original values, and round the
 resulting values to 3 significant figures.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
 metabric_z_scores <- metabric |>
     mutate(across(ESR1:MLPH, ~ (.x - mean(.x)) / sd(.x))) |>
@@ -888,20 +893,20 @@ metabric_z_scores <- metabric |>
 metabric_z_scores |>
     select(Patient_ID, ESR1:MLPH)
 ```
-</details>
+:::
 
 Check you have done this correctly by computing the mean and standard deviation
 for each column, again using a single operation.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
 metabric_z_scores |>
     summarise(across(ESR1:PGR, list(mean = mean, sd = sd)))
 ```
-</details>
 :::
+::::
 
-:::exercise
+:::: exercise
 **4. Which Star Wars characters need to go on a diet?**
 
 The `starwars` data set provided by dplyr contains height (in cm) and mass (in
@@ -912,7 +917,7 @@ mass and BMI.
 BMI is calculated as mass in kilograms divided by the square of the height in
 metres.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
 starwars |>
     mutate(BMI = mass / (height / 100) ^ 2) |>
@@ -922,5 +927,5 @@ starwars |>
 ```
 
 Jabba the Hutt is, unsurprisingly, something of an outlier.
-</details>
 :::
+::::

@@ -2,13 +2,13 @@
 title: "Session 7 -- Restructuring data for analysis"
 ---
 
-> #### Learning objectives
->
-> * Understand what makes a data set 'tidy' and why you'd want your data to be structured this way
-> * Use `pivot_longer()` and `pivot_wider()` operations to restructure data frames
-> * Tease apart columns containing multiple variables using `separate_wider_delim()`
-> * Modify character variables using string manipulation functions from the stringr package
-> * Customize non-data components of plots created using ggplot2 by changing the theme
+::: {.callout-note .objectives title="Learning objectives"}
+* Understand what makes a data set 'tidy' and why you'd want your data to be structured this way
+* Use `pivot_longer()` and `pivot_wider()` operations to restructure data frames
+* Tease apart columns containing multiple variables using `separate_wider_delim()`
+* Modify character variables using string manipulation functions from the stringr package
+* Customize non-data components of plots created using ggplot2 by changing the theme
+:::
 
 ---
 
@@ -92,7 +92,7 @@ the tidyverse.
 
 ## Rules for tidy data
 
-```{block type = "rmdblock"}
+::: {.rmdblock}
 **Tidy data**
 
 A tidy data set is a data frame (or table) for which the following are true:
@@ -110,7 +110,7 @@ An **observation** contains all values measured on the same unit (like a person
 or a day) across attributes.
 
 _From ['Tidy Data'](https://www.jstatsoft.org/index.php/jss/article/view/v059i10/v59i10.pdf) by Hadley Wickham._
-```
+:::
 
 **Question:** _Which of the above representations of TB cases is tidy?_
 
@@ -172,7 +172,7 @@ convenient to use a range of columns, e.g. `` `1999`:`2000` ``. Remember that we
 have to use backticks because R doesn't like variable names starting with
 numbers.
 
-```{block type = "rmdblock"}
+::: {.rmdblock}
 **Pivoting operations**
 
 **`pivot_longer(data, cols, names_to = "name", values_to = "value")`**
@@ -190,7 +190,7 @@ Pivot data from long to wide, increasing the number of columns and decreasing
 the number of rows.
 
 `table4a_wide <- pivot_wider(table4a_long, names_from = year, values_from = cases)`
-```
+:::
 
 The `names_to` and `values_to` arguments are so called because we are taking
 the names of the columns we specified (1999 and 2000) and putting these in a new
@@ -320,7 +320,8 @@ The resulting data frame is still not quite what we want though. This becomes
 apparent as soon as we try to do anything with the new `cases` and `population`
 columns.
 
-```{r error = TRUE}
+```{r}
+#| error: true
 mutate(table3_separated, rate = cases / population)
 ```
 
@@ -355,7 +356,8 @@ tidier format to open up different avenues for exploring the data.
 
 We'll first load the table and then select just the columns we're going to need.
 
-```{r message = FALSE}
+```{r}
+#| message: false
 metabric <- read_csv("data/metabric_clinical_and_expression_data.csv") |>
     select(Patient_ID, ER_status, ESR1:MLPH)
 metabric
@@ -364,7 +366,9 @@ metabric
 When we first looked at visualization using ggplot2 we created the following
 box plot.
 
-```{r box_plot_1, fig.width = 5, fig.height = 4}
+```{r box_plot_1}
+#| fig-width: 5
+#| fig-height: 4
 ggplot(metabric) +
     geom_boxplot(mapping = aes(x = ER_status, y = GATA3))
 ```
@@ -412,7 +416,8 @@ lot easier than naming each column individually.
 
 We're now in a position to create our faceted box plot chart.
 
-```{r box_plot_2, fig.height = 6}
+```{r box_plot_2}
+#| fig-height: 6
 ggplot(data = metabric,
        mapping = aes(x = ER_status, y = Expression)) +
     geom_boxplot() +
@@ -458,7 +463,8 @@ receptor-positive breast cancer.
 The table in question is
 [supplementary data 9](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5998130/bin/41467_2018_4619_MOESM11_ESM.xlsx).
 
-```{r message = FALSE}
+```{r}
+#| message: false
 library(readxl)
 protein_levels <- read_excel("data/41467_2018_4619_MOESM11_ESM.xlsx", skip = 1)
 select(protein_levels, `Uniprot Accession`, `Gene Name`, ends_with("rep01"))
@@ -522,7 +528,7 @@ correct matters is add the '24h' component. For that, we're going to use one
 of several really useful string manipulation functions provided by the
 stringr package.
 
-```{block type = "rmdblock"}
+::: {.rmdblock}
 **Some useful stringr functions**
 
 **`str_c(..., sep = "")`**
@@ -577,8 +583,7 @@ Extract substrings from a character vector at the given start and end positions.
 `str_sub(c("tamoxifen", "vehicle"), 1, 3)`
 
 ` [1] "tam" "veh"`
-
-```
+:::
 
 `str_replace()` looks like the function we need so let's see how it works on our
 sample names.
@@ -646,7 +651,8 @@ overlaid is only slightly more involved. We can use faceting to create separate
 plots for each of the proteins (we'll use gene symbols as they're more
 recognizable).
 
-```{r box_plot_3, fig.height = 7}
+```{r box_plot_3}
+#| fig-height: 7
 ggplot(data = protein_levels, mapping = aes(x = group, y = protein_level)) +
     geom_boxplot(colour = "grey60") +
     geom_jitter(width = 0.15) +
@@ -667,7 +673,8 @@ Themes can be used to customize non-data components of a plot. Let's create a
 plot showing the expression of estrogen receptor alpha (ESR1) for each of the
 Integrative cluster breast cancer subtypes.
 
-```{r message = FALSE}
+```{r}
+#| message: false
 # read in the METABRIC data, convert the Integrative_cluster variable into a
 # categorical variable with the levels in the correct order, and select just
 # the columns and rows we're going to use
@@ -727,7 +734,8 @@ plot +
 Here's another example that also involves customizing the labels, scales and
 colours.
 
-```{r bar_plot_1, fig.width = 5}
+```{r bar_plot_1}
+#| fig-width: 5
 ggplot(data = metabric) +
     geom_bar(mapping = aes(x = `3-gene_classifier`, fill = ER_status)) +
     scale_y_continuous(limits = c(0, 700),
@@ -749,7 +757,9 @@ The ggthemes package contains some extra themes and might be fun to check out.
 Here's an example of a plot that uses the `theme_gdocs` theme that resembles the
 default look of charts in Google Docs.
 
-```{r box_plot_7, fig.width = 5, fig.height = 4}
+```{r box_plot_7}
+#| fig-width: 5
+#| fig-height: 4
 library(ggthemes)
 metabric |>
     filter(`3-gene_classifier` == "HER2+") |>
@@ -840,14 +850,16 @@ ggplot(data = metabric,
 
 Use `ggsave()` to save the last plot you displayed.
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 ggsave("esr1_expression.png")
 ```
 
 You can alter the width and height of the plot and can change the image file
 type.
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 ggsave("esr1_expression.pdf", width = 20, height = 12, units = "cm")
 ```
 
@@ -886,13 +898,14 @@ gene expression.
 The clinical data, gene expression values and mutation data were all downloaded
 from [cBioPortal](https://www.cbioportal.org/study/summary?id=brca_metabric).
 
-```{r message = FALSE}
+```{r}
+#| message: false
 library(tidyverse)
 ```
 
 ---
 
-:::exercise
+:::: exercise
 **1. Tidy the WHO tuberculosis data set**
 
 In this session's materials we demonstrated the restructuring of different
@@ -907,11 +920,11 @@ who
 
 What are the variables in this data set?
 
-<details class="hint"><summary>Hint</summary>
+::: {.callout-tip .hint collapse="true" title="Hint"}
 See the help page for `who` to understand the meaning of the column headings.
-</details>
+:::
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 * country
 * iso2 and iso3 country codes
 * year
@@ -919,7 +932,7 @@ See the help page for `who` to understand the meaning of the column headings.
 * age group
 * diagnosis method
 * number of cases of tuberculosis
-</details>
+:::
 
 Why isn't this data set tidy and what kinds of analysis are not straightforward
 with the data in this format?
@@ -941,20 +954,20 @@ in these column headings.
 
 Also remove all rows with missing values for the number of tuberculosis cases.
 
-<details class="hint"><summary>Hint</summary>
+::: {.callout-tip .hint collapse="true" title="Hint"}
 The column headers from new_sp_m014 onwards contain a superfluous
 prefix "new" or "new_" that you will want to remove; this can be done using one
 of the stringr functions in a single step if you know about regular expressions
 but is also achievable in two steps if you don't use any regular expression
 magic.
-</details>
+:::
 
-<details class="hint"><summary>Hint</summary>
+::: {.callout-tip .hint collapse="true" title="Hint"}
 Separating two of the variables is a bit tricky because there is no
 separator character; you could modify the variable before separating.
-</details>
+:::
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 ```{r}
 # the hints below lead to the following solution
@@ -1044,10 +1057,10 @@ who_tidy <- mutate(who_tidy,
 who_tidy
 ```
 
-</details>
 :::
+::::
 
-:::exercise
+:::: exercise
 **2. Recreate `table1` from your tidy version of the WHO tuberculosis data set**
 
 Recreate the first 3 columns of `table1`, containing a small subset of the WHO
@@ -1057,11 +1070,11 @@ tuberculosis data set, from your tidy version of `who`.
 select(table1, 1:3)
 ```
 
-<details class="hint"><summary>Hint</summary>
+::: {.callout-tip .hint collapse="true" title="Hint"}
 This will involve some filtering, grouping and summarization.
-</details>
+:::
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
 who_tidy |>
     filter(country %in% c("Afghanistan", "Brazil", "China")) |>
@@ -1069,22 +1082,22 @@ who_tidy |>
     group_by(country, year) |>
     summarise(cases = sum(cases))
 ```
-</details>
 :::
+::::
 
-:::exercise
+:::: exercise
 **3. Create time series plots for cases of tuberculosis**
 
 Create a time series plot showing the number of tuberculosis cases in the United
 Kingdom with separate lines for each age group. The year should be on the x axis
 and the number of cases on the y axis.
 
-<details class="hint"><summary>Hint</summary>
+::: {.callout-tip .hint collapse="true" title="Hint"}
 We're not distinguishing between diagnoses and genders in this plot so you'll
 need to sum the numbers of cases for each country, year and age group.
-</details>
+:::
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
 who_tidy <- who_tidy |>
     group_by(country, year, age_group) |>
@@ -1096,7 +1109,7 @@ who_tidy |>
     ggplot() +
     geom_line(mapping = aes(x = year, y = cases, colour = age_group))
 ```
-</details>
+:::
 
 Use faceting in ggplot2 to create a series of plots showing the same information
 for France, Brazil, Japan and Namibia.
@@ -1105,7 +1118,7 @@ The numbers of cases in these countries are on quite different scales. Look at
 help page for `facet_wrap()` and try changing the `scales` argument so we can
 more easily compare the overall patterns between countries.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
 who_tidy |>
     filter(country %in% c("France", "Brazil", "Japan", "Namibia")) |>
@@ -1113,5 +1126,5 @@ who_tidy |>
     geom_line(mapping = aes(x = year, y = cases, colour = age_group)) +
     facet_wrap(vars(country), scales = "free_y")
 ```
-</details>
 :::
+::::

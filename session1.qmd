@@ -2,12 +2,12 @@
 title: "Session 1: Data types and structures"
 ---
 
-> #### Learning objectives
->
-> * Become familiar with using Positron for writing and running R scripts 
-> * Understand the basics of the different data types and data structures used in R
-> * Learn how to use simple functions
-> * Understand the concept of missing data and how it is handled in R
+::: {.callout-note .objectives title="Learning objectives"}
+* Become familiar with using Positron for writing and running R scripts 
+* Understand the basics of the different data types and data structures used in R
+* Learn how to use simple functions
+* Understand the concept of missing data and how it is handled in R
+:::
 
 # Introduction to R and Positron
 
@@ -234,7 +234,8 @@ Different types of data are needed in programming for a variety of reasons:
 * Some commands can only be used on particular data types. For instance
 mathematical operations (+, -, x and /) are only meaningful for numbers.
   
-```{r, eval=FALSE}
+```{r}
+#| eval: false
 11 + 3 # Operation of addition performed correctly
 "11" + 3 # gives error
 ```
@@ -302,18 +303,21 @@ x
 Variable names can not start with a number or a special characters like (\_,
   -, \*, etc)
 
-```{r, error = TRUE}
+```{r}
+#| error: true
 2x <- 100
 ```
 
-```{r, error = TRUE}
+```{r}
+#| error: true
 _x <- 100
 ```
 
 The only special characters allowed in variable names are "\_" and "." any
 other special character throws an error]
 
-```{r, error = TRUE}
+```{r}
+#| error: true
 my-name <- "Ashley"
 ```
 
@@ -343,7 +347,8 @@ country
 * c stands for combine
 * values are separated by ","
 
-```{r, error = TRUE}
+```{r}
+#| error: true
 x <- 100, 200
 ```
 
@@ -495,7 +500,8 @@ from a vector based on their characteristics.
 
 The basic comparison operators are:  
 
-```{r echo = FALSE}
+```{r}
+#| echo: false
 tab <- data.frame(Operator = c("==",   "!=", ">", "<", ">=", "<="),
                   Meaning = c("Equal to", "Not equal to", "Greater than",
                               "Less than", "Greater than or equal to",
@@ -527,7 +533,8 @@ x[ x > 20 ]
 By using logical operators one can create complex expression for more complex
 subsetting. The logical operators are: 
 
-```{r echo = FALSE}
+```{r}
+#| echo: false
 tab <- data.frame(Operator = c("&", "|", "!"),
            Meaning = c("AND", "OR", "NOT"), 
            Effect  = c("Connects two expressions into one. Both expressions must be true for the overall expression to be true",
@@ -695,7 +702,8 @@ documentation page for that function. You can do this in number of ways:
   the work "round"
 * Use your favourite browser to search the web, e.g. "R round documentation"
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 ?round
 ```
 
@@ -800,7 +808,7 @@ cleanedHeights
 
 # Exercises
 
-:::exercise
+:::: exercise
 1. You have been given a list of tumour volumes from 5 patients, 2.1, 1.9, 2.6,
    1.8, and 3 $cm^3$. Create a vector in R containing this data. Then get the
    following characteristics of data by applying some of the functions listed
@@ -809,7 +817,7 @@ cleanedHeights
     b. What is the mean tumour volume?
     c. How many patients has tumour volume less than 2 $cm^3$?
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 First create the vector using the `c()` function and assign it to a variable.
 
@@ -836,11 +844,11 @@ then use `sum()` to determine how many of these are "TRUE".
 isSmall <- tumourVol < 2
 sum(isSmall)
 ```
-</details> 
 :::
+::::
 
 
-:::exercise
+:::: exercise
 2. You have given two vectors of observations:
 
          data1 <- c(10, 9, 7, 6, 7, 3, 7, 5, 6, 6)
@@ -850,7 +858,7 @@ sum(isSmall)
     b. Can you identify the default correlation method the `cor()` function uses? For help use `help()` or `?`
     c. Can you get Spearman correlation coefficient for these two vectors? 
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 Challenge 2a: use the function `cor()` to get the correlation coefficient:
 
@@ -862,7 +870,8 @@ cor(x=data1, y=data2)
 
 Challenge 2b: Can you identify the default correlation method the `cor()` function uses?
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 ?cor
 ```
 
@@ -875,21 +884,22 @@ Challenge 2c: Can you get Spearman correlation coefficient for these two vectors
 cor(x=data1, y=data2, method = "spearman")
 ```
 
-</details>
 :::
+::::
 
 
-:::exercise 
+:::: exercise
 
 4. What is the output of following operations and explain your logic behind it.
     a. c(5, 2, 9, 1, 13) * 2
     b. c(5, 2, 9, 1, 13) * c(1, 2)
     c. c(5, 2, 9, 1, 13) + c(1, 2, 3, 4, 5)
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 Challenge 4a: c(5, 2, 9, 1, 13) * 2
-```{r ex_4, purl=FALSE}
+```{r ex_4}
+#| purl: false
 c(5, 2, 9, 1, 13) * c(2)
 ```
 
@@ -912,28 +922,28 @@ c(5, 2, 9, 1, 13) + c(1,2,3,4,5)
 Due to the fact that both vectors have the same length, values are sequentially
 added together
 
-</details>
-:::  
+:::
+::::
 
-:::exercise
+:::: exercise
 5. From the vector c(23, 12, 41, 65, 23, 6), can you extract those values that are equal to 23 or less than 15?
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 ```{r}
 vec <- c(23, 12, 41, 65, 23, 6)
 vec[ vec == 23 | vec < 15]
 ```
-</details>
-
 :::
 
-:::exercise
+::::
+
+:::: exercise
 6. "month.name" is an in-built R vector
     a. What is the index number of "April" in month.name vector? **hint:** the `which` function may help you.
     b. Extract all the months from April to December
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 Challenge 6a: What is the index number of "April" in month.name vector?
 
@@ -947,10 +957,10 @@ Challenge 6b:Extract all the months from April to December
 month.name[april:length(month.name)]
 ```
 
-</details>
 :::
+::::
 
-:::exercise
+:::: exercise
 7. Use the `sample()` function to simulate the rolling of a 6-sided die.
 
    If you look at the help page for `sample` you'll find there are two functions
@@ -965,7 +975,7 @@ month.name[april:length(month.name)]
     d. Re-run the simulation with a much larger sample size. Check that the
     number of sixes you obtain is much closer to the expected value.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 Challenge 7a: Count the number of sixes in 1000 rolls.
 
@@ -996,10 +1006,10 @@ sum(rolls == 6)
 The proportion of sixes gets closer to the expected value as the number of
 rolls increases.
 
-</details>
 :::
+::::
 
-:::exercise
+:::: exercise
 8. Simulate the rolling of a weighted six-sided die.
 
    Imagine we're running a casino and we have some weighted dice in which the
@@ -1013,7 +1023,7 @@ rolls increases.
 
    *Hint:* use the `rep()` function to save some typing.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 ```{r}
 prob_six <- 0.1
@@ -1033,8 +1043,8 @@ rolls <- sample(1:6,
 sum(rolls == 6)
 ```
 
-</details>
 :::
+::::
 
 #### Credit
 

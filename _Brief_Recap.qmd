@@ -30,7 +30,8 @@ y * 5
 z + y
 ```
 
-```{r error=TRUE}
+```{r}
+#| error: true
 x + y
 ```
 

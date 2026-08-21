@@ -2,10 +2,10 @@
 title: "Session 2 -- Introduction to other data structures"
 ---
 
-> #### Learning objectives
->
-> * To learn about the categorical data class - *factors* 
-> * To understand more complex R data structures like data frames, lists etc
+::: {.callout-note .objectives title="Learning objectives"}
+* To learn about the categorical data class - *factors* 
+* To understand more complex R data structures like data frames, lists etc
+:::
 
 
 # Factors
@@ -240,7 +240,8 @@ myList[1:3]
 ```
 
 
-```{r error = TRUE}
+```{r}
+#| error: true
 length(myList)
 myList[[1]]
 myList[[4]]
@@ -308,7 +309,7 @@ it is easiest to think of the data.frame as a table, and R will present and
 treat it as a 2 dimensional table, it is actually a special type of list in
 which all the elements are vectors of the same length. 
 
-```{r} 
+```{r}
 dat <- data.frame(
     city = c("Kampala", "London", "Paris"),
     population = c(1.51, 8.8, 2.1)
@@ -343,7 +344,8 @@ head(iris)
 
 You can also get help for a data set such as iris in the usual way.
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 ?iris # get help for iris data
 ```
 This reveals that iris is a rather famous old data set of measurements taken by
@@ -364,7 +366,8 @@ head(iris)
 tail(iris)
 ```
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 View(iris)
 ```
 
@@ -428,7 +431,7 @@ summary(iris)
 ```
 
 # Exercises
-:::exercise
+:::: exercise
 
 1. Using `mtcars` dataset answer the following.
 
@@ -437,11 +440,12 @@ summary(iris)
     c. How many cars in the `mtcars` data set have 6 cylinders and more than 3
     gears?
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 1a. How many rows and columns in the `mtcars` data set?
 
-```{r ex_1, purl = FALSE}
+```{r ex_1}
+#| purl: false
 nrow(mtcars)
 ncol(mtcars)
 ```
@@ -458,33 +462,35 @@ gears?
 ```{r}
 sum(mtcars$cyl == 6 & mtcars$gear > 3)
 ```
-</details>
 :::
+::::
 
 
-:::exercise
+:::: exercise
 
 2. Extract 3rd and 5th rows with 1st and 3rd columns from `mtcars` data set.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
-```{r ex_2, purl = FALSE}
+```{r ex_2}
+#| purl: false
 mtcars[c(3, 5), c(1, 3)]
 ```
-</details>
 :::
+::::
 
 
-:::exercise
+:::: exercise
 3. From `airquality` data set
     a. Identify the data structure of the first row by extracting it?
     b. Identify the data structure of the first column by extracting it?
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 3a. Identify the data structure of the first row by extracting it?
 
-```{r ex_3, purl = FALSE}
+```{r ex_3}
+#| purl: false
 class(airquality[1, ])
 ```
 
@@ -495,25 +501,26 @@ class(airquality[, 1])
 is.vector(airquality[, 1])
 is.data.frame(airquality[, 1])
 ```
-</details>
 :::
+::::
 
 
-:::exercise
+:::: exercise
 4. Using `airquality` data set
     a. Show first 10 rows 
     b. Show last 2 rows
     c. list all the column names available
 
-<details class="hint"><summary>Hint</summary>
+::: {.callout-tip .hint collapse="true" title="Hint"}
 Used `help` on `head` and `tail` to find out about their arguments.
-</details>
+:::
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 4a. Show first 10 rows 
 
-```{r ex_4, purl = FALSE}
+```{r ex_4}
+#| purl: false
 head(airquality, n = 10)
 ```
 
@@ -529,11 +536,11 @@ tail(airquality, n = 2)
 names(airquality)
 colnames(airquality)
 ```
-</details>
 :::
+::::
 
 
-:::exercise
+:::: exercise
 5. Using `airquality` data set, can you test Ozone production and solar
    radiation are correlated and answer the following. Hint: Use`cor.test`
    function.  
@@ -542,11 +549,12 @@ colnames(airquality)
     c. What is the estimated correlation coefficient?
 
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 5a. Get correlation coefficient confidence interval
 
-```{r ex_5, purl = FALSE}
+```{r ex_5}
+#| purl: false
 results <- cor.test(airquality$Ozone, airquality$Solar.R)
 results$conf.int
 ```
@@ -562,8 +570,8 @@ results$p.value
 ```{r}
 results$estimate
 ```
-</details>
 :::
+::::
 
 
 

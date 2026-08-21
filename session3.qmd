@@ -2,17 +2,17 @@
 title: "Session 3 - Working with data in R"
 ---
 
-> #### Learning objectives
->
-> * Learn how to install and use packages that extend R's basic functionality
-> * Read data in tabular format into R
-> * Calculate summary statistics on your tabular data
-> * Introduce the **`tibble`**, arguably the most important data structure you will use in R
-> * Learn how R deals with missing values
-> * Learn the two key **dplyr** functions for manipulating your data
->     * **`filter()`** for selecting observations based on their values, i.e. selecting rows in your table
->     * **`select()`** for selecting a subset of variables, i.e. selecting columns in your table
->     * **`arrange()`** for sorting the observations in your table
+::: {.callout-note .objectives title="Learning objectives"}
+* Learn how to install and use packages that extend R's basic functionality
+* Read data in tabular format into R
+* Calculate summary statistics on your tabular data
+* Introduce the **`tibble`**, arguably the most important data structure you will use in R
+* Learn how R deals with missing values
+* Learn the two key **dplyr** functions for manipulating your data
+    * **`filter()`** for selecting observations based on their values, i.e. selecting rows in your table
+    * **`select()`** for selecting a subset of variables, i.e. selecting columns in your table
+    * **`arrange()`** for sorting the observations in your table
+:::
 
 # Getting started with data in R
 
@@ -49,7 +49,8 @@ able to use the functions and data sets that the package provides. The tibble
 data structure is part of the **`tibble`** package so to make this available you
 would run the following command:
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 library(tibble)
 ```
 
@@ -91,7 +92,8 @@ Error in library(tidyverse) : there is no package called ‘tidyverse’
 Installing packages should be relatively straightforward using the
 `install.packages()` function.
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 install.packages("tidyverse")
 ```
 
@@ -159,7 +161,7 @@ Since printing `tibble` already gives you information about the data structure,
 the data types of each column and the size of the dataset, the `str` function is
 not as much useful as it was when using `data.frame`.
 
-```{r, results=TRUE}
+```{r}
 str(irisTibble)
 ```
 
@@ -204,7 +206,7 @@ If we print the clinical data set we can see that `read_tsv()` created a tibble.
 metabric
 ```
 
-```{block type = "rmdblock"}
+::: {.rmdblock}
 **`read_csv()`** and **`read_tsv()`**
 
 `read_csv()` reads data from a comma-separated value (CSV) file into a tibble.
@@ -215,8 +217,7 @@ sensible guesses at the type of data in each column. You can change this by
 specifying various arguments, e.g. to skip comment lines beginning with a
 specific character (e.g. "#") or to tell the function what the column types
 are.
-
-```
+:::
 
 You can see that the column names are surrounded by back ticks. This is
 because they contain characters, such as spaces and dashes, and in one case
@@ -256,11 +257,11 @@ within the first 10 rows.
 metabric$mutation_count[1:10]
 ```
 
-```{block type = "rmdblock"}
+::: {.rmdblock}
 **Missing values** (**`NA`**)
 
 Missing values in R are represented as **`NA`**, which stands for 'not available'.
-```
+:::
 
 # Data manipulation with dplyr
 
@@ -273,7 +274,8 @@ data, modifying the contents and computing summary statistics.
 This time we'll use a METABRIC data set containing clinical data and gene
 expression data to illustrate how these operations work.
 
-```{r message = FALSE}
+```{r}
+#| message: false
 metabric <- read_csv("data/metabric_clinical_and_expression_data.csv")
 metabric
 ```
@@ -289,7 +291,7 @@ are measuring or recording, e.g. height, temperature or expression value.
 **Observations are represented as rows** in our data frames or tibbles, while
 the **columns correspond to variables**.
 
-```{block type = "rmdblock"}
+::: {.rmdblock}
 From **"Tidy Data"** by **Hadley Wickham**, [*The Journal of Statistical
 Software*, vol. 59, 2014](https://www.jstatsoft.org/index.php/jss/article/view/v059i10/v59i10.pdf).
 
@@ -302,7 +304,7 @@ A **variable** contains all values that measure the same underlying attribute
 
 An **observation** contains all values measured on the same unit (like a person
 or a day) across attributes.
-```
+:::
 
 
 
@@ -355,7 +357,8 @@ This filtering operation is equivalent to subsetting the rows based on a logical
 vector resulting from our comparison of vital status values with "Died of
 Disease".
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 filter(metabric, Vital_status == "Died of Disease")
 # is equivalent to
 metabric[metabric$Vital_status == "Died of Disease", ]
@@ -428,7 +431,8 @@ deceased[, c("Patient_ID", "Survival_status", "Vital_status", "Deceased")]
 We can use the **`!`** operator to filter those patients who are not
 deceased.
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 filter(metabric, !Deceased)
 ```
 
@@ -460,7 +464,8 @@ filter(metabric, Survival_status == "LIVING", Survival_time > 120)
 
 The equivalent using R's usual subsetting is slightly less readable.
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 metabric[metabric$Survival_status == "LIVING" & metabric$Survival_time > 120, ]
 ```
 
@@ -471,7 +476,8 @@ the more conditions you add.
 Adding conditions in this way is equivalent to combining the conditions using
 the **`&`** (Boolean AND) operator.
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 filter(metabric, Survival_status == "LIVING", Survival_time > 120)
 ```
 
@@ -492,7 +498,8 @@ In this case, if you used `&` in place of the comma you'd need to be careful
 about the precedence of the `&` and `|` operators and use parentheses to make
 clear what you intended.
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 filter(metabric, Tumour_stage >= 3 &
            (ER_status == "Positive" | PR_status == "Positive"))
 ```
@@ -658,7 +665,8 @@ file can contain the column names and each subsequent line contains the values
 for each observation (row) in the table. The values are separated by either
 commas or tab characters depending on the function used to write the file.
 
-```{r, writeTable, eval=FALSE}
+```{r writeTable}
+#| eval: false
 write_csv(metabric, "filtered_metabric_clinical_data.csv")
 write_tsv(metabric, "filtered_metabric_clinical_data.tsv")
 ```
@@ -682,14 +690,14 @@ The the main functions are `read_excel`, `read_xls` and `read_xslx`. Use
 # Exercises
 
 
-:::exercise
+:::: exercise
 
 1. How many samples in the METABRIC dataset have high cellularity and positive ER and HER2 status?
 
    After reading the data first subset it to retain only Cellularity,
    ER_status and HER2_status. Then filter the data to answer the question.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 ```{r}
 selectedPatients <- select(metabric, Cellularity, ER_status, HER2_status)
@@ -700,10 +708,10 @@ selectedPatients <- filter(selectedPatients,
 nrow(selectedPatients)
 ```
 
-</details>
 :::
+::::
 
-:::exercise
+:::: exercise
 
 2. Investigate the subset of long-surviving breast cancer patients that didn't
    receive chemo or radiotherapy.
@@ -716,7 +724,7 @@ nrow(selectedPatients)
    How does this compare to the percentage of patients with ER_negative status
    in the whole data set?
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 ```{r}
 selectedPatients <- filter(metabric,
@@ -727,10 +735,10 @@ selectedPatients <- filter(metabric,
 mean(selectedPatients$ER_status == "Negative")
 mean(metabric$ER_status == "Negative")
 ```
-</details>
 :::
+::::
 
-:::exercise
+:::: exercise
 
 3. Print out a subset of the `starwars` tibble containing just the characters
    with blond hair and blue eyes.
@@ -738,12 +746,12 @@ mean(metabric$ER_status == "Negative")
    `starwars` is a data set provided by dplyr, so it is available as soon as you
    have run `library(tidyverse)`.
 
-<details class="hint"><summary>Hint</summary>
+::: {.callout-tip .hint collapse="true" title="Hint"}
 Use `table()` first to see how the hair and eye colours have been recorded —
 there is more than one spelling of "blond".
-</details>
+:::
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 First, look at what values these two columns actually take.
 
@@ -767,10 +775,10 @@ The `%in%` operator is a tidier way of writing the first condition.
 filter(starwars, hair_color %in% c("blond", "blonde") & eye_color == "blue")
 ```
 
-</details>
 :::
+::::
 
-:::exercise
+:::: exercise
 
 4. Convert the values for the heights of characters in the `starwars` tibble
    from centimetres to metres.
@@ -779,7 +787,7 @@ filter(starwars, hair_color %in% c("blond", "blonde") & eye_color == "blue")
     b. Convert the heights back to centimetres and see if you can work out how
     to change the column back to its original type.
 
-<details><summary>Answer</summary>
+::: {.callout-note .answer collapse="true" title="Answer"}
 
 The `height` column starts out as an integer.
 
@@ -812,7 +820,7 @@ typeof(starwars$height)
 starwars
 ```
 
-</details>
 :::
+::::
 
 
