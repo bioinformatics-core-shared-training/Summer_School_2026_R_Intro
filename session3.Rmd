@@ -96,7 +96,7 @@ install.packages("tidyverse")
 ```
 
 If you're using R at a regular console within a terminal window, i.e. not
-RStudio, you may be asked to select one of several mirrors of the CRAN R package
+Positron, you may be asked to select one of several mirrors of the CRAN R package
 repository hosted at different locations around the world (in the UK these are
 in Bristol and London).
 
@@ -245,39 +245,6 @@ We can summarize the numbers of mutations found per patient.
 ```{r}
 summary(metabric$mutation_count)
 ```
-
-## Working directory
-
-When reading in the METABRIC dataset we specified the file using a relative
-path, `data/brca_metabric_clinical_data.tsv`. This is relative to the current
-working directory and is in the `data` subdirectory within our working
-directory. The **`getwd()`** function will tell you what the current working
-directory is.
-
-```{r eval = FALSE}
-getwd()
-```
-
-If you open RStudio by clicking on its icon in the task bar or its entry in the
-start menu, your working directory will probably be your home folder.
-
-You can specify a full path for the file you want to read, which is also known
-as an absolute path.
-
-You can explicitly set your working directory using **`setwd()`**.
-
-If you're running an R script from a terminal window (by typing something like
-`Rscript my_script.R` at the command prompt) your working directory will be the
-directory in which you run the script (i.e. the one in which you issue the
-Rscript command). In this case you will probably want to read files from
-locations that are relative to the directory in which you run the script.
-
-If you're writing an R script in RStudio you can set the working directory to be
-the same directory as that which contains your script file using the menu:
-**Session > Set Working Directory > To Source File Location**. You can also
-navigate to the directory of your choosing in the Files tab pane and set this to
-be the working directory by clicking on the **More** menu button and selecting
-**Set As Working Directory**.
 
 # Missing values
 

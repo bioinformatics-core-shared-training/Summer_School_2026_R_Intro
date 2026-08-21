@@ -29,7 +29,7 @@ title: "Session 8 -- Quarto"
 
 > #### Learning objectives
 >
-> * Learn how to generate an html/pdf report using Quarto and RStudio
+> * Learn how to generate an html/pdf report using Quarto and Positron
 > * Write formatted text, tables, links and images using Markdown
 > * Embed executable R code in a document and control how its output appears
 > * Present tables and figures in a report using knitr, kableExtra, DT and patchwork

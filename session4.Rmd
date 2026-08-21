@@ -218,10 +218,11 @@ operator that ggplot2 has overridden for this purpose.
 
 # Another plot type - bar chart
 
-The range of geoms available in ggplot2 can be obtained by navigating to the
-ggplot2 package in the Packages tab pane in RStudio (bottom right-hand corner)
-and scrolling down the list of functions sorted alphabetically to the `geom_...`
-functions.
+The range of geoms available in ggplot2 can be obtained by searching for the
+ggplot2 package in the Packages panel (bottom icon in the Activity Bar on the
+left)then right-clicking on the package and select "Show Help". A menu of
+commands will appear in the Help panel on the right.  You can scroll down the
+list of functions sorted alphabetically to the `geom_...` functions.
 
 The METABRIC study redefined how we think about breast cancer by identifying and
 characterizing several new subtypes, referred to as *integrative clusters*.
@@ -524,9 +525,7 @@ as.double(rail_use$date[1])
 
 We're going to plot the volume of traffic on each date with each measurement
 represented as a point on our graph and observations on successive dates
-connected by a line. Looking at the geoms available in ggplot2 (see the list of
-functions available for ggplot2 by navigating to the ggplot2 package in the
-Packages tab in RStudio), it looks like **`geom_line`** is the one we need.
+connected by a line. For this we use **`geom_line`**.
 
 The aesthetics section in the help page for `geom_line` tells us we need an x
 and y mapping. Our x aesthetic will be `date` and the y aesthetic will be

@@ -4,12 +4,12 @@ title: "Session 1: Data types and structures"
 
 > #### Learning objectives
 >
-> * Become familiar with using RStudio for writing and running R scripts 
+> * Become familiar with using Positron for writing and running R scripts 
 > * Understand the basics of the different data types and data structures used in R
 > * Learn how to use simple functions
 > * Understand the concept of missing data and how it is handled in R
 
-# Introduction to R and RStudio
+# Introduction to R and Positron
 
 # Why learn R?
 
@@ -31,7 +31,7 @@ title: "Session 1: Data types and structures"
   web.  
 * R has a large and welcoming community - Thousands use R daily and many of
   them are willing to help you through websites such as Stack Overflow or the
-  RStudio community.  
+  Bioconductor community.  
 * Not only is R free, but it is also open-source and cross-platform.
 
 ---
@@ -65,7 +65,7 @@ interface for the R programme.
 We can type commands directly into the console and run them by pressing
 `Enter`.
 
-<img src="assets/imgs/session1/Positron_Console.png" alt="RStudio screenshot" width="60%">
+<img src="assets/imgs/session1/Positron_Console.png" alt="Positron screenshot" width="60%">
 
 So, this area could be used like a calculator. Let's just type in something like
 `23 + 45` followed by the `Enter` key and see what happens. You should get the
@@ -693,7 +693,6 @@ documentation page for that function. You can do this in number of ways:
   `?round`
 * By using the `help()` function, e.g. help("round") - note the quotes around
   the work "round"
-* In RStudio under the help tab one can search for a given function
 * Use your favourite browser to search the web, e.g. "R round documentation"
 
 ```{r eval = FALSE}
