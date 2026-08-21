@@ -2,7 +2,7 @@
 title: "Session 2 -- Introduction to other data structures"
 ---
 
-> #### Aims
+> #### Learning objectives
 >
 > * To learn about the categorical data class - *factors* 
 > * To understand more complex R data structures like data frames, lists etc
