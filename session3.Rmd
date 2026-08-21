@@ -679,6 +679,23 @@ tumour stage is the same.
 Sorting is most commonly used in workflows as one of the last steps before
 printing out a data frame or writing out the table to a file.
 
+# Writing data to files
+
+Once we have a final data table from our analysis, we most often will want to
+save it to a file. The `write_csv()` and `write_tsv()` functions from the
+`readr` package provide a convenient way to write out our data frames
+as comma-separated value (CSV) or tab-delimited files respectively. These
+are plain text files that can be opened in a text editor or spreadsheet program
+such as Microsoft Excel or LibreOffice Calc. In each case the first line of the
+file can contain the column names and each subsequent line contains the values
+for each observation (row) in the table. The values are separated by either
+commas or tab characters depending on the function used to write the file.
+
+```{r, writeTable, eval=FALSE}
+write_csv(metabric, "metabric_clinical_data.csv")
+write_tsv(metabric, "metabric_clinical_data.tsv")
+```
+
 # Reading data from Excel files into R
 
 We haven't yet showed how to read Excel spreadsheets into R. There are several
