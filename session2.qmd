@@ -289,6 +289,11 @@ subtly different normal distributions. We'll use the `rnorm()` function for
 creating random numbers based on a normal distribution.
 
 ```{r}
+#| include: false
+set.seed(101010)
+```
+
+```{r}
 sample_1 <- rnorm(n = 100, mean = 5, sd = 1)
 sample_2 <- rnorm(n = 100, mean = 7, sd = 1)
 
