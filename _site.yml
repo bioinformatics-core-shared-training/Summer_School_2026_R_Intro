@@ -28,6 +28,10 @@ navbar:
     - icon: fa-github fa-lg
       href: https://github.com/bioinformatics-core-shared-training/Summer_School_2026_R_Intro
 output_dir: "docs"
+# The data files are only read by R while the site is being rendered - no
+# published page links to them, and students get them via
+# Bioinformatics_Workshop.zip - so they are not copied into docs/.
+exclude: ["data"]
 include: [".nojekyll"]
 output:
   html_document:
