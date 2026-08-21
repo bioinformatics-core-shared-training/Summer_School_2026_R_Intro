@@ -121,12 +121,12 @@ Tibbles can be created using the `tibble()` function in a similar manner to how
 we created a data frame earlier.
 
 ```{r}
-beatles <- tibble(
-    name = c("John", "Paul", "Ringo", "George"),
-    birth_year = c(1940, 1942, 1940, 1943),
-    instrument = c("guitar", "bass", "drums", "guitar")
+wildlife <- tibble(
+    animal = c("lion", "elephant", "crocodile", "hippo"),
+    weight_kg = c(190, 4000, 500, 1500),
+    diet = c("meat", "plants", "meat", "plants")
 )
-beatles
+wildlife
 ```
 
 A data frame can be converted into a tibble using the `as_tibble()` function.

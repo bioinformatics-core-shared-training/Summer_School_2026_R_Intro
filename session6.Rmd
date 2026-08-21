@@ -447,35 +447,49 @@ there is a match in the second data frame. Rows with no match are included in
 the resulting data frame but have `NA` values in the additional columns coming
 from the second data frame.
 
-Here’s an example in which details about members of the Beatles and Rolling
-Stones are contained in two tables, using data frames conveniently provided by
-dplyr (we'll look at a real example shortly).
+Here’s an example using two small tables about animals found in Ugandan
+national parks (we'll look at a real example shortly). One table records the
+park in which each animal was recorded and the other records what each animal
+eats.
 
-The name column identifies each of the band members and is used for matching
+These tables are stored as `.rds` files. RDS is R's own file format for saving a
+single R object, such as a data frame, exactly as it is. We read one in using
+readr's **`read_rds()`** function.
+
+```{r}
+animals <- read_rds("data/animals.rds")
+animal_diets <- read_rds("data/animal_diets.rds")
+```
+
+The `animal` column identifies each of the animals and is used for matching
 rows from the two tables. We specify the column (or columns) to match on using
 the **`join_by()`** helper, writing the column names without quotes just as we
 do elsewhere in the tidyverse.
 
 ```{r}
-band_members
-band_instruments
-left_join(band_members, band_instruments, by = join_by(name))
+animals
+animal_diets
+left_join(animals, animal_diets, by = join_by(animal))
 ```
 
-We have joined the band members and instruments tables based on the common
-`name` column. Because this is a left join, only observations for band members
-in the 'left' table (`band_members`) are included with information brought in
-from the 'right' table (`band_instruments`) where such exists. There is no entry
-in `band_instruments` for Mick so an `NA` value is inserted into the `plays`
-column that gets added in the combined data frame. Keith is only included in
-the `band_instruments` data frame so doesn't make it into the final output as
-this is based on those band members in the 'left' table.
+We have joined the two tables based on the common `animal` column. Because this
+is a left join, only observations for animals in the 'left' table (`animals`)
+are included with information brought in from the 'right' table
+(`animal_diets`) where such exists. There is no entry in `animal_diets` for the
+lion so an `NA` value is inserted into the `eats` column that gets added in the
+combined data frame. The hippo is only included in the `animal_diets` data frame
+so doesn't make it into the final output as this is based on those animals in
+the 'left' table.
+
+Note that the `NA` for the lion tells us that the diet was not recorded in this
+table, not that lions don't eat. Gaps like this are very common when combining
+data collected from different sources.
 
 `right_join()` is similar but returns all rows from the second data frame, i.e.
 the 'right' data frame, that have a match with rows in the first data frame.
 
 ```{r}
-right_join(band_members, band_instruments, by = join_by(name))
+right_join(animals, animal_diets, by = join_by(animal))
 ```
 
 `right_join()` is used very infrequently compared with `left_join()`.
@@ -488,12 +502,12 @@ are common to both data frames are included.
 ![dplyr inner join](images/dplyr_inner_join.png)
 
 ```{r}
-inner_join(band_members, band_instruments, by = join_by(name))
+inner_join(animals, animal_diets, by = join_by(animal))
 ```
 
-In this case when considering observations identified by `name`, only John and
-Paul are contained in both the `band_members` and `band_instruments` tables, so
-only these make it into the combined table.
+In this case when considering observations identified by `animal`, only the
+elephant and the crocodile are contained in both the `animals` and
+`animal_diets` tables, so only these make it into the combined table.
 
 ## `full_join`
 
@@ -507,11 +521,11 @@ to fill in the missing values.
 ![dplyr full join](images/dplyr_full_join.png)
 
 ```{r}
-full_join(band_members, band_instruments, by = join_by(name))
+full_join(animals, animal_diets, by = join_by(animal))
 ```
 
-Now, with `full_join()`, we have rows for both Mick and Keith even though they
-are only in one or other of the tables being joined.
+Now, with `full_join()`, we have rows for both the lion and the hippo even
+though they are only in one or other of the tables being joined.
 
 ## Joining on columns with different headers
 
@@ -519,99 +533,90 @@ It isn't uncommon for the columns used for joining two tables to have different
 names in each table. Of course we could rename one of the two columns, e.g.
 using the dplyr `rename()` function, but the dplyr join functions allow you to
 match using differently-named columns as illustrated using another version of
-the `band_instruments` data frame.
+the `animal_diets` data frame in which the first column is called `species`.
 
 ```{r}
-band_instruments2
-left_join(band_members, band_instruments2, by = join_by(name == artist))
+animal_diets2 <- read_rds("data/animal_diets2.rds")
+animal_diets2
+left_join(animals, animal_diets2, by = join_by(animal == species))
 ```
 
-Here `join_by(name == artist)` says "match the `name` column in the left table
-against the `artist` column in the right table". The name for the column used
-for joining in the combined table is the one given in the first table, i.e. the
-'left' table, so `name` rather than `artist` in this case.
+Here `join_by(animal == species)` says "match the `animal` column in the left
+table against the `species` column in the right table". The name for the column
+used for joining in the combined table is the one given in the first table, i.e.
+the 'left' table, so `animal` rather than `species` in this case.
 
 ## Multiple matches in join operations
 
 You may be wondering what happens if there are multiple rows in one of both of
 the two tables for the thing that is being joined, for example what would happen
-if our second table had two entries for instruments that Paul plays.
+if our second table had two entries for the things an elephant eats.
 
-Let's add an extra instrument for Paul and see what happens when we join the two
-tables. We'll use the `bind_rows()` function to add a row to the `band_instruments`
-tibble.
+Let's add an extra food for the elephant and see what happens when we join the
+two tables. We'll use the `bind_rows()` function to add a row to the
+`animal_diets` tibble.
 
 ```{r}
-extra_instrument <- tibble(name = "Paul", plays = "guitar")
-band_instruments3 <- bind_rows(band_instruments, extra_instrument)
-band_instruments3
-left_join(band_members, band_instruments3, by = join_by(name))
+extra_food <- tibble(animal = "elephant", eats = "fruit")
+animal_diets3 <- bind_rows(animal_diets, extra_food)
+animal_diets3
+left_join(animals, animal_diets3, by = join_by(animal))
 ```
 
 We get both entries from the second table added to the first table.
 
-Let's add an entry for Paul being in a second band and see what happens then
-when we combine the two tables, each with two entries for Paul.
+Let's add an entry for the elephant being recorded in a second park and see what
+happens then when we combine the two tables, each with two entries for the
+elephant.
 
 ```{r}
-extra_band <- tibble(name = "Paul", band = "Wings")
-band_members3 <- bind_rows(band_members, extra_band)
-band_members3
-left_join(band_members3, band_instruments3, by = join_by(name))
+extra_park <- tibble(animal = "elephant", park = "Kibale")
+animals3 <- bind_rows(animals, extra_park)
+animals3
+left_join(animals3, animal_diets3, by = join_by(animal))
 ```
 
-The resulting table includes all combinations of band and instrument for Paul.
+The resulting table includes all combinations of park and food for the elephant.
 
 Notice that dplyr gave us a warning about an "unexpected many-to-many
-relationship". Because Paul now appears twice in *both* tables, each of his two
-bands is paired with each of his two instruments, giving four rows from what
+relationship". Because the elephant now appears twice in *both* tables, each of
+its two parks is paired with each of its two foods, giving four rows from what
 were only two entries on each side. Most of the time this is a sign that
 something is wrong with your data, e.g. duplicated rows you weren't expecting,
 which is why dplyr draws your attention to it. If it really is what you intended,
 you can say so explicitly and the warning goes away.
 
 ```{r}
-left_join(band_members3,
-          band_instruments3,
-          by = join_by(name),
+left_join(animals3,
+          animal_diets3,
+          by = join_by(animal),
           relationship = "many-to-many")
 ```
 
 ## Joining by matching on multiple columns
 
 Sometimes the observations being combined are identified by multiple columns,
-for example, a forename and a surname. We can list several columns inside
+for example, a genus and a species. We can list several columns inside
 `join_by()` to be used in the join operation.
 
-Let's add surnames and an additional band member to the `band_members` and
-`band_instruments` tables and then join the two tables based on both forename
-and surname. We'll also use `rename` to change the column name `name` to
-`forename`.
+Here are two more tables in which the animals are identified by their scientific
+name, which is made up of a genus and a species. These also include an extra
+animal, the leopard. We can join them based on both genus and species.
 
 ```{r}
-extra_musician <- tibble(forename = "Paul",
-                         surname = "Weller",
-                         band = "The Jam")
-band_members4 <- band_members |>
-    rename(forename = name) |>
-    mutate(surname = c("Jagger", "Lennon", "McCartney")) |>
-    bind_rows(extra_musician) |>
-    select(forename, surname, band)
+animal_species <- read_rds("data/animal_species.rds")
+species_diets <- read_rds("data/species_diets.rds")
 
-extra_instrument <- tibble(forename = "Paul",
-                           surname = "Weller",
-                           plays = "guitar")
-band_instruments4 <- band_instruments |>
-    rename(forename = name) |>
-    mutate(surname = c("Lennon", "McCartney", "Richards")) |>
-    bind_rows(extra_instrument) |>
-    select(forename, surname, plays)
+animal_species
+species_diets
 
-band_members4
-band_instruments4
-
-full_join(band_members4, band_instruments4, by = join_by(forename, surname))
+full_join(animal_species, species_diets, by = join_by(genus, species))
 ```
+
+Both columns are needed here. The lion and the leopard share the genus
+`Panthera`, so joining on `genus` alone would incorrectly match the lion to the
+leopard's diet. It is only the genus and species together that identify an
+animal.
 
 ## Clashing column names
 
@@ -620,12 +625,18 @@ want to join, columns that aren't those used for joining. These variables may
 even contain different data but happen to have the same name. In such cases
 dplyr joins add a suffix to each column in the combined table.
 
+For example, here are two more versions of our tables, each of which came from a
+different wildlife survey and so each records the year in which its own
+observations were made in a column called `survey_year`.
+
 ```{r}
-band_members5 <- band_members |>
-    mutate(birth_year = c(1943, 1940, 1942))
-band_instruments5 <- band_instruments |>
-    mutate(birth_year = c(1940, 1942, 1943))
-left_join(band_members5, band_instruments5, by = join_by(name))
+animal_survey <- read_rds("data/animal_survey.rds")
+diet_survey <- read_rds("data/diet_survey.rds")
+
+animal_survey
+diet_survey
+
+left_join(animal_survey, diet_survey, by = join_by(animal))
 ```
 
 It is advisable to rename or remove the duplicated columns that aren't used for
