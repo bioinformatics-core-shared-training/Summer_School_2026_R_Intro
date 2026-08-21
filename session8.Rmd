@@ -79,22 +79,21 @@ a way to combine multiple ggplots into a single figure.
 
 # Creating a Quarto document
 
-We can start a new Quarto document in RStudio from the menu bar:
+We can start a new Quarto document in Positronfrom the menu bar:
 
-`File` --\> `New File` --\> `Quarto Document...`
+`File` --\> `New File` 
 
-![](assets/imgs/session8/Quarto_new_doc.png)
+Then select `Quarto Document` from the list of options. 
 
-This will bring up the following dialogue box:
+![](assets/imgs/session8/Positron_NewQuarto.png)
 
-![](assets/imgs/session8/Quarto_creation_dialogue.png)
+This will create a new script file:
 
-Change the title to something meaningful, add your name as the author if you
-wish, select the type of document you want Quarto to generate (this can be
-changed later) and then click `Create` to create a starter script.
+![](assets/imgs/session8/Positron_QuartoDoc.png)
 
-Save the starter script as `MyFirstQuarto.qmd`. Quarto documents use the
-`.qmd` extension.
+Change the title to something meaningful and then save the file as 
+"My_First_Quarto.qmd" in the `Bioinformatics_Workshop` directory.  Quarto
+documents use the `.qmd` extension.
 
 # The basic components of a Quarto document
 
@@ -107,18 +106,6 @@ A Quarto file is made up of 3 components:
   report
 
 ![](assets/imgs/session8/Quarto_starter_script_Annotated.png)
-
-You may have noticed that opening a Quarto (`.qmd`) document caused a few new
-icons to appear on the toolbar above the script window. For now just click:
-
-<img src="assets/imgs/session8/Quarto_render_button.png" width="90"/>
-
-This will convert (or *render*) the document to html format.
-
-In this session we will generate an HTML file, however, it is possible to
-generate a range of different document types, and these are extensible to link
-multiple documents into "books" or websites. We'll keep it simple for this
-introduction. Let's look at each section in a little more detail.
 
 # Header
 
@@ -664,10 +651,10 @@ chunk, and to manage chunk options (see below).
 
 ## Running code chunks
 
-To run a code chunk, you can click the green arrow icon in the toolbar above
-the code chunk, or you can use the keyboard shortcut `Ctrl + Shift + Enter`
-(Windows) or `Cmd + Shift + Enter` (Mac). This will run the code in the chunk
-and display the output below the chunk.
+To run a code chunk, you can click the arrow icon in the toolbar above the code
+chunk, or you can use the keyboard shortcut `Ctrl + Shift + Enter` (Windows) or
+`Cmd + Shift + Enter` (Mac). This will run the code in the chunk and display the
+output below the chunk.
 
 ## Chunk options {#chunk_opts}
 
@@ -726,7 +713,7 @@ We can give the code chunk a label using the `label` option:
 ```
 ````
 
-This has a number of uses. In RStudio you should see a menu in the bottom left
+This has a number of uses. In Positron you should see a menu in the at the top 
 of the script panel:
 
 ![](assets/imgs/session8/Quarto_outline_menu.png)
@@ -1098,6 +1085,43 @@ six_cyl_mean_mpg <- mtcars |>
 
 The mean mpg of cars with 6 cylinders was **`r six_cyl_mean_mpg`**.
 </div>
+
+# Rendering the document
+
+In order to render the document select the "Preview" option from the menu 
+in the script window (three dots in the top right corner of the script window):
+
+![](assets/imgs/session8/Positron_Render.png)
+
+This will convert (or *render*) the document to html format. The rendered
+document will be displayed in the Viewer window on the right of the screen and
+you will see the html file in the same folder as the Quarto file in the Explorer
+panel.
+
+![](assets/imgs/session8/Quarto_Rendered.png)
+
+This session generates an HTML file, however, it is possible to generate a range
+of different document types, and these are extensible to link multiple documents
+into "books" or websites. 
+
+Note that by default the rendered document is accompanied by a folder with the
+same name as the document, but with `_files` appended to the name. This folder
+contains all the files needed to display the document, including images and
+other assets needed to view the document. If you move the HTML file to another
+location, you will need to move this folder with it in order for the document to
+display correctly.
+
+In order to render the document to a standalone HTML file, you can change the
+format in the header yaml to:
+
+```
+format: 
+  html:
+    embed-resources: true
+```
+
+However, beware as this can make the resulting HTML file very large if there are
+a lot of images.
 
 # Challenge
 
