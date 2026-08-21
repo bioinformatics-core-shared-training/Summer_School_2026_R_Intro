@@ -5,3 +5,7 @@
 /session8_exercise.html
 /session8_exercise_files/
 /.quarto/
+
+# Local-only stash of images removed from the site (recoverable from git
+# history too); not part of the repo.
+backup_images/

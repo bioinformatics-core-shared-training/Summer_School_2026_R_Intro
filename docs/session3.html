@@ -323,7 +323,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
+      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -460,13 +460,13 @@ tibbles and for working with tibble objects.</p>
 that make up the tidyverse. It is usually more convenient to load the
 core tidyverse packages in one go as follows.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ────────────────────────────────────────────────────── tidyverse 2.0.0 ──
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.2.1     ✔ readr     2.2.0
 ## ✔ forcats   1.0.1     ✔ stringr   1.6.0
 ## ✔ ggplot2   4.0.3     ✔ tibble    3.3.1
 ## ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
 ## ✔ purrr     1.2.2     
-## ── Conflicts ──────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
@@ -492,7 +492,7 @@ Error in library(tidyverse) : there is no package called ‘tidyverse’</code><
 <code>install.packages()</code> function.</p>
 <pre class="r"><code>install.packages(&quot;tidyverse&quot;)</code></pre>
 <p>If you’re using R at a regular console within a terminal window,
-i.e. not RStudio, you may be asked to select one of several mirrors of
+i.e. not Positron, you may be asked to select one of several mirrors of
 the CRAN R package repository hosted at different locations around the
 world (in the UK these are in Bristol and London).</p>
 <p>For some packages you may be asked to choose between a binary and a
@@ -595,7 +595,7 @@ values are separated by tab characters so we’ll use the
 <strong><code>read_tsv()</code></strong> to read these data.</p>
 <pre class="r"><code>metabric &lt;- read_tsv(&quot;data/brca_metabric_clinical_data.tsv&quot;)</code></pre>
 <pre><code>## Rows: 2509 Columns: 20
-## ── Column specification ──────────────────────────────────────────────────────────────────────────────────────
+## ── Column specification ────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;\t&quot;
 ## chr (14): Patient ID, Sample ID, Cancer Type, Cancer Type Detailed, 3-Gene c...
 ## dbl  (6): Mutation Count, Age at Diagnosis, Cohort, Lymph nodes examined pos...
@@ -675,36 +675,6 @@ did not.</p>
 <pre class="r"><code>summary(metabric$mutation_count)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##   1.000   3.000   5.000   5.579   7.000  80.000     152</code></pre>
-<div id="working-directory" class="section level2">
-<h2>Working directory</h2>
-<p>When reading in the METABRIC dataset we specified the file using a
-relative path, <code>data/brca_metabric_clinical_data.tsv</code>. This
-is relative to the current working directory and is in the
-<code>data</code> subdirectory within our working directory. The
-<strong><code>getwd()</code></strong> function will tell you what the
-current working directory is.</p>
-<pre class="r"><code>getwd()</code></pre>
-<p>If you open RStudio by clicking on its icon in the task bar or its
-entry in the start menu, your working directory will probably be your
-home folder.</p>
-<p>You can specify a full path for the file you want to read, which is
-also known as an absolute path.</p>
-<p>You can explicitly set your working directory using
-<strong><code>setwd()</code></strong>.</p>
-<p>If you’re running an R script from a terminal window (by typing
-something like <code>Rscript my_script.R</code> at the command prompt)
-your working directory will be the directory in which you run the script
-(i.e. the one in which you issue the Rscript command). In this case you
-will probably want to read files from locations that are relative to the
-directory in which you run the script.</p>
-<p>If you’re writing an R script in RStudio you can set the working
-directory to be the same directory as that which contains your script
-file using the menu: <strong>Session &gt; Set Working Directory &gt; To
-Source File Location</strong>. You can also navigate to the directory of
-your choosing in the Files tab pane and set this to be the working
-directory by clicking on the <strong>More</strong> menu button and
-selecting <strong>Set As Working Directory</strong>.</p>
-</div>
 </div>
 <div id="missing-values" class="section level1">
 <h1>Missing values</h1>
@@ -1572,15 +1542,15 @@ typeof(starwars$height)</code></pre>
   <div class="shell">
     <p class="eyebrow" style="text-align:center">Organised by</p>
     <div class="partners">
-      <a href="https://www.cruk.cam.ac.uk/"><img src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"></a>
-      <a href="https://www.uci.or.ug/"><img src="images/logos/uci.png" alt="Uganda Cancer Institute"></a>
-      <a href="https://www.mak.ac.ug/"><img class="p-tall" src="images/logos/makerere.png" alt="Makerere University"></a>
+      <a href="https://www.cruk.cam.ac.uk/"><img src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"></a>
+      <a href="https://www.uci.or.ug/"><img src="assets/imgs/logos/uci.png" alt="Uganda Cancer Institute"></a>
+      <a href="https://www.mak.ac.ug/"><img class="p-tall" src="assets/imgs/logos/makerere.png" alt="Makerere University"></a>
     </div>
     <p class="eyebrow partners-split">Funded by</p>
     <div class="partners p-sm">
-      <a href="https://www.cambridge-africa.cam.ac.uk/"><img src="images/logos/cambridge-africa.svg" alt="Cambridge-Africa"></a>
-      <img src="images/logos/alborada.jpg" alt="The Alborada Trust">
-      <a href="https://www.cancerresearchuk.org/"><img src="images/logos/cruk.png" alt="Cancer Research UK"></a>
+      <a href="https://www.cambridge-africa.cam.ac.uk/"><img src="assets/imgs/logos/cambridge-africa.svg" alt="Cambridge-Africa"></a>
+      <img src="assets/imgs/logos/alborada.jpg" alt="The Alborada Trust">
+      <a href="https://www.cancerresearchuk.org/"><img src="assets/imgs/logos/cruk.png" alt="Cancer Research UK"></a>
     </div>
   </div>
 </div>

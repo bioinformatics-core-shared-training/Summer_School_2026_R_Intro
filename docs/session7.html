@@ -323,7 +323,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
+      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -538,7 +538,7 @@ Each <strong>value</strong> has its own cell
 </li>
 </ol>
 <p>
-<img src="images/tidy_data.png" />
+<img src="assets/imgs/session7/tidy_data.png" />
 </p>
 <p>
 A <strong>variable</strong> contains all values that measure the same
@@ -641,7 +641,7 @@ decreasing the number of columns.
 names_to = “year”, values_to = “cases”)</code>
 </p>
 <p>
-<img src="images/pivot_longer.png" />
+<img src="assets/imgs/session7/pivot_longer.png" />
 </p>
 <p>
 <strong><code>pivot_wider(data, names_from = name, values_from =
@@ -1284,7 +1284,8 @@ straightforward.</p>
 ## ℹ Summaries were computed grouped by accession, gene, and group.
 ## ℹ Output is grouped by accession and gene.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(accession, gene, group))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(accession, gene, group))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 40 × 4
 ## # Groups:   accession, gene [10]
 ##    accession gene   group  protein_level
@@ -1759,7 +1760,8 @@ Answer
 ## ℹ Summaries were computed grouped by country and year.
 ## ℹ Output is grouped by country.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(country, year))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(country, year))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 6 × 3
 ## # Groups:   country [3]
 ##   country      year  cases
@@ -1797,7 +1799,8 @@ Answer
 ## ℹ Summaries were computed grouped by country, year, and age_group.
 ## ℹ Output is grouped by country and year.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(country, year, age_group))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(country, year, age_group))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre class="r"><code>uk &lt;- &quot;United Kingdom of Great Britain and Northern Ireland&quot;
 who_tidy |&gt;
     filter(country == uk) |&gt;
@@ -1829,15 +1832,15 @@ Answer
   <div class="shell">
     <p class="eyebrow" style="text-align:center">Organised by</p>
     <div class="partners">
-      <a href="https://www.cruk.cam.ac.uk/"><img src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"></a>
-      <a href="https://www.uci.or.ug/"><img src="images/logos/uci.png" alt="Uganda Cancer Institute"></a>
-      <a href="https://www.mak.ac.ug/"><img class="p-tall" src="images/logos/makerere.png" alt="Makerere University"></a>
+      <a href="https://www.cruk.cam.ac.uk/"><img src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"></a>
+      <a href="https://www.uci.or.ug/"><img src="assets/imgs/logos/uci.png" alt="Uganda Cancer Institute"></a>
+      <a href="https://www.mak.ac.ug/"><img class="p-tall" src="assets/imgs/logos/makerere.png" alt="Makerere University"></a>
     </div>
     <p class="eyebrow partners-split">Funded by</p>
     <div class="partners p-sm">
-      <a href="https://www.cambridge-africa.cam.ac.uk/"><img src="images/logos/cambridge-africa.svg" alt="Cambridge-Africa"></a>
-      <img src="images/logos/alborada.jpg" alt="The Alborada Trust">
-      <a href="https://www.cancerresearchuk.org/"><img src="images/logos/cruk.png" alt="Cancer Research UK"></a>
+      <a href="https://www.cambridge-africa.cam.ac.uk/"><img src="assets/imgs/logos/cambridge-africa.svg" alt="Cambridge-Africa"></a>
+      <img src="assets/imgs/logos/alborada.jpg" alt="The Alborada Trust">
+      <a href="https://www.cancerresearchuk.org/"><img src="assets/imgs/logos/cruk.png" alt="Cancer Research UK"></a>
     </div>
   </div>
 </div>

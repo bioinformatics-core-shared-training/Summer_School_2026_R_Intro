@@ -323,7 +323,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
+      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -553,8 +553,8 @@ e.g. shape.</p>
 <pre class="r"><code>ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3, y = ESR1, shape = `3-gene_classifier`),
                size = 0.9)</code></pre>
-<pre><code>## Warning: Removed 204 rows containing missing values or values outside the scale
-## range (`geom_point()`).</code></pre>
+<pre><code>## Warning: Removed 204 rows containing missing values or values outside the scale range
+## (`geom_point()`).</code></pre>
 <p><img src="session4_files/figure-html/scatter_plot_6-1.png" alt="" width="672" /></p>
 <p>Note that some of the patient samples have not been classified and
 ggplot has removed those points with missing values for the 3-gene
@@ -569,8 +569,8 @@ different categorical variables.</p>
                              colour = PAM50,
                              shape = `3-gene_classifier`),
               size = 0.9)</code></pre>
-<pre><code>## Warning: Removed 204 rows containing missing values or values outside the scale
-## range (`geom_point()`).</code></pre>
+<pre><code>## Warning: Removed 204 rows containing missing values or values outside the scale range
+## (`geom_point()`).</code></pre>
 <p><img src="session4_files/figure-html/scatter_plot_7-1.png" alt="" width="672" /></p>
 <p>Transparency can be useful when we have a large number of points as
 we can more easily tell when points are overlaid, but like size, it is
@@ -614,10 +614,12 @@ purpose.
 </div>
 <div id="another-plot-type---bar-chart" class="section level1">
 <h1>Another plot type - bar chart</h1>
-<p>The range of geoms available in ggplot2 can be obtained by navigating
-to the ggplot2 package in the Packages tab pane in RStudio (bottom
-right-hand corner) and scrolling down the list of functions sorted
-alphabetically to the <code>geom_...</code> functions.</p>
+<p>The range of geoms available in ggplot2 can be obtained by searching
+for the ggplot2 package in the Packages panel (bottom icon in the
+Activity Bar on the left)then right-clicking on the package and select
+“Show Help”. A menu of commands will appear in the Help panel on the
+right. You can scroll down the list of functions sorted alphabetically
+to the <code>geom_...</code> functions.</p>
 <p>The METABRIC study redefined how we think about breast cancer by
 identifying and characterizing several new subtypes, referred to as
 <em>integrative clusters</em>. Let’s create a bar chart of the number of
@@ -892,10 +894,8 @@ note that the numeric representation of a date, i.e. the
 <h2>Line plot</h2>
 <p>We’re going to plot the volume of traffic on each date with each
 measurement represented as a point on our graph and observations on
-successive dates connected by a line. Looking at the geoms available in
-ggplot2 (see the list of functions available for ggplot2 by navigating
-to the ggplot2 package in the Packages tab in RStudio), it looks like
-<strong><code>geom_line</code></strong> is the one we need.</p>
+successive dates connected by a line. For this we use
+<strong><code>geom_line</code></strong>.</p>
 <p>The aesthetics section in the help page for <code>geom_line</code>
 tells us we need an x and y mapping. Our x aesthetic will be
 <code>date</code> and the y aesthetic will be
@@ -1241,15 +1241,15 @@ ggplot(data = walking) +
   <div class="shell">
     <p class="eyebrow" style="text-align:center">Organised by</p>
     <div class="partners">
-      <a href="https://www.cruk.cam.ac.uk/"><img src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"></a>
-      <a href="https://www.uci.or.ug/"><img src="images/logos/uci.png" alt="Uganda Cancer Institute"></a>
-      <a href="https://www.mak.ac.ug/"><img class="p-tall" src="images/logos/makerere.png" alt="Makerere University"></a>
+      <a href="https://www.cruk.cam.ac.uk/"><img src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"></a>
+      <a href="https://www.uci.or.ug/"><img src="assets/imgs/logos/uci.png" alt="Uganda Cancer Institute"></a>
+      <a href="https://www.mak.ac.ug/"><img class="p-tall" src="assets/imgs/logos/makerere.png" alt="Makerere University"></a>
     </div>
     <p class="eyebrow partners-split">Funded by</p>
     <div class="partners p-sm">
-      <a href="https://www.cambridge-africa.cam.ac.uk/"><img src="images/logos/cambridge-africa.svg" alt="Cambridge-Africa"></a>
-      <img src="images/logos/alborada.jpg" alt="The Alborada Trust">
-      <a href="https://www.cancerresearchuk.org/"><img src="images/logos/cruk.png" alt="Cancer Research UK"></a>
+      <a href="https://www.cambridge-africa.cam.ac.uk/"><img src="assets/imgs/logos/cambridge-africa.svg" alt="Cambridge-Africa"></a>
+      <img src="assets/imgs/logos/alborada.jpg" alt="The Alborada Trust">
+      <a href="https://www.cancerresearchuk.org/"><img src="assets/imgs/logos/cruk.png" alt="Cancer Research UK"></a>
     </div>
   </div>
 </div>

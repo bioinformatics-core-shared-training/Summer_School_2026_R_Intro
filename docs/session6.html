@@ -323,7 +323,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
+      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -495,7 +495,7 @@ simple step.</p>
 ## 2 Negative          6.21</code></pre>
 <p>The following schematic contains another example using a simplified
 subset of the METABRIC tumour samples to show what’s going on.</p>
-<p><img src="images/group_and_summarise.png" /></p>
+<p><img src="assets/imgs/session6/group_and_summarise.png" /></p>
 <p>We get an additional column in our output for the categorical
 variable, <code>ER_status</code>, and a row for each category.</p>
 <p>When we group by only one column there is no difference between the
@@ -521,7 +521,8 @@ negative, but further divided by the cancer type.</p>
 ## ℹ Summaries were computed grouped by ER_status and Cancer_type.
 ## ℹ Output is grouped by ER_status.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(ER_status, Cancer_type))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(ER_status, Cancer_type))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 13 × 3
 ## # Groups:   ER_status [2]
 ##    ER_status Cancer_type                               `mean(ERBB2)`
@@ -553,7 +554,8 @@ which column to rank the rows by.</p>
 ## ℹ Summaries were computed grouped by ER_status and Cancer_type.
 ## ℹ Output is grouped by ER_status.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(ER_status, Cancer_type))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(ER_status, Cancer_type))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 2 × 3
 ## # Groups:   ER_status [2]
 ##   ER_status Cancer_type ERBB2_mean
@@ -575,7 +577,8 @@ use <strong>ungroup()</strong>.</p>
 ## ℹ Summaries were computed grouped by ER_status and Cancer_type.
 ## ℹ Output is grouped by ER_status.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(ER_status, Cancer_type))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(ER_status, Cancer_type))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 1 × 3
 ##   ER_status Cancer_type ERBB2_mean
 ##   &lt;chr&gt;     &lt;chr&gt;            &lt;dbl&gt;
@@ -1013,7 +1016,8 @@ common column, V1. We can combine the two data frames into a single data
 frame by matching rows in the first data frame with those in the second
 data frame that share the same value of variable V1.</p>
 <div class="float">
-<img src="images/dplyr_left_join.png" alt="dplyr left join" />
+<img src="assets/imgs/session6/dplyr_left_join.png"
+alt="dplyr left join" />
 <div class="figcaption">dplyr left join</div>
 </div>
 <p><code>left_join()</code> returns all rows from the first data frame
@@ -1087,7 +1091,8 @@ rows in the first data frame.</p>
 <p>Another joining operation is the “inner join” in which only
 observations that are common to both data frames are included.</p>
 <div class="float">
-<img src="images/dplyr_inner_join.png" alt="dplyr inner join" />
+<img src="assets/imgs/session6/dplyr_inner_join.png"
+alt="dplyr inner join" />
 <div class="figcaption">dplyr inner join</div>
 </div>
 <pre class="r"><code>inner_join(animals, animal_diets, by = join_by(animal))</code></pre>
@@ -1112,7 +1117,8 @@ rows and all columns from the two tables and where there are no matching
 values, <code>NA</code> values are used to fill in the missing
 values.</p>
 <div class="float">
-<img src="images/dplyr_full_join.png" alt="dplyr full join" />
+<img src="assets/imgs/session6/dplyr_full_join.png"
+alt="dplyr full join" />
 <div class="figcaption">dplyr full join</div>
 </div>
 <pre class="r"><code>full_join(animals, animal_diets, by = join_by(animal))</code></pre>
@@ -1204,7 +1210,8 @@ animals3</code></pre>
 <pre><code>## Warning in left_join(animals3, animal_diets3, by = join_by(animal)): Detected an unexpected many-to-many relationship between `x` and `y`.
 ## ℹ Row 2 of `x` matches multiple rows in `y`.
 ## ℹ Row 1 of `y` matches multiple rows in `x`.
-## ℹ If a many-to-many relationship is expected, set `relationship = &quot;many-to-many&quot;` to silence this warning.</code></pre>
+## ℹ If a many-to-many relationship is expected, set `relationship = &quot;many-to-many&quot;` to
+##   silence this warning.</code></pre>
 <pre><code>## # A tibble: 6 × 3
 ##   animal    park            eats  
 ##   &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt; 
@@ -1470,8 +1477,8 @@ up in steps of 2.5.</p>
 <pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 160 rows containing non-finite outside the scale range
 ## (`stat_smooth()`).</code></pre>
-<pre><code>## Warning: Removed 160 rows containing missing values or values outside the scale
-## range (`geom_point()`).</code></pre>
+<pre><code>## Warning: Removed 160 rows containing missing values or values outside the scale range
+## (`geom_point()`).</code></pre>
 <p><img src="session6_files/figure-html/scatter_plot_3-1.png" alt="" width="672" /></p>
 <p>Here, just for demonstration purposes, we set the upper limit to be
 less than the largest values of ESR1 expression and ggplot2 warned us
@@ -1902,15 +1909,15 @@ tsg_scores |&gt;
   <div class="shell">
     <p class="eyebrow" style="text-align:center">Organised by</p>
     <div class="partners">
-      <a href="https://www.cruk.cam.ac.uk/"><img src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"></a>
-      <a href="https://www.uci.or.ug/"><img src="images/logos/uci.png" alt="Uganda Cancer Institute"></a>
-      <a href="https://www.mak.ac.ug/"><img class="p-tall" src="images/logos/makerere.png" alt="Makerere University"></a>
+      <a href="https://www.cruk.cam.ac.uk/"><img src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"></a>
+      <a href="https://www.uci.or.ug/"><img src="assets/imgs/logos/uci.png" alt="Uganda Cancer Institute"></a>
+      <a href="https://www.mak.ac.ug/"><img class="p-tall" src="assets/imgs/logos/makerere.png" alt="Makerere University"></a>
     </div>
     <p class="eyebrow partners-split">Funded by</p>
     <div class="partners p-sm">
-      <a href="https://www.cambridge-africa.cam.ac.uk/"><img src="images/logos/cambridge-africa.svg" alt="Cambridge-Africa"></a>
-      <img src="images/logos/alborada.jpg" alt="The Alborada Trust">
-      <a href="https://www.cancerresearchuk.org/"><img src="images/logos/cruk.png" alt="Cancer Research UK"></a>
+      <a href="https://www.cambridge-africa.cam.ac.uk/"><img src="assets/imgs/logos/cambridge-africa.svg" alt="Cambridge-Africa"></a>
+      <img src="assets/imgs/logos/alborada.jpg" alt="The Alborada Trust">
+      <a href="https://www.cancerresearchuk.org/"><img src="assets/imgs/logos/cruk.png" alt="Cancer Research UK"></a>
     </div>
   </div>
 </div>

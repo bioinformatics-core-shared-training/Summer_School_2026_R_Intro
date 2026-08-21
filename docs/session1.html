@@ -323,7 +323,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
+      <a class="navbar-brand" href="index.html"><img class="brand-logo" src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute" /><span class="brand-text"><b>R for Biologists</b><span>Kampala 2026</span></span></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -396,7 +396,7 @@ div.tocify {
 <blockquote>
 <h4 id="learning-objectives">Learning objectives</h4>
 <ul>
-<li>Become familiar with using RStudio for writing and running R
+<li>Become familiar with using Positron for writing and running R
 scripts</li>
 <li>Understand the basics of the different data types and data
 structures used in R</li>
@@ -405,8 +405,8 @@ structures used in R</li>
 R</li>
 </ul>
 </blockquote>
-<div id="introduction-to-r-and-rstudio" class="section level1">
-<h1>Introduction to R and RStudio</h1>
+<div id="introduction-to-r-and-positron" class="section level1">
+<h1>Introduction to R and Positron</h1>
 </div>
 <div id="why-learn-r" class="section level1">
 <h1>Why learn R?</h1>
@@ -437,26 +437,38 @@ journals or the web.<br />
 </li>
 <li>R has a large and welcoming community - Thousands use R daily and
 many of them are willing to help you through websites such as Stack
-Overflow or the RStudio community.<br />
+Overflow or the Bioconductor community.<br />
 </li>
 <li>Not only is R free, but it is also open-source and
 cross-platform.</li>
 </ul>
 <hr />
 </div>
-<div id="rstudio-a-brief-tour" class="section level1">
-<h1>RStudio a brief tour</h1>
-<p>RStudio provides us with a friendly interface to the R statistical
-programming language. It consists of four main “Panes”. These can be
-re-sized and moved around to suit how you like to work.</p>
-<p><img src="images/RStudioataglance.png" alt="RStudio screenshot" width="90%"></p>
+<div id="positron---a-brief-tour" class="section level1">
+<h1>Positron - a brief tour</h1>
+<p>Positron provides us with a friendly interface to the R statistical
+programming language. It’s a sophisticated IDE (Integrated Development
+Environment) that is built on top of Microsoft’s Visual Studio Code. It
+has many features that make it easier to write and run R code, including
+syntax highlighting and code completion. In this course we will only
+explore a few of the features of Positron.</p>
+<p>When you first open Positron you will see a screen similar to the one
+below. At the bottom of the screen is the “Panel”, currently this shows
+theconsole window, which is the actual interface for the R programme.
+Above the “Panel” is the “Editor” window; we will write our code here.
+On the left-hand side of the screen is the “Activity Bar” which provides
+access to various features of Positron. Hovering the mouse over the
+icons in the “Activity Bar” will show you what each icon does. In this
+course we will only be using the “Explorer” icon to open the folder in
+which we will be working and files that we will work on.</p>
+<p><img src="assets/imgs/session1/Positron_Start.png" alt="Positron screenshot" width="90%"></p>
 <div id="console" class="section level2">
 <h2>Console</h2>
-<p>By default, in the bottom left-hand pane we find the console window.
-This is the actual interface for the R programme.</p>
+<p>At the bottom of the screenwe find the console window. This is the
+actual interface for the R programme.</p>
 <p>We can type commands directly into the console and run them by
 pressing <code>Enter</code>.</p>
-<p><img src="images/RStudio_console.png" alt="RStudio screenshot" width="50%"></p>
+<p><img src="assets/imgs/session1/Positron_Console.png" alt="Positron screenshot" width="60%"></p>
 <p>So, this area could be used like a calculator. Let’s just type in
 something like <code>23 + 45</code> followed by the <code>Enter</code>
 key and see what happens. You should get the following:</p>
@@ -487,56 +499,77 @@ steps of 2:</p>
 <p>There are other tabs on this pane but we shall not be covering these
 on this course.</p>
 </div>
-<div id="editing-pane" class="section level2">
-<h2>Editing pane</h2>
-<p>Above the Console, in the top left-hand pane is a text editor for
-creating, editing &amp; running R scripts. Rather than simply typing our
-commands directly into the console, we can type them here as an R
-script. As you will see, a script is basically a text file that contains
-R commands and comments to explain what the code does.</p>
-<p>We send the commands typed here to the console, either using the
-<code>Run</code> button in the toolbar or by pressing
-<code>Ctrl + Enter</code> (<code>Cmd + Enter</code> on a Mac).</p>
-<p>The advantage of this is that our commands are not lost, we can save
-the text file for future use and it is easier to make changes to our
-code.</p>
-<p><img src="images/RStudio_scripting.png" alt="RStudio edit pane screenshot" width="50%"></p>
+<div id="the-explorer" class="section level2">
+<h2>The Explorer</h2>
+<p>As general rule, the first thing to do is to open the folder in which
+you wish to work. In our case this will be the
+<code>Bioinformatics_Workshop</code> directory, which contains the
+<code>data</code> directory with all the data files we will be using in
+this course. To do this, click on the “Open Folder” button (or use the
+<code>File</code> menu &gt;&gt; <code>Open Folder</code>) and navigate
+to the <code>Bioinformatics_Workshop</code> directory.</p>
+<p>When you first open the <code>Bioinformatics_Workshop</code>
+directory, you will just see the <code>data</code> directory. If you
+click on the small triangle to the left of the <code>data</code>
+directory, you will see all the files as below.</p>
+<p><img src="assets/imgs/session1/Positron_OpenFolder.png" alt="Positron screenshot" width="90%"></p>
+<p>Note that once you have used Positron to open a folder, it will
+remember this and automatically open the last folder you were working in
+when you next open Positron.</p>
+</div>
+<div id="the-editor" class="section level2">
+<h2>The Editor</h2>
+<p>The Editor is a panel for creating, editing &amp; running R scripts.
+Rather than simply typing our commands directly into the console, we can
+write them here as an “R script”. As you will see, a script is basically
+a text file that contains R commands and comments to explain what the
+code does.</p>
+<p>Currently the Editor panel just contains the “Welcome” tab. To create
+a new R script click on the “New File” button on the “Welcome” tab or
+use <code>File</code> menu &gt;&gt; <code>New File</code>. This will
+open the dialogue shown below.</p>
+<p><img src="assets/imgs/session1/Positron_NewFile.png" alt="Positron screenshot" width="90%"></p>
+<p>In the dialogue box where it says “<em>Select File Type or Enter File
+Name…</em>” type <code>My_First_Rscript.R</code> and press
+<code>Enter</code>. Save the new file in the
+<code>Bioinformatics_Workshop</code> directory. You should now see the
+new file in the Explorer pane and the Editor pane should now look like
+this:</p>
+<p><img src="assets/imgs/session1/Positron_NewScript.png" alt="Positron screenshot" width="90%"></p>
+<p>This is a blank script file. You can now type your R commands
+here.</p>
+<p>We send the commands typed here to the console by placing the cursor
+on the line with the command and pressing <code>Ctrl + Enter</code>
+(<code>Cmd + Enter</code> on a Mac). You can also send multiple lines to
+the console by highlighting them and pressing <code>Ctrl + Enter</code>
+(<code>Cmd + Enter</code></p>
+<p>The advantage of using a script rather than typing directly into the
+console is that our commands are not lost, we can save the text file for
+future use and it is easier to make changes to our code.</p>
+<p><img src="assets/imgs/session1/Positron_Scripting.png" alt="Positron edit pane screenshot" width="50%"></p>
 <p>A script is an R program that you have written. Good practice is for
 each script to perform only one role in your analysis workflow and so
 you may have several R scripts which you call, in a particular sequence,
 to analyse your data.</p>
-<p>As well as R scripts, there are many types of RStudio document
-including Quarto documents, which we will use in the teaching of this
-course. These can provide interactive workbooks or pdf and web documents
-to name but a few possible outcomes.</p>
+<p>As well as R scripts, there are many types of Positron document
+including Quarto documents, which we have used to build the materials
+for this course. These can provide interactive workbooks or web
+documents to name but a few possible outcomes.</p>
 </div>
-<div id="environment" class="section level2">
-<h2>Environment</h2>
-<p>Next we move to the top right-hand corner pane. Here we have even
-more tabs (of which we will only consider two Environment and
-History).</p>
-<p><img src="images/RStudio_env.png" alt="RStudio screenshot" width="50%"></p>
-<p>The Environment pane keeps track on R variables which we create (more
-on those later) and their contents. History is like a tally role of all
-the R commands we have entered in our session.</p>
-</div>
-<div id="files-plots-help" class="section level2">
-<h2>Files, Plots &amp; Help</h2>
-<p>Our final bottom right-hand pane also has several tabs. The Files tab
-is a file explorer that enable us to move around our directories and
-select which files we wish to work on. We can also change the default
-working directory that RStudio will use.</p>
-<p><img src="images/RStudio_filexpl.png" alt="RStudio screenshot" width="50%"></p>
-<p>The Plots tab is where any graphs that we create in R will appear. We
-can move through them using the arrow buttons and the export button will
-convert them to different graphics formats e.g. for publication in a
-paper or for the web.</p>
-<p>The Packages tab shows which R packages are installed (These expand
-R’s functionality and again will be covered later) and can also install
-new packages.</p>
-<p>The Help tab is a <em>extremely useful</em> tab which enables you to
-search R help index to get help pages on R functions and provide example
-code to help you use them in your R scripts.</p>
+<div id="session-panel" class="section level2">
+<h2>Session Panel</h2>
+<p>Now go to the <code>View</code> menu and select
+<code>Variables</code>. This will open the “Session” Panel on the right
+of the screen. This contains two panels: “Variables” and “Plots”.</p>
+<p>The “Variables” panel will show you all the variables that you have
+created in your R session and their values.</p>
+<p><img src="assets/imgs/session1/Positron_Variables.png" alt="Positron variable panel" width="90%"></p>
+<p>Below the “Variables” panel is the “Plots” panel, which will display
+any graphs you create in your R session.</p>
+<p>There are a number of other tabs available alongside the “Session”
+panel. The only one that we will look at in this course is the “Help”
+tab, which will display the help pages for any R function you are
+using.</p>
 <hr />
 </div>
 </div>
@@ -554,7 +587,7 @@ properties.</p>
 <div id="data-types-in-r" class="section level2">
 <h2>Data types in R</h2>
 <div class="float">
-<img src="images/r-programming-data-types.png"
+<img src="assets/imgs/shared/r-programming-data-types.png"
 alt="Image source:https://www.javatpoint.com/r-data-types" />
 <div class="figcaption">Image source:<a
 href="https://www.javatpoint.com/r-data-types"
@@ -615,7 +648,7 @@ memory than the <strong>double</strong> (decimal) data type.</li>
 <div id="data-structures-in-r" class="section level2">
 <h2>Data structures in R</h2>
 <div class="float">
-<img src="images/dataStructures.png"
+<img src="assets/imgs/shared/dataStructures.png"
 alt="Image source:http://venus.ifca.unican.es/Rintro/dataStruct.html" />
 <div class="figcaption">Image source:<a
 href="http://venus.ifca.unican.es/Rintro/dataStruct.html"
@@ -783,7 +816,8 @@ x + y</code></pre>
 <pre><code>## Warning in x + y: longer object length is not a multiple of shorter object
 ## length</code></pre>
 <pre><code>## [1] 2 4 4 6 6</code></pre>
-<p><img src="images/vector_recycling.png" style="width:40.0%" /></p>
+<p><img src="assets/imgs/session1/vector_recycling.png"
+style="width:40.0%" /></p>
 </div>
 <div id="accessing-specific-elements-of-an-atomic-vector"
 class="section level3">
@@ -797,7 +831,7 @@ access specific values within the vector. To this we use the
 </li>
 <li>Vector of logical values</li>
 </ul>
-<p><img src="images/atomic_vector.png" /></p>
+<p><img src="assets/imgs/session1/atomic_vector.png" /></p>
 <div id="using-integer-vector-containing-index-numbers"
 class="section level4">
 <h4>Using integer vector containing index numbers</h4>
@@ -1104,8 +1138,6 @@ class="uri">https://www.r-project.org/help.html</a></li>
 console, e.g. <code>?round</code></li>
 <li>By using the <code>help()</code> function, e.g. help(“round”) - note
 the quotes around the work “round”</li>
-<li>In RStudio under the help tab one can search for a given
-function</li>
 <li>Use your favourite browser to search the web, e.g. “R round
 documentation”</li>
 </ul>
@@ -1370,7 +1402,7 @@ Answer
 <pre class="r"><code>six_sided_die &lt;- 1:6
 rolls &lt;- sample(six_sided_die, size = 1000, replace = TRUE)
 sum(rolls == 6)</code></pre>
-<pre><code>## [1] 174</code></pre>
+<pre><code>## [1] 150</code></pre>
 <p>Challenge 7b: What number would you expect?</p>
 <pre class="r"><code>1000 / 6</code></pre>
 <pre><code>## [1] 166.6667</code></pre>
@@ -1382,7 +1414,7 @@ number_of_rolls / 6</code></pre>
 <pre><code>## [1] 16666.67</code></pre>
 <pre class="r"><code>rolls &lt;- sample(six_sided_die, size = number_of_rolls, replace = TRUE)
 sum(rolls == 6)</code></pre>
-<pre><code>## [1] 16531</code></pre>
+<pre><code>## [1] 16680</code></pre>
 <p>The proportion of sixes gets closer to the expected value as the
 number of rolls increases.</p>
 </details>
@@ -1420,7 +1452,7 @@ rolls &lt;- sample(1:6,
                 replace = TRUE,
                 prob = c(rep(prob_other, 5), prob_six))
 sum(rolls == 6)</code></pre>
-<pre><code>## [1] 10129</code></pre>
+<pre><code>## [1] 10137</code></pre>
 </details>
 </div>
 <div id="credit" class="section level4">
@@ -1435,15 +1467,15 @@ various members of the Bioinformatics Core at CRUK CI.</p>
   <div class="shell">
     <p class="eyebrow" style="text-align:center">Organised by</p>
     <div class="partners">
-      <a href="https://www.cruk.cam.ac.uk/"><img src="images/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"></a>
-      <a href="https://www.uci.or.ug/"><img src="images/logos/uci.png" alt="Uganda Cancer Institute"></a>
-      <a href="https://www.mak.ac.ug/"><img class="p-tall" src="images/logos/makerere.png" alt="Makerere University"></a>
+      <a href="https://www.cruk.cam.ac.uk/"><img src="assets/imgs/logos/cruk-ci.png" alt="Cancer Research UK Cambridge Institute"></a>
+      <a href="https://www.uci.or.ug/"><img src="assets/imgs/logos/uci.png" alt="Uganda Cancer Institute"></a>
+      <a href="https://www.mak.ac.ug/"><img class="p-tall" src="assets/imgs/logos/makerere.png" alt="Makerere University"></a>
     </div>
     <p class="eyebrow partners-split">Funded by</p>
     <div class="partners p-sm">
-      <a href="https://www.cambridge-africa.cam.ac.uk/"><img src="images/logos/cambridge-africa.svg" alt="Cambridge-Africa"></a>
-      <img src="images/logos/alborada.jpg" alt="The Alborada Trust">
-      <a href="https://www.cancerresearchuk.org/"><img src="images/logos/cruk.png" alt="Cancer Research UK"></a>
+      <a href="https://www.cambridge-africa.cam.ac.uk/"><img src="assets/imgs/logos/cambridge-africa.svg" alt="Cambridge-Africa"></a>
+      <img src="assets/imgs/logos/alborada.jpg" alt="The Alborada Trust">
+      <a href="https://www.cancerresearchuk.org/"><img src="assets/imgs/logos/cruk.png" alt="Cancer Research UK"></a>
     </div>
   </div>
 </div>
