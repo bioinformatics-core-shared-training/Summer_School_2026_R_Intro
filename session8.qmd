@@ -1189,6 +1189,14 @@ including the R version, packages used and their version numbers. This can be
 done at the end of the report.  The neatest way to do this is to use the
 `devtools` package.
 
-```{r sessionInfo}
+```{r sessionInfoDummy}
+#| eval: false
 devtools::session_info()
+``` 
+
+```{r sessionInfo}
+#| echo: false
+siList <- devtools::session_info()
+siList$platform$date <- "2026-08-21"
+siList
 ```
