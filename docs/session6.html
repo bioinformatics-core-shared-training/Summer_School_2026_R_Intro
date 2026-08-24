@@ -891,7 +891,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>animals <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data/animals.rds"</span>)</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>animal_diets <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data/animal_diets.rds"</span>)</span></code></pre></div>
 </div>
-<p>The <code>animal</code> column identifies each of the animals and is used for matching rows from the two tables. We specify the column (or columns) to match on using the <strong><code>join_by()</code></strong> helper, writing the column names without quotes just as we do elsewhere in the tidyverse.</p>
+<p>The <code>animal</code> column identifies each of the animals and is used for matching rows from the two tables. We specify the column to match on with the <strong><code>by</code></strong> argument, giving the column name as a string.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>animals</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -911,7 +911,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ## 2 crocodile meat  
 ## 3 hippo     plants</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(animals, animal_diets, <span class="at">by =</span> <span class="fu">join_by</span>(animal))</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(animals, animal_diets, <span class="at">by =</span> <span class="st">"animal"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>## # A tibble: 3 × 3
 ##   animal    park            eats  
@@ -925,7 +925,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Note that the <code>NA</code> for the lion tells us that the diet was not recorded in this table, not that lions don’t eat. Gaps like this are very common when combining data collected from different sources.</p>
 <p><code>right_join()</code> is similar but returns all rows from the second data frame, i.e. the ‘right’ data frame, that have a match with rows in the first data frame.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">right_join</span>(animals, animal_diets, <span class="at">by =</span> <span class="fu">join_by</span>(animal))</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">right_join</span>(animals, animal_diets, <span class="at">by =</span> <span class="st">"animal"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>## # A tibble: 3 × 3
 ##   animal    park            eats  
@@ -947,7 +947,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(animals, animal_diets, <span class="at">by =</span> <span class="fu">join_by</span>(animal))</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(animals, animal_diets, <span class="at">by =</span> <span class="st">"animal"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>## # A tibble: 2 × 3
 ##   animal    park            eats  
@@ -968,7 +968,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(animals, animal_diets, <span class="at">by =</span> <span class="fu">join_by</span>(animal))</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(animals, animal_diets, <span class="at">by =</span> <span class="st">"animal"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>## # A tibble: 4 × 3
 ##   animal    park            eats  
@@ -983,7 +983,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="joining-on-columns-with-different-headers" class="level2">
 <h2 data-anchor-id="joining-on-columns-with-different-headers">Joining on columns with different headers</h2>
-<p>It isn’t uncommon for the columns used for joining two tables to have different names in each table. Of course we could rename one of the two columns, e.g. using the dplyr <code>rename()</code> function, but the dplyr join functions allow you to match using differently-named columns as illustrated using another version of the <code>animal_diets</code> data frame in which the first column is called <code>species</code>.</p>
+<p>It isn’t uncommon for the columns used for joining two tables to have different names in each table. Of course we could rename one of the two columns, e.g. using the dplyr <code>rename()</code> function, but the dplyr join functions allow you to match using differently-named columns with the help of the <strong><code>join_by()</code></strong> function. This is illustrated below using another version of the <code>animal_diets</code> data frame in which the first column is called <code>species</code>. Note that inside <code>join_by()</code> the column names are written without quotes, just as we do elsewhere in the tidyverse.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>animal_diets2 <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data/animal_diets2.rds"</span>)</span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>animal_diets2</span></code></pre></div>
@@ -1024,7 +1024,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ## 3 hippo     plants
 ## 4 elephant  fruit</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(animals, animal_diets3, <span class="at">by =</span> <span class="fu">join_by</span>(animal))</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(animals, animal_diets3, <span class="at">by =</span> <span class="st">"animal"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>## # A tibble: 4 × 3
 ##   animal    park            eats  
@@ -1050,9 +1050,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ## 3 crocodile Murchison Falls
 ## 4 elephant  Kibale</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(animals3, animal_diets3, <span class="at">by =</span> <span class="fu">join_by</span>(animal))</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(animals3, animal_diets3, <span class="at">by =</span> <span class="st">"animal"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>## Warning in left_join(animals3, animal_diets3, by = join_by(animal)): Detected an unexpected many-to-many relationship between `x` and `y`.
+<pre><code>## Warning in left_join(animals3, animal_diets3, by = "animal"): Detected an unexpected many-to-many relationship between `x` and `y`.
 ## ℹ Row 2 of `x` matches multiple rows in `y`.
 ## ℹ Row 1 of `y` matches multiple rows in `x`.
 ## ℹ If a many-to-many relationship is expected, set `relationship =
@@ -1075,7 +1075,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(animals3,</span>
 <span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>          animal_diets3,</span>
-<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">by =</span> <span class="fu">join_by</span>(animal),</span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">by =</span> <span class="st">"animal"</span>,</span>
 <span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">relationship =</span> <span class="st">"many-to-many"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>## # A tibble: 6 × 3
@@ -1092,7 +1092,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="joining-by-matching-on-multiple-columns" class="level2">
 <h2 data-anchor-id="joining-by-matching-on-multiple-columns">Joining by matching on multiple columns</h2>
-<p>Sometimes the observations being combined are identified by multiple columns, for example, a genus and a species. We can list several columns inside <code>join_by()</code> to be used in the join operation.</p>
+<p>Sometimes the observations being combined are identified by multiple columns, for example, a genus and a species. Here too we use <code>join_by()</code>, listing the several columns to be used in the join operation.</p>
 <p>Here are two more tables in which the animals are identified by their scientific name, which is made up of a genus and a species. These also include an extra animal, the leopard. We can join them based on both genus and species.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>animal_species <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data/animal_species.rds"</span>)</span>
@@ -1158,7 +1158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ## 2 crocodile meat          2020
 ## 3 hippo     plants        2018</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(animal_survey, diet_survey, <span class="at">by =</span> <span class="fu">join_by</span>(animal))</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(animal_survey, diet_survey, <span class="at">by =</span> <span class="st">"animal"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>## # A tibble: 3 × 5
 ##   animal    park            survey_year.x eats   survey_year.y
@@ -1769,7 +1769,7 @@ vertical grid lines removed.</code></pre>
 <span id="cb151-2"><a href="#cb151-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Gene <span class="sc">==</span> <span class="st">"TP53"</span>, Variant_Classification <span class="sc">!=</span> <span class="st">"Silent"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb151-3"><a href="#cb151-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(Patient_ID, <span class="at">name =</span> <span class="st">"TP53_mutation_count"</span>)</span>
 <span id="cb151-4"><a href="#cb151-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb151-5"><a href="#cb151-5" aria-hidden="true" tabindex="-1"></a>metabric <span class="ot">&lt;-</span> <span class="fu">left_join</span>(metabric, tp53_mutation_counts, <span class="at">by =</span> <span class="fu">join_by</span>(Patient_ID))</span></code></pre></div>
+<span id="cb151-5"><a href="#cb151-5" aria-hidden="true" tabindex="-1"></a>metabric <span class="ot">&lt;-</span> <span class="fu">left_join</span>(metabric, tp53_mutation_counts, <span class="at">by =</span> <span class="st">"Patient_ID"</span>)</span></code></pre></div>
 </div>
 <p>Exercise 6b: patients with no entry in the count column have no non-silent TP53 mutation.</p>
 <div class="cell">
