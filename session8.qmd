@@ -103,7 +103,7 @@ A Quarto file is made up of 3 components:
 - Code chunks - Code chunks to be executed and the output included in the
   report
 
-![](assets/imgs/session8/Quarto_starter_script_Annotated.png)
+![](assets/imgs/session8/Quarto_Script_Components.png){width="100%"}
 
 # Header
 

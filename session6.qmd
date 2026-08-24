@@ -465,14 +465,13 @@ animal_diets <- read_rds("data/animal_diets.rds")
 ```
 
 The `animal` column identifies each of the animals and is used for matching
-rows from the two tables. We specify the column (or columns) to match on using
-the **`join_by()`** helper, writing the column names without quotes just as we
-do elsewhere in the tidyverse.
+rows from the two tables. We specify the column to match on with the **`by`**
+argument, giving the column name as a string.
 
 ```{r}
 animals
 animal_diets
-left_join(animals, animal_diets, by = join_by(animal))
+left_join(animals, animal_diets, by = "animal")
 ```
 
 We have joined the two tables based on the common `animal` column. Because this
@@ -492,7 +491,7 @@ data collected from different sources.
 the 'right' data frame, that have a match with rows in the first data frame.
 
 ```{r}
-right_join(animals, animal_diets, by = join_by(animal))
+right_join(animals, animal_diets, by = "animal")
 ```
 
 `right_join()` is used very infrequently compared with `left_join()`.
@@ -505,7 +504,7 @@ are common to both data frames are included.
 ![dplyr inner join](assets/imgs/session6/dplyr_inner_join.png)
 
 ```{r}
-inner_join(animals, animal_diets, by = join_by(animal))
+inner_join(animals, animal_diets, by = "animal")
 ```
 
 In this case when considering observations identified by `animal`, only the
@@ -524,7 +523,7 @@ to fill in the missing values.
 ![dplyr full join](assets/imgs/session6/dplyr_full_join.png)
 
 ```{r}
-full_join(animals, animal_diets, by = join_by(animal))
+full_join(animals, animal_diets, by = "animal")
 ```
 
 Now, with `full_join()`, we have rows for both the lion and the hippo even
@@ -535,8 +534,11 @@ though they are only in one or other of the tables being joined.
 It isn't uncommon for the columns used for joining two tables to have different
 names in each table. Of course we could rename one of the two columns, e.g.
 using the dplyr `rename()` function, but the dplyr join functions allow you to
-match using differently-named columns as illustrated using another version of
-the `animal_diets` data frame in which the first column is called `species`.
+match using differently-named columns with the help of the **`join_by()`**
+function. This is illustrated below using another version of the `animal_diets`
+data frame in which the first column is called `species`. Note that inside
+`join_by()` the column names are written without quotes, just as we do elsewhere
+in the tidyverse.
 
 ```{r}
 animal_diets2 <- read_rds("data/animal_diets2.rds")
@@ -563,7 +565,7 @@ two tables. We'll use the `bind_rows()` function to add a row to the
 extra_food <- tibble(animal = "elephant", eats = "fruit")
 animal_diets3 <- bind_rows(animal_diets, extra_food)
 animal_diets3
-left_join(animals, animal_diets3, by = join_by(animal))
+left_join(animals, animal_diets3, by = "animal")
 ```
 
 We get both entries from the second table added to the first table.
@@ -576,7 +578,7 @@ elephant.
 extra_park <- tibble(animal = "elephant", park = "Kibale")
 animals3 <- bind_rows(animals, extra_park)
 animals3
-left_join(animals3, animal_diets3, by = join_by(animal))
+left_join(animals3, animal_diets3, by = "animal")
 ```
 
 The resulting table includes all combinations of park and food for the elephant.
@@ -592,15 +594,15 @@ you can say so explicitly and the warning goes away.
 ```{r}
 left_join(animals3,
           animal_diets3,
-          by = join_by(animal),
+          by = "animal",
           relationship = "many-to-many")
 ```
 
 ## Joining by matching on multiple columns
 
 Sometimes the observations being combined are identified by multiple columns,
-for example, a genus and a species. We can list several columns inside
-`join_by()` to be used in the join operation.
+for example, a genus and a species. Here too we use `join_by()`, listing the
+several columns to be used in the join operation.
 
 Here are two more tables in which the animals are identified by their scientific
 name, which is made up of a genus and a species. These also include an extra
@@ -639,7 +641,7 @@ diet_survey <- read_rds("data/diet_survey.rds")
 animal_survey
 diet_survey
 
-left_join(animal_survey, diet_survey, by = join_by(animal))
+left_join(animal_survey, diet_survey, by = "animal")
 ```
 
 It is advisable to rename or remove the duplicated columns that aren't used for
@@ -1088,7 +1090,7 @@ tp53_mutation_counts <- mutations |>
     filter(Gene == "TP53", Variant_Classification != "Silent") |>
     count(Patient_ID, name = "TP53_mutation_count")
 
-metabric <- left_join(metabric, tp53_mutation_counts, by = join_by(Patient_ID))
+metabric <- left_join(metabric, tp53_mutation_counts, by = "Patient_ID")
 ```
 
 Exercise 6b: patients with no entry in the count column have no non-silent TP53
