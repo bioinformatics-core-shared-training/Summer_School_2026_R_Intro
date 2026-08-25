@@ -53,7 +53,8 @@ More detailed materials can be found [here](https://quarto.org/docs/guide/).
 We will be using the following packages in this session. If you don't have them
 installed, you can do so using the `install.packages()` function.
 
-```{r packages}
+```{r}
+#| label: packages
 #| message: false
 library(tidyverse)
 library(knitr)
@@ -614,6 +615,7 @@ x + y
 Generates the following in the output:
 
 ```{r}
+#| label: demo_code_chunk
 x <- 10
 y <- 20
 x + y
@@ -768,7 +770,8 @@ By default, Quarto will display tables in basically the same way as they would
 be displayed in the console. For example, if we display the first few rows of
 the `mtcars` dataset we get the following:
 
-```{r basicTable}
+```{r}
+#| label: basicTable
 smallTable <- mtcars |>
     rownames_to_column("car") |>
     select(car, mpg, cyl, wt) |>
@@ -782,7 +785,8 @@ is to use the `kable()` function from the `knitr` package.
 
 ### The `kable()` function
 
-```{r kable}
+```{r}
+#| label: kable
 smallTable |>
     kable()
 ```
@@ -794,7 +798,8 @@ columns, and the formatting of the table. For example, we can use the `digits`
 argument to specify the number of digits to display for each column. We can
 also use the `align` argument to specify the alignment of the columns. 
 
-```{r kableFormatting}
+```{r}
+#| label: kableFormatting
 smallTable |>
     kable(digits = 2, align = "c")
 ```
@@ -815,7 +820,8 @@ appearance of the table in much the same way as we add layers to a ggplot. The
 `kableExtra` package provides a number of functions that can be used to format
 tables, including `kable_styling()`, `column_spec()`, and `row_spec()`. 
 
-```{r kableExtraA}
+```{r}
+#| label: kableExtraA
 #| html-table-processing: none
 smallTable |>
     kbl() |>
@@ -828,7 +834,8 @@ As well as allowing us to control the formatting of the table ourselves,
 `kableExtra` also provides a number of pre-defined styles that we can use to
 quickly format our tables.
 
-```{r kableExtraB}
+```{r}
+#| label: kableExtraB
 #| html-table-processing: none
 smallTable |>
     kbl() |>
@@ -865,7 +872,8 @@ buttons to export the table to CSV, Excel, or PDF format. The basic command is
 `datatable()`, which takes a data.frame as input and returns an interactive
 table. 
 
-```{r DTa}
+```{r}
+#| label: DTa
 longTable  <- mtcars |>
     rownames_to_column("car") |>
     select(car, mpg, cyl, wt)
@@ -906,7 +914,8 @@ To add the export buttons, we need to add the `buttons` option to the `options`
 argument, but we also need to add the `B` character to the `dom` string and
 instruct the table to use the "Buttons" extension.
 
-```{r DTb}
+```{r}
+#| label: DTb
 longTable |>
     datatable(
         extensions = "Buttons",
@@ -949,7 +958,8 @@ mtcars |>
 
 is rendered as:
 
-```{r plot}
+```{r}
+#| label: plot
 #| echo: false
 mtcars |>
     ggplot(aes(x = mpg, y = wt)) +
@@ -990,7 +1000,8 @@ is rendered as:
      this file. The options must be given in knitr's dotted form here, or the
      figure comes out at the default size with no caption. -->
 
-```{r plot2}
+```{r}
+#| label: plot2
 #| fig-width: 5
 #| fig-height: 3
 #| fig-cap: "Scatter plot of weight vs miles per gallon"
@@ -1013,7 +1024,8 @@ provides a very simple and intuitive way to combine ggplots in a grid.
 First create each plot and rather than printing them, assign them to a variable.
 Then we can use the `patchwork` syntax to combine the plots.
 
-```{r patchworkA}
+```{r}
+#| label: patchworkA
 #| fig-height: 5
 #| fig-width: 10
 p1 <- mtcars |>
@@ -1039,7 +1051,8 @@ annotations).
 I am going to reuse the same plots a few times just to show you how the layout
 works.
 
-```{r patchworkB}
+```{r}
+#| label: patchworkB
 #| fig-height: 8
 #| fig-width: 12
 ((p1 + p2) / (p2 + p1 + p2) | (p1 / p2 / p1)) +
@@ -1082,7 +1095,8 @@ The mean mpg of cars with 6 cylinders was **``r "r six_cyl_mean_mpg"``**.
 Will be rendered as:
 
 ::: {.renderedblock}
-```{r inline}
+```{r}
+#| label: inline
 six_cyl_mean_mpg <- mtcars |>
     filter(cyl == 6) |>
     summarise(mpg = mean(mpg)) |>
@@ -1189,12 +1203,14 @@ including the R version, packages used and their version numbers. This can be
 done at the end of the report.  The neatest way to do this is to use the
 `devtools` package.
 
-```{r sessionInfoDummy}
+```{r}
+#| label: sessionInfoDummy
 #| eval: false
 devtools::session_info()
 ``` 
 
-```{r sessionInfo}
+```{r}
+#| label: sessionInfo
 #| echo: false
 siList <- devtools::session_info()
 siList$platform$date <- "2026-08-21"

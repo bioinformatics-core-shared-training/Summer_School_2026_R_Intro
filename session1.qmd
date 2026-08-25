@@ -235,6 +235,7 @@ Different types of data are needed in programming for a variety of reasons:
 mathematical operations (+, -, x and /) are only meaningful for numbers.
   
 ```{r}
+#| label: data_types_addition_error
 #| eval: false
 11 + 3 # Operation of addition performed correctly
 "11" + 3 # gives error
@@ -264,6 +265,7 @@ structures built on vectors.
 We can assign a value to an object with a name:
 
 ```{r}
+#| label: assignment_arrow
 x <- 100
 ```
 Here we are creating an object called `x` containing the value '100'.
@@ -278,6 +280,7 @@ variable named `x`.
 practice is to use `<-`.
 
 ```{r}
+#| label: assignment_operators
 x <- 100
 x = 100
 ```
@@ -285,6 +288,7 @@ x = 100
 After a variable/object is created, it can be used as many times as needed.
 
 ```{r}
+#| label: variables_in_arithmetic
 y <- 10
 y * y
 y + y
@@ -294,6 +298,7 @@ y + y
 The values assigned to a variable can be replaced:
 
 ```{r}
+#| label: reassign_variable
 x <- "Tom"
 x
 x <- "Jerry"
@@ -304,11 +309,13 @@ Variable names can not start with a number or a special characters like (\_,
   -, \*, etc)
 
 ```{r}
+#| label: invalid_name_leading_number
 #| error: true
 2x <- 100
 ```
 
 ```{r}
+#| label: invalid_name_leading_underscore
 #| error: true
 _x <- 100
 ```
@@ -317,6 +324,7 @@ The only special characters allowed in variable names are "\_" and "." any
 other special character throws an error]
 
 ```{r}
+#| label: invalid_name_hyphen
 #| error: true
 my-name <- "Ashley"
 ```
@@ -327,6 +335,7 @@ the value of a variable called "my", however, neither of these exists, so it
 throws an error.
 
 ```{r}
+#| label: valid_names
 my_name <- "Ashley"
 my.name <- "Ashley"
 ```
@@ -334,6 +343,7 @@ my.name <- "Ashley"
 * R is case sensitive 
 * COUNTRY and country are two different variables
 ```{r}
+#| label: names_are_case_sensitive
 COUNTRY <- "United Kingdom"
 country <- "Uganda"
 
@@ -348,17 +358,20 @@ country
 * values are separated by ","
 
 ```{r}
+#| label: multiple_values_error
 #| error: true
 x <- 100, 200
 ```
 
 ```{r}
+#| label: vector_from_c
 x <- c(100, 200)
 ```
 
 * the ":" operator that generates a range of values
 
 ```{r}
+#| label: vector_from_colon
 x <- 1:40
 x
 ```
@@ -371,6 +384,7 @@ converts the data types, this phenomenon is called
 [Coercion](https://adv-r.hadley.nz/vectors-chap.html#testing-and-coercion)
 
 ```{r}
+#| label: vector_types_and_coercion
 x <- c(1, 2, 3, 4)
 typeof(x)
 x <- c(1, "2", 3, 4)
@@ -394,6 +408,7 @@ The logical values "TRUE" and "FALSE" are internally represented as 1 and 0.
 Therefore mathematical operations can be performed on these vectors.
 
 ```{r}
+#| label: logical_vector_arithmetic
 y <- c(TRUE, FALSE, TRUE)
 y
 sum(y)
@@ -409,6 +424,7 @@ each element one by one. Coding becomes more concise, easier to read, and less
 prone to errors as a result.
 
 ```{r}
+#| label: vectorised_arithmetic
 x <- c(1, 2, 3, 4, 5)
 x * 5
 x + 1
@@ -418,6 +434,7 @@ Vectorization is powerful, quick and concise, but leads to confusion when
 vector lengths are different.
 
 ```{r}
+#| label: vectorised_two_vectors
 x <- c(1, 2, 3, 4, 5, 6)
 y <- c(1, 2, 3, 4, 5, 6)
 x + y
@@ -425,6 +442,7 @@ x + y
 
 
 ```{r}
+#| label: vector_recycling
 x <- c(1, 2, 3, 4, 5)
 y <- c(1, 2)
 x + y
@@ -447,6 +465,7 @@ Within `[]` one can give any of the following:
 #### Using integer vector containing index numbers
 
 ```{r}
+#| label: create_vec
 vec <- c(10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
 vec
 ```
@@ -454,12 +473,14 @@ vec
 To extract 4th value from the vector:
 
 ```{r}
+#| label: subset_single_element
 vec[4]
 ```
 
 To extract 4th and 7th values from the vector:
 
 ```{r}
+#| label: subset_multiple_elements
 vec[c(4, 7)]
 ```
 
@@ -467,6 +488,7 @@ We can also invert the selection using "-" symbol, e.g. to extract all the
 values except 4th and 7th values:
 
 ```{r}
+#| label: subset_negative_index
 vec[c(-4, -7)]
 ```
 
@@ -474,6 +496,7 @@ It is also possible to selectively replace specific vector values using the
 same notation.
 
 ```{r}
+#| label: replace_element
 x <- c(10, 20, 30)
 x[2]
 x[2] <- 1000
@@ -488,6 +511,7 @@ extracting values, however, if it is shorter then it will be recycled as
 necessary - this can be confusing.
 
 ```{r}
+#| label: subset_with_logical_vector
 y <- c(5, 8, 10)
 myLogicalVec <- c(FALSE, TRUE, FALSE)
 y[myLogicalVec]
@@ -501,6 +525,7 @@ from a vector based on their characteristics.
 The basic comparison operators are:  
 
 ```{r}
+#| label: comparison_operators_table
 #| echo: false
 tab <- data.frame(Operator = c("==",   "!=", ">", "<", ">=", "<="),
                   Meaning = c("Equal to", "Not equal to", "Greater than",
@@ -520,6 +545,7 @@ generate a logical vector that tells us which values match our criteria.
 For example, to only keep values that are greater than 20:
 
 ```{r}
+#| label: subset_with_comparison
 x <- c(10, 20, 30, 40)
 x == 20
 x > 20
@@ -534,6 +560,7 @@ By using logical operators one can create complex expression for more complex
 subsetting. The logical operators are: 
 
 ```{r}
+#| label: logical_operators_table
 #| echo: false
 tab <- data.frame(Operator = c("&", "|", "!"),
            Meaning = c("AND", "OR", "NOT"), 
@@ -547,6 +574,7 @@ For instance if you want to extract all the values in a vector that are greater
 than 10 but less than 40
 
 ```{r}
+#| label: subset_with_and
 x <- c(10, 20, 30, 40)
 x[x > 10]
 x[x < 40]
@@ -557,6 +585,7 @@ We could use "!=" to select all values not equal to 20, but to demonstrate the
 "!" (NOT) operator, we could also do:
 
 ```{r}
+#| label: subset_with_not
 x[ !x == 20 ]
 ```
 
@@ -576,6 +605,7 @@ For example it is perfectly sensible that we could convert an integer vector to
 a character vector:
 
 ```{r}
+#| label: convert_integer_to_character
 x <- 1:5
 x
 as.character(x)
@@ -585,6 +615,7 @@ On the other hand there is usually no logical way we could convert a character
 vector qo an integer vector:
 
 ```{r}
+#| label: convert_character_to_integer
 x <- c("apple", "banana", "orange")
 x
 as.integer(x)
@@ -593,6 +624,7 @@ as.integer(x)
 Except where the value is a number:
 
 ```{r}
+#| label: convert_mixed_character_to_integer
 x <- c("Blue", "23", "45", "9.89", "Red")
 x
 as.integer(x)
@@ -601,12 +633,14 @@ as.integer(x)
 Note that as we specified `as.integer`, rather than `as.numeric` "9.89" was converted to 9.
 
 ```{r}
+#| label: convert_character_to_numeric
 as.numeric(x)
 ```
 
 A logical vector can be converted to either character or integer:
 
 ```{r}
+#| label: convert_logical
 x <- c(TRUE, FALSE, TRUE, FALSE)
 x
 as.character(x)
@@ -632,6 +666,7 @@ We can also test for the type of data structure
 * is.data.frame(): To determine if the object is a data frame  
 
 ```{r}
+#| label: test_object_class
 x <- 1:100
 typeof(x)
 is.integer(x)
@@ -654,6 +689,7 @@ Mathematical operations such as addition and multiplication are performed using 
 For example 
 
 ```{r}
+#| label: arithmetic_operators
 5 * 5
 
 3 ^ 3
@@ -681,6 +717,7 @@ fact, the output) is the rounded number.  Executing a function (‘running it’
 is referred to as "calling" the function. An example of a function call is:
 
 ```{r}
+#| label: round_default
 round(pi)
 ```
 
@@ -703,6 +740,7 @@ documentation page for that function. You can do this in number of ways:
 * Use your favourite browser to search the web, e.g. "R round documentation"
 
 ```{r}
+#| label: round_help
 #| eval: false
 ?round
 ```
@@ -714,6 +752,7 @@ arguments:
 * digits: integer indicating the number of decimal places to round
   
 ```{r}
+#| label: round_named_arguments
 round(x = pi, digits = 0)
 round(x = pi, digits = 2)
 round(x = pi, digits = 4)
@@ -722,12 +761,14 @@ round(x = pi, digits = 4)
 As long as you use argument names, the order of the arguments does not matter.
 
 ```{r}
+#| label: round_named_arguments_reordered
 round(digits = 4, x = pi)
 ```
 
 As long as you provide the arguments in the correct order, then you don't need to use the names.
 
 ```{r}
+#| label: round_positional_arguments
 round(pi, 4)
 ```
 
@@ -736,12 +777,14 @@ the first argument, rather than relying on being able to remember what the
 arguments are when you come back to your code at a later date.
 
 ```{r}
+#| label: round_mixed_arguments
 round(pi, digits = 4)
 ```
 
 It also avoids inadvertent mistakes:
 
 ```{r}
+#| label: round_arguments_wrong_order
 round(4, pi)
 ```
 
@@ -787,6 +830,7 @@ values.
 
 
 ```{r}
+#| label: missing_values_na_rm
 heights <- c(2, 4, 4, NA, 6)
 mean(heights)
 max(heights)
@@ -800,6 +844,7 @@ could then use this to omit missing values for function that do not include the
 `na.rm` argument, or just to remove them from the dataset entirely.
 
 ```{r}
+#| label: remove_missing_values
 missingValues <- is.na(heights)
 missingValues
 cleanedHeights <- heights[!missingValues]
@@ -822,18 +867,21 @@ cleanedHeights
 First create the vector using the `c()` function and assign it to a variable.
 
 ```{r}
+#| label: ex_1_tumour_volumes
 tumourVol <- c(2.1, 1.9, 2.6, 1.8,3)
 ```
 
 We can use the `length()` function to find the number of values in a vector.
 
 ```{r}
+#| label: ex_1a
 length(tumourVol)
 ```
 
 The `mean()` function will give us the mean volume.
 
 ```{r}
+#| label: ex_1b
 mean(tumourVol)
 ```
 
@@ -841,6 +889,7 @@ First test the vector using the "<" operator to generate a logical vector and
 then use `sum()` to determine how many of these are "TRUE".
 
 ```{r}
+#| label: ex_1c
 isSmall <- tumourVol < 2
 sum(isSmall)
 ```
@@ -863,6 +912,7 @@ sum(isSmall)
 Challenge 2a: use the function `cor()` to get the correlation coefficient:
 
 ```{r}
+#| label: ex_2a
 data1 <- c(10, 9, 7, 6, 7, 3, 7, 5, 6, 6)
 data2 <- c(5, 2, 10, 7, 2, 5, 1, 5, 3, 4)
 cor(x=data1, y=data2)
@@ -871,6 +921,7 @@ cor(x=data1, y=data2)
 Challenge 2b: Can you identify the default correlation method the `cor()` function uses?
 
 ```{r}
+#| label: ex_2b
 #| eval: false
 ?cor
 ```
@@ -881,6 +932,7 @@ the function will use the 'pearson' method.
 Challenge 2c: Can you get Spearman correlation coefficient for these two vectors?
 
 ```{r}
+#| label: ex_2c
 cor(x=data1, y=data2, method = "spearman")
 ```
 
@@ -898,7 +950,8 @@ cor(x=data1, y=data2, method = "spearman")
 ::: {.callout-note .answer collapse="true" title="Answer"}
 
 Challenge 4a: c(5, 2, 9, 1, 13) * 2
-```{r ex_4}
+```{r}
+#| label: ex_4
 #| purl: false
 c(5, 2, 9, 1, 13) * c(2)
 ```
@@ -908,6 +961,7 @@ is multiplied by the value of the shorter vector.
 
 Challenge 4b: c(5, 2, 9, 1, 13) * c(1,2)
 ```{r}
+#| label: ex_4b
 c(5, 2, 9, 1, 13) * c(1,2)
 ```
 
@@ -916,6 +970,7 @@ recycled to multiply the longer vector's values.
 
 Challenge 4c: c(5, 2, 9, 1, 13) + c(1,2,3,4,5)
 ```{r}
+#| label: ex_4c
 c(5, 2, 9, 1, 13) + c(1,2,3,4,5)
 ```
 
@@ -931,6 +986,7 @@ added together
 ::: {.callout-note .answer collapse="true" title="Answer"}
 
 ```{r}
+#| label: ex_5
 vec <- c(23, 12, 41, 65, 23, 6)
 vec[ vec == 23 | vec < 15]
 ```
@@ -948,12 +1004,14 @@ vec[ vec == 23 | vec < 15]
 Challenge 6a: What is the index number of "April" in month.name vector?
 
 ```{r}
+#| label: ex_6a
 april <- which(month.name == "April")
 april
 ```
 
 Challenge 6b:Extract all the months from April to December
 ```{r}
+#| label: ex_6b
 month.name[april:length(month.name)]
 ```
 
@@ -980,12 +1038,14 @@ month.name[april:length(month.name)]
 Challenge 7a: Count the number of sixes in 1000 rolls.
 
 ```{r}
+#| label: ex_7_set_seed
 #| include: false
 set.seed(101010) # for reproducibility 
 ```
 
 
 ```{r}
+#| label: ex_7a
 six_sided_die <- 1:6
 rolls <- sample(six_sided_die, size = 1000, replace = TRUE)
 sum(rolls == 6)
@@ -994,6 +1054,7 @@ sum(rolls == 6)
 Challenge 7b: What number would you expect?
 
 ```{r}
+#| label: ex_7b
 1000 / 6
 ```
 
@@ -1003,6 +1064,7 @@ time, because each run draws a new random sample.
 Challenge 7d: Re-running with a larger sample size.
 
 ```{r}
+#| label: ex_7d
 number_of_rolls <- 100000
 number_of_rolls / 6
 rolls <- sample(six_sided_die, size = number_of_rolls, replace = TRUE)
@@ -1032,6 +1094,7 @@ rolls increases.
 ::: {.callout-note .answer collapse="true" title="Answer"}
 
 ```{r}
+#| label: ex_8
 prob_six <- 0.1
 prob_not_six <- 1.0 - prob_six
 prob_other <- prob_not_six / 5

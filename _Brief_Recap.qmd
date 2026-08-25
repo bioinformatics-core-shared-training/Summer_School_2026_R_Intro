@@ -13,11 +13,13 @@ title: Brief recap of sessions 1 & 2
 
 # Atomic vector
 ```{r}
+#| label: atomic_vector_single_value
 x <- 100
 ```
 
 ## Atomic vectors with multiple values
 ```{r}
+#| label: atomic_vector_multiple_values
 x <- c("apple", "banana", "mango")
 y <- c(12, 45, 87, 90)
 z <- 1:100
@@ -25,12 +27,14 @@ z <- 1:100
 
 ### Using variables in operations
 ```{r}
+#| label: vector_arithmetic
 y * 5
 
 z + y
 ```
 
 ```{r}
+#| label: vector_arithmetic_type_error
 #| error: true
 x + y
 ```
@@ -38,6 +42,7 @@ x + y
 
 ### Accessing particular values
 ```{r}
+#| label: vector_subsetting
 x[2]
 y[2:3]
 z[ z > 23 & z < 56]
@@ -45,11 +50,13 @@ z[ z > 23 & z < 56]
 
 # Functions
 ```{r}
+#| label: function_round
 round(pi, digits = 4)
 ```
 
 # factors
 ```{r}
+#| label: factor_levels
 x <- c("low", "high", "medium", "high", "low", "medium", "high")
 response <- factor(x)
 response
@@ -59,6 +66,7 @@ response
 
 # matrices
 ```{r}
+#| label: matrix_create_and_subset
 y <- matrix(data = 1:12, nrow = 4, ncol = 3)
 dim(y)
 ncol(y)
@@ -70,6 +78,7 @@ y[2:3, ]
 
 # Lists
 ```{r}
+#| label: list_create
 cities <- list(
     city = c("Kampala", "London", "Paris"),
     population = c(1.51, 8.8, 2.1)
@@ -80,6 +89,7 @@ cities
 
 ## Accessing list elements
 ```{r}
+#| label: list_access_elements
 cities[[2]]
 cities$city
 ```
@@ -88,18 +98,21 @@ cities$city
 Modify a specific entr
 
 ```{r}
+#| label: list_modify_element
 cities$city[2] <- "New York"
 ```
 
 Add a new element
 
 ```{r}
+#| label: list_add_element
 cities$country <- c("Uganda", "USA", "France")
 cities
 ```
 
 # Data Frames
 ```{r}
+#| label: data_frame_create
 dat <- data.frame(
     city = c("Kampala", "London", "Paris"),
     population = c(1.51, 8.8, 2.1)
@@ -109,6 +122,7 @@ dat
 
 ## Accessing records
 ```{r}
+#| label: data_frame_access_records
 dat[1:2, ]
 dat$city[2]
 dat[dat$population > 2, "city"]

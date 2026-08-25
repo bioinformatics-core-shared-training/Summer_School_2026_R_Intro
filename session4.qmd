@@ -49,6 +49,7 @@ should not begin with a number. So when we refer to the '3-gene classifier'
 column we'll have to use backticks, e.g. ``metabric$`3-gene_classifier` ``.
 
 ```{r}
+#| label: load_metabric
 #| message: false
 library(tidyverse)
 metabric <- read_csv("data/metabric_clinical_and_expression_data.csv")
@@ -61,7 +62,8 @@ First we'll create a simple scatter plot much like the ones we've created in
 previous sessions using R's `plot()` function. We'll plot the expression of
 estrogen receptor alpha (ESR1) against that of the transcription factor, GATA3.
 
-```{r scatter_plot_1}
+```{r}
+#| label: scatter_plot_1
 ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3, y = ESR1))
 ```
@@ -88,6 +90,7 @@ Look up the `geom_point` help page to see the list of aesthetics that are
 available for this geom.
 
 ```{r}
+#| label: geom_point_help
 #| eval: false
 ?geom_point
 ```
@@ -106,14 +109,16 @@ use the `colour` aesthetic.
 We need to map a variable to a colour just like we did for x and y. We'll use
 the ER status as an example.
 
-```{r scatter_plot_2}
+```{r}
+#| label: scatter_plot_2
 ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3, y = ESR1, colour = ER_status))
 ```
 
 What about colouring points based on a continuous variable?
 
-```{r scatter_plot_3}
+```{r}
+#| label: scatter_plot_3
 ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3, y = ESR1, colour = Nottingham_prognostic_index))
 ```
@@ -124,7 +129,8 @@ discrete or categorical values.
 Size is not usually a good aesthetic to map to a variable. This is particularly
 the case where we have such a large number of observations.
 
-```{r scatter_plot_4}
+```{r}
+#| label: scatter_plot_4
 ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3, y = ESR1, size = ER_status))
 ```
@@ -139,7 +145,8 @@ to a single value rather than mapping it to one of the variables in the data
 set - this has to be done outside the aesthetic mappings, i.e. outside the
 `aes()` bit.
 
-```{r scatter_plot_5}
+```{r}
+#| label: scatter_plot_5
 ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3,
                              y = ESR1,
@@ -150,6 +157,7 @@ ggplot(data = metabric) +
 Some aesthetics can only be used with categorical variables, e.g. shape.
 
 ```{r}
+#| label: scatter_plot_shape_error
 #| eval: false
 ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3, y = ESR1, shape = Survival_time))
@@ -161,7 +169,8 @@ Error: A continuous variable can not be mapped to shape
 
 Here we set the shape based on the 3-gene classifier.
 
-```{r scatter_plot_6}
+```{r}
+#| label: scatter_plot_6
 ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3, y = ESR1, shape = `3-gene_classifier`),
                size = 0.9)
@@ -174,7 +183,8 @@ It is usually preferable to use colours to distinguish between different
 categories but sometimes colour and shape are used together where we want to
 show which group a data point belongs to in two different categorical variables.
 
-```{r scatter_plot_7}
+```{r}
+#| label: scatter_plot_7
 ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3,
                              y = ESR1,
@@ -187,7 +197,8 @@ Transparency can be useful when we have a large number of points as we can more
 easily tell when points are overlaid, but like size, it is not usually mapped to
 a variable and sits outside the `aes()`.
 
-```{r scatter_plot_8}
+```{r}
+#| label: scatter_plot_8
 ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3, y = ESR1, colour = `3-gene_classifier`),
                size = 0.75,
@@ -235,7 +246,8 @@ each subtype in the METABRIC cohort.
 `geom_bar` is the geom we need and it requires a single aesthetic mapping of the
 categorical variable of interest to `x`.
 
-```{r bar_plot_1}
+```{r}
+#| label: bar_plot_1
 ggplot(data = metabric) +
     geom_bar(mapping = aes(x = Integrative_cluster))
 ```
@@ -243,7 +255,8 @@ ggplot(data = metabric) +
 The dark grey bars are a big ugly - what if we want each bar to be a different
 colour?
 
-```{r bar_plot_2}
+```{r}
+#| label: bar_plot_2
 ggplot(data = metabric) +
     geom_bar(mapping = aes(x = Integrative_cluster,
                            colour = Integrative_cluster))
@@ -252,7 +265,8 @@ ggplot(data = metabric) +
 Colouring the edges wasn't quite what we had in mind. Look at the help for
 `geom_bar` to see what other aesthetic we should have used.
 
-```{r bar_plot_3}
+```{r}
+#| label: bar_plot_3
 ggplot(data = metabric) +
     geom_bar(mapping = aes(x = Integrative_cluster, fill = Integrative_cluster))
 ```
@@ -260,7 +274,8 @@ ggplot(data = metabric) +
 What happens if we colour (fill) with something other than the integrative
 cluster?
 
-```{r bar_plot_4}
+```{r}
+#| label: bar_plot_4
 ggplot(data = metabric) +
     geom_bar(mapping = aes(x = Integrative_cluster, fill = ER_status))
 ```
@@ -273,14 +288,16 @@ Note the similarity in what we did here to what we did with the scatter plot
 Let's try another stacked bar plot, this time with a categorical variable with
 more than two categories.
 
-```{r bar_plot_5}
+```{r}
+#| label: bar_plot_5
 ggplot(data = metabric) +
     geom_bar(mapping = aes(x = Integrative_cluster, fill = `3-gene_classifier`))
 ```
 
 What if want all the bars to be the same colour but not dark grey, e.g. blue?
 
-```{r bar_plot_6}
+```{r}
+#| label: bar_plot_6
 ggplot(data = metabric) +
     geom_bar(mapping = aes(x = Integrative_cluster, fill = "blue"))
 ```
@@ -290,7 +307,8 @@ That doesn't look right - why not?
 You can set the aesthetics to a fixed value but this needs to be outside the
 mapping, just like we did before for size and transparency in the scatter plots.
 
-```{r bar_plot_7}
+```{r}
+#| label: bar_plot_7
 ggplot(data = metabric) +
     geom_bar(mapping = aes(x = Integrative_cluster), fill = "blue")
 ```
@@ -317,7 +335,8 @@ We can have multiple geoms in the same plot. Each is a different layer.
 
 Let's create a plot with two geoms.
 
-```{r scatter_line_plot_1}
+```{r}
+#| label: scatter_line_plot_1
 ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3, y = ESR1)) +
     geom_smooth(mapping = aes(x = GATA3, y = ESR1))
@@ -336,7 +355,8 @@ There is some annoying duplication of code used to create this plot. We've
 repeated the exact same aesthetic mapping for both geoms. We can avoid this by
 putting the mappings in the `ggplot()` function instead.
 
-```{r scatter_line_plot_2}
+```{r}
+#| label: scatter_line_plot_2
 ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1)) +
     geom_point() +
     geom_smooth()
@@ -347,7 +367,8 @@ making them transparent. We're not mapping `size` or `alpha` to any variables,
 just setting them to constant values, and we only want these settings to apply
 to the points, so we set them inside `geom_point()`.
 
-```{r scatter_line_plot_3}
+```{r}
+#| label: scatter_line_plot_3
 ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1)) +
     geom_point(size = 0.5, alpha = 0.5) +
     geom_smooth()
@@ -358,7 +379,8 @@ plot and are inherited by all geoms added to the plot.
 
 Let's say we still want to colour the points by ER status.
 
-```{r scatter_line_plot_4}
+```{r}
+#| label: scatter_line_plot_4
 ggplot(data = metabric,
        mapping = aes(x = GATA3, y = ESR1, colour = ER_status)) +
     geom_point(size = 0.5, alpha = 0.5) +
@@ -371,7 +393,8 @@ the colour aesthetic to the points.
 We can add the colour aesthetic to the `geom_point()` function instead of as a
 global mapping in the `ggplot()` function.
 
-```{r scatter_line_plot_5}
+```{r}
+#| label: scatter_line_plot_5
 ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1)) +
     geom_point(mapping = aes(colour = ER_status), size = 0.5, alpha = 0.5) +
     geom_smooth()
@@ -382,7 +405,8 @@ decide to add another layer but you're a bit worried about interfering with the
 the code you so lovingly crafted, you can set the `inherit.aes` option to
 `FALSE` and set the aesthetic mappings explicitly for your new layer.
 
-```{r scatter_line_plot_6}
+```{r}
+#| label: scatter_line_plot_6
 ggplot(data = metabric,
        mapping = aes(x = GATA3, y = ESR1, colour = ER_status)) +
     geom_point(size = 0.5, alpha = 0.5) +
@@ -393,7 +417,8 @@ ggplot(data = metabric,
 
 Box plots are a particular favourite of Wednesday lunchtime seminars.
 
-```{r box_plot_1}
+```{r}
+#| label: box_plot_1
 ggplot(data = metabric, mapping = aes(x = ER_status, y = GATA3)) +
     geom_boxplot()
 ```
@@ -403,7 +428,8 @@ how it decides which points are outliers and should be displayed as points.
 
 How about adding another layer to display all the points?
 
-```{r box_plot_2}
+```{r}
+#| label: box_plot_2
 ggplot(data = metabric, mapping = aes(x = ER_status, y = GATA3)) +
     geom_boxplot() +
     geom_point()
@@ -414,11 +440,13 @@ points to `geom_jitter` as more suitable when one of the variables is
 categorical.
 
 ```{r}
+#| label: set_seed
 #| include: false
 set.seed(101010)
 ```
 
-```{r box_plot_3}
+```{r}
+#| label: box_plot_3
 ggplot(data = metabric, mapping = aes(x = ER_status, y = GATA3)) +
     geom_boxplot() +
     geom_jitter()
@@ -427,7 +455,8 @@ ggplot(data = metabric, mapping = aes(x = ER_status, y = GATA3)) +
 Well, that's a bit of a mess. We need to reduce the spread or jitter and make
 the points smaller and transparent.
 
-```{r box_plot_4}
+```{r}
+#| label: box_plot_4
 ggplot(data = metabric, mapping = aes(x = ER_status, y = GATA3)) +
     geom_boxplot() +
     geom_jitter(width = 0.3, size = 0.5, alpha = 0.25)
@@ -441,7 +470,8 @@ less sense as we have very many observations.
 Let's try a colour aesthetic to also look at how estrogen receptor expression
 differs between HER2 positive and negative tumours.
 
-```{r box_plot_5}
+```{r}
+#| label: box_plot_5
 ggplot(data = metabric,
        mapping = aes(x = ER_status, y = GATA3, colour = HER2_status)) +
     geom_boxplot()
@@ -473,6 +503,7 @@ each column. Look up the help page for `read_excel()` for more details about the
 arguments we've used below.
 
 ```{r}
+#| label: load_transport_use
 #| message: false
 #| warning: false
 library(readxl)
@@ -495,12 +526,14 @@ So let's get a feel for this data set. Firstly, what modes of transport are
 included and how many observations do we have for each?
 
 ```{r}
+#| label: transport_type_counts
 table(transport_use$transport_type)
 ```
 
 We'll focus solely on rail use to start with.
 
 ```{r}
+#| label: subset_rail_use
 rail_use <- transport_use[transport_use$transport_type == "National rail", ]
 rail_use
 ```
@@ -511,6 +544,7 @@ There is something unfamiliar about the `date` column that needs some
 explanation. Let's check the type and class of `date`.
 
 ```{r}
+#| label: date_type_and_class
 typeof(rail_use$date)
 class(rail_use$date)
 ```
@@ -527,6 +561,7 @@ the `double` value, is the number of seconds since 1 January 1970. For example,
 the date in our first row is:
 
 ```{r}
+#| label: date_as_double
 rail_use$date[1]
 as.double(rail_use$date[1])
 ```
@@ -541,7 +576,8 @@ The aesthetics section in the help page for `geom_line` tells us we need an x
 and y mapping. Our x aesthetic will be `date` and the y aesthetic will be
 `percentage`.
 
-```{r line_plot_1}
+```{r}
+#| label: line_plot_1
 ggplot(data = rail_use) +
     geom_line(mapping = aes(x = date, y = percentage))
 ```
@@ -550,14 +586,16 @@ We can return to our original `transport_use` table containing data for all
 transport modes and use another aesthetic, e.g. colour,  to plot a line for
 each.
 
-```{r line_plot_2}
+```{r}
+#| label: line_plot_2
 ggplot(data = transport_use) +
     geom_line(mapping = aes(x = date, y = percentage, colour = transport_type))
 ```
 
 Another aesthetic available for `geom_line` is `linetype`.
 
-```{r line_plot_3}
+```{r}
+#| label: line_plot_3
 ggplot(data = transport_use) +
     geom_line(mapping = aes(x = date, y = percentage, linetype = transport_type))
 ```
@@ -566,7 +604,8 @@ ggplot(data = transport_use) +
 
 The geom for creating histograms is, rather unsurprisingly, `geom_histogram()`.
 
-```{r histogram_plot_1}
+```{r}
+#| label: histogram_plot_1
 ggplot(data = metabric) +
     geom_histogram(mapping = aes(x = Age_at_diagnosis))
 ```
@@ -574,14 +613,16 @@ ggplot(data = metabric) +
 The warning message hints at picking a more optimal number of bins by specifying
 the `binwidth` argument.
 
-```{r histogram_plot_2}
+```{r}
+#| label: histogram_plot_2
 ggplot(data = metabric) +
     geom_histogram(mapping = aes(x = Age_at_diagnosis), binwidth = 5)
 ```
 
 Or we can set the number of bins.
 
-```{r histogram_plot_3}
+```{r}
+#| label: histogram_plot_3
 ggplot(data = metabric) +
     geom_histogram(mapping = aes(x = Age_at_diagnosis), bins = 20)
 ```
@@ -589,7 +630,8 @@ ggplot(data = metabric) +
 These histograms are not very pleasing, aesthetically speaking - how about some
 better aesthetics?
 
-```{r histogram_plot_4}
+```{r}
+#| label: histogram_plot_4
 ggplot(data = metabric) +
     geom_histogram(mapping = aes(x = Age_at_diagnosis), bins = 20, colour = "darkblue", fill = "grey")
 ```
@@ -611,12 +653,14 @@ for ER positive and negative patients.
 But what about when our categorical variable has been read into R as a
 continuous variable, e.g. `Tumour_stage`, which is read in as a double type.
 
-```{r scatter_plot_9}
+```{r}
+#| label: scatter_plot_9
 ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3, y = ESR1, colour = Tumour_stage))
 ```
 
 ```{r}
+#| label: tumour_stage_counts
 table(metabric$Tumour_stage)
 ```
 
@@ -628,6 +672,7 @@ R has a special type for categorical variables called a **factor**. Let's
 convert our tumour stage variable to a factor using the `as.factor()` function.
 
 ```{r}
+#| label: tumour_stage_as_factor
 metabric$Tumour_stage <- as.factor(metabric$Tumour_stage)
 metabric[, c("Patient_ID", "Tumour_stage")]
 ```
@@ -637,12 +682,14 @@ metadata about which of the integer values, or 'levels', corresponds to each
 category.
 
 ```{r}
+#| label: tumour_stage_factor_properties
 typeof(metabric$Tumour_stage)
 class(metabric$Tumour_stage)
 levels(metabric$Tumour_stage)
 ```
 
-```{r scatter_plot_10}
+```{r}
+#| label: scatter_plot_10
 ggplot(data = metabric) +
     geom_point(mapping = aes(x = GATA3, y = ESR1, colour = Tumour_stage))
 ```
@@ -657,6 +704,7 @@ treating this vector as a character vector (mainly because of the 'ER-' and
 'ER+' subtypes of cluster 4, and sorts the values into alphanumerical order.
 
 ```{r}
+#| label: integrative_cluster_as_factor
 metabric$Integrative_cluster <- as.factor(metabric$Integrative_cluster)
 levels(metabric$Integrative_cluster)
 ```
@@ -665,6 +713,7 @@ A look at the help page for `as.factor` shows that we can create a factor using
 the `factor()` function and specify the levels using the `levels` argument.
 
 ```{r}
+#| label: integrative_cluster_set_levels
 metabric$Integrative_cluster <- factor(metabric$Integrative_cluster, 
                                        levels = c("1", "2", "3", "4ER-", 
                                                   "4ER+", "5", "6", "7", 
@@ -678,13 +727,15 @@ function provides a methods with slightly less typing.
 We just want to move "10" to the end of levels.
 
 ```{r}
+#| label: integrative_cluster_fct_relevel
 metabric$Integrative_cluster <- fct_relevel(metabric$Integrative_cluster, 
                                             "10",
                                             after = Inf)
 levels(metabric$Integrative_cluster)
 ```
 
-```{r bar_plot_9}
+```{r}
+#| label: bar_plot_8
 ggplot(data = metabric) +
     geom_bar(mapping = aes(x = Integrative_cluster, fill = Integrative_cluster))
 ```
@@ -716,7 +767,8 @@ In this session we have covered the following concepts:
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 
-```{r ex_1}
+```{r}
+#| label: ex_1
 #| purl: false
 #| message: false
 #| warning: false
@@ -733,6 +785,7 @@ ggplot(data = metabric) +
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_2
 #| message: false
 #| warning: false
 # 2 a.
@@ -751,6 +804,7 @@ ggplot(data=iris, mapping = aes(x=Species, y= Petal.Length)) +
 ::: {.callout-note .answer collapse="true" title="Answer"}
 
 ```{r}
+#| label: ex_3
 #| message: false
 #| warning: false
 ggplot(data = metabric) +
@@ -766,6 +820,7 @@ best fit using `metabric` data set.
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_4
 #| message: false
 #| warning: false
 ggplot(data = metabric, mapping = aes(x = FOXA1, y = MLPH)) +
@@ -791,6 +846,7 @@ ggplot(data = metabric, mapping = aes(x = FOXA1, y = MLPH)) +
 ::: {.callout-note .answer collapse="true" title="Answer"}
 
 ```{r}
+#| label: ex_5_deceased_survival_status
 #| message: false
 #| warning: false
 deceased <- metabric[metabric$Survival_status == "DECEASED", ]
@@ -800,6 +856,7 @@ A better alternative would be to subset based on `Vital_status`, selecting only
 those patients that died of the disease rather than of an unrelated cause.
 
 ```{r}
+#| label: ex_5_deceased_vital_status
 #| message: false
 #| warning: false
 deceased <- metabric[metabric$Vital_status == "Died of Disease", ]
@@ -810,6 +867,7 @@ variable and draws a single box. Setting the `group` aesthetic tells it to draw
 one box per stage.
 
 ```{r}
+#| label: ex_5_boxplot_group
 #| message: false
 #| warning: false
 ggplot(data = deceased) +
@@ -822,6 +880,7 @@ Alternatively, convert `Tumour_stage` into a factor, in which case the `group`
 aesthetic is no longer needed.
 
 ```{r}
+#| label: ex_5_boxplot_factor
 #| message: false
 #| warning: false
 deceased$Tumour_stage <- as.factor(deceased$Tumour_stage)
@@ -833,6 +892,7 @@ ggplot(data = deceased) +
 And as a violin plot, split by ER status.
 
 ```{r}
+#| label: ex_5_violin
 #| message: false
 #| warning: false
 ggplot(data = deceased) +
@@ -866,6 +926,7 @@ ggplot(data = deceased) +
 ::: {.callout-note .answer collapse="true" title="Answer"}
 
 ```{r}
+#| label: ex_6_read_data
 #| message: false
 #| warning: false
 apple_mobility <- read_excel("data/2020-04-26_COVID-19_Press_Conference_Data.xlsx",
@@ -880,6 +941,7 @@ apple_mobility
 Exercise 6a: the 7-day rolling average for each mode of transport.
 
 ```{r}
+#| label: ex_6a
 #| message: false
 #| warning: false
 ggplot(data = apple_mobility) +
@@ -894,6 +956,7 @@ lockdown began.
 Exercise 6b: the daily percentage.
 
 ```{r}
+#| label: ex_6b
 #| message: false
 #| warning: false
 ggplot(data = apple_mobility) +
@@ -909,6 +972,7 @@ Exercise 6c: the weekly cycle made explicit. `wday()` comes from the lubridate
 package, which is loaded as part of the tidyverse.
 
 ```{r}
+#| label: ex_6c
 #| message: false
 #| warning: false
 apple_mobility$day <- wday(apple_mobility$date, label = TRUE)

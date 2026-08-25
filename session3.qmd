@@ -50,6 +50,7 @@ data structure is part of the **`tibble`** package so to make this available you
 would run the following command:
 
 ```{r}
+#| label: library_tibble
 #| eval: false
 library(tibble)
 ```
@@ -63,6 +64,7 @@ tidyverse. It is usually more convenient to load the core tidyverse packages
 in one go as follows.
 
 ```{r}
+#| label: library_tidyverse
 library(tidyverse)
 ```
 
@@ -93,6 +95,7 @@ Installing packages should be relatively straightforward using the
 `install.packages()` function.
 
 ```{r}
+#| label: install_tidyverse
 #| eval: false
 install.packages("tidyverse")
 ```
@@ -123,6 +126,7 @@ Tibbles can be created using the `tibble()` function in a similar manner to how
 we created a data frame earlier.
 
 ```{r}
+#| label: tibble_create
 wildlife <- tibble(
     animal = c("lion", "elephant", "crocodile", "hippo"),
     weight_kg = c(190, 4000, 500, 1500),
@@ -134,6 +138,7 @@ wildlife
 A data frame can be converted into a tibble using the `as_tibble()` function.
 
 ```{r}
+#| label: tibble_from_data_frame
 irisTibble <- as_tibble(iris)
 ```
 
@@ -141,6 +146,7 @@ Our iris tibble is still a data frame but it also has acquired some additional
 types or classes (`tbl_df` and `tbl`).
 
 ```{r}
+#| label: tibble_class
 class(iris)
 class(irisTibble)
 ```
@@ -162,6 +168,7 @@ the data types of each column and the size of the dataset, the `str` function is
 not as much useful as it was when using `data.frame`.
 
 ```{r}
+#| label: tibble_structure
 str(irisTibble)
 ```
 
@@ -193,6 +200,7 @@ contains information in tabular form in which values are separated by tab
 characters so we'll use the **`read_tsv()`** to read these data.
 
 ```{r}
+#| label: read_metabric_tsv
 metabric <- read_tsv("data/brca_metabric_clinical_data.tsv")
 ```
 
@@ -203,6 +211,7 @@ columns and it only outputs details about the first few.
 If we print the clinical data set we can see that `read_tsv()` created a tibble.
 
 ```{r}
+#| label: print_metabric
 metabric
 ```
 
@@ -228,6 +237,7 @@ our code. To create clean column names we can use `clean_names()` from
 `janitor` package.
 
 ```{r}
+#| label: clean_names
 #install.packages("janitor")
 library(janitor)
 metabric <- clean_names(metabric)
@@ -238,12 +248,14 @@ We are now in a position to explore these data. For example, we can use the
 chemotherapy and those that did not.
 
 ```{r}
+#| label: table_chemotherapy
 table(metabric$chemotherapy)
 ```
 
 We can summarize the numbers of mutations found per patient.
 
 ```{r}
+#| label: summary_mutation_count
 summary(metabric$mutation_count)
 ```
 
@@ -254,6 +266,7 @@ table we printed out earlier you can see 2 missing values for mutation counts
 within the first 10 rows.
 
 ```{r}
+#| label: missing_values_mutation_count
 metabric$mutation_count[1:10]
 ```
 
@@ -275,6 +288,7 @@ This time we'll use a METABRIC data set containing clinical data and gene
 expression data to illustrate how these operations work.
 
 ```{r}
+#| label: read_metabric_csv
 #| message: false
 metabric <- read_csv("data/metabric_clinical_and_expression_data.csv")
 metabric
@@ -346,6 +360,7 @@ observations for those patients who died of breast cancer we can use `filter()`
 as follows.
 
 ```{r}
+#| label: filter_died_of_disease
 deceased <- filter(metabric, Vital_status == "Died of Disease")
 deceased
 ```
@@ -358,6 +373,7 @@ vector resulting from our comparison of vital status values with "Died of
 Disease".
 
 ```{r}
+#| label: filter_base_r_equivalent
 #| eval: false
 filter(metabric, Vital_status == "Died of Disease")
 # is equivalent to
@@ -371,6 +387,7 @@ referred to the variable name as it is, unquoted and without any fuss.
 Let's have a look at the various categories in the `Vital_status` variable.
 
 ```{r}
+#| label: table_vital_status
 table(metabric$Vital_status)
 ```
 
@@ -379,6 +396,7 @@ regardless of whether they died of the disease or other causes, by filtering for
 those that don't have the value "Living".
 
 ```{r}
+#| label: filter_not_living
 deceased <- filter(metabric, Vital_status != "Living")
 nrow(deceased)
 ```
@@ -388,6 +406,7 @@ use the **`%in%`** operator to test which observations (rows) contain those
 values.
 
 ```{r}
+#| label: filter_in_vector
 deceased <- filter(metabric,
                    Vital_status %in% c("Died of Disease", "Died of Other Causes"))
 nrow(deceased)
@@ -399,6 +418,7 @@ functions for operating on text or character strings. One such function,
 with "Died".
 
 ```{r}
+#| label: filter_str_starts
 deceased <- filter(metabric, str_starts(Vital_status, "Died"))
 nrow(deceased)
 ```
@@ -418,6 +438,7 @@ all. We don't have any logical variables in our METABRIC data set so we'll
 create one from the binary `Survival_status` variable to use as an example.
 
 ```{r}
+#| label: filter_logical_variable
 # create a new logical variable called 'Deceased'
 metabric$Deceased <- metabric$Survival_status == "DECEASED"
 #
@@ -432,6 +453,7 @@ We can use the **`!`** operator to filter those patients who are not
 deceased.
 
 ```{r}
+#| label: filter_negated_logical
 #| eval: false
 filter(metabric, !Deceased)
 ```
@@ -444,6 +466,7 @@ because we have a missing value for the vital status of one of the patients. We
 can filter for this using the **`is.na()`** function.
 
 ```{r}
+#| label: filter_missing_vital_status
 missing_vital_status <- filter(metabric, is.na(Vital_status))
 missing_vital_status[, c("Patient_ID",
                          "Survival_status",
@@ -459,12 +482,14 @@ the patients who were still alive at the time of the METABRIC study and had
 survived for more than 10 years (120 months).
 
 ```{r}
+#| label: filter_two_conditions
 filter(metabric, Survival_status == "LIVING", Survival_time > 120)
 ```
 
 The equivalent using R's usual subsetting is slightly less readable.
 
 ```{r}
+#| label: filter_two_conditions_base_r
 #| eval: false
 metabric[metabric$Survival_status == "LIVING" & metabric$Survival_time > 120, ]
 ```
@@ -477,6 +502,7 @@ Adding conditions in this way is equivalent to combining the conditions using
 the **`&`** (Boolean AND) operator.
 
 ```{r}
+#| label: filter_comma_is_and
 #| eval: false
 filter(metabric, Survival_status == "LIVING", Survival_time > 120)
 ```
@@ -488,6 +514,7 @@ patients have stage 3 or stage 4 tumours that are either estrogen receptor (ER)
 positive or progesterone receptor (PR) positive.
 
 ```{r}
+#| label: filter_and_or_combined
 selected_patients <- filter(metabric,
                             Tumour_stage >= 3,
                             ER_status == "Positive" | PR_status == "Positive")
@@ -499,6 +526,7 @@ about the precedence of the `&` and `|` operators and use parentheses to make
 clear what you intended.
 
 ```{r}
+#| label: filter_and_or_parentheses
 #| eval: false
 filter(metabric, Tumour_stage >= 3 &
            (ER_status == "Positive" | PR_status == "Positive"))
@@ -524,12 +552,14 @@ the results we selected just those columns along with the patient identifier
 and the newly created `Deceased` column.
 
 ```{r}
+#| label: select_base_r
 deceased[, c("Patient_ID", "Survival_status", "Vital_status", "Deceased")]
 ```
 
 The **`select()`** function from dplyr is simpler.
 
 ```{r}
+#| label: select_columns
 select(metabric, Patient_ID, Survival_status, Vital_status, Deceased)
 ```
 
@@ -542,6 +572,7 @@ another data frame, even if only one column was selected.
 We can alter the order of the variables (columns).
 
 ```{r}
+#| label: select_reorder
 select(metabric, Patient_ID, Vital_status, Survival_status, Deceased)
 ```
 
@@ -550,6 +581,7 @@ identifier and all the columns between `Tumour_size` and `Cancer_type` we could
 run the following `select()` command.
 
 ```{r}
+#| label: select_range
 select(metabric, Patient_ID, Chemotherapy:Tumour_stage)
 ```
 
@@ -558,6 +590,7 @@ within `select()`. We can find all the columns, for example, that contain the
 term "status" using `contains()`.
 
 ```{r}
+#| label: select_contains
 select(metabric, contains("status"))
 ```
 
@@ -565,6 +598,7 @@ If we only wanted those ending with "status" we could use `ends_with()`
 instead.
 
 ```{r}
+#| label: select_ends_with
 select(metabric, ends_with("status"))
 ```
 
@@ -572,6 +606,7 @@ We can also select those columns we're not interested in and that shouldn't be
 included by prefixing the columns with **`-`**.
 
 ```{r}
+#| label: select_drop_column
 select(metabric, -Cohort)
 ```
 
@@ -579,6 +614,7 @@ You can use a combination of explicit naming, ranges, helper functions and
 negation to select the columns of interest.
 
 ```{r}
+#| label: select_combined_helpers
 selected_columns <- select(metabric,
                            Patient_ID,
                            starts_with("Tumour_"),
@@ -594,18 +630,21 @@ more columns to the left hand side and then including everything else
 afterwards in whatever order they were already in.
 
 ```{r}
+#| label: select_everything
 select(metabric, Patient_ID, Survival_status, Tumour_stage, everything())
 ```
 
 Note dplyr also provides the `relocate()` function to achieve the same goal:
 
 ```{r}
+#| label: relocate_columns
 relocate(metabric, Patient_ID, Survival_status, Tumour_stage)
 ```
 
 Finally, columns can be renamed as part of the selection process.
 
 ```{r}
+#| label: select_with_rename
 select(metabric,
        Patient_ID, Classification = `3-gene_classifier`,
        NPI = Nottingham_prognostic_index)
@@ -615,6 +654,7 @@ Note that dplyr provides the `rename()` function for when we only want to rename
 a column and not select a subset of columns.
 
 ```{r}
+#| label: rename_column
 rename(metabric, PatientID = Patient_ID)
 ```
 
@@ -628,6 +668,7 @@ For example, we can sort the METABRIC patients into order of increasing
 survival time.
 
 ```{r}
+#| label: arrange_survival_time
 arrange(metabric, Survival_time)
 ```
 
@@ -636,6 +677,7 @@ would need the order to be of decreasing survival time. For that we can use
 the helper function `desc()` that works specifically with `arrange()`.
 
 ```{r}
+#| label: arrange_descending
 arrange(metabric, desc(Survival_time))
 ```
 
@@ -643,6 +685,7 @@ We can sort by more than one variable by adding more variable arguments to
 `arrange()`.
 
 ```{r}
+#| label: arrange_multiple_columns
 arrange(metabric, Tumour_stage, Nottingham_prognostic_index)
 ```
 
@@ -665,7 +708,8 @@ file can contain the column names and each subsequent line contains the values
 for each observation (row) in the table. The values are separated by either
 commas or tab characters depending on the function used to write the file.
 
-```{r writeTable}
+```{r}
+#| label: write_table
 #| eval: false
 write_csv(metabric, "filtered_metabric_clinical_data.csv")
 write_tsv(metabric, "filtered_metabric_clinical_data.tsv")
@@ -700,6 +744,7 @@ The the main functions are `read_excel`, `read_xls` and `read_xslx`. Use
 ::: {.callout-note .answer collapse="true" title="Answer"}
 
 ```{r}
+#| label: ex_1
 selectedPatients <- select(metabric, Cellularity, ER_status, HER2_status)
 selectedPatients <- filter(selectedPatients,
                            Cellularity == "High" &
@@ -727,6 +772,7 @@ nrow(selectedPatients)
 ::: {.callout-note .answer collapse="true" title="Answer"}
 
 ```{r}
+#| label: ex_2
 selectedPatients <- filter(metabric,
                            Chemotherapy == "NO" &
                                Radiotherapy == "NO" &
@@ -756,6 +802,7 @@ there is more than one spelling of "blond".
 First, look at what values these two columns actually take.
 
 ```{r}
+#| label: ex_3_explore_colours
 table(starwars$hair_color)
 table(starwars$eye_color)
 ```
@@ -764,6 +811,7 @@ Note that both "blond" and "blonde" have been used, so we need to allow for
 either.
 
 ```{r}
+#| label: ex_3_filter_or
 filter(starwars,
        (hair_color == "blond" | hair_color == "blonde") &
            eye_color == "blue")
@@ -772,6 +820,7 @@ filter(starwars,
 The `%in%` operator is a tidier way of writing the first condition.
 
 ```{r}
+#| label: ex_3_filter_in
 filter(starwars, hair_color %in% c("blond", "blonde") & eye_color == "blue")
 ```
 
@@ -792,6 +841,7 @@ filter(starwars, hair_color %in% c("blond", "blonde") & eye_color == "blue")
 The `height` column starts out as an integer.
 
 ```{r}
+#| label: ex_4_convert_to_metres
 typeof(starwars$height)
 starwars$height <- starwars$height / 100
 starwars
@@ -801,6 +851,7 @@ Challenge 4a: dividing by 100 changed the type from integer to double, because
 the result of the division is not a whole number.
 
 ```{r}
+#| label: ex_4a_height_type
 typeof(starwars$height)
 ```
 
@@ -808,6 +859,7 @@ Challenge 4b: multiplying back up by 100 restores the values, but the column is
 still a double — the type does not change back on its own.
 
 ```{r}
+#| label: ex_4b_back_to_centimetres
 starwars$height <- starwars$height * 100
 typeof(starwars$height)
 ```
@@ -815,6 +867,7 @@ typeof(starwars$height)
 We have to convert it back explicitly.
 
 ```{r}
+#| label: ex_4b_as_integer
 starwars$height <- as.integer(starwars$height)
 typeof(starwars$height)
 starwars

@@ -16,6 +16,7 @@ title: "Session 5 -- Data manipulation with dplyr"
 **dplyr** is one of the packages that gets loaded as part of the tidyverse.
 
 ```{r}
+#| label: library_tidyverse
 library(tidyverse)
 ```
 
@@ -35,6 +36,7 @@ the observations based on one or more categorical variables.
 We'll again use the METABRIC data set to illustrate how these operations work.
 
 ```{r}
+#| label: load_metabric
 #| message: false
 metabric <- read_csv("data/metabric_clinical_and_expression_data.csv")
 metabric
@@ -69,6 +71,7 @@ then use `select()` to only display the variables (columns) we're most
 interested in.
 
 ```{r}
+#| label: filter_then_select
 patients <- filter(metabric,
                    Survival_status == "LIVING" & Survival_time > 120)
 patient_details <- select(patients,
@@ -85,6 +88,7 @@ name to avoid cluttering our environment and overwritten the results from the
 `filter()` operation with those of the `select()` operation.
 
 ```{r}
+#| label: select_overwriting_patients
 #| eval: false
 patients <- select(patients,
                    Patient_ID,
@@ -100,6 +104,7 @@ come across. For example, imagine we have a vector of numbers and we want to
 find the square root of the mean. We could do it two steps:
 
 ```{r}
+#| label: nested_functions_intermediate
 x <- c(24, 53, 352, 643, 46)
 myMean <- mean(x)
 sqrt(myMean)
@@ -108,6 +113,7 @@ sqrt(myMean)
 Or we can nest the commands inside each other:
 
 ```{r}
+#| label: nested_functions
 sqrt(mean(x))
 ```
 
@@ -115,6 +121,7 @@ This is convenient for simple commands, but is unwieldy and not easy to read
 with more complex commands:
 
 ```{r}
+#| label: nested_dplyr_calls
 patients <- select(filter(metabric, Survival_status == "LIVING", Survival_time > 120), Patient_ID, Survival_time)
 nrow(patients)
 ```
@@ -168,6 +175,7 @@ We can rewrite the code for our filtering and column selection operations as
 follows.
 
 ```{r}
+#| label: pipe_filter_select
 patients <- metabric |>
     filter(Survival_status == "LIVING" & Survival_time > 120) |>
     select(Patient_ID, Survival_time, Tumour_stage, Nottingham_prognostic_index)
@@ -189,6 +197,7 @@ testing the output produced at each stage. Let's do that for this case.
 We start by considering just the patients who are living.
 
 ```{r}
+#| label: pipe_single_step
 patients <- metabric |>
     filter(Survival_status == "LIVING")
 ```
@@ -196,6 +205,7 @@ patients <- metabric |>
 We then add another filter for the survival time.
 
 ```{r}
+#| label: pipe_two_filters
 patients <- metabric |>
     filter(Survival_status == "LIVING") |>
     filter(Survival_time > 120)
@@ -207,6 +217,7 @@ we're happy with the result.
 Finally we only want certain columns, so we add a `select()` operation.
 
 ```{r}
+#| label: pipe_full_chain
 patients <- metabric |>
     filter(Survival_status == "LIVING") |>
     filter(Survival_time > 120) |>
@@ -247,6 +258,7 @@ In one of the examples of filtering observations using `filter()` above, we
 created a new logical variable called `Deceased`.
 
 ```{r}
+#| label: add_column_base_r
 metabric$Deceased <- metabric$Survival_status == "DECEASED"
 ```
 
@@ -255,6 +267,7 @@ create a new column based on the values contained in one or more other columns.
 The `dplyr` package provides the `mutate()` function for this purpose.
 
 ```{r}
+#| label: mutate_deceased
 metabric <- mutate(metabric, Deceased = Survival_status == "DECEASED")
 ```
 
@@ -269,6 +282,7 @@ formula for the Nottingham prognostic index needs the tumour size to be in
 centimetres. We can convert to `Tumour_size` to centimetres by dividing by 10.
 
 ```{r}
+#| label: mutate_tumour_size
 metabric <- mutate(metabric, Tumour_size = Tumour_size / 10)
 ```
 
@@ -296,6 +310,7 @@ We'll recalculate the Nottingham prognostic index using the values
 our METABRIC data frame.
 
 ```{r}
+#| label: mutate_npi
 metabric <- metabric |>
     mutate(NPI = (0.2 * Tumour_size) +
                Lymph_node_status +
@@ -315,7 +330,8 @@ It appears that the tumour size wasn't correctly converted into centimetres in
 the original NPI calculation or that the wrong scaling factor for tumour size
 was used.
 
-```{r scatter_plot_1}
+```{r}
+#| label: scatter_plot_1
 ggplot(data = metabric) +
     geom_point(mapping = aes(x = Age_at_diagnosis, y = NPI), na.rm = TRUE)
 ```
@@ -327,6 +343,7 @@ the NPI, rounds the tumour size and the resulting NPI value to 1 decimal place
 and displays the results in decreasing order of NPI.
 
 ```{r}
+#| label: mutate_pipeline
 #| message: false
 read_csv("data/metabric_clinical_and_expression_data.csv") |>
     mutate(Tumour_size = Tumour_size / 10) |>
@@ -352,6 +369,7 @@ columns to operate across and second a function to apply to those columns.
 So if we just wanted to round to the the nearest integer:
 
 ```{r}
+#| label: mutate_across_columns
 metabric |>
     mutate(across(c(Tumour_size, NPI), round)) |>
     select(Patient_ID, Tumour_size, NPI)
@@ -381,6 +399,7 @@ anonymous because it has no name, it's an _in situ_ function only used in our
 `mutate()` function call.
 
 ```{r}
+#| label: mutate_across_anonymous_function
 iris |>
     as_tibble() |>
     mutate(across(Sepal.Length:Petal.Width, ~ .x * 10))
@@ -402,6 +421,7 @@ arguments we need to add.
 So if we want to round to 1 decimal place:
 
 ```{r}
+#| label: mutate_across_with_arguments
 metabric |>
     mutate(across(c(Tumour_size, NPI), ~round(.x, digits = 1))) |>
     select(Patient_ID, Tumour_size, NPI)
@@ -414,6 +434,7 @@ For example, we might decide that our expression values are given to a much
 higher degree of precision than is strictly necessary.
 
 ```{r}
+#| label: mutate_across_gene_range
 metabric |>
     mutate(across(ESR1:MLPH, ~round(.x, digits = 2))) |>
     select(Patient_ID, ESR1:MLPH)
@@ -423,6 +444,7 @@ Or we could decide that all the columns whose names end with "\_status" are in
 fact categorical variables and should be converted to factors.
 
 ```{r}
+#| label: mutate_across_ends_with
 metabric |>
     mutate(across(ends_with("_status"), as.factor)) |>
     select(Patient_ID, ends_with("_status"))
@@ -445,12 +467,14 @@ mean of a numeric vector. Let's calculate the average ESR1 expression for tumour
 samples in the METABRIC data set.
 
 ```{r}
+#| label: mean_esr1_base_r
 mean(metabric$ESR1)
 ```
 
 The equivalent operation using `summarise()` is:
 
 ```{r}
+#| label: summarise_mean_esr1
 summarise(metabric, mean(ESR1))
 ```
 
@@ -468,6 +492,7 @@ multiple columns or using more than one function, for example computing the
 average and standard deviation.
 
 ```{r}
+#| label: summarise_named_values
 summarise(metabric, ESR1_mean = mean(ESR1), ESR1_sd = sd(ESR1))
 ```
 
@@ -500,6 +525,7 @@ value, i.e. from multiple columns. For example, we could compute the correlation
 between the expression of FOXA1 and MLPH.
 
 ```{r}
+#| label: summarise_correlation
 summarise(metabric, correlation = cor(FOXA1, MLPH))
 ```
 
@@ -509,6 +535,7 @@ As with `mutate()` we can use **across()** to summarise across multiple columns
 using the same function.
 
 ```{r}
+#| label: summarise_across_columns
 summarise(metabric, across(c(FOXA1, MLPH), mean))
 ```
 
@@ -516,6 +543,7 @@ We can use the `everything()` selector to summarise across all the columns in
 the table.
 
 ```{r}
+#| label: summarise_across_everything
 metabric |>
     select(ESR1:MLPH) |>
     summarise(across(everything(), mean))
@@ -526,6 +554,7 @@ summary function. For example, what happens if we try to compute an average of
 a set of character values?
 
 ```{r}
+#| label: summarise_across_na_rm
 metabric |>
     summarise(across(everything(), ~mean(.x, na.rm = TRUE)))
 ```
@@ -537,6 +566,7 @@ We can combine `across()` with `where()` and a logical test (e.g. `is.numeric`)
 to select those columns for which a summarization function is appropriate.
 
 ```{r}
+#| label: summarise_across_where_numeric
 metabric |>
     summarise(across(where(is.numeric), ~mean(.x, na.rm = TRUE)))
 ```
@@ -545,6 +575,7 @@ It is possible to summarise using more than one function in which case a list of
 functions needs to be provided.
 
 ```{r}
+#| label: summarise_across_multiple_functions
 metabric |>
     summarise(across(c(ESR1, ERBB2, PGR), list(mean, sd)))
 ```
@@ -553,6 +584,7 @@ Pretty neat but I'm not sure about those column headings in the output --
 fortunately we have some control over these.
 
 ```{r}
+#| label: summarise_across_named_functions
 metabric |>
     summarise(across(c(ESR1, ERBB2, PGR), list(Average = mean, stdev = sd)))
 ```
@@ -565,6 +597,7 @@ correlated. Here is how we could do this in a single `summarise()` statement
 using an anonymous function.
 
 ```{r}
+#| label: summarise_across_correlations
 metabric |>
     summarise(across(c(ESR1:MLPH, -FOXA1), ~cor(.x, FOXA1)))
 ```
@@ -591,7 +624,8 @@ Let's create a scatter plot of GATA3 and ESR1 expression values where we're
 displaying the PR positive and PR negative patients using different colours.
 This is very similar to a plot we created in the last session.
 
-```{r scatter_plot_2}
+```{r}
+#| label: scatter_plot_2
 ggplot(data = metabric,
        mapping = aes(x = GATA3, y = ESR1, colour = PR_status)) +
     geom_point(size = 0.5, alpha = 0.5)
@@ -599,7 +633,8 @@ ggplot(data = metabric,
 
 An alternative is to use faceting with **`facet_wrap()`**.
 
-```{r scatter_plot_3}
+```{r}
+#| label: scatter_plot_3
 ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1)) +
     geom_point(size = 0.5, alpha = 0.5) +
     facet_wrap(vars(PR_status))
@@ -614,7 +649,8 @@ selecting columns with `select()` and inside `across()`.
 
 We can still use separate colours if we prefer things to be, well, colourful.
 
-```{r scatter_plot_4}
+```{r}
+#| label: scatter_plot_4
 ggplot(data = metabric,
        mapping = aes(x = GATA3, y = ESR1, colour = PR_status)) +
     geom_point(size = 0.5, alpha = 0.5) +
@@ -627,7 +663,8 @@ which points belong to each group. A case in point is for the 3-gene
 classification in the GATA3 vs ESR1 scatter plot we created in the last session. Let's
 create a faceted version of that plot.
 
-```{r scatter_plot_5}
+```{r}
+#| label: scatter_plot_5
 ggplot(data = metabric,
        mapping = aes(x = GATA3, y = ESR1, colour = `3-gene_classifier`)) +
     geom_point(size = 0.5, alpha = 0.5) +
@@ -638,14 +675,16 @@ This helps explain why the function is called `facet_wrap()`. When it has too
 many subplots to fit across the page, it wraps around to another row. We can
 control how many rows or columns to use with the `nrow` and `ncol` arguments.
 
-```{r scatter_plot_6}
+```{r}
+#| label: scatter_plot_6
 ggplot(data = metabric,
        mapping = aes(x = GATA3, y = ESR1, colour = `3-gene_classifier`)) +
     geom_point(size = 0.5, alpha = 0.5) +
     facet_wrap(vars(`3-gene_classifier`), nrow = 1)
 ```
 
-```{r scatter_plot_7}
+```{r}
+#| label: scatter_plot_7
 ggplot(data = metabric,
        mapping = aes(x = GATA3, y = ESR1, colour = `3-gene_classifier`)) +
     geom_point(size = 0.5, alpha = 0.5) +
@@ -656,7 +695,8 @@ We can combine faceting on one variable with a colour aesthetic for another
 variable. For example, let's show the tumour stage status using faceting and the HER2
 status using colours.
 
-```{r scatter_plot_8}
+```{r}
+#| label: scatter_plot_8
 ggplot(data = metabric,
        mapping = aes(x = GATA3, y = ESR1, colour = HER2_status)) +
     geom_point(size = 0.5, alpha = 0.5) +
@@ -665,7 +705,8 @@ ggplot(data = metabric,
 
 Instead of this we could facet on more than variable.
 
-```{r scatter_plot_9}
+```{r}
+#| label: scatter_plot_9
 ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1)) +
     geom_point(size = 0.5, alpha = 0.5) +
     facet_wrap(vars(Neoplasm_histologic_grade, HER2_status))
@@ -674,7 +715,8 @@ ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1)) +
 Faceting on two variables is usually better done using the other faceting
 function, **`facet_grid()`**. Note the change in how the formula is written.
 
-```{r scatter_plot_10}
+```{r}
+#| label: scatter_plot_10
 ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1)) +
     geom_point(size = 0.5, alpha = 0.5) +
     facet_grid(vars(Neoplasm_histologic_grade), vars(HER2_status))
@@ -683,7 +725,8 @@ ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1)) +
 Again we can use colour aesthetics alongside faceting to add further information
 to our visualization.
 
-```{r scatter_plot_11}
+```{r}
+#| label: scatter_plot_11
 ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1, colour = PAM50)) +
     geom_point(size = 0.5, alpha = 0.5) +
     facet_grid(rows = vars(Neoplasm_histologic_grade),
@@ -694,7 +737,8 @@ Finally, we can use a `labeller` to change the labels for each of the
 categorical values so that these are more meaningful in the context of this
 plot.
 
-```{r scatter_plot_12}
+```{r}
+#| label: scatter_plot_12
 grade_labels <- c("1" = "Grade I", "2" = "Grade II", "3" = "Grade III")
 her2_status_labels <- c("Positive" = "HER2 positive",
                         "Negative" = "HER2 negative")
@@ -710,7 +754,8 @@ ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1, colour = PAM50)) +
 This would certainly be necessary if we were to use ER and HER2 status on one
 side of the grid.
 
-```{r scatter_plot_13}
+```{r}
+#| label: scatter_plot_13
 er_status_labels <- c("Positive" = "ER positive", "Negative" = "ER negative")
 #
 ggplot(data = metabric, mapping = aes(x = GATA3, y = ESR1, colour = PAM50)) +
@@ -748,6 +793,7 @@ operator, `|>`, in cases where more than one operation is required to achieve
 the outcome requested.
 
 ```{r}
+#| label: ex_setup
 #| message: false
 #| warning: false
 library(tidyverse)
@@ -764,6 +810,7 @@ radiotherapy and survived for more than 20 years.
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_1_long_survivors
 patients <- metabric |>
     mutate(Survival_time_years = Survival_time / 12) |>
     filter(Chemotherapy == "NO" &
@@ -780,6 +827,7 @@ proportion that are ER positive.
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_1_er_status_subset
 table(patients$ER_status)
 mean(patients$ER_status == "Positive")
 ```
@@ -790,6 +838,7 @@ whole cohort by way of a comparison.
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_1_er_status_cohort
 table(metabric$ER_status)
 mean(metabric$ER_status == "Positive")
 ```
@@ -812,6 +861,7 @@ with the highest proportion is at the top.**
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_2_proportion_of_life
 metabric |>
     mutate(Survival_time_years = Survival_time / 12) |>
     mutate(Age = Age_at_diagnosis + Survival_time_years) |>
@@ -847,6 +897,7 @@ with the standardized expression values (z-scores) for the ESR1 gene.
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_3_esr1_z_score
 metabric_z_scores <- mutate(metabric,
                             ESR1_z_score = (ESR1 - mean(ESR1)) / sd(ESR1))
 ```
@@ -857,6 +908,7 @@ deviation of your new z-score variable.
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_3_check_z_score
 summarise(metabric_z_scores,
           mean = mean(ESR1_z_score),
           sd = sd(ESR1_z_score))
@@ -869,6 +921,7 @@ PAM50 classification.
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_3_gata3_z_score_plot
 metabric_z_scores <- mutate(metabric_z_scores,
                             GATA3_z_score = (GATA3 - mean(GATA3)) / sd(GATA3))
 
@@ -886,6 +939,7 @@ resulting values to 3 significant figures.
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_3_all_genes_z_scores
 metabric_z_scores <- metabric |>
     mutate(across(ESR1:MLPH, ~ (.x - mean(.x)) / sd(.x))) |>
     mutate(across(ESR1:MLPH, ~ signif(.x, digits = 3)))
@@ -900,6 +954,7 @@ for each column, again using a single operation.
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_3_check_all_genes
 metabric_z_scores |>
     summarise(across(ESR1:PGR, list(mean = mean, sd = sd)))
 ```
@@ -919,6 +974,7 @@ metres.
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_4_starwars_bmi
 starwars |>
     mutate(BMI = mass / (height / 100) ^ 2) |>
     select(name, height, mass, BMI) |>

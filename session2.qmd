@@ -26,6 +26,7 @@ To create a factor we simply use the function `factor` to turn a standard
 character vector into a factor.
 
 ```{r}
+#| label: factor_create
 x <- c("orange", "apple", "apple", "orange")
 x
 fruit <- factor(x) # convert vector x into a factor
@@ -40,6 +41,7 @@ levels. To examine what levels a particular factor has we can use the
 command `levels`:
 
 ```{r}
+#| label: factor_levels
 levels(fruit)
 ```
 
@@ -48,6 +50,7 @@ now the only valid possible values. If we try to change one of the values to
 something else it will result in a missing value.
 
 ```{r}
+#| label: factor_invalid_value
 fruit[1] <- "apple"
 fruit[2] <- "banana"
 fruit
@@ -62,6 +65,7 @@ use a small amount of memory. We can see this if we convert the factor to a
 numeric vector using `as.numeric`.
 
 ```{r}
+#| label: factor_stored_as_integers
 x <- c("low", "high", "medium", "high", "low", "medium", "high")
 response <- factor(x)
 as.numeric(x)
@@ -81,6 +85,7 @@ would probably want to switch this to "low", "medium", "high". We can do
 this in the `factor` function.
 
 ```{r}
+#| label: factor_specify_levels
 response <- factor(x, levels = c("low", "medium", "high"))
 response
 ```
@@ -92,6 +97,7 @@ category values. `as.numeric` will return a vector of the level index for each
 value.
 
 ```{r}
+#| label: factor_convert_to_vector
 response
 as.character(response)
 as.numeric(response)
@@ -102,6 +108,7 @@ For example if we have a categorical vector of years and we want to convert this
 to a numeric vector of years (so that perhaps we can do some arithmetic with it).
 
 ```{r}
+#| label: factor_numeric_categories
 x <- c(1987, 2002, 2019, 2004, 1983, 1982, 1999, 2004)
 dateOfBirth <- factor(x)
 dateOfBirth
@@ -112,6 +119,7 @@ as.numeric(dateOfBirth)
 To get the result we want we need to do it in two stages:
 
 ```{r}
+#| label: factor_numeric_conversion_two_stage
 dob <- as.character(dateOfBirth)
 dob <- as.numeric(dob)
 dob
@@ -143,6 +151,7 @@ The matrix can be viewed as a collection of vectors:
 Matrices are widely using in statistical analyses and modelling.
 
 ```{r}
+#| label: matrix_create
 y <- matrix(data = 1:12, nrow = 4, ncol = 3)
 y
 class(y)
@@ -162,6 +171,7 @@ We can find out about the size of the matrix using the following functions:
 * ncol(): gives number of columns
 
 ```{r}
+#| label: matrix_dimensions
 dim(y)
 nrow(y)
 ncol(y)
@@ -176,6 +186,7 @@ The general syntax is `matrix[ rows , columns ]`:
 To extract the value in the first row and the second column:
 
 ```{r}
+#| label: matrix_single_value
 y[1, 2]
 ```
 
@@ -183,6 +194,7 @@ If we want an entire row or an entire column, we can omit the column or row
 index respectively.
 
 ```{r}
+#| label: matrix_row_and_column
 y[1, ]
 y[, 3]
 ```
@@ -191,6 +203,7 @@ As with atomic vectors, we can use a vector within the `[]` operator to select
 multiple values:
 
 ```{r}
+#| label: matrix_multiple_values
 y[c(1, 3), 2:3]
 ```
 
@@ -198,6 +211,7 @@ Like the atomic vector, matrix can hold only one type of data, if we try to mix
 two or more different data type, R implicitly convert into one type:
 
 ```{r}
+#| label: matrix_type_coercion
 typeof(y)
 y
 y[2, 3]
@@ -213,6 +227,7 @@ collection of multiple objects. The objects in the list can be of different
 types and different lengths.  A list can even be a collection of lists.
 
 ```{r}
+#| label: list_create
 w <- c(TRUE, FALSE)
 x <- 1:10
 y <- c("a", "b", "c")
@@ -233,6 +248,7 @@ access individual elements in the list:
    output will be the data structure for that element.
 
 ```{r}
+#| label: list_single_bracket
 length(myList)
 myList[1]
 myList[4]
@@ -241,6 +257,7 @@ myList[1:3]
 
 
 ```{r}
+#| label: list_double_bracket
 #| error: true
 length(myList)
 myList[[1]]
@@ -253,6 +270,7 @@ We can also name the elements in the list. This provides another way to access t
 3. "$": to extract an element from a list by name.
 
 ```{r}
+#| label: list_named_elements
 namedList <- list(
     city = c("Kampala", "London", "Paris"),
     population = c(1.51, 8.8, 2.1)
@@ -269,6 +287,7 @@ You can modify lists either by adding additional elements or modifying existing
 ones.
 
 ```{r}
+#| label: list_modify
 namedList$city[2] <- "New York"
 namedList$country <- c("Uganda", "USA", "France")
 namedList
@@ -289,11 +308,13 @@ subtly different normal distributions. We'll use the `rnorm()` function for
 creating random numbers based on a normal distribution.
 
 ```{r}
+#| label: set_seed
 #| include: false
 set.seed(101010)
 ```
 
 ```{r}
+#| label: t_test_result_list
 sample_1 <- rnorm(n = 100, mean = 5, sd = 1)
 sample_2 <- rnorm(n = 100, mean = 7, sd = 1)
 
@@ -315,6 +336,7 @@ treat it as a 2 dimensional table, it is actually a special type of list in
 which all the elements are vectors of the same length. 
 
 ```{r}
+#| label: data_frame_create
 dat <- data.frame(
     city = c("Kampala", "London", "Paris"),
     population = c(1.51, 8.8, 2.1)
@@ -343,6 +365,7 @@ To bring one of these internal data sets to the fore, you can just start using
 it by name.
 
 ```{r}
+#| label: iris_first_use
 head(iris)
 ```
 
@@ -350,6 +373,7 @@ head(iris)
 You can also get help for a data set such as iris in the usual way.
 
 ```{r}
+#| label: iris_help
 #| eval: false
 ?iris # get help for iris data
 ```
@@ -364,14 +388,17 @@ Viewing data frames is made easier with these functions:
 * View(): Shows data frame in excel like format  
 
 ```{r}
+#| label: iris_head
 head(iris)
 ```
 
 ```{r}
+#| label: iris_tail
 tail(iris)
 ```
 
 ```{r}
+#| label: iris_view
 #| eval: false
 View(iris)
 ```
@@ -380,6 +407,7 @@ A data frame is a special type of list so you can access its columns in the
 same way as we saw previously for lists.
 
 ```{r}
+#| label: iris_column_by_name
 names(iris)
 iris$Petal.Width
 ```
@@ -387,6 +415,7 @@ We can further subset the values in that column to, say, return the
 first 10 values only.
 
 ```{r}
+#| label: iris_column_subset
 iris$Petal.Length[1:10]
 ```
 
@@ -394,6 +423,7 @@ As with the matrix, the `[, ]` syntax can be used to access both rows and
 columns.
 
 ```{r}
+#| label: iris_rows_and_columns
 iris[1:4, 1:3]
 iris[c(1, 4, 7),  c(2, 4)]
 ```
@@ -401,6 +431,7 @@ iris[c(1, 4, 7),  c(2, 4)]
 To extract values from a data frame, row/column names may also be used
 
 ```{r}
+#| label: iris_subset_by_name
 iris[c(1, 4, 7),  c("Sepal.Width", "Species" )]
 ```
 
@@ -408,12 +439,14 @@ We can also use conditional sub-setting to extract the rows that meet certain
 conditions, e.g. all the rows with Sepal.Length of 5.
 
 ```{r}
+#| label: iris_conditional_subset
 iris[iris$Sepal.Length == 5, ]
 ```
 One can use & (and), | (or) and ! (not) logical operators for complex
 sub-setting.
 
 ```{r}
+#| label: iris_conditional_subset_multiple
 iris[iris$Sepal.Length == 5 & iris$Species == "setosa", ]
 ```
 
@@ -432,6 +465,7 @@ We will start working with tidyverse in the next session.
 * **`summary()`**  is a very useful function that summarises each column in a data frame
 
 ```{r}
+#| label: iris_summary
 summary(iris)
 ```
 
@@ -449,7 +483,8 @@ summary(iris)
 
 1a. How many rows and columns in the `mtcars` data set?
 
-```{r ex_1}
+```{r}
+#| label: ex_1
 #| purl: false
 nrow(mtcars)
 ncol(mtcars)
@@ -458,6 +493,7 @@ ncol(mtcars)
 1b. How many cars in the `mtcars` data set have 8 cylinders?
 
 ```{r}
+#| label: ex_1b
 sum(mtcars$cyl == 8)
 ```
 
@@ -465,6 +501,7 @@ sum(mtcars$cyl == 8)
 gears?
 
 ```{r}
+#| label: ex_1c
 sum(mtcars$cyl == 6 & mtcars$gear > 3)
 ```
 :::
@@ -477,7 +514,8 @@ sum(mtcars$cyl == 6 & mtcars$gear > 3)
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 
-```{r ex_2}
+```{r}
+#| label: ex_2
 #| purl: false
 mtcars[c(3, 5), c(1, 3)]
 ```
@@ -494,7 +532,8 @@ mtcars[c(3, 5), c(1, 3)]
 
 3a. Identify the data structure of the first row by extracting it?
 
-```{r ex_3}
+```{r}
+#| label: ex_3
 #| purl: false
 class(airquality[1, ])
 ```
@@ -502,6 +541,7 @@ class(airquality[1, ])
 3b. Identify the data structure of the first column by extracting it?
 
 ```{r}
+#| label: ex_3b
 class(airquality[, 1])
 is.vector(airquality[, 1])
 is.data.frame(airquality[, 1])
@@ -524,7 +564,8 @@ Used `help` on `head` and `tail` to find out about their arguments.
 
 4a. Show first 10 rows 
 
-```{r ex_4}
+```{r}
+#| label: ex_4
 #| purl: false
 head(airquality, n = 10)
 ```
@@ -532,12 +573,14 @@ head(airquality, n = 10)
 4b. Show last 2 rows
 
 ```{r}
+#| label: ex_4b
 tail(airquality, n = 2)
 ```
 
 4c. list all the column names available
 
 ```{r}
+#| label: ex_4c
 names(airquality)
 colnames(airquality)
 ```
@@ -558,7 +601,8 @@ colnames(airquality)
 
 5a. Get correlation coefficient confidence interval
 
-```{r ex_5}
+```{r}
+#| label: ex_5
 #| purl: false
 results <- cor.test(airquality$Ozone, airquality$Solar.R)
 results$conf.int
@@ -567,12 +611,14 @@ results$conf.int
 5b. what is the p-value?
 
 ```{r}
+#| label: ex_5b
 results$p.value
 ```
 
 5c. What is the estimated correlation coefficient?
 
 ```{r}
+#| label: ex_5c
 results$estimate
 ```
 :::

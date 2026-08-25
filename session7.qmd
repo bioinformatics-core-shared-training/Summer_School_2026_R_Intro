@@ -36,6 +36,7 @@ The functions we're mostly focusing on in this session are from the **tidyr**
 and **stringr** packages both of which get loaded as part of the tidyverse.
 
 ```{r}
+#| label: library_tidyverse
 library(tidyverse)
 ```
 
@@ -60,6 +61,7 @@ country and year and separate columns containing the numbers of TB cases and the
 population.
 
 ```{r}
+#| label: tidy_table1
 table1
 ```
 
@@ -67,6 +69,7 @@ Two alternative ways of representing the same information are given in `table2`
 and `table3`. We'll consider each of these in turn, shortly.
 
 ```{r}
+#| label: untidy_table2_table3
 table2
 table3
 ```
@@ -76,6 +79,7 @@ is actually quite likely given that population data will almost certainly have
 been collected separately from the recording of TB cases.
 
 ```{r}
+#| label: untidy_table4
 table4a
 table4b
 ```
@@ -157,6 +161,7 @@ year. Transforming the table in this way is known as 'pivoting' and the tidyr
 package provides the `pivot_longer()` function for just such an operation.
 
 ```{r}
+#| label: pivot_longer_table4a
 table4a
 table4a_long <- pivot_longer(table4a,
                              c(`1999`, `2000`),
@@ -202,6 +207,7 @@ We can do the same with `table4b` and join the two resulting tables together to
 recreate `table1`.
 
 ```{r}
+#| label: pivot_longer_table4b_and_join
 table4b_long <- pivot_longer(table4b,
                              -country,
                              names_to = "year",
@@ -217,6 +223,7 @@ left_join(table4a_long, table4b_long, by = join_by(country, year))
 to reverse the pivoting operation we just performed on `table4a`.
 
 ```{r}
+#| label: pivot_wider_table4a_long
 table4a_long
 pivot_wider(table4a_long, names_from = "year", values_from = "cases")
 ```
@@ -228,6 +235,7 @@ is no observation for a given year. That isn't the case in this example but we
 can show this by removing the last row from `table4a_long`.
 
 ```{r}
+#| label: pivot_wider_missing_values
 table4a_long <- head(table4a_long, 5)
 table4a_long
 pivot_wider(table4a_long, names_from = "year", values_from = "cases")
@@ -242,6 +250,7 @@ gene expression matrices.
 Let's look again at `table2`.
 
 ```{r}
+#| label: table2_revisited
 table2
 ```
 
@@ -273,6 +282,7 @@ variable names so we'd need to set `names_from = "type"`, while the values will
 be taken from the `count` column.
 
 ```{r}
+#| label: pivot_wider_table2
 table2_fixed <- pivot_wider(table2, names_from = "type", values_from = "count")
 table2_fixed
 ```
@@ -281,6 +291,7 @@ The resulting table is exactly the same as `table1` and now the rate of
 infection can be calculated rather straightforwardly.
 
 ```{r}
+#| label: mutate_rate_from_table2
 mutate(table2_fixed, rate = cases / population)
 ```
 
@@ -292,6 +303,7 @@ Table 3 contains an example of a column that contains multiple values. It is a
 somewhat convoluted example but occasionally you may come across data like this.
 
 ```{r}
+#| label: table3_revisited
 table3
 ```
 
@@ -306,6 +318,7 @@ The `separate_wider_delim()` function allows us to split a character column into
 multiple columns based on a delimiter or separator.
 
 ```{r}
+#| label: separate_wider_delim_table3
 table3_separated <- separate_wider_delim(table3,
                                          rate,
                                          names = c("cases", "population"),
@@ -321,6 +334,7 @@ apparent as soon as we try to do anything with the new `cases` and `population`
 columns.
 
 ```{r}
+#| label: separate_character_columns_error
 #| error: true
 mutate(table3_separated, rate = cases / population)
 ```
@@ -329,6 +343,7 @@ By default the separated values are character types. We could convert these
 using `mutate()`.
 
 ```{r}
+#| label: separate_and_convert_types
 table3_separated <- separate_wider_delim(table3,
                                          rate,
                                          names = c("cases", "population"),
@@ -357,6 +372,7 @@ tidier format to open up different avenues for exploring the data.
 We'll first load the table and then select just the columns we're going to need.
 
 ```{r}
+#| label: load_metabric
 #| message: false
 metabric <- read_csv("data/metabric_clinical_and_expression_data.csv") |>
     select(Patient_ID, ER_status, ESR1:MLPH)
@@ -366,7 +382,8 @@ metabric
 When we first looked at visualization using ggplot2 we created the following
 box plot.
 
-```{r box_plot_1}
+```{r}
+#| label: box_plot_1
 #| fig-width: 5
 #| fig-height: 4
 ggplot(metabric) +
@@ -404,6 +421,7 @@ We'll convert our table of ER status and gene expression data to the tidy
 format.
 
 ```{r}
+#| label: pivot_longer_metabric
 metabric <- pivot_longer(metabric,
                          ESR1:MLPH,
                          names_to = "Gene",
@@ -416,7 +434,8 @@ lot easier than naming each column individually.
 
 We're now in a position to create our faceted box plot chart.
 
-```{r box_plot_2}
+```{r}
+#| label: box_plot_2
 #| fig-height: 6
 ggplot(data = metabric,
        mapping = aes(x = ER_status, y = Expression)) +
@@ -435,7 +454,8 @@ plot comparing the expression of two genes across all the samples. For this,
 the _one-row-per-sample_ representation is the more appropriate and being able
 to convert back to this format allows us to create the plot.
 
-```{r scatter_plot_1}
+```{r}
+#| label: scatter_plot_1
 metabric |>
     pivot_wider(names_from = "Gene", values_from = "Expression") |>
     ggplot() +
@@ -464,6 +484,7 @@ The table in question is
 [supplementary data 9](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5998130/bin/41467_2018_4619_MOESM11_ESM.xlsx).
 
 ```{r}
+#| label: load_protein_levels
 #| message: false
 library(readxl)
 protein_levels <- read_excel("data/41467_2018_4619_MOESM11_ESM.xlsx", skip = 1)
@@ -487,6 +508,7 @@ levels are markedly reduced 24 hours after treatment with tamoxifen compared
 with the vehicle.
 
 ```{r}
+#| label: filter_protein_levels
 protein_levels <- protein_levels |>
     filter(`log2FC(24h/veh)` < -0.75) |>
     select(accession = `Uniprot Accession`,
@@ -509,6 +531,7 @@ the sample name column into its constituent parts.
 For the first part of this transformation we'll use `pivot_longer()`.
 
 ```{r}
+#| label: pivot_longer_protein_levels
 protein_levels <- pivot_longer(protein_levels,
                                vehicle.rep01:tam.24h.rep04,
                                names_to = "sample",
@@ -589,6 +612,7 @@ Extract substrings from a character vector at the given start and end positions.
 sample names.
 
 ```{r}
+#| label: str_replace_example
 str_replace("vehicle.rep01", "vehicle", "vehicle.24h")
 ```
 
@@ -601,12 +625,14 @@ vector of character values (or strings), so let's try this on a few of our
 sample names, say the first 10.
 
 ```{r}
+#| label: str_replace_vector
 str_replace(protein_levels$sample[1:10], "vehicle", "vehicle.24h")
 ```
 
 Finally, we can modify the values in our data frame using `mutate()`.
 
 ```{r}
+#| label: mutate_sample_names
 protein_levels <- mutate(protein_levels,
                          sample = str_replace(sample, "vehicle", "vehicle.24h"))
 protein_levels
@@ -615,6 +641,7 @@ protein_levels
 Now we're ready to separate the `sample` column into its component parts.
 
 ```{r}
+#| label: separate_sample_names
 protein_levels <- separate_wider_delim(protein_levels,
                                        sample,
                                        names = c("treatment", "time", "replicate"),
@@ -631,6 +658,7 @@ we'll use `str_sub()`. Our group variable is categorical so we'll convert this
 to a factor while we're at it.
 
 ```{r}
+#| label: create_group_factor
 protein_levels <- protein_levels |>
     mutate(group = str_sub(treatment, 1, 3)) |>
     mutate(group = str_c(group, time)) |>
@@ -641,6 +669,7 @@ protein_levels
 Computing the mean protein levels within each group is now very straightforward.
 
 ```{r}
+#| label: summarise_protein_levels
 protein_levels |>
     group_by(accession, gene, group) |>
     summarize(protein_level = mean(protein_level))
@@ -652,11 +681,13 @@ plots for each of the proteins (we'll use gene symbols as they're more
 recognizable).
 
 ```{r}
+#| label: set_seed
 #| include: false
 set.seed(101010)
 ```
 
-```{r box_plot_3}
+```{r}
+#| label: box_plot_3
 #| fig-height: 7
 ggplot(data = protein_levels, mapping = aes(x = group, y = protein_level)) +
     geom_boxplot(colour = "grey60") +
@@ -679,6 +710,7 @@ plot showing the expression of estrogen receptor alpha (ESR1) for each of the
 Integrative cluster breast cancer subtypes.
 
 ```{r}
+#| label: load_metabric_clusters
 #| message: false
 # read in the METABRIC data, convert the Integrative_cluster variable into a
 # categorical variable with the levels in the correct order, and select just
@@ -699,7 +731,8 @@ metabric <- read_csv("data/metabric_clinical_and_expression_data.csv") |>
 metabric
 ```
 
-```{r box_plot_4}
+```{r}
+#| label: box_plot_4
 # plot the ESR1 expression for each integrative cluster
 plot <- ggplot(data = metabric) +
     geom_boxplot(mapping = aes(x = Integrative_cluster,
@@ -714,7 +747,8 @@ particularly suitable for printing on paper. We can change to one of a number
 of alternative themes available in the ggplot2 package, e.g. the black and
 white theme.
 
-```{r box_plot_5}
+```{r}
+#| label: box_plot_5
 plot + theme_bw()
 ```
 
@@ -728,7 +762,8 @@ these individual settings using the `theme()` function. A look at the help page
 (`?theme`) shows that there are a very large number of settings that you can
 change. The following example demonstrates a few of these.
 
-```{r box_plot_6}
+```{r}
+#| label: box_plot_6
 plot +
     theme_bw() +
     theme(panel.grid.major.x = element_blank(),
@@ -739,7 +774,8 @@ plot +
 Here's another example that also involves customizing the labels, scales and
 colours.
 
-```{r bar_plot_1}
+```{r}
+#| label: bar_plot_1
 #| fig-width: 5
 ggplot(data = metabric) +
     geom_bar(mapping = aes(x = `3-gene_classifier`, fill = ER_status)) +
@@ -762,7 +798,8 @@ The ggthemes package contains some extra themes and might be fun to check out.
 Here's an example of a plot that uses the `theme_gdocs` theme that resembles the
 default look of charts in Google Docs.
 
-```{r box_plot_7}
+```{r}
+#| label: box_plot_7
 #| fig-width: 5
 #| fig-height: 4
 library(ggthemes)
@@ -792,7 +829,8 @@ plot is shown as a stacked bar chart. An alternative way of representing these
 data would be to show separate bars for each ER status side-by-side by setting
 `position = "dodge"`.
 
-```{r bar_plot_2}
+```{r}
+#| label: bar_plot_2
 ggplot(data = metabric) +
     geom_bar(mapping = aes(x = `3-gene_classifier`, fill = ER_status),
              position = "dodge") +
@@ -816,7 +854,8 @@ a convenient shortcut for `geom_point(position = "jitter")`. A variation on this
 a box plot. We show an example of just such a plot in which first use
 `postion = "jitter"`.
 
-```{r box_plot_8}
+```{r}
+#| label: box_plot_8
 ggplot(data = metabric,
        mapping = aes(x = `3-gene_classifier`, y = ESR1, colour = PR_status)) +
     geom_boxplot() +
@@ -836,7 +875,8 @@ in a way that is aesthetically displeasing. What we want is for the points to
 have both jitter and to be dodged in the same way as the boxes. With
 `position_jitterdodge()` we get a better looking plot.
 
-```{r box_plot_9}
+```{r}
+#| label: box_plot_9
 ggplot(data = metabric,
        mapping = aes(x = `3-gene_classifier`, y = ESR1, colour = PR_status)) +
     geom_boxplot() +
@@ -856,6 +896,7 @@ ggplot(data = metabric,
 Use `ggsave()` to save the last plot you displayed.
 
 ```{r}
+#| label: ggsave_png
 #| eval: false
 ggsave("esr1_expression.png")
 ```
@@ -864,6 +905,7 @@ You can alter the width and height of the plot and can change the image file
 type.
 
 ```{r}
+#| label: ggsave_pdf
 #| eval: false
 ggsave("esr1_expression.pdf", width = 20, height = 12, units = "cm")
 ```
@@ -904,6 +946,7 @@ The clinical data, gene expression values and mutation data were all downloaded
 from [cBioPortal](https://www.cbioportal.org/study/summary?id=brca_metabric).
 
 ```{r}
+#| label: ex_setup
 #| message: false
 library(tidyverse)
 ```
@@ -920,6 +963,7 @@ format in another data frame available as part of the **tidyr** package, named
 `who`.
 
 ```{r}
+#| label: ex_1_who_data
 who
 ```
 
@@ -975,6 +1019,7 @@ separator character; you could modify the variable before separating.
 ::: {.callout-note .answer collapse="true" title="Answer"}
 
 ```{r}
+#| label: ex_1_tidy_who
 # the hints below lead to the following solution
 who_tidy <- who |>
     pivot_longer(new_sp_m014:newrel_f65,
@@ -1072,6 +1117,7 @@ Recreate the first 3 columns of `table1`, containing a small subset of the WHO
 tuberculosis data set, from your tidy version of `who`.
 
 ```{r}
+#| label: ex_2_table1_target
 select(table1, 1:3)
 ```
 
@@ -1081,6 +1127,7 @@ This will involve some filtering, grouping and summarization.
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_2_recreate_table1
 who_tidy |>
     filter(country %in% c("Afghanistan", "Brazil", "China")) |>
     filter(year %in% c(1999, 2000)) |>
@@ -1104,6 +1151,7 @@ need to sum the numbers of cases for each country, year and age group.
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_3_uk_time_series
 who_tidy <- who_tidy |>
     group_by(country, year, age_group) |>
     summarise(cases = sum(cases))
@@ -1125,6 +1173,7 @@ more easily compare the overall patterns between countries.
 
 ::: {.callout-note .answer collapse="true" title="Answer"}
 ```{r}
+#| label: ex_3_multiple_countries
 who_tidy |>
     filter(country %in% c("France", "Brazil", "Japan", "Namibia")) |>
     ggplot() +
