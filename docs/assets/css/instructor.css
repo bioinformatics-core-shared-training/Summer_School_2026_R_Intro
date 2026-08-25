@@ -1,0 +1,118 @@
+/* Instructor notes: the deltas from the student pages.
+ *
+ * Loaded only by the generated instructor_*.qmd, which list it under `css:`.
+ * That APPENDS to the project-level css rather than replacing it (Quarto
+ * treats css as a mergeable list at every config level), so fonts.css still
+ * loads and the theme built from assets/css/site.scss still applies. Nothing
+ * here needs to fight site.scss for width: the body column is widened by
+ * `grid: body-width` in each generated page's front matter, and site.scss
+ * puts no max-width on #quarto-content, .page-columns or main.content.
+ *
+ * Plain CSS rather than SCSS, for the same reason fonts.css is: a stylesheet
+ * listed under `css:` is copied and linked as-is, so it can be edited without
+ * recompiling the theme.
+ */
+
+/* --------------------------------------------------------------------------
+ *  Page furniture
+ *
+ *  The site footer is three bands of logos and link lists. Useful at the
+ *  bottom of a student page, pure noise at the bottom of a crib sheet - and
+ *  there is no per-page way to switch `website: page-footer` off (Quarto
+ *  assigns it to every page unconditionally, unlike navbar and sidebar). So
+ *  it goes here. The target is Quarto's own wrapper, which site.scss:923
+ *  documents as being emitted directly under <body>; that catches the whole
+ *  thing including the wrapper's padding, which hiding .footer-logos and
+ *  .site-footer separately does not.
+ * ------------------------------------------------------------------------ */
+body > footer.footer { display: none; }
+
+/* The strip of links to the other instructor pages, under the title block. */
+.instructor-nav {
+  font-family: var(--bs-font-monospace, monospace);
+  font-size: .8rem;
+  letter-spacing: .01em;
+  margin: -.5rem 0 2rem;
+  padding-bottom: .6rem;
+  border-bottom: 1px solid rgba(0, 0, 126, .12);
+  color: #6b6b86;
+}
+.instructor-nav a { text-decoration: none; }
+.instructor-nav a:hover { text-decoration: underline; }
+
+/* --------------------------------------------------------------------------
+ *  "Show <name> here"
+ *
+ *  A screenshot or diagram is not something the instructor reads off the
+ *  page - it is something they put on the projector. So the image shrinks to
+ *  a thumbnail that is just big enough to recognise, and sits to the left of
+ *  the cue. The img rules undo main.content img (site.scss:781), which makes
+ *  content images block-level with generous vertical margins.
+ * ------------------------------------------------------------------------ */
+.showimg {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin: 1.1rem 0;
+  padding: .7rem .9rem;
+  background: #f0f0ff;
+  border-left: 3px solid #ff0087;
+  border-radius: 3px;
+}
+/* Pandoc wraps a lone image in its own <p>, so the flex children here are
+ * two paragraphs - thumbnail, then cue - not the <img> itself. */
+.showimg > p { margin: 0; }
+.showimg > p:first-child { flex: 0 0 auto; line-height: 0; }
+.showimg > p:last-child { flex: 1 1 auto; font-size: .95rem; }
+main.content .showimg img {
+  display: block;
+  width: auto;
+  max-width: 140px;
+  max-height: 96px;
+  margin: 0;
+  border: 1px solid rgba(0, 0, 126, .15);
+  background: #fff;
+}
+
+/* --------------------------------------------------------------------------
+ *  Figures
+ *
+ *  Plots are drawn at a 5 x 3.2 inch device (480 x 307px) and then displayed
+ *  at 240px, half that. This is a deliberate trade, and it is worth knowing
+ *  which way it went:
+ *
+ *    * Rendering full size and shrinking in CSS means the plot never has to
+ *      lay itself out in a cramped canvas, so busy faceted plots keep their
+ *      panels and their labels never collide. The 2x pixels also mean the
+ *      downscaled image stays sharp on any screen.
+ *    * The cost is that all the text - axis labels, legends, facet strips -
+ *      is drawn at half its physical size. On a glanceable reference that is
+ *      usually fine, since the plot is a reminder of a shape rather than
+ *      something to read values off.
+ *
+ *  If the labels turn out too small, the fix is NOT here - it is fig-width
+ *  and fig-height in front_matter() in _MakeInstructorNotes.R. Shrinking the
+ *  device instead keeps text at full size but risks the crowding above.
+ * ------------------------------------------------------------------------ */
+main.content .cell-output-display img { max-width: 15rem; }
+
+/* --------------------------------------------------------------------------
+ *  Rhythm
+ *
+ *  With the prose gone the page is mostly headings and code blocks, and the
+ *  spacing that suited paragraphs leaves it looking gappy. Tightening it is
+ *  the whole point of the exercise: more of what comes next, per screen.
+ * ------------------------------------------------------------------------ */
+main.content h1 { margin-top: 2.2rem; }
+main.content h2 { margin-top: 1.8rem; }
+main.content h3,
+main.content h4 { margin-top: 1.3rem; }
+main.content div.sourceCode { margin: .6rem 0; }
+main.content div.cell { margin-bottom: .9rem; }
+main.content ul,
+main.content ol { margin-bottom: .8rem; }
+main.content pre { margin-bottom: .6rem; }
+
+/* The learning objectives are orientation, not instruction - let them sit
+ * quietly at the top rather than opening the page at full size. */
+main.content .callout.objectives { margin-bottom: 1.4rem; }

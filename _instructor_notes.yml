@@ -1,0 +1,73 @@
+# Configuration for _MakeInstructorNotes.R. The editorial brief lives in
+# _instructor_prompt.md; this file holds only the two things that are decisions
+# rather than instructions - which pages exist, and what to do with each image.
+#
+# Leading underscore, so Quarto never renders it - the same convention that
+# keeps _Brief_Recap.qmd and _MakeJoinTables.R out of docs/.
+
+# The canonical list of session pages. The generator builds the nav strip and
+# the contents page from it, so an unlisted session leaves no dangling links.
+# Naming a page on the command line still overrides which ones get generated.
+pages:
+  - session1
+  - session2
+  - session3
+  - session4
+  - session5
+  - session6
+  - session7
+  - session8
+
+# What to do with each image on a student page.
+#
+#   "<path>": "<name>"   becomes a thumbnail beside a "Show <name> here" cue,
+#                        so the name wants to read as the thing you are about
+#                        to put on the projector
+#   "<path>": drop       removed entirely
+#
+# `drop` is for screenshots of the live tool. The Positron tour is demonstrated
+# in Positron, so a picture of Positron is worse than nothing on a page whose
+# whole purpose is to be scanned quickly. The concept diagrams are the opposite
+# case: those really do go on the projector, so they keep their cue.
+#
+# An image with no entry here still works - the generator de-slugs the filename
+# - but it warns, so new images do not slip through unnamed.
+images:
+
+  "assets/imgs/shared/r-programming-data-types.png": "the R data types diagram"
+  "assets/imgs/shared/dataStructures.png": "the R data structures diagram"
+
+  # The Positron tour: shown live, not on the page.
+  "assets/imgs/session1/Positron_Start.png": drop
+  "assets/imgs/session1/Positron_Console.png": drop
+  "assets/imgs/session1/Positron_OpenFolder.png": drop
+  "assets/imgs/session1/Positron_NewFile.png": drop
+  "assets/imgs/session1/Positron_NewScript.png": drop
+  "assets/imgs/session1/Positron_Scripting.png": drop
+  "assets/imgs/session1/Positron_Variables.png": drop
+
+  "assets/imgs/session1/vector_recycling.png": "the vector recycling diagram"
+  "assets/imgs/session1/atomic_vector.png": "the vector subsetting diagram"
+
+  "assets/imgs/session6/group_and_summarise.png": "the group and summarise diagram"
+  "assets/imgs/session6/dplyr_left_join.png": "the left join diagram"
+  "assets/imgs/session6/dplyr_inner_join.png": "the inner join diagram"
+  "assets/imgs/session6/dplyr_full_join.png": "the full join diagram"
+
+  "assets/imgs/session7/tidy_data.png": "the tidy data diagram"
+  "assets/imgs/session7/pivot_longer.png": "the pivot_longer diagram"
+
+  # Session 8's Positron and Quarto UI shots: same case as the Positron tour,
+  # demonstrated live in the editor rather than shown on the page.
+  "assets/imgs/session8/Positron_NewQuarto.png": drop
+  "assets/imgs/session8/Positron_QuartoDoc.png": drop
+  "assets/imgs/session8/Quarto_insert_chunk.png": drop
+  "assets/imgs/session8/Quarto_empty_code_chunk.png": drop
+  "assets/imgs/session8/Quarto_outline_menu.png": drop
+  "assets/imgs/session8/Positron_Render.png": drop
+  "assets/imgs/session8/Quarto_Rendered.png": drop
+
+  # Not a screenshot of the tool - an annotated anatomy diagram, and the
+  # cheetah is the worked example for image syntax and its width attribute.
+  "assets/imgs/session8/Quarto_Script_Components.png": "the components of a Quarto document"
+  "assets/imgs/session8/cheetah.png": "the cheetah image example"
