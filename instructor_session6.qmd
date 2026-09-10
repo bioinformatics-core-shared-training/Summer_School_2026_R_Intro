@@ -28,7 +28,7 @@ fig-height: 3.2
      Committed, but do not hand-edit below the BODY marker: the next run
      that sees a changed source page overwrites it. To change the prose,
      edit the prompt; to change the layout, edit this script. -->
-<!-- instructor-notes: source=session6.qmd md5=129010a7fb92e0f47e9044c3ba48a37f commit=b706b28f289f4c3fcadee76dcecc404b92caf0a3 dirty=no model=opus effort=high -->
+<!-- instructor-notes: source=session6.qmd md5=129010a7fb92e0f47e9044c3ba48a37f commit=25471859b6eac7133160cbe89f84a78b0ffdef91 dirty=no model=opus effort=high -->
 
 ```{r}
 #| label: instructor-setup
