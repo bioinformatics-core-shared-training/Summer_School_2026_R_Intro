@@ -82,12 +82,13 @@ EFFORT <- Sys.getenv("INSTRUCTOR_EFFORT", "high")
 # edits it, and is not sent.
 PROMPT_MARKER <- "<!-- PROMPT BEGINS -->"
 
-# Separates our wrapper from the agent's body. See the file layout above.
-BODY_MARKER <- "<!-- BODY -->"
-
 # Above this share of the source changing, an update is a rewrite in all but
 # name, and seeding the agent with a stale body helps nobody.
 REWRITE_THRESHOLD <- 0.5
+
+# The file layout of a generated page, and how to take it apart again, are
+# shared with _MakeInstructorPDF.R.
+source("_instructor_common.R")
 
 for (pkg in c("yaml", "jsonlite"))
     stopifnot("required package missing" = requireNamespace(pkg, quietly = TRUE))
@@ -143,49 +144,14 @@ stamp_line <- function(page) {
            " model=", MODEL, " effort=", EFFORT, " -->")
 }
 
-parse_stamp <- function(lines) {
-    hit <- grep("^<!-- instructor-notes:", lines)
-    if (!length(hit)) return(NULL)
-    kv <- regmatches(lines[[hit[[1]]]],
-                     gregexpr("[a-z0-9]+=[^ ]+", lines[[hit[[1]]]]))[[1]]
-    out <- as.list(sub("^[a-z0-9]+=", "", kv))
-    names(out) <- sub("=.*$", "", kv)
-    out
-}
-
-# Split an existing generated page into our wrapper and the agent's body.
-#
-# Pages written before the BODY marker existed are still readable: their body
-# starts after the closing ":::" of the nav strip, which is the last thing the
-# old wrapper emitted. Those have no stamp either, so on their own they force a
-# full regeneration - see --adopt.
-split_page <- function(path) {
-    lines <- readLines(path, warn = FALSE)
-    at <- grep(BODY_MARKER, lines, fixed = TRUE)
-    if (!length(at)) {
-        nav <- grep("^:::+ *\\{\\.instructor-nav\\}", lines)
-        if (!length(nav)) return(NULL)
-        close <- grep("^:::+ *$", lines)
-        close <- close[close > nav[[1]]]
-        if (!length(close)) return(NULL)
-        at <- close[[1]]
-        legacy <- TRUE
-    } else {
-        legacy <- FALSE
-    }
-    body <- lines[-seq_len(at[[1]])]
-    while (length(body) && !nzchar(trimws(body[[1]]))) body <- body[-1]
-    list(stamp = parse_stamp(lines), legacy = legacy,
-         body = paste(body, collapse = "\n"))
-}
 
 # ==========================================================================
 #    THE PROMPT
 # ==========================================================================
 
-# The picture decisions are shared with the scripted variant rather than left
-# to the agent, so that the two pages differ ONLY in how they treat prose -
-# which is the thing being compared.
+# Whether an image is cued or dropped is a decision, not a judgement, so it is
+# stated as fact in _instructor_notes.yml and interpolated here rather than
+# left to the agent. The PDF build reads the same map.
 image_rules <- function(page) {
     src <- readLines(paste0(page, ".qmd"), warn = FALSE)
     used <- unique(unlist(regmatches(
@@ -498,12 +464,6 @@ nav_strip <- function(page) {
       ":::")
 }
 
-page_title <- function(page) {
-    lines <- readLines(paste0(page, ".qmd"), warn = FALSE)
-    hit <- grep("^title:", lines)
-    if (!length(hit)) return(page)
-    trimws(gsub('^"|"$', "", trimws(sub("^title:", "", lines[[hit[[1]]]]))))
-}
 
 write_page <- function(page, body) {
     out <- paste0("instructor_", page, ".qmd")

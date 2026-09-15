@@ -18,6 +18,20 @@ pages:
   - session7
   - session8
 
+# Columns to drop from a generated reference table in the PRINT build only,
+# keyed by chunk label. The web pages are 1400px wide and can carry a column
+# that is a paragraph per row; a 95mm print column cannot.
+#
+# Only applied to chunks that are `echo: false`, i.e. chunks that exist purely
+# to render a table. Their code is never shown, so dropping a column changes
+# what is printed without ever showing code that differs from the student page.
+# _MakeInstructorPDF.R warns rather than acting if the chunk is not echo: false.
+print_table_drop:
+  # "Combine tests with the logical operators" - Operator and Meaning are the
+  # reference; Effect is three sentences restating them.
+  logical_operators_table:
+    - Effect
+
 # What to do with each image on a student page.
 #
 #   "<path>": "<name>"   becomes a thumbnail beside a "Show <name> here" cue,
